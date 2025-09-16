@@ -1,29 +1,27 @@
 # marketDEMO
 
-[팀 스프레드 시트](https://docs.google.com/spreadsheets/d/1Oc1fbnkgcDMuQd03QQVy2wyel6cxXY1nyhEGNxIafB8/edit?gid=0#gid=0)
+[팀 스프레드 시트](https://docs.google.com/spreadsheets/d/1Oc1fbnkgcDMuQd03QQVy2wyel6cxXY1nyhEGNxIafB8/edit?gid=0#gid=0)    
 (편집가능. 시트 추가해도 됩니다)
 
 [피그마](https://www.figma.com/design/amLy5z6BomEXjUgbAdnB8F/%EC%BC%80%EC%9D%B4%EB%A7%88%EC%BC%93-%EC%87%BC%ED%95%91%EB%AA%B0-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%99%94%EB%A9%B4-%EC%84%A4%EA%B3%84%EC%84%9C?node-id=0-1&p=f)
     
 ---
 ### 주요포지션
-최민수:    
-강민철:    
-김대현:    
-전용준:    
-설유진:    
+**최민수**: 통합, DB    
+**강민철**: 사용자 영역 프론트, 백엔드    
+**김대현**: 사용자 영역 프론트, 백엔드    
+**전용준**: 관리자 영역 프론트, 백엔드    
+**설유진**: 관리자 영역 프론트, 백엔드    
 
 ---
-### 사전준비
 ## 진행계획
+### 사전준비
 ### 10월 13일 (월) 점심까지 진행
 **1. marketDEMO에서 HTML작업 진행**
     (FRONT 제작 - controller 제작)
-    진행자:
 
 **1. DB 설계**
     개논물 ~ 테스트 데이터 작성까지.
-    진행자:
 
 ### 공통 요청사항
     - FRONT 작업 진행하면서 DB 구조 고민해보시고 본인이 맡을 테이블 구조 예상 후 필기 해주세요.
