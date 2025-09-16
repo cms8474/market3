@@ -1,0 +1,133 @@
+/* 전체 레이아웃 */
+body {
+    font-family: Arial, sans-serif; /*글꼴*/
+}
+
+.header {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+    /*border: 1px solid #ccc;*/
+}
+
+
+/* 푸터 */
+    .footer {
+        width: 100%;
+        max-width: 1920px;
+        margin: 0 auto; /* 상하 여백 10px, 좌우 자동 */
+        box-sizing: border-box;
+        
+        background-color: #CCC;
+        text-align: center;
+        padding: 20px 10px; /* 상하 20px, 좌우 10px */
+    }
+
+    .footer span {
+    display: block; /* 텍스트를 블록 요소로 만들어 가운데 정렬을 확실하게 합니다. */
+    color: #555; /* 텍스트 색상을 약간 어둡게 설정하여 가독성을 높입니다. */
+    font-size: 14px;
+    }
+
+
+
+/* 광고 이미지 */
+    .header_bar img {
+        width: 100%;
+        height: 20%;
+        padding: 3px;
+    }
+    
+
+
+/* 우상단 작은 메뉴 */
+    .top-menu {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+        padding-right: 10px;
+    }
+
+    .top-menu a {
+        text-decoration: none;
+        color: #555;
+        margin-left: 15px;
+        font-size: 18px;
+    }
+
+/* 헤더 메인 */
+    .main-header {
+        display: flex;
+        height: 200px;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 10px;
+    }
+    /* 헤더 로고 */
+        .logo img {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-left: 50%;
+            
+        }
+
+    /* 검색 바*/
+        .search-bar {
+            display: flex;
+            width: 30%;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .search-bar input {
+            flex-grow: 1;
+            border: none;
+            padding: 0 10px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 0 10px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #555;
+        }
+
+/* 헤더 메뉴 */
+    .header-menu {
+        display: flex;
+        gap: 3px;
+        justify-content: space-around;
+        margin-top: 3px;
+        margin-bottom: 20px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        
+        /*border: 1px solid #ccc;*/
+    }
+
+    .header-menu a {
+        flex-grow: 1;
+        text-align: center;
+        background-color: #ccc;
+        padding: 7px;
+        text-decoration: none;
+        color: #333;
+        font-size: 24px;
+        font-weight: bold;
+        margin-right: 2px;
+        /*border-right: 1px solid #ccc;*/
+    }
+
+    .header-menu a:last-child {
+        border-right: none;
+    }

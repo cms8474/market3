@@ -1,0 +1,83 @@
+/* 메인 콘텐츠 */
+.main-content {
+    flex-grow: 1; /* 남은 공간을 모두 차지 */
+}
+
+/* 사이드바 */
+.main-container {
+    display: flex; /* 자식 요소를 가로로 정렬 */
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    gap: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.category-menu {
+  width: 20%;
+  min-width: 250px;
+  flex-shrink: 0;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  background-color: white;
+  gap: 10px; /* 아이콘과 텍스트 사이 간격 */
+}
+
+/* 아이콘 스타일링 (예시) */
+.category-item i {
+  font-size: 20px;
+  color: #333;
+}
+
+.main-category {
+  font-weight: bold;
+  margin-right: 5px; /* 1차 카테고리와 2차 카테고리 사이 간격 */
+}
+
+.sub-category-list {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* 실제 체크박스 숨기기 */
+.checkbox-label input[type="checkbox"] {
+  display: none;
+}
+
+/* 불릿(○) 스타일링 */
+.bullet {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #666;
+  border-radius: 50%; /* 원형으로 만들기 */
+  margin-right: 5px;
+  margin-left: 5px; /* 구분자 역할 */
+}
+
+/* 체크됐을 때 불릿 스타일링 */
+.checkbox-label input[type="checkbox"]:checked + .bullet {
+  background-color: #666;
+  border-color: #666;
+}
+
+/* 텍스트 스타일링 */
+.text {
+  font-size: 14px;
+}
