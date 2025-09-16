@@ -6,7 +6,7 @@
 ### 피그마
     https://www.figma.com/design/amLy5z6BomEXjUgbAdnB8F/%EC%BC%80%EC%9D%B4%EB%A7%88%EC%BC%93-%EC%87%BC%ED%95%91%EB%AA%B0-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%99%94%EB%A9%B4-%EC%84%A4%EA%B3%84%EC%84%9C?node-id=0-1&p=f
 
-================**주요포지션**==================
+================**주요포지션**==================\n
 최민수: 
 강민철: 
 김대현: 
