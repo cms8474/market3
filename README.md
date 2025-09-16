@@ -1,10 +1,10 @@
 # marketDEMO
 ### 작업 명세서(스프레드 시트)
-    [팀 스프레드 시트](https://docs.google.com/spreadsheets/d/1Oc1fbnkgcDMuQd03QQVy2wyel6cxXY1nyhEGNxIafB8/edit?gid=0#gid=0)
+    [팀 스프레드 시트] (https://docs.google.com/spreadsheets/d/1Oc1fbnkgcDMuQd03QQVy2wyel6cxXY1nyhEGNxIafB8/edit?gid=0#gid=0)
     (편집가능. 시트 추가해도 됩니다)
 
 ### 피그마
-    [피그마](https://www.figma.com/design/amLy5z6BomEXjUgbAdnB8F/%EC%BC%80%EC%9D%B4%EB%A7%88%EC%BC%93-%EC%87%BC%ED%95%91%EB%AA%B0-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%99%94%EB%A9%B4-%EC%84%A4%EA%B3%84%EC%84%9C?node-id=0-1&p=f)
+    [피그마] (https://www.figma.com/design/amLy5z6BomEXjUgbAdnB8F/%EC%BC%80%EC%9D%B4%EB%A7%88%EC%BC%93-%EC%87%BC%ED%95%91%EB%AA%B0-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%99%94%EB%A9%B4-%EC%84%A4%EA%B3%84%EC%84%9C?node-id=0-1&p=f)
 
 ================**주요포지션**==================
 
