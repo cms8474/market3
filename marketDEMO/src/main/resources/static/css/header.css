@@ -1,8 +1,6 @@
 /* 전체 레이아웃 */
 body {
     font-family: Arial, sans-serif; /*글꼴*/
-    margin: 1;
-    padding: 1;
 }
 
 .header {
