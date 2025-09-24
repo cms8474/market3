@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품목록</title>
+    <link rel="stylesheet"  href="/css/header.css">
+    <link rel="stylesheet"  href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+</head>
+<body>
+
+<th:block th:replace="~{inc/_header :: _header}"/>
+<main class="product-page">
+    <div class="main-container">
+
+        <div class="sidebar-container">
+            <th:block th:replace="~{inc/_sidebar :: _sidebar}"/>
+            <aside class="best-product-list">
+                <h3 class="page-title">베스트 상품</h3>
+                <ul class="products">
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+
+        <section class="product-list">
+            <div class="title-bar">
+                <h2 class="page-title">상품목록</h2>
+                <nav class="breadcrumb">HOME &gt; 패션 · 의류 · 뷰티 &gt; 남성의류</nav>
+            </div>
+
+            <div class="category-tabs">
+                <button>판매많은순</button>
+                <button>낮은가격순</button>
+                <button>높은가격순</button>
+                <button>평점높은순</button>
+                <button>후기많은순</button>
+                <button>최근등록순</button>
+            </div>
+            <ul class="products">
+                <li class="product">
+                    <img th:src="@{/images/로고.png}" alt="상품이미지">
+
+                    <!-- 가운데 정보 -->
+                    <div class="info">
+                        <h3 class="name">상품명</h3>
+                        <p class="desc">간단한 상품 설명</p>
+                        <div class="delivery-badges">
+                            <span class="badge shipping">무료배송</span>
+                        </div>
+                    </div>
+
+                    <!-- 우측 가격/판매자 패널 -->
+                    <div class="meta-right">
+                        <div class="price-block">
+                            <div class="sale-price"><strong>27,000</strong><span class="won">원</span></div>
+                            <div class="origin-line">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% <span class="arrow">↓</span></span>
+                            </div>
+                        </div>
+
+                        <div class="seller-line">
+                            <span class="icon">🏠</span>
+                            <span class="seller-name">판매자</span>
+                            <span class="badge grade">그린등급</span>
+                        </div>
+
+                        <div class="rating-line">
+                            상품평 <span class="stars">★★★★☆</span> <span class="count">(120)</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="products">
+                <li class="product">
+                    <img th:src="@{/images/로고.png}" alt="상품이미지">
+
+                    <!-- 가운데 정보 -->
+                    <div class="info">
+                        <h3 class="name">상품명</h3>
+                        <p class="desc">간단한 상품 설명</p>
+                        <div class="delivery-badges">
+                            <span class="badge shipping">무료배송</span>
+                        </div>
+                    </div>
+
+                    <!-- 우측 가격/판매자 패널 -->
+                    <div class="meta-right">
+                        <div class="price-block">
+                            <div class="sale-price"><strong>27,000</strong><span class="won">원</span></div>
+                            <div class="origin-line">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% <span class="arrow">↓</span></span>
+                            </div>
+                        </div>
+
+                        <div class="seller-line">
+                            <span class="icon">🏠</span>
+                            <span class="seller-name">판매자</span>
+                            <span class="badge grade">그린등급</span>
+                        </div>
+
+                        <div class="rating-line">
+                            상품평 <span class="stars">★★★★☆</span> <span class="count">(120)</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="products">
+                <li class="product">
+                    <img th:src="@{/images/로고.png}" alt="상품이미지">
+
+                    <!-- 가운데 정보 -->
+                    <div class="info">
+                        <h3 class="name">상품명</h3>
+                        <p class="desc">간단한 상품 설명</p>
+                        <div class="delivery-badges">
+                            <span class="badge shipping">무료배송</span>
+                        </div>
+                    </div>
+
+                    <!-- 우측 가격/판매자 패널 -->
+                    <div class="meta-right">
+                        <div class="price-block">
+                            <div class="sale-price"><strong>27,000</strong><span class="won">원</span></div>
+                            <div class="origin-line">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% <span class="arrow">↓</span></span>
+                            </div>
+                        </div>
+
+                        <div class="seller-line">
+                            <span class="icon">🏠</span>
+                            <span class="seller-name">판매자</span>
+                            <span class="badge grade">그린등급</span>
+                        </div>
+
+                        <div class="rating-line">
+                            상품평 <span class="stars">★★★★☆</span> <span class="count">(120)</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="products">
+                <li class="product">
+                    <img th:src="@{/images/로고.png}" alt="상품이미지">
+
+                    <!-- 가운데 정보 -->
+                    <div class="info">
+                        <h3 class="name">상품명</h3>
+                        <p class="desc">간단한 상품 설명</p>
+                        <div class="delivery-badges">
+                            <span class="badge shipping">무료배송</span>
+                        </div>
+                    </div>
+
+                    <!-- 우측 가격/판매자 패널 -->
+                    <div class="meta-right">
+                        <div class="price-block">
+                            <div class="sale-price"><strong>27,000</strong><span class="won">원</span></div>
+                            <div class="origin-line">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% <span class="arrow">↓</span></span>
+                            </div>
+                        </div>
+
+                        <div class="seller-line">
+                            <span class="icon">🏠</span>
+                            <span class="seller-name">판매자</span>
+                            <span class="badge grade">그린등급</span>
+                        </div>
+
+                        <div class="rating-line">
+                            상품평 <span class="stars">★★★★☆</span> <span class="count">(120)</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="pagination">
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+            </div>
+        </section>
+    </div>
+</main>
+
+<th:block th:replace="~{inc/_footer :: _footer}"/>
+
+</body>
+</html>
