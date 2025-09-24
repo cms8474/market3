@@ -1,0 +1,45 @@
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>예시 페이지</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+</head>
+
+
+
+<body>
+
+<!-- ■■■■■ 헤더 ■■■■■ -->
+    <th:block th:insert="~{inc/template :: _header}"/>
+<!-- □□□□□ 헤더 □□□□□ -->
+
+
+    <main class="blue">
+        <div class="main-container">
+<!-- ■■■■■ 사이드바 ■■■■■ -->
+        <th:block th:insert="~{inc/template :: _sidebar}"/>
+<!-- □□□□□ 사이드바 □□□□□ -->
+
+
+<!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+<!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+<!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+
+
+
+
+        </div>
+    </main>
+<!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+<!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+<!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+
+
+<!-- ■■■■■ 푸터 ■■■■■ -->
+    <th:block th:insert="~{inc/template :: _footer}"/>
+<!-- □□□□□ 푸터 □□□□□ --> 
+ <!-- <%@ include file="_footer.jsp" %> -->
+

@@ -9,12 +9,12 @@ public class IndexController {
     @GetMapping(value = {"/","/index"})
     public String index(){
         System.out.println("go index");
-        return "/index";
+        return "index";
     }
 
     @GetMapping(value = {"/exPage"})
     public String exPage(){
         System.out.println("go exPage");
-        return "/exPage";
+        return "exPage";
     }
 }
