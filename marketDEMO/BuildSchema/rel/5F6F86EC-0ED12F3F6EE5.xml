@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<relationalModel class="oracle.dbtools.crest.model.design.relational.RelationalDesign" name="MARKET_mk01" id="5F6F86EC-EDA8-A975-34D3-0ED12F3F6EE5" mainViewID="BFCEB802-D0AB-7A37-6482-D56E12F19DAA">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-24 07:41:38 UTC</createdTime>
+<ownerDesignName>BuildSchema</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+<selectedRDBMSSite>32076570-2523-435C-2E92-BF29817DFF70</selectedRDBMSSite>
+</relationalModel>
