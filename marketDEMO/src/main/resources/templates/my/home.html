@@ -35,12 +35,18 @@
             width: 100px;
             height: 30px;
             margin: 1px;
-
+            cursor: pointer;
         }
         .orderList td .blueButton {
             background-color: royalblue;
             border-width: 0;
             color: white;
+        }
+        .orderList td .blueButton:hover {
+            background-color: #3159E1;
+        }
+        .orderList td .blueButton:active {
+            background-color: #6179F1;
         }
     </style>
 </head>
@@ -87,12 +93,14 @@
                     </td>
                 </tr>
             </table>
-        </section
-        <article id="orderDetailModal"></article>
+        </section>
+        <!-- ■■■■■ 주문상세 팝업 ■■■■■ -->
+        <!--<article th:replace="~{my/orderDetails.html}"></article>-->
+        <!-- □□□□□ 주문상세 팝업 □□□□□ -->
     </div>
 
 <!-- ■■■■■ 푸터 ■■■■■ -->
-        <div th:replace="~{my/_footer.html}"></div>
+    <div th:replace="~{my/_footer.html}"></div>
 <!-- □□□□□ 푸터 □□□□□ -->
 
 
