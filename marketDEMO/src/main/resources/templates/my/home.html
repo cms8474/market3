@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyPage::OrderList</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <style>
+        * {
+            text-decoration: none;
+            color: black;
+        }
+        .orderList {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .orderList tr:first-child {
+            background-color: #a6a6a6;
+            height: 50px;
+        }
+        .orderList th {
+            color: white;
+            text-align: center;
+        }
+        .orderList td:nth-child(1) {text-align: center;}
+        .orderList td:nth-child(2) {text-align: center; width: fit-content}
+        .orderList td:nth-child(3) {text-align: left;}
+        .orderList td:nth-child(3) a {
+            text-decoration: underline;
+        }
+        .orderList td:nth-child(4) {text-align: center;}
+        .orderList td:nth-child(5) {text-align: center;}
+        /*.orderList td {*/
+        /*    padding-top: 5px;*/
+        /*    padding-bottom: 5px;*/
+        /*}*/
+    </style>
+</head>
+<body>
+    <!-- ■■■■■ 헤더 ■■■■■ -->
+    <div th:replace="~{my/_header.html}"></div>
+    <!-- □□□□□ 헤더 □□□□□ -->
+    <div class="mincheolkang" style="max-width: 1920px; margin: 0 auto;
+        display: flex;">
+        <!-- ■■■■■ 사이드바 ■■■■■ -->
+        <div th:replace="~{my/_sidebar.html}"></div>
+        <!-- □□□□□ 사이드바 □□□□□ -->
+        <section class="main-content"
+            style="margin-left: 10px;">
+            <div style="width: 100%; height: 86px; text-align: center;">
+                <img src="/images/광고.png" style="width: 810px; height: 100%;"></div>
+            <div style="display: flex; align-items: center;">
+                <h3 style="margin-right: auto;">최근주문내역</h3>
+                <a href="#" style="margin-right: 20px;">더보기 ></a>
+            </div>
+            <table class="orderList">
+                <tr>
+                    <th>날짜</th>
+                    <th colspan="2">상품정보</th>
+                    <th>상태</th>
+                    <th>확인/신청</th>
+                </tr>
+                <tr>
+                    <td>2022-12-13</td>
+                    <td><img src="/images/로고.png"/></td>
+                    <td>
+                        <a href="#">주문번호 : 1012211341</a><br>
+                        <a href="#">(주) 상호명</a><br>
+                        <a href="#">상품명</a><br>
+                        수량 : 1개<br>
+                        <b>3,4000원</b>
+                    </td>
+                    <td>배송완료</td>
+                    <td>
+                        <button>구매확정</button><br>
+                        <button>상품평쓰기</button><br>
+                        <button>반품신청</button><br>
+                        <button>교환신청</button>
+                    </td>
+                </tr>
+            </table>
+        </section>
+    </div>
+
+<!-- ■■■■■ 푸터 ■■■■■ -->
+        <div th:replace="~{my/_footer.html}"></div>
+<!-- □□□□□ 푸터 □□□□□ -->
+
+
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
+
+
