@@ -13,6 +13,7 @@
         .orderList {
             width: 100%;
             border-collapse: collapse;
+            border-top: solid 2px;
         }
         .orderList tr:first-child {
             background-color: #a6a6a6;
@@ -30,10 +31,17 @@
         }
         .orderList td:nth-child(4) {text-align: center;}
         .orderList td:nth-child(5) {text-align: center;}
-        /*.orderList td {*/
-        /*    padding-top: 5px;*/
-        /*    padding-bottom: 5px;*/
-        /*}*/
+        .orderList td button {
+            width: 100px;
+            height: 30px;
+            margin: 1px;
+
+        }
+        .orderList td .blueButton {
+            background-color: royalblue;
+            border-width: 0;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -72,14 +80,15 @@
                     </td>
                     <td>배송완료</td>
                     <td>
-                        <button>구매확정</button><br>
-                        <button>상품평쓰기</button><br>
+                        <button class="blueButton">구매확정</button><br>
+                        <button class="blueButton">상품평쓰기</button><br>
                         <button>반품신청</button><br>
                         <button>교환신청</button>
                     </td>
                 </tr>
             </table>
         </section>
+        <article id=""
     </div>
 
 <!-- ■■■■■ 푸터 ■■■■■ -->
