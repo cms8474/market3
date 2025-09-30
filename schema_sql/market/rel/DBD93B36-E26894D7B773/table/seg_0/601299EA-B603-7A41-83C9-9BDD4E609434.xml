@@ -1,0 +1,80 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="601299EA-B603-7A41-83C9-9BDD4E609434" name="product_category">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>67A90AFB-E9C5-6F9F-1563-BBEBEF5659CD</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="pc_id" id="156111A1-7E3C-A8D4-F38C-372003601FEC">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>A5EBD2AE-FCBC-D7BC-BC9B-667B4B2D6A6E</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>F9CEBD54-6321-F354-ACE5-A782B462650E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="pc_name" id="3817AD1B-A0B4-6C5D-BC26-76F2168AFBC0">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>B636A9B9-E3BA-3F66-13C5-DF340AF7DBCD</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="pc_path" id="49512E89-AC86-1E1F-B924-0C0359E6FDB9">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>B18BC676-42AF-7D26-BFCF-7979839D822B</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>1A96D33B-2F60-CAC5-5B76-228F374E88B0</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="pc_state" id="FE6C7707-A350-3CDE-9D5C-9CBE8DCA4390">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>53514572-D629-3073-7B5F-D04F54F31A3C</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>F9CEBD54-6321-F354-ACE5-A782B462650E</domain>
+<defaultValue>&apos;ACTIVE&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="4D2C62B8-B3D1-5E39-ADF4-13F3BEDE0C92" name="product_category_pk">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>3A470734-9916-4055-E643-76F8941C0113</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="156111A1-7E3C-A8D4-F38C-372003601FEC"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

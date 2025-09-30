@@ -1,0 +1,64 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="FAQ" directorySegmentName="seg_0" id="B9F9B971-315D-170E-9CB4-3514071AEDC0">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:31:58 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="F_F_TYPE" id="3426CDA5-40DE-428B-BC99-08F2AEA6D0D5">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:33:18 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="F_board_type" id="425205CF-BAFB-9442-20A2-C0712CDC6A88">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:39:12 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="F_ID" id="55FC0618-FFE9-D391-6F4D-880EFBE2140A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:33:18 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="F_VIEW" id="87839E8B-3491-68E3-828E-5D8ACE2B4837">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:35:07 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="F_REG_DATE" id="AAA35E36-4E21-35BF-5843-17B3AF9D702C">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:35:07 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="F_BODY" id="D66A2491-6F3A-122A-E48E-538CAFAB05EA">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:35:07 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="F_TITLE" id="F3589BB5-B977-2F79-9D0D-BDD860EA6E36">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:35:07 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="F_TYPE" id="2054154D-D284-58A6-84FD-D14B87BD8D6A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:33:18 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="FAQ_PK" id="2CCA9BF0-98CB-8094-453C-E2B6DA8323C1">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:33:18 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev20c>

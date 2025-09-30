@@ -1,0 +1,119 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="521C1D44-8BB1-C2E0-D8E1-1A4F6C49374A" name="board">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:23:02 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<ordsAlias>table_12</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="B_ID" id="1241C7D2-6D04-6340-FFDF-41A3D61B4701">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:29:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="B_U_ID" id="F5E0EAC8-BA67-61E3-8E61-A59C585F5A7F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:29:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<domain>74314C1A-8D96-B7C9-2210-5824792DE314</domain>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B6519D1C-1CD1-66E0-346A-36710CF02E38" referredColumn="ACF68B60-D00B-26E4-0009-E335F331A15F"/>
+</associations>
+</Column>
+<Column name="B_TYPE" id="136FCCF7-7C79-012B-3557-0CABEE1ACD32">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:29:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="B_TITLE" id="C04FAC94-07A8-56C6-82DD-6256305A5929">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:29:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="B_BODY" id="5478357F-D935-1CE4-EB5A-61B5B34A7988">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:29:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1000</dataTypeSize>
+<ownDataTypeParameters>1000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="B_STATE" id="E9367BF8-6DDF-B92F-3F5F-9F31472284D0">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:29:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="B_LISTENER" id="B8588915-AA66-AF05-8F99-10C26120ADCB">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:29:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2E823B81-59A1-92C3-A435-623D72CEB042" name="board_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:29:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1241C7D2-6D04-6340-FFDF-41A3D61B4701"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5B63D65F-AC5A-34AA-B5E0-00462CDA6C6E" name="u_id   .">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:30:54 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F5E0EAC8-BA67-61E3-8E61-A59C585F5A7F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

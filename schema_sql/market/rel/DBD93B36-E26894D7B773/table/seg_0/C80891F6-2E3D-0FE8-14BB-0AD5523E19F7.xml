@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C80891F6-2E3D-0FE8-14BB-0AD5523E19F7" name="order_items">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:15:56 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<ordsAlias>table_17</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="OI_PO_NO" id="418D40DB-AFD8-298F-7B98-333DCA4A83FC">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:18:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>145FF0D7-FCD8-739E-D74A-BBFC6394744D</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="28F1B08E-B52E-6972-C00F-2E4F0E16F58C" referredColumn="95698E60-659D-4DCF-DEDA-12384F968109"/>
+</associations>
+</Column>
+<Column name="OI_PO_P_PID" id="E4663212-A9A2-94C1-AC2C-0B0F4AB32B12">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:19:31 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="28F1B08E-B52E-6972-C00F-2E4F0E16F58C" referredColumn="5F77CB86-A83F-0318-1486-35982902E652"/>
+</associations>
+</Column>
+<Column name="OI_PROD_QTY" id="9F832C80-0BC3-DB2A-6CB2-189882120F4B">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:18:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F243F8C4-23AC-E9A5-FD32-8F6B63697F92" name="order_items_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:20:10 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E4663212-A9A2-94C1-AC2C-0B0F4AB32B12"/>
+<colUsage columnID="418D40DB-AFD8-298F-7B98-333DCA4A83FC"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="60903AF7-B204-0C21-E4C7-F03C08170155" name="po_no">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:18:56 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="418D40DB-AFD8-298F-7B98-333DCA4A83FC"/>
+<colUsage columnID="E4663212-A9A2-94C1-AC2C-0B0F4AB32B12"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

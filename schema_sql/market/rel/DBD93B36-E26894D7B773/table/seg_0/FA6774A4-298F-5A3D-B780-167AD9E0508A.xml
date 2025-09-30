@@ -1,0 +1,141 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="FA6774A4-298F-5A3D-B780-167AD9E0508A" name="coupon">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:33:00 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<ordsAlias>table_14</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="c_p_id" id="24B7D176-9E56-22AF-67BB-DB807CB78BAC">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>74314C1A-8D96-B7C9-2210-5824792DE314</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A5C7CC06-BCE0-355D-714E-1708155B49EB" referredColumn="ACF68B60-D00B-26E4-0009-E335F331A15F"/>
+</associations>
+</Column>
+<Column name="c_id" id="F05AF91D-1906-4789-7ABA-41C79DD94932">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_type" id="8D819DFC-A1A9-1CC9-31CF-2D320226DE31">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_po_no" id="F94D2D2C-F87B-F7EC-4044-0286499BAD1F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_discount_money" id="0DDA06FA-26D4-21C1-9D48-7F87172B82B0">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_text" id="BE43B32A-F4F3-A789-D06A-84E411538FA4">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:39:47 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_REQUIREMENTS" id="058D764A-AC19-1A03-F423-DFF3CFA8CA3A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:39:47 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_state" id="46052B09-E9A8-9404-340E-217E4292BA30">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:39:47 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_dday" id="B5104AEF-662B-5EBA-E77A-5D9C6D9C743E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:43:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5FEB777F-E0C5-0CF3-4CA6-AEB1AD62552F" name="coupon_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:35:45 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="24B7D176-9E56-22AF-67BB-DB807CB78BAC"/>
+<colUsage columnID="F05AF91D-1906-4789-7ABA-41C79DD94932"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2EC53489-1043-F32B-3FB3-8E9412906237" name="u_id. ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="24B7D176-9E56-22AF-67BB-DB807CB78BAC"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

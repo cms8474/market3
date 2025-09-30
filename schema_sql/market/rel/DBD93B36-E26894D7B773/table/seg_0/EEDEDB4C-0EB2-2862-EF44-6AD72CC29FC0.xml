@@ -1,0 +1,97 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EEDEDB4C-0EB2-2862-EF44-6AD72CC29FC0" name="version">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:49:55 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<ordsAlias>table_16</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="v_no" id="9C297E77-CE50-D05F-4E61-FD1A3E62FDED">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>100</dataTypePrecision>
+<ownDataTypeParameters>,100,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="v_name" id="DD795655-3D4D-4BB4-18D4-7AD91983F160">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="v_uploader" id="356FF409-BC8B-33F2-D28E-DEFC70CC287A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>74314C1A-8D96-B7C9-2210-5824792DE314</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="21504FD5-D0A5-8F04-EB08-7AB098ADA9DB" referredColumn="ACF68B60-D00B-26E4-0009-E335F331A15F"/>
+</associations>
+</Column>
+<Column name="v_reg_date" id="641D2950-0BA4-3835-4F20-77AA0BE24F51">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="v_body" id="1CFAFD95-0A62-04DD-5072-9B5ADAC59393">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>500</dataTypeSize>
+<ownDataTypeParameters>500,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="277E2050-EBDC-C1BF-6892-6BC63112A56F" name="version_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:53:54 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9C297E77-CE50-D05F-4E61-FD1A3E62FDED"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="0661F873-3C3E-99E5-5C2B-79B9FD5D769E" name="u_id  .">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="356FF409-BC8B-33F2-D28E-DEFC70CC287A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

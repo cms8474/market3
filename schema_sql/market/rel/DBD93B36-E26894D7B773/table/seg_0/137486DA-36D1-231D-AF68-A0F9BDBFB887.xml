@@ -1,0 +1,118 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="137486DA-36D1-231D-AF68-A0F9BDBFB887" name="user_point">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:46:11 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<ordsAlias>table_11</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="up_p_id" id="BB5278C7-7170-3795-70F6-F980ABD0466A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:47:19 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>74314C1A-8D96-B7C9-2210-5824792DE314</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="91F16266-260D-163F-1701-43C014C38959" referredColumn="ACF68B60-D00B-26E4-0009-E335F331A15F"/>
+</associations>
+</Column>
+<Column name="up_no" id="116C4B21-7C50-FC3B-A9DB-D9E446EC9164">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:52:27 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="up_point" id="6DC20087-620E-8E75-9ED9-9189140895FE">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:47:19 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="up_now_point" id="F184339B-7FE6-FFBA-031F-951C4DAA5D66">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:49:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="up_ACTIVITY_LOG" id="2BB86C80-56D3-751D-6CF8-81FD0847DF7E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:49:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>200</dataTypeSize>
+<ownDataTypeParameters>200,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="up_get_date" id="D98B538E-E36D-8CF0-9F9D-7FA6AC617355">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:49:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="up_dday" id="964CE192-6278-4533-7791-EEE1F704AB7F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:31:50 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="DD169B4F-C1A6-C76D-FBD6-B0405635FFA8" name="user_point_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:52:27 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="116C4B21-7C50-FC3B-A9DB-D9E446EC9164"/>
+<colUsage columnID="BB5278C7-7170-3795-70F6-F980ABD0466A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="4CE67B80-FE8A-D851-E97E-98965AEC4872" name="u_id .">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:47:19 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BB5278C7-7170-3795-70F6-F980ABD0466A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
