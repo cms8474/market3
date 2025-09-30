@@ -160,6 +160,54 @@
         #sellerInfo button:hover {background-color: #6e9fd7;}
         #sellerInfo button:active {background-color: #3e6fb7;}
 
+        /* 문의하기 스타일 */
+        #sellerInquire .modal-window {max-width: 800px;}
+
+        .sellerInquireTable {border-collapse: collapse; width: 100%;}
+
+        .sellerInquireTable td {
+            border-top: solid 1px #a6a6a6;
+            border-bottom: solid 1px #a6a6a6;
+            height: 50px;
+            box-sizing: border-box;
+            padding: 5px 10px;
+        }
+
+        .sellerInquireTable td:first-child {
+            background-color: #f2f2f2;
+            text-align: center;
+            width: 20%;
+        }
+        .sellerInquireTable label {margin-right: 15px;}
+        .sellerInquireTable label span {margin-left: 10px;}
+        .sellerInquireTable input[type="radio"] {transform: scale(1.5);}
+        .sellerInquireTable td:nth-child(2) input[type="text"] {
+            width: 300px; height: 35px; font-size: larger;
+        }
+        .sellerInquireTable textarea {width: 97%; height: 250px; font-size: x-large;}
+
+        #sellerInquire .modal-content div:last-child {text-align: center; margin-top: 10px;}
+
+        #sellerInquire button {
+            width: 140px; height: 45px;
+            font-size: 18px; font-weight: 300;
+            background-color: #bfbfbf; color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #sellerInquire input[type="submit"] {
+            width: 140px; height: 45px;
+            font-size: 18px; font-weight: 300;
+            background-color: #5e8fd7; color: white;
+            margin-right: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        #sellerInquire input[type="submit"]:hover {background-color: #6e9fd7;}
+        #sellerInquire input[type="submit"]:active {background-color: #3e6fb7;}
+        #sellerInquire button:hover {background-color: #dfdfdf;}
+        #sellerInquire button:active {background-color: #afafaf;}
+
         /* 닫기 버튼 스타일 */
         .close {
             color: white;
@@ -229,6 +277,9 @@
         <!-- ■■■■■ 판매자정보 팝업 ■■■■■ -->
         <article th:replace="~{my/modal/sellerInfo.html}"></article>
         <!-- □□□□□ 판매자정보 팝업 □□□□□ -->
+        <!-- ■■■■■ 문의하기 팝업 ■■■■■ -->
+        <article th:replace="~{my/modal/sellerInquire.html}"></article>
+        <!-- □□□□□ 문의하기 팝업 □□□□□ -->
     </div>
 
 <!-- ■■■■■ 푸터 ■■■■■ -->
