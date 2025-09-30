@@ -51,14 +51,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById("sellerInfo");
-            const openModalButton = document.getElementById("tradeName");
             const closeModalButton = document.getElementById("closeSIModal");
             const sellerInquireButton = document.getElementById("sellerInquireButton");
 
-            openModalButton.addEventListener('click', function (e) {
-                e.preventDefault();
+            document.addEventListener('click', function (e) {
+                if(e.target.className === 'tradeName') {
+                    e.preventDefault();
 
-                modal.style.display = "block";
+                    modal.style.display = "block";
+                }
             });
 
             closeModalButton.onclick = function () {

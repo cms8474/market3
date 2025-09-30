@@ -6,23 +6,78 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <style>
+        html, body { height:100%; margin:0; }
+        body { display:flex; flex-direction:column; }
+
+        .header-wrap { flex:0 0 auto; }
+
+        .mincheolkang {
+            flex:1 1 auto;
+            min-height:0;          /* ★ 중요: 내부 스크롤이 생기려면 필요 */
+            display:flex;          /* 사이드바 + 메인 */
+        }
+
+        .sidebar { flex:0 0 240px; overflow:hidden; } /* 필요 시 auto */
+
+        .main-content {
+            flex:1 1 auto;
+            min-width:0;
+            min-height:0;          /* ★ 중요 */
+            display:flex;          /* 세로로 광고 + 스크롤 영역 */
+            flex-direction:column;
+        }
+
+        /* 광고는 고정 영역(스크롤 안 함) */
+        .ad-banner {
+            flex:0 0 86px;
+            height:86px;
+            text-align:center;
+        }
+        .ad-banner img { width:810px; height:100%; }
+
+        /* 이 div만 스크롤되게 */
+        .scroll-section {
+            flex:1 1 auto;
+            min-height:0;          /* ★ 중요 */
+            overflow:auto;         /* 빨간 네모 스크롤 */
+        }
+
+        .footer-wrap {
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transform: translateY(100%);  /* 기본은 화면 밖(아래) */
+            transition: transform 0.4s ease; /* 애니메이션 */
+            z-index: 100;        /* 다른 콘텐츠 위로 */
+            position: fixed;
+        }
+
+        .footer-show .footer-wrap {
+            transform: translateY(0);  /* 보일 때는 위로 슬라이드 */
+        }
+
+
         * {
             text-decoration: none;
             color: black;
         }
-        .orderList {
+        .myPageTable {
             width: 100%;
             border-collapse: collapse;
             border-top: solid 2px;
         }
-        .orderList tr:first-child {
+        .myPageTable tr:first-child {
             background-color: #a6a6a6;
             height: 50px;
         }
-        .orderList th {
+        .myPageTable th {
             color: white;
             text-align: center;
         }
+        .myPageTable td {border-bottom: solid 1px #a6a6a6;}
+        .myPageTable:not(.orderList) {text-align: center;}
+        .myPageTable:not(.orderList) tr {height: 50px;}
+
         .orderList td:nth-child(1) {text-align: center;}
         .orderList td:nth-child(2) {text-align: center; width: fit-content}
         .orderList td:nth-child(3) {text-align: left;}
@@ -48,6 +103,44 @@
         .orderList td .blueButton:active {
             background-color: #6179F1;
         }
+
+        /* 나의 설정 스타일 */
+        .mySettings a {text-decoration: revert; color: revert;}
+        .mySettings{
+            display:grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap:0;                       /* 카드 사이 여백 없음 */
+            background:#dfe8f2;          /* 전체 영역 배경이 필요하면 여기 */
+            border:1px solid #c9d4e2;
+            margin-bottom: 50px;
+        }
+        .card{
+            background:#e6eef6;          /* 카드 배경 */
+            padding:16px 18px;
+            position:relative;
+        }
+        .card + .card{                 /* 세로 구분선 */
+            border-left:1px solid #c9d4e2;
+        }
+        .card__head{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            margin-bottom:8px;
+        }
+        .card__title{
+            font-size:14px; font-weight:700; margin:0;
+        }
+        .card__action{
+            font-size:13px; color:#2a66c8; text-decoration:underline;
+        }
+        .card__body p{ margin:4px 0; font-size:13px; color:#35495a; }
+        .card__body .meta{ color:#6c7a89; }
+        @media (max-width: 768px){
+            .mySettings{ grid-template-columns:1fr; }
+            .card + .card{ border-left:none; border-top:1px solid #c9d4e2; }
+        }
+
 
         /* 모달의 기본 스타일 (숨겨짐) */
         .modal {
@@ -229,47 +322,205 @@
 </head>
 <body>
     <!-- ■■■■■ 헤더 ■■■■■ -->
-    <div th:replace="~{my/_header.html}"></div>
+    <div class="header-wrap" th:replace="~{my/_header.html}"></div>
     <!-- □□□□□ 헤더 □□□□□ -->
-    <div class="mincheolkang" style="max-width: 1920px; margin: 0 auto;
-        display: flex;">
+    <div class="mincheolkang" style="max-width: 1920px; margin: 0 auto; display: flex;">
         <!-- ■■■■■ 사이드바 ■■■■■ -->
         <div th:replace="~{my/_sidebar.html}"></div>
         <!-- □□□□□ 사이드바 □□□□□ -->
-        <section class="main-content"
-            style="margin-left: 10px;">
-            <div style="width: 100%; height: 86px; text-align: center;">
-                <img src="/images/광고.png" style="width: 810px; height: 100%;"></div>
-            <div style="display: flex; align-items: center;">
-                <h3 style="margin-right: auto;">최근주문내역</h3>
-                <a href="#" style="margin-right: 20px;">더보기 ></a>
+        <section class="main-content" style="margin-left: 10px;">
+            <div class="ad-banner" style="width: 100%; height: 86px; text-align: center;">
+                <img src="/images/광고.png" style="width: 810px; height: 100%;">
             </div>
-            <table class="orderList">
-                <tr>
-                    <th>날짜</th>
-                    <th colspan="2">상품정보</th>
-                    <th>상태</th>
-                    <th>확인/신청</th>
-                </tr>
-                <tr>
-                    <td>2022-12-13</td>
-                    <td><img src="/images/로고.png"/></td>
-                    <td>
-                        <a href="#" id="orderNum">주문번호 : 1012211341</a><br>
-                        <a href="#" id="tradeName">(주) 상호명</a><br>
-                        <a href="#">상품명</a><br>
-                        수량 : 1개<br>
-                        <b>3,4000원</b>
-                    </td>
-                    <td>배송완료</td>
-                    <td>
-                        <button class="blueButton">구매확정</button><br>
-                        <button class="blueButton">상품평쓰기</button><br>
-                        <button>반품신청</button><br>
-                        <button>교환신청</button>
-                    </td>
-                </tr>
-            </table>
+            <section class="scroll-section">
+                <div style="display: flex; align-items: center;">
+                    <h3 style="margin-right: auto;">최근주문내역</h3>
+                    <a href="#" style="margin-right: 20px;">더보기 ></a>
+                </div>
+                <table class="orderList myPageTable">
+                    <tr>
+                        <th>날짜</th>
+                        <th colspan="2">상품정보</th>
+                        <th>상태</th>
+                        <th>확인/신청</th>
+                    </tr>
+                    <tr>
+                        <td>2022-12-13</td>
+                        <td><img src="/images/로고.png"/></td>
+                        <td>
+                            <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
+                            <a href="#" class="tradeName">(주) 상호명</a><br>
+                            <a href="#">상품명</a><br>
+                            수량 : 1개<br>
+                            <b>3,4000원</b>
+                        </td>
+                        <td>배송완료</td>
+                        <td>
+                            <button class="blueButton">구매확정</button><br>
+                            <button class="blueButton">상품평쓰기</button><br>
+                            <button>반품신청</button><br>
+                            <button>교환신청</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2022-12-13</td>
+                        <td><img src="/images/로고.png"/></td>
+                        <td>
+                            <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
+                            <a href="#" class="tradeName">(주) 상호명</a><br>
+                            <a href="#">상품명</a><br>
+                            수량 : 1개<br>
+                            <b>3,4000원</b>
+                        </td>
+                        <td>배송완료</td>
+                        <td>
+                            <button class="blueButton">구매확정</button><br>
+                            <button class="blueButton">상품평쓰기</button><br>
+                            <button>반품신청</button><br>
+                            <button>교환신청</button>
+                        </td>
+                    </tr>
+                </table>
+                <div style="display: flex; align-items: center;">
+                    <h3 style="margin-right: auto;">포인트적립내역</h3>
+                    <a href="#" style="margin-right: 20px;">더보기 ></a>
+                </div>
+                <table class="pointList myPageTable">
+                    <tr>
+                        <th>날짜</th>
+                        <th>구분</th>
+                        <th>주문번호</th>
+                        <th>적립금액</th>
+                        <th>비고</th>
+                        <th>유효기간</th>
+                    </tr>
+                    <tr>
+                        <td>2022-12-13</td>
+                        <td>적립</td>
+                        <td>2022121001</td>
+                        <td>340</td>
+                        <td>상품 구매확정</td>
+                        <td>2024-12-10</td>
+                    </tr>
+                    <tr>
+                        <td>2022-12-13</td>
+                        <td>적립</td>
+                        <td>2022121001</td>
+                        <td>340</td>
+                        <td>상품 구매확정</td>
+                        <td>2024-12-10</td>
+                    </tr>
+                </table>
+                <div style="display: flex; align-items: center;">
+                    <h3 style="margin-right: auto;">상품평</h3>
+                    <a href="#" style="margin-right: 20px;">더보기 ></a>
+                </div>
+                <table class="productReviews myPageTable">
+                    <tr>
+                        <th>번호</th>
+                        <th>상품명</th>
+                        <th>내용</th>
+                        <th>평점</th>
+                        <th>작성일</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>상품번호 / 상품명</td>
+                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                        <td>★★★★☆</td>
+                        <td>2022-12-10</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>상품번호 / 상품명</td>
+                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                        <td>★★★★☆</td>
+                        <td>2022-12-16</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>상품번호 / 상품명</td>
+                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                        <td>★★★★☆</td>
+                        <td>2022-12-16</td>
+                    </tr>
+                </table>
+                <div style="display: flex; align-items: center;">
+                    <h3 style="margin-right: auto;">문의내역</h3>
+                    <a href="#" style="margin-right: 20px;">더보기 ></a>
+                </div>
+                <table class="inquiryDetails myPageTable">
+                    <tr>
+                        <th>번호</th>
+                        <th>문의채널</th>
+                        <th>문의유형</th>
+                        <th>제목</th>
+                        <th>작성일</th>
+                        <th>상태</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>고객센터</td>
+                        <td>주문 / 결제</td>
+                        <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
+                        <td>2022-12-12</td>
+                        <td>검토 중</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>고객센터</td>
+                        <td>주문 / 결제</td>
+                        <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
+                        <td>2022-12-12</td>
+                        <td>답변완료</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>판매자 게시판</td>
+                        <td>배송</td>
+                        <td>배송기간이 보통 얼마나 걸리나요?</td>
+                        <td>2022-12-12</td>
+                        <td>답변완료</td>
+                    </tr>
+                </table>
+                <div style="display: flex; align-items: center;">
+                    <h3>나의 설정</h3>
+                </div>
+                <section class="mySettings">
+                    <article class="card">
+                        <header class="card__head">
+                            <h3 class="card__title">기본배송지설정</h3>
+                            <a href="#" class="card__action">변경</a>
+                        </header>
+                        <div class="card__body">
+                            <p>부산광역시부 산… 120</p>
+                            <p>한빛빌딩 10층</p>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <header class="card__head">
+                            <h3 class="card__title">Email 설정</h3>
+                            <a href="#" class="card__action">변경</a>
+                        </header>
+                        <div class="card__body">
+                            <p>abc123@naver.com</p>
+                            <p class="meta">(최종수정일 2021-12-10)</p>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <header class="card__head">
+                            <h3 class="card__title">휴대폰 설정</h3>
+                            <a href="#" class="card__action">변경</a>
+                        </header>
+                        <div class="card__body">
+                            <p>010 - 1234 - 1001</p>
+                            <p class="meta">(최종수정일 2021-12-10)</p>
+                        </div>
+                    </article>
+                </section>
+            </section>
         </section>
         <!-- ■■■■■ 주문상세 팝업 ■■■■■ -->
         <article th:replace="~{my/modal/orderDetails.html}"></article>
@@ -283,10 +534,23 @@
     </div>
 
 <!-- ■■■■■ 푸터 ■■■■■ -->
-    <div th:replace="~{my/_footer.html}"></div>
+    <div class="footer-wrap" th:replace="~{my/_footer.html}"></div>
 <!-- □□□□□ 푸터 □□□□□ -->
+<script>
+    document.addEventListener('DOMContentLoaded', function (){
+        const scroller = document.querySelector('.scroll-section'); // 이름 맞추기
+        function toggleFooter() {
+            const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 1;
+            document.documentElement.classList.toggle('footer-show', atBottom);
+        }
+        scroller.addEventListener('scroll', toggleFooter);
+        window.addEventListener('resize', toggleFooter);
+        toggleFooter();
+    });
+</script>
 
 
-<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
+
+    <!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
 
 

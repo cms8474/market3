@@ -59,13 +59,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById("orderDetails");
-            const openModalButton = document.getElementById("orderNum");
             const closeModalButton = document.getElementById("closeODModal");
 
-            openModalButton.addEventListener('click', function (e) {
-                e.preventDefault();
+            document.addEventListener('click', function (e) {
+                if(e.target.className === 'orderNum') {
+                    e.preventDefault();
 
-                modal.style.display = "block";
+                    modal.style.display = "block";
+                }
             });
 
             closeModalButton.onclick = function () {
