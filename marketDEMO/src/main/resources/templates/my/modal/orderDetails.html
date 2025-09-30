@@ -1,9 +1,9 @@
 <article id="orderDetails" class="modal">
     <div class="modal-window">
         <div class="modal-titleBar">
-            <h3>주문상세</h3>
+            <h2>주문상세</h2>
             <p>20xx-12-13</p>
-            <span id="closeModal" class="close">&times</span>
+            <span id="closeODModal" class="close">&times</span>
         </div>
         <div class="modal-content">
             <h3>주문정보</h3>
@@ -18,17 +18,17 @@
                     <td>2022-12-13</td>
                     <td><img src="/images/로고.png"/></td>
                     <td>
-                        <a href="#">주문번호 : 1012211341</a><br>
-                        <a href="#">(주) 상호명</a><br>
-                        <a href="#">상품명</a><br>
+                        주문번호 : 1012211341<br>
+                        (주) 상호명<br>
+                        상품명<br>
                         수량 : 1개<br>
-                        <b>3,4000원</b>
+                        <b class="finalPrice">34,000원</b>
                     </td>
                     <td>
                         <div>
-                            <div><span>판매가</span><span>34,000원</span></div>
-                            <div><span>할인</span><span>-3,000원</span></div>
-                            <div><span>결제금액</span><b>31,000원</b></div>
+                            <div><div>판매가</div><div>34,000원</div></div>
+                            <div><div>할인</div><div>-3,000원</div></div>
+                            <div><div>결제금액</div><div><b class="finalPrice">31,000원</b></div></div>
                         </div>
                     </td>
                     <td>배송완료</td>
@@ -60,7 +60,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById("orderDetails");
             const openModalButton = document.getElementById("orderNum");
-            const closeModalButton = document.getElementById("closeModal");
+            const closeModalButton = document.getElementById("closeODModal");
 
             openModalButton.addEventListener('click', function (e) {
                 e.preventDefault();

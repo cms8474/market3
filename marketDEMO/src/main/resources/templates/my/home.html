@@ -61,15 +61,114 @@
             background-color: rgba(0, 0, 0, 0.5); /* 배경을 반투명하게 */
         }
 
+        .modal-window {margin: 20% auto;}
+
+        .modal-titleBar {
+            display: flex;
+            align-items: center;
+            background-color: #5e8fd7;
+            height: 60px;
+        }
+
+        .modal-titleBar h2 {
+            margin-left: 2%;
+            color: white;
+        }
+
+        .modal-titleBar p {
+            margin-left: 5%;
+
+            color: white;
+            font-size: 18px;
+            margin-top: 23px;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 3%;
+        }
+
+        /* 주문상세 스타일 */
+        #orderDetails .modal-window {max-width: 1100px;}
+
+        .orderInfo {
+            width: 100%;
+            border-collapse: collapse;
+            border-top: solid 2px;
+        }
+        .orderInfo tr:first-child {
+            background-color: #a6a6a6;
+            height: 50px;
+        }
+        .orderInfo th {
+            color: white;
+            text-align: center;
+        }
+        .orderInfo td:nth-child(1) {text-align: center;}
+        .orderInfo td:nth-child(2) {text-align: center; width: fit-content}
+        .orderInfo td:nth-child(3) {text-align: left; line-height: 2;}
+        .orderInfo td:nth-child(3) b {font-size: x-large;}
+        .orderInfo td:nth-child(4) {width: 16%;}
+        .orderInfo td:nth-child(4) > div > div:nth-child(2) {margin-top: 10px; margin-bottom: 40px}
+        .orderInfo td:nth-child(4) div div {display: flex;}
+        .orderInfo td:nth-child(4) div div div:first-child {margin-right: auto;}
+        .orderInfo td:nth-child(5) {text-align: center; width: 15%;}
+
+        .finalPrice {font-weight: 800;}
+
+        .delivInfo {border-collapse: collapse; width: 100%;}
+
+        .delivInfo td {
+            border-top: solid 1px #a6a6a6;
+            border-bottom: solid 1px #a6a6a6;
+            height: 50px;
+        }
+
+        .delivInfo td:first-child {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        .delivInfo td:nth-child(2) {padding-left: 20px;}
+
+
+        /* 판매자정보 스타일 */
+        #sellerInfo .modal-window {max-width: 800px;}
+
+        .sellerInfo {border-collapse: collapse; width: 100%;}
+
+        .sellerInfo td {
+            border-top: solid 1px #a6a6a6;
+            border-bottom: solid 1px #a6a6a6;
+            height: 50px;
+        }
+
+        .sellerInfo td:first-child {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        .sellerInfo td:nth-child(2) {padding-left: 20px;}
+
+        #sellerInfo .modal-content div:last-child {text-align: center;}
+
+        #sellerInfo button {
+            width: 140px; height: 45px;
+            font-size: 18px; font-weight: 300;
+            background-color: #5e8fd7; color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #sellerInfo button:hover {background-color: #6e9fd7;}
+        #sellerInfo button:active {background-color: #3e6fb7;}
+
         /* 닫기 버튼 스타일 */
         .close {
-            color: #aaa;
-            font-size: 28px;
+            color: white;
+            font-size: 35px;
             font-weight: bold;
-            position: absolute;
-            top: 10px;
-            right: 20px;
             cursor: pointer;
+            margin-left: auto;
+            margin-right: 3%;
+            margin-top: 4px;
         }
 
         .close:hover,
@@ -109,7 +208,7 @@
                     <td><img src="/images/로고.png"/></td>
                     <td>
                         <a href="#" id="orderNum">주문번호 : 1012211341</a><br>
-                        <a href="#">(주) 상호명</a><br>
+                        <a href="#" id="tradeName">(주) 상호명</a><br>
                         <a href="#">상품명</a><br>
                         수량 : 1개<br>
                         <b>3,4000원</b>
@@ -127,6 +226,9 @@
         <!-- ■■■■■ 주문상세 팝업 ■■■■■ -->
         <article th:replace="~{my/modal/orderDetails.html}"></article>
         <!-- □□□□□ 주문상세 팝업 □□□□□ -->
+        <!-- ■■■■■ 판매자정보 팝업 ■■■■■ -->
+        <article th:replace="~{my/modal/sellerInfo.html}"></article>
+        <!-- □□□□□ 판매자정보 팝업 □□□□□ -->
     </div>
 
 <!-- ■■■■■ 푸터 ■■■■■ -->
