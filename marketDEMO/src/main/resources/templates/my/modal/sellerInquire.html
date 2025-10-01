@@ -1,7 +1,7 @@
 <article id="sellerInquire" class="modal">
     <div class="modal-window">
         <div class="modal-titleBar">
-            <h2>판매자정보</h2>
+            <h2>문의하기</h2>
             <span id="closeSIqModal" class="close">&times</span>
         </div>
         <div class="modal-content">
@@ -35,7 +35,7 @@
                     </tr>
                 </table>
                 <div>
-                    <input type="submit"/>
+                    <input type="submit" value="등록하기"/>
                     <button id="inquireCancel">취소</button>
                 </div>
             </form>
@@ -60,10 +60,11 @@
                 sellerInquireModal.style.display = "none";
             }
 
-            inquireCancelButton.onclick = function () {
+            inquireCancelButton.addEventListener('click', function(e){
+                e.preventDefault();
                 sellerInquireModal.style.display = "none";
                 sellerInfoModal.style.display = "block";
-            }
+            });
         });
     </script>
 </article>
