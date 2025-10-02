@@ -476,267 +476,57 @@
     </style>
 </head>
 <body>
-    <!-- ■■■■■ 헤더 ■■■■■ -->
-    <div class="header-wrap" th:replace="~{my/_header.html}"></div>
-    <!-- □□□□□ 헤더 □□□□□ -->
-    <!-- 마이페이지 요약 정보 -->
-    <!-- DB연결 예정 for each -->
-    <div style="width: 100%;  background-color: #f2f2f2; display: flex; flex-direction: column; position: sticky; top: 0; height: 100px;max-width: 1920px;
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div class="header-wrap" th:replace="~{my/_header.html}"></div>
+<!-- □□□□□ 헤더 □□□□□ -->
+<!-- 마이페이지 요약 정보 -->
+<!-- DB연결 예정 for each -->
+<div style="width: 100%;  background-color: #f2f2f2; display: flex; flex-direction: column; position: sticky; top: 0; height: 100px;max-width: 1920px;
             margin: 0 auto;">
-        <div class="summary" style="display: inline-flex; min-width: 1060px; margin: 0 auto; width: 100%;">
-            <div style="margin-left: 5%; margin-right: auto; display: flex; align-items: center; height: 100px;">
-                <span style="font-size: 24px; font-weight: bold;">나의쇼핑정보</span>
-            </div>
-            <div style="width: 25%; margin-right: 5%; display: flex; align-items: center;">
-                <table style="border-collapse: collapse; text-align: center; width: 100%; height: 70%;">
-                    <colgroup>
-                        <col style="width: 25%;">
-                        <col style="width: 25%;">
-                        <col style="width: 25%;">
-                        <col style="width: 25%;">
-                    </colgroup>
-                    <tr>
-                        <th style="border-right: solid 1px #d9d9d9;">주문</th>
-                        <th style="border-right: solid 1px #d9d9d9;">쿠폰</th>
-                        <th style="border-right: solid 1px #d9d9d9;">포인트</th>
-                        <th>문의</th>
-                    </tr>
-                    <tr>
-                        <td style="border-right: solid 1px #d9d9d9;">2</td>
-                        <td style="border-right: solid 1px #d9d9d9;">1</td>
-                        <td style="border-right: solid 1px #d9d9d9;">1,000</td>
-                        <td>1</td>
-                    </tr>
-                </table>
-            </div>
+    <div class="summary" style="display: inline-flex; min-width: 1060px; margin: 0 auto; width: 100%;">
+        <div style="margin-left: 5%; margin-right: auto; display: flex; align-items: center; height: 100px;">
+            <span style="font-size: 24px; font-weight: bold;">나의쇼핑정보</span>
         </div>
-        <!-- ■■■■■ 사이드바 ■■■■■ -->
-        <div th:replace="~{my/_sidebar.html}"></div>
-        <!-- □□□□□ 사이드바 □□□□□ -->
+        <div style="width: 25%; margin-right: 5%; display: flex; align-items: center;">
+            <table style="border-collapse: collapse; text-align: center; width: 100%; height: 70%;">
+                <colgroup>
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                </colgroup>
+                <tr>
+                    <th style="border-right: solid 1px #d9d9d9;">주문</th>
+                    <th style="border-right: solid 1px #d9d9d9;">쿠폰</th>
+                    <th style="border-right: solid 1px #d9d9d9;">포인트</th>
+                    <th>문의</th>
+                </tr>
+                <tr>
+                    <td style="border-right: solid 1px #d9d9d9;">2</td>
+                    <td style="border-right: solid 1px #d9d9d9;">1</td>
+                    <td style="border-right: solid 1px #d9d9d9;">1,000</td>
+                    <td>1</td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <main class="mincheolkang" style="display: flex; flex-wrap: nowrap;">
-        <!-- ■■■■■ 사이드바 공간 ■■■■■ -->
-        <div style="width: 25%; height: 1px; min-width: 240px;"></div>
-        <!-- □□□□□ 사이드바 공간 □□□□□ -->
-        <section class="main-content" style="margin-left: 10px;">
-            <div class="ad-banner" style="width: 100%; height: 86px; text-align: center;">
-                <img src="/images/광고.png" style="width: 810px; height: 100%;">
-            </div>
-            <section>
-                <div style="display: flex; align-items: center;">
-                    <h3 style="margin-right: auto;">최근주문내역</h3>
-                    <a href="#" style="margin-right: 20px;">더보기 ></a>
-                </div>
-                <table class="orderList myPageTable">
-                    <tr>
-                        <th>날짜</th>
-                        <th colspan="2">상품정보</th>
-                        <th>상태</th>
-                        <th>확인/신청</th>
-                    </tr>
-                    <tr>
-                        <td>2022-12-13</td>
-                        <td><img src="/images/로고.png"/></td>
-                        <td>
-                            <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
-                            <a href="#" class="tradeName">(주) 상호명</a><br>
-                            <a href="#">상품명</a><br>
-                            수량 : 1개<br>
-                            <b>3,4000원</b>
-                        </td>
-                        <td>배송완료</td>
-                        <td>
-                            <button name="buyConfirm" class="blueButton">구매확정</button><br>
-                            <button name="productReview" class="blueButton">상품평쓰기</button><br>
-                            <button name="returnRequest">반품신청</button><br>
-                            <button name="exchangeRequest">교환신청</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2022-12-13</td>
-                        <td><img src="/images/로고.png"/></td>
-                        <td>
-                            <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
-                            <a href="#" class="tradeName">(주) 상호명</a><br>
-                            <a href="#">상품명</a><br>
-                            수량 : 1개<br>
-                            <b>3,4000원</b>
-                        </td>
-                        <td>배송완료</td>
-                        <td>
-                            <button name="buyConfirm" class="blueButton">구매확정</button><br>
-                            <button name="productReview" class="blueButton">상품평쓰기</button><br>
-                            <button name="returnRequest">반품신청</button><br>
-                            <button name="exchangeRequest">교환신청</button>
-                        </td>
-                    </tr>
-                </table>
-                <div style="display: flex; align-items: center;">
-                    <h3 style="margin-right: auto;">포인트적립내역</h3>
-                    <a href="#" style="margin-right: 20px;">더보기 ></a>
-                </div>
-                <table class="pointList myPageTable">
-                    <tr>
-                        <th>날짜</th>
-                        <th>구분</th>
-                        <th>주문번호</th>
-                        <th>적립금액</th>
-                        <th>비고</th>
-                        <th>유효기간</th>
-                    </tr>
-                    <tr>
-                        <td>2022-12-13</td>
-                        <td>적립</td>
-                        <td>2022121001</td>
-                        <td>340</td>
-                        <td>상품 구매확정</td>
-                        <td>2024-12-10</td>
-                    </tr>
-                    <tr>
-                        <td>2022-12-13</td>
-                        <td>적립</td>
-                        <td>2022121001</td>
-                        <td>340</td>
-                        <td>상품 구매확정</td>
-                        <td>2024-12-10</td>
-                    </tr>
-                </table>
-                <div style="display: flex; align-items: center;">
-                    <h3 style="margin-right: auto;">상품평</h3>
-                    <a href="#" style="margin-right: 20px;">더보기 ></a>
-                </div>
-                <table class="productReviews myPageTable">
-                    <tr>
-                        <th>번호</th>
-                        <th>상품명</th>
-                        <th>내용</th>
-                        <th>평점</th>
-                        <th>작성일</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>상품번호 / 상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td>★★★★☆</td>
-                        <td>2022-12-10</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>상품번호 / 상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td>★★★★☆</td>
-                        <td>2022-12-16</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>상품번호 / 상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td>★★★★☆</td>
-                        <td>2022-12-16</td>
-                    </tr>
-                </table>
-                <div style="display: flex; align-items: center;">
-                    <h3 style="margin-right: auto;">문의내역</h3>
-                    <a href="#" style="margin-right: 20px;">더보기 ></a>
-                </div>
-                <table class="inquiryDetails myPageTable">
-                    <tr>
-                        <th>번호</th>
-                        <th>문의채널</th>
-                        <th>문의유형</th>
-                        <th>제목</th>
-                        <th>작성일</th>
-                        <th>상태</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>고객센터</td>
-                        <td>주문 / 결제</td>
-                        <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-                        <td>2022-12-12</td>
-                        <td>검토 중</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>고객센터</td>
-                        <td>주문 / 결제</td>
-                        <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-                        <td>2022-12-12</td>
-                        <td>답변완료</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>판매자 게시판</td>
-                        <td>배송</td>
-                        <td>배송기간이 보통 얼마나 걸리나요?</td>
-                        <td>2022-12-12</td>
-                        <td>답변완료</td>
-                    </tr>
-                </table>
-                <div style="display: flex; align-items: center;">
-                    <h3>나의 설정</h3>
-                </div>
-                <section class="mySettings">
-                    <article class="card">
-                        <header class="card__head">
-                            <h3 class="card__title">기본배송지설정</h3>
-                            <a href="#" class="card__action">변경</a>
-                        </header>
-                        <div class="card__body">
-                            <p>부산광역시부 산… 120</p>
-                            <p>한빛빌딩 10층</p>
-                        </div>
-                    </article>
-
-                    <article class="card">
-                        <header class="card__head">
-                            <h3 class="card__title">Email 설정</h3>
-                            <a href="#" class="card__action">변경</a>
-                        </header>
-                        <div class="card__body">
-                            <p>abc123@naver.com</p>
-                            <p class="meta">(최종수정일 2021-12-10)</p>
-                        </div>
-                    </article>
-
-                    <article class="card">
-                        <header class="card__head">
-                            <h3 class="card__title">휴대폰 설정</h3>
-                            <a href="#" class="card__action">변경</a>
-                        </header>
-                        <div class="card__body">
-                            <p>010 - 1234 - 1001</p>
-                            <p class="meta">(최종수정일 2021-12-10)</p>
-                        </div>
-                    </article>
-                </section>
-            </section>
-        </section>
-        <!-- ■■■■■ 주문상세 팝업 ■■■■■ -->
-        <article th:replace="~{my/modal/orderDetails.html}"></article>
-        <!-- □□□□□ 주문상세 팝업 □□□□□ -->
-        <!-- ■■■■■ 판매자정보 팝업 ■■■■■ -->
-        <article th:replace="~{my/modal/sellerInfo.html}"></article>
-        <!-- □□□□□ 판매자정보 팝업 □□□□□ -->
-        <!-- ■■■■■ 문의하기 팝업 ■■■■■ -->
-        <article th:replace="~{my/modal/sellerInquire.html}"></article>
-        <!-- □□□□□ 문의하기 팝업 □□□□□ -->
-        <!-- ■■■■■ 구매확정 팝업 ■■■■■ -->
-        <article th:replace="~{my/modal/buyConfirm.html}"></article>
-        <!-- □□□□□ 구매확정 팝업 □□□□□ -->
-        <!-- ■■■■■ 상품평작성하기 팝업 ■■■■■ -->
-        <article th:replace="~{my/modal/productReview.html}"></article>
-        <!-- □□□□□ 상품평작성하기 팝업 □□□□□ -->
-        <!-- ■■■■■ 반품신청 팝업 ■■■■■ -->
-        <article th:replace="~{my/modal/returnRequest.html}"></article>
-        <!-- □□□□□ 반품신청 팝업 □□□□□ -->
-        <!-- ■■■■■ 교환신청 팝업 ■■■■■ -->
-        <article th:replace="~{my/modal/exchangeRequest.html}"></article>
-        <!-- □□□□□ 교환신청 팝업 □□□□□ -->
-    </main>
+    <!-- ■■■■■ 사이드바 ■■■■■ -->
+    <div th:replace="~{my/_sidebar.html}"></div>
+    <!-- □□□□□ 사이드바 □□□□□ -->
+</div>
+<main class="mincheolkang" style="display: flex; flex-wrap: nowrap;">
+    <!-- ■■■■■ 사이드바 공간 ■■■■■ -->
+    <div style="width: 25%; height: 1px; min-width: 240px;"></div>
+    <!-- □□□□□ 사이드바 공간 □□□□□ -->
+    <section class="main-content" style="margin-left: 10px;">
+        <div class="ad-banner" style="width: 100%; height: 86px; text-align: center;">
+            <img src="/images/광고.png" style="width: 810px; height: 100%;">
+        </div>
+    </section>
+</main>
 
 <!-- ■■■■■ 푸터 ■■■■■ -->
-    <div th:replace="~{my/_footer.html}"></div>
+<div th:replace="~{my/_footer.html}"></div>
 <!-- □□□□□ 푸터 □□□□□ -->
 <script>
     document.addEventListener('DOMContentLoaded', function (){
@@ -753,6 +543,6 @@
 
 
 
-    <!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
 
 

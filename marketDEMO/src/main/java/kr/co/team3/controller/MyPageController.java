@@ -9,4 +9,10 @@ public class MyPageController {
     public String home(){
         return "my/home";
     }
+
+    @GetMapping("/my/order")
+    public String order(){
+        return "my/order";
+    }
+
 }
