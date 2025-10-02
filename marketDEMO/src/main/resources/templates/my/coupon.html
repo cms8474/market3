@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지::전체주문내역</title>
+    <title>마이페이지::쿠폰내역</title>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/my/myPage.css">
     <style>
-        .sidebar nav a:nth-child(1) {
+        .sidebar nav a:nth-child(3) {
             text-decoration: underline;
         }
     </style>
@@ -60,7 +60,7 @@
             <img src="/images/광고.png" style="width: 810px; height: 100%;">
         </div>
         <article>
-            <h3>전체주문내역</h3>
+            <h3>포인트내역</h3>
             <form action="#" method="get" class="search-period">
                 <span>기간별조회</span>
 
@@ -85,83 +85,41 @@
 
                 <button type="submit">조회</button>
             </form>
-            <!-- 전체주문내역 -->
-            <table class="orderList myPageTable">
+            <!-- 쿠폰 내역 -->
+            <table class="pointList myPageTable">
                 <tr>
-                    <th>날짜</th>
-                    <th colspan="2">상품정보</th>
+                    <th>쿠폰명</th>
+                    <th>할인금액</th>
+                    <th>적용기준/제한조건</th>
                     <th>상태</th>
-                    <th>확인/신청</th>
+                    <th>유효기간</th>
                 </tr>
                 <tr>
-                    <td>2022-12-13</td>
-                    <td><img src="/images/로고.png"/></td>
-                    <td>
-                        <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
-                        <a href="#" class="tradeName">(주) 상호명</a><br>
-                        <a href="#">상품명</a><br>
-                        수량 : 1개<br>
-                        <b>3,4000원</b>
-                    </td>
-                    <td>배송완료</td>
-                    <td>
-                        <button name="buyConfirm" class="blueButton">구매확정</button><br>
-                        <button name="productReview" class="blueButton">상품평쓰기</button><br>
-                        <button name="returnRequest">반품신청</button><br>
-                        <button name="exchangeRequest">교환신청</button>
-                    </td>
+                    <td>1만 원 할인 중복 쿠폰</td>
+                    <td>10,000원</td>
+                    <td>10,000원 이상 구매시</td>
+                    <td>사용가능</td>
+                    <td>~ 12/31</td>
                 </tr>
                 <tr>
-                    <td>2022-12-13</td>
-                    <td><img src="/images/로고.png"/></td>
-                    <td>
-                        <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
-                        <a href="#" class="tradeName">(주) 상호명</a><br>
-                        <a href="#">상품명</a><br>
-                        수량 : 1개<br>
-                        <b>3,4000원</b>
-                    </td>
-                    <td>배송완료</td>
-                    <td>
-                        <button name="buyConfirm" class="blueButton">구매확정</button><br>
-                        <button name="productReview" class="blueButton">상품평쓰기</button><br>
-                        <button name="returnRequest">반품신청</button><br>
-                        <button name="exchangeRequest">교환신청</button>
-                    </td>
+                    <td>회원가입 축하 5천 원 할인쿠폰</td>
+                    <td>5,000원</td>
+                    <td>5,000원 이상 구매시</td>
+                    <td>사용가능</td>
+                    <td>~ 12/31</td>
                 </tr>
             </table>
-            <div class="Pagenation" style="text-align: center;">
-                <a href="#">이전</a>&nbsp;&nbsp;
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>&nbsp;&nbsp;
-                <a href="#">다음</a>
+            <div class="couponRule" style="">
+                <ul class="couponRule">
+                    <li>순금/골드바/돌반지/상품권 등 환금성 카테고리 및 중고상품 및 일부 프로모션 상품에는 쿠폰 사용이 제한됩니다.</li>
+                    <li>쿠폰 적용 가능한 금액 기준은 판매자 상품별 할인과 G마켓 추가할인이 모두 포함된 할인 적용가 입니다.</li>
+                    <li>중복쿠폰은 판매자 할인, G마켓 할인과 중복 적용 가능하며 하나의 상품당 한 장의 중복쿠폰만 사용 가능합니다.</li>
+                    <li>항공 할인은 항공권 전용 할인으로 결제시점에 할인 혜택을 받을 수 있습니다.</li>
+                    <li>항공권 예약취소 또는 환불 시 적용했던 항공할인은 id당 1회 한하여 다시 발급됩니다.</li>
+                </ul>
             </div>
         </article>
     </section>
-    <!-- ■■■■■ 주문상세 팝업 ■■■■■ -->
-    <article th:replace="~{my/modal/orderDetails.html}"></article>
-    <!-- □□□□□ 주문상세 팝업 □□□□□ -->
-    <!-- ■■■■■ 판매자정보 팝업 ■■■■■ -->
-    <article th:replace="~{my/modal/sellerInfo.html}"></article>
-    <!-- □□□□□ 판매자정보 팝업 □□□□□ -->
-    <!-- ■■■■■ 문의하기 팝업 ■■■■■ -->
-    <article th:replace="~{my/modal/sellerInquire.html}"></article>
-    <!-- □□□□□ 문의하기 팝업 □□□□□ -->
-    <!-- ■■■■■ 구매확정 팝업 ■■■■■ -->
-    <article th:replace="~{my/modal/buyConfirm.html}"></article>
-    <!-- □□□□□ 구매확정 팝업 □□□□□ -->
-    <!-- ■■■■■ 상품평작성하기 팝업 ■■■■■ -->
-    <article th:replace="~{my/modal/productReview.html}"></article>
-    <!-- □□□□□ 상품평작성하기 팝업 □□□□□ -->
-    <!-- ■■■■■ 반품신청 팝업 ■■■■■ -->
-    <article th:replace="~{my/modal/returnRequest.html}"></article>
-    <!-- □□□□□ 반품신청 팝업 □□□□□ -->
-    <!-- ■■■■■ 교환신청 팝업 ■■■■■ -->
-    <article th:replace="~{my/modal/exchangeRequest.html}"></article>
-    <!-- □□□□□ 교환신청 팝업 □□□□□ -->
 </main>
 
 <!-- ■■■■■ 푸터 ■■■■■ -->

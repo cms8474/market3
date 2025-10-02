@@ -11,6 +11,11 @@
     min-width: 240px;
 }
 
+.main-content {
+    border-left: solid 1px #d9d9d9;
+    padding-left: 10px;
+}
+
 * {
     text-decoration: none;
     color: black;
@@ -466,5 +471,31 @@
 .close:focus {
     color: black;
     text-decoration: none;
+    cursor: pointer;
+}
+
+/* ------------------ 마이페이지 전체주문내역 스타일 ------------------------ */
+
+/* 기간별 조회 스타일 */
+.search-period {
+    background: #f3f7fb;
+    padding: 8px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    max-width: 100%;
+    justify-content: center;
+}
+.search-period span {
+    font-weight: bold;
+    margin-right: 8px;
+}
+.search-period label {
+    margin-right: 6px;
+}
+.search-period button {
+    padding: 4px 8px;
     cursor: pointer;
 }
