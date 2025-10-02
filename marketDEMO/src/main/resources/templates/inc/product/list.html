@@ -79,28 +79,35 @@
                         <h3 class="name">상품명</h3>
                         <p class="desc">간단한 상품 설명</p>
                         <div class="delivery-badges">
-                            <span class="badge shipping">무료배송</span>
+
                         </div>
                     </div>
 
-                    <!-- 우측 가격/판매자 패널 -->
-                    <div class="meta-right">
+                    <!-- 가격 및 배송 정보 -->
+                    <div class="price-container">
                         <div class="price-block">
                             <div class="sale-price"><strong>27,000</strong><span class="won">원</span></div>
                             <div class="origin-line">
                                 <span class="origin">30,000원</span>
-                                <span class="discount">10% <span class="arrow">↓</span></span>
+                                <span class="discount">10% ↓</span>
                             </div>
                         </div>
+                        <span class="badge shipping">무료배송</span>
+                    </div>
 
+                    <!-- 판매자 및 평점 정보 -->
+                    <div class="seller-container">
                         <div class="seller-line">
                             <span class="icon">🏠</span>
                             <span class="seller-name">판매자</span>
-                            <span class="badge grade">그린등급</span>
                         </div>
-
+                        <div class="satisfaction-badge">
+                            <!-- icons8.com의 아이콘 사용 -->
+                            <span class="icon">🏅</span>
+                            <span>고객만족우수</span>
+                        </div>
                         <div class="rating-line">
-                            상품평 <span class="stars">★★★★☆</span> <span class="count">(120)</span>
+                            <span>상품평</span> <span class="stars">★★★★☆</span>
                         </div>
                     </div>
                 </li>
@@ -210,12 +217,15 @@
                     </div>
                 </li>
             </ul>
+            <!-- ✅ 페이지네이션 -->
             <div class="pagination">
+                <a href="#" class="prev">이전</a>
                 <a href="#" class="active">1</a>
                 <a href="#">2</a>
                 <a href="#">3</a>
                 <a href="#">4</a>
                 <a href="#">5</a>
+                <a href="#" class="next">다음</a>
             </div>
         </section>
     </div>
