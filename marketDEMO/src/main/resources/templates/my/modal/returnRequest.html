@@ -64,7 +64,7 @@
                 </table>
                 <div>
                     <input type="submit" value="반품신청"/>
-                    <button id="requestCancel">취소</button>
+                    <button id="requestRCancel">취소</button>
                 </div>
             </form>
         </div>
@@ -72,25 +72,25 @@
     <!--■■■■■모달 창 스크립트■■■■■-->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const productReviewModal = document.getElementById("returnRequest");
+            const returnRequestModal = document.getElementById("returnRequest");
             const closeModalButton = document.getElementById("closeRRModal");
-            const requestCancelButton = document.getElementById("requestCancel")
+            const requestCancelButton = document.getElementById("requestRCancel")
 
             document.addEventListener('click', function (e) {
                 if(e.target.name === 'returnRequest') {
                     e.preventDefault();
 
-                    productReviewModal.style.display = "block";
+                    returnRequestModal.style.display = "block";
                 }
             });
 
             closeModalButton.onclick = function () {
-                productReviewModal.style.display = "none";
+                returnRequestModal.style.display = "none";
             }
 
             requestCancelButton.addEventListener('click', function(e){
                 e.preventDefault();
-                productReviewModal.style.display = "none";
+                returnRequestModal.style.display = "none";
             });
         });
     </script>

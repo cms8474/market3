@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지::메인</title>
+    <title>마이페이지::전체주문내역</title>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <style>
@@ -528,18 +528,6 @@
 <!-- ■■■■■ 푸터 ■■■■■ -->
 <div th:replace="~{my/_footer.html}"></div>
 <!-- □□□□□ 푸터 □□□□□ -->
-<script>
-    document.addEventListener('DOMContentLoaded', function (){
-        const scroller = document.querySelector('.scroll-section'); // 이름 맞추기
-        function toggleFooter() {
-            const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 2;
-            document.documentElement.classList.toggle('footer-show', atBottom);
-        }
-        scroller.addEventListener('scroll', toggleFooter);
-        window.addEventListener('resize', toggleFooter);
-        toggleFooter();
-    });
-</script>
 
 
 

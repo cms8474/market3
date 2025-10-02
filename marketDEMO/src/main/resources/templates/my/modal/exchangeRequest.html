@@ -72,7 +72,7 @@
     <!--■■■■■모달 창 스크립트■■■■■-->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const productReviewModal = document.getElementById("exchangeRequest");
+            const exchangeRequestModal = document.getElementById("exchangeRequest");
             const closeModalButton = document.getElementById("closeERModal");
             const requestCancelButton = document.getElementById("requestCancel")
 
@@ -80,17 +80,17 @@
                 if(e.target.name === 'exchangeRequest') {
                     e.preventDefault();
 
-                    productReviewModal.style.display = "block";
+                    exchangeRequestModal.style.display = "block";
                 }
             });
 
             closeModalButton.onclick = function () {
-                productReviewModal.style.display = "none";
+                exchangeRequestModal.style.display = "none";
             }
 
             requestCancelButton.addEventListener('click', function(e){
                 e.preventDefault();
-                productReviewModal.style.display = "none";
+                exchangeRequestModal.style.display = "none";
             });
         });
     </script>

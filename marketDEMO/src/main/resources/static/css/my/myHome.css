@@ -1,0 +1,470 @@
+/* 마이페이지 기본 스타일 */
+.mincheolkang {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 1920px;
+}
+
+.sidebar {
+    overflow: visible;
+    min-width: 240px;
+}
+
+* {
+    text-decoration: none;
+    color: black;
+}
+
+/* ------------------ 마이페이지 메인 스타일 ------------------------ */
+.myPageTable {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: solid 2px;
+}
+.myPageTable tr:first-child {
+    background-color: #a6a6a6;
+    height: 50px;
+}
+.myPageTable th {
+    color: white;
+    text-align: center;
+}
+.myPageTable td {border-bottom: solid 1px #a6a6a6;}
+.myPageTable:not(.orderList) {text-align: center;}
+.myPageTable:not(.orderList) tr {height: 50px;}
+
+.orderList td:nth-child(1) {text-align: center;}
+.orderList td:nth-child(2) {text-align: center; width: fit-content}
+.orderList td:nth-child(3) {text-align: left;}
+.orderList td:nth-child(3) a {
+    text-decoration: underline;
+}
+.orderList td:nth-child(4) {text-align: center;}
+.orderList td:nth-child(5) {text-align: center;}
+.orderList td button {
+    width: 100px;
+    height: 30px;
+    margin: 1px;
+    cursor: pointer;
+}
+.orderList td .blueButton {
+    background-color: royalblue;
+    border-width: 0;
+    color: white;
+}
+.orderList td .blueButton:hover {
+    background-color: #3159E1;
+}
+.orderList td .blueButton:active {
+    background-color: #6179F1;
+}
+
+/* 나의 설정 스타일 */
+.mySettings a {text-decoration: revert; color: revert;}
+.mySettings{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:0;                       /* 카드 사이 여백 없음 */
+    background:#dfe8f2;          /* 전체 영역 배경이 필요하면 여기 */
+    border:1px solid #c9d4e2;
+    margin-bottom: 100px;
+}
+.card{
+    background:#e6eef6;          /* 카드 배경 */
+    padding:16px 18px;
+    position:relative;
+}
+.card + .card{                 /* 세로 구분선 */
+    border-left:1px solid #c9d4e2;
+}
+.card__head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:8px;
+}
+.card__title{
+    font-size:14px; font-weight:700; margin:0;
+}
+.card__action{
+    font-size:13px; color:#2a66c8; text-decoration:underline;
+}
+.card__body p{ margin:4px 0; font-size:13px; color:#35495a; }
+.card__body .meta{ color:#6c7a89; }
+@media (max-width: 768px){
+    .mySettings{ grid-template-columns:1fr; }
+    .card + .card{ border-left:none; border-top:1px solid #c9d4e2; }
+}
+
+
+/* 모달의 기본 스타일 (숨겨짐) */
+.modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    z-index: 1; /* 모달이 다른 요소 위에 표시되도록 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경을 반투명하게 */
+}
+
+.modal-window {margin: 20% auto;}
+
+.modal-titleBar {
+    display: flex;
+    align-items: center;
+    background-color: #5e8fd7;
+    height: 60px;
+}
+
+.modal-titleBar h2 {
+    margin-left: 2%;
+    color: white;
+}
+
+.modal-titleBar p {
+    margin-left: 5%;
+
+    color: white;
+    font-size: 18px;
+    margin-top: 23px;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 3%;
+}
+
+/* 주문상세 스타일 */
+#orderDetails .modal-window {max-width: 1100px;}
+
+.orderInfo {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: solid 2px;
+}
+.orderInfo tr:first-child {
+    background-color: #a6a6a6;
+    height: 50px;
+}
+.orderInfo th {
+    color: white;
+    text-align: center;
+}
+.orderInfo td:nth-child(1) {text-align: center;}
+.orderInfo td:nth-child(2) {text-align: center; width: fit-content}
+.orderInfo td:nth-child(3) {text-align: left; line-height: 2;}
+.orderInfo td:nth-child(3) b {font-size: x-large;}
+.orderInfo td:nth-child(4) {width: 16%;}
+.orderInfo td:nth-child(4) > div > div:nth-child(2) {margin-top: 10px; margin-bottom: 40px}
+.orderInfo td:nth-child(4) div div {display: flex;}
+.orderInfo td:nth-child(4) div div div:first-child {margin-right: auto;}
+.orderInfo td:nth-child(5) {text-align: center; width: 15%;}
+
+.finalPrice {font-weight: 800;}
+
+.delivInfo {border-collapse: collapse; width: 100%;}
+
+.delivInfo td {
+    border-top: solid 1px #a6a6a6;
+    border-bottom: solid 1px #a6a6a6;
+    height: 50px;
+}
+
+.delivInfo td:first-child {
+    background-color: #f2f2f2;
+    text-align: center;
+}
+.delivInfo td:nth-child(2) {padding-left: 20px;}
+
+
+/* 판매자정보 스타일 */
+#sellerInfo .modal-window {max-width: 800px;}
+
+.sellerInfo {border-collapse: collapse; width: 100%;}
+
+.sellerInfo td {
+    border-top: solid 1px #a6a6a6;
+    border-bottom: solid 1px #a6a6a6;
+    height: 50px;
+}
+
+.sellerInfo td:first-child {
+    background-color: #f2f2f2;
+    text-align: center;
+}
+.sellerInfo td:nth-child(2) {padding-left: 20px;}
+
+#sellerInfo .modal-content div:last-child {text-align: center;}
+
+#sellerInfo button {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #5e8fd7; color: white;
+    border: none;
+    cursor: pointer;
+}
+#sellerInfo button:hover {background-color: #6e9fd7;}
+#sellerInfo button:active {background-color: #3e6fb7;}
+
+/* 문의하기 스타일 */
+#sellerInquire .modal-window {max-width: 800px;}
+
+.sellerInquireTable {border-collapse: collapse; width: 100%;}
+
+.sellerInquireTable td {
+    border-top: solid 1px #a6a6a6;
+    border-bottom: solid 1px #a6a6a6;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 5px 10px;
+}
+
+.sellerInquireTable td:first-child {
+    background-color: #f2f2f2;
+    text-align: center;
+    width: 20%;
+}
+.sellerInquireTable label {margin-right: 15px;}
+.sellerInquireTable label span {margin-left: 10px;}
+.sellerInquireTable input[type="radio"] {transform: scale(1.5);}
+.sellerInquireTable td:nth-child(2) input[type="text"] {
+    width: 300px; height: 35px; font-size: larger;
+}
+.sellerInquireTable textarea {width: 97%; height: 250px; font-size: x-large;}
+
+#sellerInquire .modal-content div:last-child {text-align: center; margin-top: 10px;}
+
+#sellerInquire button {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #bfbfbf; color: white;
+    border: none;
+    cursor: pointer;
+}
+#sellerInquire input[type="submit"] {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #5e8fd7; color: white;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+}
+#sellerInquire input[type="submit"]:hover {background-color: #6e9fd7;}
+#sellerInquire input[type="submit"]:active {background-color: #3e6fb7;}
+#sellerInquire button:hover {background-color: #dfdfdf;}
+#sellerInquire button:active {background-color: #afafaf;}
+
+/* 구매확정 스타일 */
+#buyConfirm .modal-window {width: 600px;}
+#buyConfirm .modal-content p {
+    font-size: x-large;
+    margin: 75px;
+}
+#buyConfirm .modal-content div:last-child {text-align: center; margin-top: 10px;}
+#buyConfirm .BCCancelButton {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #bfbfbf; color: white;
+    border: none;
+    cursor: pointer;
+}
+#buyConfirm .BCConfirmButton {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #5e8fd7; color: white;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+}
+#buyConfirm .BCConfirmButton:hover {background-color: #6e9fd7;}
+#buyConfirm .BCConfirmButton:active {background-color: #3e6fb7;}
+#buyConfirm .BCCancelButton:hover {background-color: #dfdfdf;}
+#buyConfirm .BCCancelButton:active {background-color: #afafaf;}
+
+/* 상품평작성하기 스타일 */
+#productReview .modal-window {max-width: 800px;}
+.productReviewTable {border-collapse: collapse; width: 100%;}
+.productReviewTable td {
+    border-top: solid 1px #a6a6a6;
+    border-bottom: solid 1px #a6a6a6;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 5px 10px;
+}
+.productReviewTable td:first-child {
+    background-color: #f2f2f2;
+    text-align: center;
+    width: 20%;
+}
+#productReview .rating {
+    display: inline-flex;
+    flex-direction: row-reverse;/* 5→1 순서로 시각 배치 */
+    border: 0;
+}
+#productReview .rating > input {
+    position: absolute;
+    left: -9999px;         /* 라디오 숨김(접근성 유지) */
+}
+#productReview .rating > label {
+    font-size: 32px;
+    cursor: pointer;
+    padding: 0 4px;
+    color: #ccc;
+    transition: color .15s ease;
+}
+
+/* 선택(checked)된 별과 그 왼쪽(작은 값들)을 채우기 */
+#productReview .rating > input:checked ~ label {
+    color: #ffbf00;
+}
+
+/* 호버 중일 때 미리보기 */
+#productReview .rating > label:hover,
+#productReview .rating > label:hover ~ label {
+    color: #ffcf40;
+}
+.productReviewTable textarea {width: 97%; height: 250px; font-size: x-large;}
+#productReview .modal-content div:last-child {text-align: center; margin-top: 10px;}
+
+#productReview button {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #bfbfbf; color: white;
+    border: none;
+    cursor: pointer;
+}
+#productReview input[type="submit"] {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #5e8fd7; color: white;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+}
+#productReview input[type="submit"]:hover {background-color: #6e9fd7;}
+#productReview input[type="submit"]:active {background-color: #3e6fb7;}
+#productReview button:hover {background-color: #dfdfdf;}
+#productReview button:active {background-color: #afafaf;}
+
+/* 반품신청 스타일 */
+#returnRequest .modal-window {max-width: 1100px;}
+.productInfo {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: solid 2px;
+}
+.productInfo tr:first-child {
+    background-color: #a6a6a6;
+    height: 50px;
+}
+.productInfo th {
+    color: white;
+    text-align: center;
+}
+.productInfo td:nth-child(1) {text-align: center;}
+.productInfo td:nth-child(2) {text-align: center; width: fit-content}
+.productInfo td:nth-child(3) {text-align: left; line-height: 2;}
+.productInfo td:nth-child(3) b {font-size: x-large;}
+.productInfo td:nth-child(4) {width: 16%;}
+.productInfo td:nth-child(4) > div > div:nth-child(2) {margin-top: 10px; margin-bottom: 40px}
+.productInfo td:nth-child(4) div div {display: flex;}
+.productInfo td:nth-child(4) div div div:first-child {margin-right: auto;}
+.productInfo td:nth-child(5) {text-align: center; width: 15%;}
+.returnInfo {border-collapse: collapse; width: 100%;}
+.returnInfo td {
+    border-top: solid 1px #a6a6a6;
+    border-bottom: solid 1px #a6a6a6;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 5px 10px;
+}
+.returnInfo td:first-child {
+    background-color: #f2f2f2;
+    text-align: center;
+    width: 20%;
+}
+.returnInfo label {margin-right: 15px;}
+.returnInfo label span {margin-left: 10px;}
+.returnInfo input[type="radio"] {transform: scale(1.5);}
+.returnInfo textarea {font-size: larger;}
+#returnRequest .modal-content form div:last-child {text-align: center; margin-top: 10px;}
+#returnRequest button {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #bfbfbf; color: white;
+    border: none;
+    cursor: pointer;
+}
+#returnRequest input[type="submit"] {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #5e8fd7; color: white;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+}
+#returnRequest input[type="submit"]:hover {background-color: #6e9fd7;}
+#returnRequest input[type="submit"]:active {background-color: #3e6fb7;}
+#returnRequest button:hover {background-color: #dfdfdf;}
+#returnRequest button:active {background-color: #afafaf;}
+
+/* 교환신청 스타일 */
+#exchangeRequest .modal-window {max-width: 1100px;}
+.exchangeInfo {border-collapse: collapse; width: 100%;}
+.exchangeInfo td {
+    border-top: solid 1px #a6a6a6;
+    border-bottom: solid 1px #a6a6a6;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 5px 10px;
+}
+.exchangeInfo td:first-child {
+    background-color: #f2f2f2;
+    text-align: center;
+    width: 20%;
+}
+.exchangeInfo label {margin-right: 15px;}
+.exchangeInfo label span {margin-left: 10px;}
+.exchangeInfo input[type="radio"] {transform: scale(1.5);}
+.exchangeInfo textarea {font-size: larger;}
+#exchangeRequest .modal-content form div:last-child {text-align: center; margin-top: 10px;}
+#exchangeRequest button {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #bfbfbf; color: white;
+    border: none;
+    cursor: pointer;
+}
+#exchangeRequest input[type="submit"] {
+    width: 140px; height: 45px;
+    font-size: 18px; font-weight: 300;
+    background-color: #5e8fd7; color: white;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+}
+#exchangeRequest input[type="submit"]:hover {background-color: #6e9fd7;}
+#exchangeRequest input[type="submit"]:active {background-color: #3e6fb7;}
+#exchangeRequest button:hover {background-color: #dfdfdf;}
+#exchangeRequest button:active {background-color: #afafaf;}
+
+/* 닫기 버튼 스타일 */
+.close {
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 3%;
+    margin-top: 4px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
