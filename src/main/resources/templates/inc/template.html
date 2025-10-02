@@ -1,0 +1,124 @@
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div th:fragment="_header">
+    <header class="header">
+
+        <!-- 상단 광고 -->
+        <div class="header_bar">
+            <a href="#"><img src="/images/광고.png" alt="메인 상단 광고"></a>
+        </div>
+
+
+        <!-- 우상단 작은 메뉴-->
+        <div class="top-menu">
+            <a href="#">로그인</a>
+            <a href="#">회원가입</a>
+            <a href="#">마이페이지</a>
+            <a href="#">장바구니</a>
+        </div>
+
+        <!-- 헤더 메인 -->
+        <div class="main-header">
+            <div class="logo">
+                <!-- 로고 -->
+                <img src="/images/로고.png" alt="로고">
+            </div>
+            <!-- 검색 -->
+            <div class="search-bar">
+                <input type="text" placeholder="검색">
+                <button type="button">🔍</button>
+            </div>
+        </div>
+
+        <!-- 헤더 메뉴 카테고리 -->
+        <!-- DB연결 예정 for each -->
+        <nav class="header-menu">
+            <a href="#">히트상품</a>
+            <a href="#">추천상품</a>
+            <a href="#">최신상품</a>
+            <a href="#">인기상품</a>
+            <a href="#">할인상품</a>
+        </nav>
+
+
+
+    </header>
+</div>
+<!-- □□□□□ 헤더 □□□□□ -->
+
+<!-- ■■■■■ 사이드바 ■■■■■ -->
+<div th:fragment="_sidebar">
+        <aside class="category-menu">
+            <div class="category-item">
+                <i class="icon-tshirt"></i> <span class="main-category">패션</span>
+                <span class="sub-category-list">
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <span class="bullet"></span>
+                    <span class="text">의류</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <span class="bullet"></span>
+                    <span class="text">뷰티</span>
+                </label>
+                </span>
+            </div>
+
+            <div class="category-item">
+                <i class="icon-laptop"></i>
+                <span class="main-category">가전</span>
+                <span class="sub-category-list">
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <span class="bullet"></span>
+                    <span class="text">디지털</span>
+                </label>
+                </span>
+            </div>
+
+            <div class="category-item">
+                <i class="icon-food"></i>
+                <span class="main-category">식품</span>
+                <span class="sub-category-list">
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <span class="bullet"></span>
+                    <span class="text">생필품</span>
+                </label>
+                </span>
+            </div>
+
+            <div class="category-item">
+                <i class="icon-house"></i>
+                <span class="main-category">홈</span>
+                <span class="sub-category-list">
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <span class="bullet"></span>
+                    <span class="text">문구</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <span class="bullet"></span>
+                    <span class="text">취미</span>
+                </label>
+                </span>
+            </div>
+        </aside>
+</div>
+<!-- □□□□□ 사이드바 □□□□□ -->
+
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<div th:fragment="_footer">
+    <footer>
+        <div class="footer">
+            <span>Copyright ©Green University All rights reserved.ADMINISTRATOR Version 1.4.1</span>
+        </div>
+    </footer>
+    </body>
+    </html>
+</div>
+<!-- □□□□□ 푸터 □□□□□ -->
+
+
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->

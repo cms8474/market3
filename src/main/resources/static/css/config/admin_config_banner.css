@@ -1,0 +1,173 @@
+.config-banner .page-breadcrumb{
+    color:#666;
+    margin-bottom:10px
+}
+.config-banner .page-title{
+    font-size:20px;
+    margin:8px 0 18px
+}
+.config-banner .card{
+    border:1px solid #e5e7eb;
+    margin-bottom:16px;
+    background:#fff
+}
+.config-banner .card-head{
+    padding:14px 16px;
+    border-bottom:1px solid #f0f0f0
+}
+.config-banner .card-head h3{
+    margin:0;
+    font-size:16px
+}
+.config-banner .card-body{
+    padding:0 12px 12px
+}
+.config-banner .card-foot{
+    padding:12px 16px;
+    border-top:1px solid #f0f0f0
+}
+.config-banner .card-foot.between{
+    display:flex;
+    justify-content:space-between;
+    align-items:center
+}
+.config-banner .tabs{
+    display:flex;
+    gap:6px;
+    margin:0 0 10px
+}
+.config-banner .tab{
+    padding:8px 12px;
+    border:1px solid #d1d5db;
+    border-bottom:none;
+    background:#f9fafb;
+    color:#374151;
+    text-decoration:none
+}
+.config-banner .tab.active{
+    background:#fff;
+    border-color:#e5e7eb;
+    color:#111827
+}
+.config-banner .table-wrap{
+    overflow:auto;
+    padding:12px 4px
+}
+.config-banner table.tbl{
+    width:100%;
+    border-collapse:collapse
+}
+.config-banner table.tbl th,
+.config-banner table.tbl td{
+    border-bottom:1px solid #eee;
+    padding:10px 8px;
+    text-align:center;
+    vertical-align:middle
+}
+.config-banner table.tbl thead th{
+    background:#f8fafc;
+    font-weight:600
+}
+.config-banner .thumb{
+    width:60px;
+    height:40px;
+    border:1px solid #e5e7eb;
+    overflow:hidden;
+    margin:auto;
+    background:#fafafa
+}
+.config-banner .thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover
+}
+.config-banner .ban-info{
+    text-align:left
+}
+.config-banner .ban-info .name{
+    font-weight:600;
+    margin-bottom:4px
+}
+.config-banner .ban-info .meta{
+    color:#6b7280;
+    font-size:12px;
+    line-height:1.5
+}
+.config-banner .ctrl .link{
+    display:inline-block;
+    margin:2px 0;
+    color:#2563eb;
+    text-decoration:none
+}
+.config-banner .btn{
+    border:1px solid #2563eb;
+    background:#2563eb;
+    color:#fff;
+    padding:8px 14px;
+    cursor:pointer
+}
+.config-banner .btn.ghost{
+    background:#fff;
+    color:#374151;
+    border-color:#d1d5db
+}
+.config-banner .btn.primary:hover{
+    background:#1d4ed8;
+    border-color:#1d4ed8
+}
+@media (max-width:860px) {
+    .config-banner table.tbl th:nth-child(6),
+    .config-banner table.tbl td:nth-child(6),
+    .config-banner table.tbl th:nth-child(7),
+    .config-banner table.tbl td:nth-child(7) {
+        display: none
+    }
+
+    /* Backdrop */
+    .bn-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .45);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999
+    }
+}
+.bn-modal{position:fixed;inset:0;display:block;opacity:0;pointer-events:none;z-index:9999}
+.bn-modal::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.bn-modal__panel{position:relative;z-index:1;width:min(720px,92vw);max-height:90vh;margin:6vh auto;background:#fff;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);display:flex;flex-direction:column;overflow:hidden}
+
+/* :target 되면 보이게 */
+.bn-modal:target{opacity:1;pointer-events:auto}
+.bn-modal:target .bn-modal__panel{animation:bnPop .18s ease-out}
+
+@keyframes bnPop{from{transform:translateY(8px);opacity:.96}to{transform:none;opacity:1}}
+
+.bn-modal__head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#2f2f2f;color:#fff}
+.bn-modal__close{color:#fff;text-decoration:none;font-size:22px;line-height:1}
+.bn-modal__body{padding:16px;overflow:auto}
+.bn-modal__foot{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    padding:0 16px 16px
+}
+
+.bn-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.bn-label{flex:0 0 120px;color:#374151}
+.bn-input{flex:1 1 auto;height:34px;border:1px solid #d1d5db;padding:0 10px}
+.bn-inline{display:flex;align-items:center;gap:8px;flex:1}
+.bn-tilde{color:#6b7280}
+.bn-hint{color:#6b7280;font-size:12px}
+
+.btn{border:1px solid #2563eb;background:#2563eb;color:#fff;padding:8px 14px;
+    cursor:pointer;display:inline-block}
+.btn.ghost{background:#fff;color:#374151;border-color:#d1d5db}
+.btn.primary:hover{background:#1d4ed8;border-color:#1d4ed8}
+
+@media (max-width:760px){
+    .bn-row{flex-direction:column;align-items:stretch}
+    .bn-label{width:auto}
+}

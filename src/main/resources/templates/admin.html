@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<body>
+<!-- 먼저 contentFrag 계산: 있으면 contentFragment(문자열)를 프래그먼트로 변환, 없으면 대시보드 기본 프래그먼트 -->
+<th:block th:with="contentFrag=${contentFragment} != null
+                                ? ~{__${contentFragment}__}
+                                : ~{inc/admin/admin_main :: content}">
+    <th:block th:replace="~{inc/admin/admin_template :: layout(${contentFrag})}"></th:block>
+</th:block>
+</body>
+</html>
