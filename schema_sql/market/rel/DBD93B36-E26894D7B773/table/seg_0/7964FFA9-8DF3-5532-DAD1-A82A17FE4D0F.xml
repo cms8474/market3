@@ -1,0 +1,79 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="7964FFA9-8DF3-5532-DAD1-A82A17FE4D0F" name="product_links">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>266C80FF-18AA-E241-E659-1754110DDD17</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="pl_p_pid" id="89F476AF-DCBA-CDD7-5ED6-66D1AFD05C92">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>EBF05C14-C932-8CA0-F870-F4BD8F22DC30</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="AACAA6BD-8F16-3A89-2B0D-F6216439225B" referredColumn="42BA3B07-C5FF-3E0D-82DD-2301875FF1F7"/>
+</associations>
+</Column>
+<Column name="pl_pt_name" id="B8166BE0-7856-038F-D450-FFBF9814CDB1">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>5091C79C-4AA8-4207-B26E-30D1EF89BAC7</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A36760D2-0967-776C-EB48-37E637B6759B" referredColumn="AF5B6137-82AF-82C6-8B68-82BF8ADCD0B3"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5AE580AF-E546-19C4-7548-D7D6592E7B55" name="product_links_pk">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>9C8F7594-A10E-F1EA-9FE4-660A2B961C33</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="89F476AF-DCBA-CDD7-5ED6-66D1AFD05C92"/>
+<colUsage columnID="B8166BE0-7856-038F-D450-FFBF9814CDB1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="97D2B55C-F8C8-BC3E-C18D-7DBDECA60254" name="p_pid">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="89F476AF-DCBA-CDD7-5ED6-66D1AFD05C92"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="958F5A31-03E2-5A2D-FBFB-06AD56ADE9DB" name="pt_name">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B8166BE0-7856-038F-D450-FFBF9814CDB1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

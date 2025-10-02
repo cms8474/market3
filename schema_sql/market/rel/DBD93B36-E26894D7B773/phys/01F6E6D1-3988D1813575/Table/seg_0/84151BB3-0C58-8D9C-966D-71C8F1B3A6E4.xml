@@ -1,0 +1,31 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="TERMS" directorySegmentName="seg_0" id="84151BB3-0C58-8D9C-966D-71C8F1B3A6E4">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:45:44 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="T_name" id="4DD7C6FB-D4A8-7B77-BF0C-AE2D1E0EA765">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:47:39 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="T_body" id="CF06FC5D-2F59-C593-7E79-B42A3047976F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:47:39 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="TERMS_PK" id="F839E792-A288-C8A8-8F76-B9373E33229B">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:49:41 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev20c>

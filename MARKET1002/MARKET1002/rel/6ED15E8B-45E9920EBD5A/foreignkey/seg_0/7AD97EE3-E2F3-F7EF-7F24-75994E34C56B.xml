@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="7AD97EE3-E2F3-F7EF-7F24-75994E34C56B" containerWithKeyObject="7E990E20-3B7B-D982-C5AC-87502A760047" localFKIndex="2D3C688E-5299-A616-EAB7-5A97493625B9" name="p_pid">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>2A6ABA47-33AD-A022-C520-FC75FD240379</importedID>
+<referredTableLongName>product_item</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>DEFAE259-A079-BB49-DECE-9194302F79FC</referredTableID>
+<keyObject>36831059-3D11-DBAF-C504-E3EA70D4B0E0</keyObject>
+<referredKeyID>36831059-3D11-DBAF-C504-E3EA70D4B0E0</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>p_pid</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

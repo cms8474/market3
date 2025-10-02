@@ -1,0 +1,25 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="MARKET1002" id="841FB3D4-D499-BA01-00BE-4D652A9ACEE5" version="3.5">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:12 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>841FB3D4-D499-BA01-00BE-4D652A9ACEE5</designId>
+<usedDesignStorageDescriptors>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="E982F350-B880-7816-FA83-5376969AD3D4">
+<designStoragePath>C:\1001_1743</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="0D9F864C-1B04-E237-684A-19616A6D8FEB">
+<designStoragePath>C:\1002_1627</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="C4B2A338-7BA1-9993-914D-C9250B1A2735">
+<designStoragePath>C:\Users\GGG\Desktop\teamSpace\team3\schema_sql</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="D4EE5656-05A5-B746-5E13-801E56A87381">
+<designStoragePath>C:\Users\GGG\Desktop\teamSpace\team3\schema_sql</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="BF12AFE6-E856-3479-2E61-434FAF6F5BBD">
+<designStoragePath>C:\Users\GGG\Desktop\teamSpace\team3\schema_sql\market</designStoragePath>
+</designDescr>
+</usedDesignStorageDescriptors>
+</OSDM_Design>

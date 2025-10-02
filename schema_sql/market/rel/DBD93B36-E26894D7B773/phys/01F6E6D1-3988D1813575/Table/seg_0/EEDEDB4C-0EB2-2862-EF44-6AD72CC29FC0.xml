@@ -1,0 +1,54 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="version" directorySegmentName="seg_0" id="EEDEDB4C-0EB2-2862-EF44-6AD72CC29FC0">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:49:55 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="v_body" id="1CFAFD95-0A62-04DD-5072-9B5ADAC59393">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="v_uploader" id="356FF409-BC8B-33F2-D28E-DEFC70CC287A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="v_reg_date" id="641D2950-0BA4-3835-4F20-77AA0BE24F51">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="v_no" id="9C297E77-CE50-D05F-4E61-FD1A3E62FDED">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="v_name" id="DD795655-3D4D-4BB4-18D4-7AD91983F160">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="u_id  ." id="0661F873-3C3E-99E5-5C2B-79B9FD5D769E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:52:32 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="version_PK" id="277E2050-EBDC-C1BF-6892-6BC63112A56F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:53:54 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev20c>

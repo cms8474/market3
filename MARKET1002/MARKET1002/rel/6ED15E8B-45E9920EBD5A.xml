@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<relationalModel class="oracle.dbtools.crest.model.design.relational.RelationalDesign" name="1002" id="6ED15E8B-2F7D-B34B-4F18-45E9920EBD5A" mainViewID="B118D543-DF95-BD45-2DA2-82B1C2697060">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:13 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+<selectedRDBMSSite>01F6E6D1-21D0-CFBD-ABDD-3988D1813575</selectedRDBMSSite>
+<importDDLFileStamps>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>1001_1743.ddl</fileName>
+<pathName>C:\Users\GGG\Desktop\teamSpace\team3\schema_sql</pathName>
+<dbType>17</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>1002_1627.ddl</fileName>
+<pathName>C:\Users\GGG\Desktop\teamSpace\team3\schema_sql</pathName>
+<dbType>17</dbType>
+</importDDLFileStamp>
+</importDDLFileStamps>
+</relationalModel>

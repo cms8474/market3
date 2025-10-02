@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="111DE20D-0CD5-EA55-7D77-1B3C7FAC12BE" name="category_links">
+<sourceDDLFile>1002_1627.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 05:28:10 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<ordsAlias>table_27</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="CL_p_pid" id="002C9683-F1AE-DBBE-613F-A39F44CBD28B">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 05:29:24 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<domain>D20DC0F1-B803-BDB5-BD55-A3E5060C0179</domain>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F275B966-C6E4-2C7F-0A02-7BDC183919BD" referredColumn="13FDBA8A-81BB-CF89-2200-FE8D7CFB164B"/>
+</associations>
+</Column>
+<Column name="cl_pc_id" id="D2334CB8-E446-1E3E-9EEA-471ABD1DD1C3">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 05:29:24 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<domain>DFAA74D2-EFB1-BDEA-FD4E-8583A7FB3CDF</domain>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C192D45E-EEE6-24B6-AD17-BF555C1C72CD" referredColumn="096E6CD7-28FE-6CF1-C8D0-B4B535272072"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="D0796CEC-5494-E061-4BA5-154F5397189B" name="category_links_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 05:30:31 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="002C9683-F1AE-DBBE-613F-A39F44CBD28B"/>
+<colUsage columnID="D2334CB8-E446-1E3E-9EEA-471ABD1DD1C3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B9403CC6-0856-96F1-AE2A-FD2F45454EE1" name="pc_id ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 05:29:53 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D2334CB8-E446-1E3E-9EEA-471ABD1DD1C3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9B97E285-B3E6-D910-1EFB-9ABB98C2A183" name="p_pid . ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 05:30:11 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="002C9683-F1AE-DBBE-613F-A39F44CBD28B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
