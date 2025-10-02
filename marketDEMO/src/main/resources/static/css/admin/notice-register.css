@@ -1,0 +1,29 @@
+
+
+        /* 레이아웃 */
+        .page {width: 100%; max-width: 1630px; margin: 0; min-height:650px;color:#222; }
+        h4 { font-size: 22px; margin: 0 0 10px; }
+        .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:60px;
+            border-bottom: 3px solid #ddd;}
+        .breadcrumb { font-size:13px; color:#666; }
+        .breadcrumb b { color:#000; }
+
+        /* 테이블 폼 */
+        table.view { width:100%; border-collapse:collapse; border-top:2px solid #444; margin-bottom:20px; }
+        table.view th { width:120px; border-bottom:1px solid #ddd; text-align:left; padding:16px 20px; vertical-align:middle; }
+        table.view td { border-bottom:1px solid #ddd; padding:12px 10px; }
+
+        .inp, .sel, .txtarea {
+            font-size:14px; border:1px solid #ccc; border-radius:3px; outline:none;
+        }
+        .sel { height:34px; padding:0 10px; min-width:200px; }
+        .inp { height:34px; padding:0 12px; width:98%; max-width:100%; }
+        .txtarea { width:98%; min-height:280px; padding:12px; resize:vertical; }
+
+        /* 버튼 영역 */
+        .btn-area { text-align:center; margin-top:20px; }
+        .btn { display:inline-block; min-width:90px; padding:9px; border:0; border-radius:4px; cursor:pointer; margin:0 6px; font-size:14px; text-decoration:none; text-align:center; }
+        .btn-cancel { background:#cfcfcf; color:#000; }
+        .btn-submit { background:#5a9bf5; color:#fff; }
+        .btn-cancel:hover { background:#bdbdbd; }
+        .btn-submit:hover { background:#4a8ae5; }

@@ -1,0 +1,89 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/sales-status.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>매출현황</h4>
+                <div class="breadcrumb">HOME &gt; 상점관리 &gt; <b>매출현황</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <!-- 상단 검색창 -->
+            <div class="search-box">
+                <!-- 일별 날짜 선택 -->
+                <label class="sr-only" for="searchDate">일별</label>
+                <input type="date" id="searchDate" name="date">
+
+                <!-- 검색 버튼 -->
+                <button type="submit" class="btn">검색</button>
+            </div>
+
+
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th class="col-no">번호</th>
+                    <th>상호명</th>
+                    <th>사업자등록번호</th>
+                    <th>주문건수</th>
+                    <th>결제완료</th>
+                    <th>배송중</th>
+                    <th>배송완료</th>
+                    <th>구매확정</th>
+                    <th>주문합계</th>
+                    <th>매출합계</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-no">5</td>
+                    <td>(주)다나와</td>
+                    <td>112-12-12345</td>
+                    <td>103</td>
+                    <td>90</td>
+                    <td>56</td>
+                    <td>103</td>
+                    <td>103</td>
+                    <td>10,333,334</td>
+                    <td>10,333,333</td>
+                </tr>
+
+                <tr>
+                    <td class="col-no">5</td>
+                    <td>(주)다나와</td>
+                    <td>112-12-12345</td>
+                    <td>103</td>
+                    <td>90</td>
+                    <td>56</td>
+                    <td>103</td>
+                    <td>103</td>
+                    <td>10,333,334</td>
+                    <td>10,333,333</td>
+                </tr>
+
+
+
+
+                </tbody>
+            </table>
+
+            <!-- 테이블 하단 영역 -->
+            <div class="pagination-wrap">
+                <div class="pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</th:block>

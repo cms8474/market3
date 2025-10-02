@@ -1,0 +1,24 @@
+server:
+    port: 8080
+    servlet:
+        context-path: /
+spring:
+    application:
+        name: marketDEMO
+    datasource:
+        driver-class-name: oracle.jdbc.driver.OracleDriver
+        password: 1234
+        url: jdbc:oracle:thin:@//localhost:1521/XE
+        username: seol
+    devtools:
+        livereload:
+            enabled: true
+    jpa:
+        hibernate:
+            ddl-auto: update
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        properties:
+            hibernate:
+                format_sql: true
+                show_sql: true
