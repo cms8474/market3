@@ -1,0 +1,127 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B88B7B94-DFB6-A3B0-89C8-32A93157C8F8" name="user_coupon">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>6295FB7A-BDB2-8451-C021-E67D487D47BB</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="UC_U_ID" id="E4923376-3D03-C7DF-5470-D1CFF67F99C3">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>28786616-F077-4DBA-24A2-28ED8DE22F3D</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="690BAE97-D55A-3CC2-D237-45B4DDC40167" referredColumn="3104E603-DD4A-AF5C-2B53-1F5A876FCBAC"/>
+</associations>
+</Column>
+<Column name="UC_C_ID" id="B1B54BFB-88DD-569E-76F3-4CEC34494477">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>77FBDF66-F6B9-45E0-4F83-02BEA89AF2AB</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>DFAA74D2-EFB1-BDEA-FD4E-8583A7FB3CDF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="5F1ED1E4-D83A-2E71-D4D0-76012F193A0D" referredColumn="E691FC3E-74CB-C4D7-4588-91BFB5A36796"/>
+</associations>
+</Column>
+<Column name="UC_PO_NO" id="BE702BBB-3854-20FC-6DD6-954229BC5815">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>1A0BB4BF-B3E7-AEB2-4EE7-54A87D6B5BDD</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>86FDDC6B-7194-A553-C31F-B52DBB808E5E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="ED33D6A7-EAFB-4014-CC81-C88E5AD36CEB" referredColumn="470108B1-8E0C-2BE9-F88B-BF990A7BC883"/>
+</associations>
+</Column>
+<Column name="UC_STATUS" id="EAD6F27B-BE5F-F693-F8FD-63DD20CC1057">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:45:45 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="UC_USE_DAY" id="CDF5EDD8-C53E-C08C-8962-FFD97C45855E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:45:45 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="49B3B2C6-679E-DA9A-8C7F-75C3AA54FCAB" name="user_coupon_pk">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>6DC4A847-9253-7CCC-3276-BBE4AA652063</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+</ind_PK_UK>
+<ind_PK_UK id="225A7447-2B04-B407-F949-A7DC57D74818" name="..u-id ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E4923376-3D03-C7DF-5470-D1CFF67F99C3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="07EAC061-D4F8-1845-7FCF-CB6152F78F1E" name="c_id. ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B1B54BFB-88DD-569E-76F3-4CEC34494477"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BD0FF0DB-D02B-5A45-739F-027747EA3637" name="po_no. ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BE702BBB-3854-20FC-6DD6-954229BC5815"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

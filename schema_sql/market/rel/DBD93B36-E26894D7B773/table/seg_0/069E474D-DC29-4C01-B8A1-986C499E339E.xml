@@ -37,6 +37,18 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="s_company_name" id="4527DE0A-838E-6B73-B3D4-4AAA9D24539C">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 03:46:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="s_seller_no" id="D4DD33EE-A014-1B48-9EC9-8FC1087BEA66">
 <sourceDDLFile>09301454.sql</sourceDDLFile>
 <createdBy>GGG</createdBy>
@@ -50,19 +62,6 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="s_seller_type" id="F35BE860-1E3C-1EF3-0E22-617558C26532">
-<sourceDDLFile>09301454.sql</sourceDDLFile>
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 06:17:01 UTC</createdTime>
-<ownerDesignName>market</ownerDesignName>
-<importedID>AEEBDF27-B414-A6D2-1A1C-4D46FDE1ED33</importedID>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
 <Column name="s_sales_reg_num" id="A08AAB85-70BD-9B8D-8E86-854F1296697F">
 <sourceDDLFile>09301454.sql</sourceDDLFile>
 <createdBy>GGG</createdBy>
@@ -73,19 +72,6 @@
 <use>0</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <domain>1A96D33B-2F60-CAC5-5B76-228F374E88B0</domain>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="s_state" id="04F07277-9928-F5B0-7AC0-CC2941782516">
-<sourceDDLFile>09301454.sql</sourceDDLFile>
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 06:17:01 UTC</createdTime>
-<ownerDesignName>market</ownerDesignName>
-<importedID>4A1BFBEF-8FE0-B1FE-4A0D-9AFDA3461978</importedID>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
@@ -151,6 +137,32 @@
 <use>0</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <domain>1A96D33B-2F60-CAC5-5B76-228F374E88B0</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="s_state" id="04F07277-9928-F5B0-7AC0-CC2941782516">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>4A1BFBEF-8FE0-B1FE-4A0D-9AFDA3461978</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="s_seller_type" id="F35BE860-1E3C-1EF3-0E22-617558C26532">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>AEEBDF27-B414-A6D2-1A1C-4D46FDE1ED33</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>

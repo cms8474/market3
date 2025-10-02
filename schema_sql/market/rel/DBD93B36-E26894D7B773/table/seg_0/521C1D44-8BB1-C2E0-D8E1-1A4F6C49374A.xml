@@ -33,17 +33,19 @@
 <colAssociation fkAssociation="B6519D1C-1CD1-66E0-346A-36710CF02E38" referredColumn="ACF68B60-D00B-26E4-0009-E335F331A15F"/>
 </associations>
 </Column>
-<Column name="B_TYPE" id="136FCCF7-7C79-012B-3557-0CABEE1ACD32">
+<Column name="B_BT_TYPE" id="136FCCF7-7C79-012B-3557-0CABEE1ACD32">
 <createdBy>GGG</createdBy>
 <createdTime>2025-09-30 07:29:25 UTC</createdTime>
 <ownerDesignName>market</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <dataTypeSize>20</dataTypeSize>
-<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3B945811-3D80-AC20-1810-4B48ADA4E23F" referredColumn="8A990F20-BE16-DE5A-8897-DC3967AA2729"/>
+</associations>
 </Column>
 <Column name="B_TITLE" id="C04FAC94-07A8-56C6-82DD-6256305A5929">
 <createdBy>GGG</createdBy>
@@ -92,6 +94,53 @@
 <ownDataTypeParameters>20,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="B_ANSWER" id="92A25FDF-39C7-AC7E-06FC-9B72DFF61653">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:09:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>500</dataTypeSize>
+<ownDataTypeParameters>500,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="B_VIEW" id="54A34E76-B820-4243-19F4-96F6A52F0D34">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:11:44 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>6</dataTypePrecision>
+<ownDataTypeParameters>,6,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="B_FILE" id="6EDC3433-4E7A-83CD-956F-BA38DD4B20B4">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:34:06 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT029</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="B_REG_DATE" id="92D8DBAE-25DA-F986-1BE5-A8AD4AA35B75">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 08:11:21 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="2E823B81-59A1-92C3-A435-623D72CEB042" name="board_PK">
@@ -113,6 +162,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="F5E0EAC8-BA67-61E3-8E61-A59C585F5A7F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1FAC2C21-6B55-C62F-A8EE-89F3AB30EB11" name="BT_TYPE">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:14:19 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="136FCCF7-7C79-012B-3557-0CABEE1ACD32"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

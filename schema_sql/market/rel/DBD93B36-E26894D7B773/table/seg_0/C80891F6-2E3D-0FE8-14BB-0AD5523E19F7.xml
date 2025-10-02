@@ -22,10 +22,11 @@
 <colAssociation fkAssociation="28F1B08E-B52E-6972-C00F-2E4F0E16F58C" referredColumn="95698E60-659D-4DCF-DEDA-12384F968109"/>
 </associations>
 </Column>
-<Column name="OI_PO_P_PID" id="E4663212-A9A2-94C1-AC2C-0B0F4AB32B12">
+<Column name="OI_P_PID" id="E4663212-A9A2-94C1-AC2C-0B0F4AB32B12">
 <createdBy>GGG</createdBy>
 <createdTime>2025-09-30 08:19:31 UTC</createdTime>
 <ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
 <use>0</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
@@ -33,7 +34,21 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="28F1B08E-B52E-6972-C00F-2E4F0E16F58C" referredColumn="5F77CB86-A83F-0318-1486-35982902E652"/>
+<colAssociation fkAssociation="4691C71B-98E5-47B9-F6CF-C3C355E43E50" referredColumn="42BA3B07-C5FF-3E0D-82DD-2301875FF1F7"/>
+</associations>
+</Column>
+<Column name="OI_S_U_ID" id="7CF353D8-B1EB-2FFA-9493-98480BD187BC">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:22:40 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<domain>74314C1A-8D96-B7C9-2210-5824792DE314</domain>
+<ownDataTypeParameters>12,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6E443BEB-D0D9-D5D3-CCE4-481859C5DECA" referredColumn="C0E3763A-B8D6-C946-E215-F268C57EC102"/>
 </associations>
 </Column>
 <Column name="OI_PROD_QTY" id="9F832C80-0BC3-DB2A-6CB2-189882120F4B">
@@ -48,6 +63,66 @@
 <autoIncrementColumn>true</autoIncrementColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="OI_TOT_PRICE" id="430E5B2E-2093-69CB-4257-4D4E233C3ACD">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:22:07 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OI_TRACKING_COMPANY" id="DEAAE68C-10F8-E1AD-742B-FC9D53648873">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:37:41 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OI_TRACKING_NUM" id="B3577825-5E3C-F1E3-9806-BE88FF7400E0">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:22:40 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OI_ETC" id="4776A90B-F5FA-8B62-86B1-1BC6F51722C1">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:22:40 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>300</dataTypeSize>
+<ownDataTypeParameters>300,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OI_DEL_STATUS" id="A9EA2C82-1ADB-F3A1-F623-88948FAE7F18">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:22:07 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="F243F8C4-23AC-E9A5-FD32-8F6B63697F92" name="order_items_PK">
@@ -58,8 +133,8 @@
 <indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="E4663212-A9A2-94C1-AC2C-0B0F4AB32B12"/>
 <colUsage columnID="418D40DB-AFD8-298F-7B98-333DCA4A83FC"/>
+<colUsage columnID="E4663212-A9A2-94C1-AC2C-0B0F4AB32B12"/>
 </indexColumnUsage>
 </ind_PK_UK>
 <ind_PK_UK id="60903AF7-B204-0C21-E4C7-F03C08170155" name="po_no">
@@ -70,7 +145,26 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="418D40DB-AFD8-298F-7B98-333DCA4A83FC"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3DEC1687-2B68-0636-3A1D-520C60F0F68C" name="..P_PID ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:59:52 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
 <colUsage columnID="E4663212-A9A2-94C1-AC2C-0B0F4AB32B12"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8392C4D5-F0DC-C465-A1B1-6196511FE270" name="S_U_ID">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:23:04 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7CF353D8-B1EB-2FFA-9493-98480BD187BC"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

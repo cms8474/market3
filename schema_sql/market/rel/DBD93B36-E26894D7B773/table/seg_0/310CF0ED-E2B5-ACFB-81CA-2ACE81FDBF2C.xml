@@ -24,21 +24,6 @@
 <autoIncrementSequenceName>product_order_po_no_seq</autoIncrementSequenceName>
 <autoIncrementTriggerName>product_order_po_no_trg</autoIncrementTriggerName>
 </Column>
-<Column name="po_p_pid" id="5F77CB86-A83F-0318-1486-35982902E652">
-<sourceDDLFile>09301454.sql</sourceDDLFile>
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 06:17:01 UTC</createdTime>
-<ownerDesignName>market</ownerDesignName>
-<importedID>F1F71159-8C48-3D71-FE89-48358B88EC0F</importedID>
-<use>0</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="E0F74DC7-CC2F-79FD-9C9C-8D24D6E0F5B1" referredColumn="42BA3B07-C5FF-3E0D-82DD-2301875FF1F7"/>
-</associations>
-</Column>
 <Column name="po_u_id" id="244430ED-AE14-BC4E-0970-3E23DC65679E">
 <sourceDDLFile>09301454.sql</sourceDDLFile>
 <createdBy>GGG</createdBy>
@@ -105,17 +90,16 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="po_item_count" id="870B392F-7D50-5C32-B7D7-BF7242CD9E5F">
-<sourceDDLFile>09301454.sql</sourceDDLFile>
+<Column name="po_item_count" id="EF8CD219-76A3-79E6-98BA-0CC3DCC78311">
 <createdBy>GGG</createdBy>
-<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<createdTime>2025-10-01 05:53:56 UTC</createdTime>
 <ownerDesignName>market</ownerDesignName>
-<importedID>5E22AA2C-85A0-C9E4-CA52-E67206F9C5D5</importedID>
 <nullsAllowed>true</nullsAllowed>
-<use>0</use>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
 <logicalDatatype>LOGDT019</logicalDatatype>
-<domain>518ECCF8-3CC9-D418-4D07-3CD2DFA4F5DE</domain>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 <Column name="po_sum_price" id="9722A0A8-7D79-6834-0C5F-38A74B332A7A">
@@ -157,6 +141,18 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="po_pri_discount" id="A6139652-87EE-83E7-D5D8-FECE3E7B9B1E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:52:16 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="po_tot_price" id="DA685E46-5587-5ACD-137A-F72A610EB5A8">
 <sourceDDLFile>09301454.sql</sourceDDLFile>
 <createdBy>GGG</createdBy>
@@ -184,18 +180,6 @@
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 <Column name="po_state" id="F9399E80-E448-12EE-6B16-8CF25BB87EDF">
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 06:29:59 UTC</createdTime>
-<ownerDesignName>market</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>20</dataTypeSize>
-<ownDataTypeParameters>20,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="po_del_state" id="0A17E555-0ADB-FDE9-7E05-FCC74A1D38C1">
 <createdBy>GGG</createdBy>
 <createdTime>2025-09-30 06:29:59 UTC</createdTime>
 <ownerDesignName>market</ownerDesignName>
@@ -255,42 +239,6 @@
 <ownDataTypeParameters>100,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="po_SHIPPING_COMPANY" id="6EA302E2-7FB7-60AD-E7AD-509854DF57D2">
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 08:03:00 UTC</createdTime>
-<ownerDesignName>market</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>20</dataTypeSize>
-<ownDataTypeParameters>20,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="po_TRACKING_NUMBER" id="FEC82050-26B1-F005-009E-B256C4A77B58">
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 08:03:00 UTC</createdTime>
-<ownerDesignName>market</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>20</dataTypeSize>
-<ownDataTypeParameters>20,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="po_etc" id="0E4C948A-476F-DA6E-57E0-DD1E5250EB8B">
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 08:03:35 UTC</createdTime>
-<ownerDesignName>market</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>300</dataTypeSize>
-<ownDataTypeParameters>300,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="AD15AA89-F0AE-7050-2B90-086BC0F74D84" name="product_order_pk">
@@ -304,17 +252,6 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="95698E60-659D-4DCF-DEDA-12384F968109"/>
-<colUsage columnID="5F77CB86-A83F-0318-1486-35982902E652"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK id="0A3E6B55-73A9-ECEB-DE25-0B93374D654F" name="P_PID v1">
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 06:17:01 UTC</createdTime>
-<ownerDesignName>market</ownerDesignName>
-<indexState>Foreign Key</indexState>
-<isSurrogateKey>false</isSurrogateKey>
-<indexColumnUsage>
-<colUsage columnID="5F77CB86-A83F-0318-1486-35982902E652"/>
 </indexColumnUsage>
 </ind_PK_UK>
 <ind_PK_UK id="8A9284AD-14BB-4C24-3D93-9BE80BC91C93" name="U_ID v1">

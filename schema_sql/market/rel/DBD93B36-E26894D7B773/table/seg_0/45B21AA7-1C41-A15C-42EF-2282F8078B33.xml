@@ -1,10 +1,11 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="45B21AA7-1C41-A15C-42EF-2282F8078B33" name="priduct_tags">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="45B21AA7-1C41-A15C-42EF-2282F8078B33" name="product_tags">
 <sourceDDLFile>09301454.sql</sourceDDLFile>
 <createdBy>GGG</createdBy>
 <createdTime>2025-09-30 06:17:01 UTC</createdTime>
 <ownerDesignName>market</ownerDesignName>
 <importedID>E8029AFE-BBD0-21A0-2908-8BC4A200CC73</importedID>
+<ordsAlias>priduct_tags</ordsAlias>
 <allowColumnReorder>false</allowColumnReorder>
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>

@@ -64,7 +64,7 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="po_star" id="950C7242-EAF6-7640-2158-E61E508C71A6">
+<Column name="pr_star" id="950C7242-EAF6-7640-2158-E61E508C71A6">
 <sourceDDLFile>09301454.sql</sourceDDLFile>
 <createdBy>GGG</createdBy>
 <createdTime>2025-09-30 06:17:01 UTC</createdTime>
@@ -77,7 +77,7 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="po_text" id="48E5B79E-9B93-5647-B614-D219C508C38D">
+<Column name="pr_body" id="48E5B79E-9B93-5647-B614-D219C508C38D">
 <sourceDDLFile>09301454.sql</sourceDDLFile>
 <createdBy>GGG</createdBy>
 <createdTime>2025-09-30 06:17:01 UTC</createdTime>
@@ -90,7 +90,7 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="po_reg_date" id="3147362F-3B5C-99B6-C7BF-5CD696C86CAE">
+<Column name="pr_reg_date" id="3147362F-3B5C-99B6-C7BF-5CD696C86CAE">
 <sourceDDLFile>09301454.sql</sourceDDLFile>
 <createdBy>GGG</createdBy>
 <createdTime>2025-09-30 06:17:01 UTC</createdTime>
@@ -103,20 +103,6 @@
 <defaultValue>systimestamp</defaultValue>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="product_order_po_p_pid" id="174BF314-8A23-C8E4-CC97-71F431EE2E29">
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 08:19:31 UTC</createdTime>
-<ownerDesignName>market</ownerDesignName>
-<use>0</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
-<autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="C1F387F5-155E-10D5-9707-36FDDE7F8E3E" referredColumn="5F77CB86-A83F-0318-1486-35982902E652"/>
-</associations>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
@@ -152,7 +138,6 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="88DCE327-EE42-75D7-9320-6C7B35C6ECC5"/>
-<colUsage columnID="174BF314-8A23-C8E4-CC97-71F431EE2E29"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

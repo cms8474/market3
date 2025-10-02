@@ -71,6 +71,18 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="p_point" id="6D70B47B-05D9-C7C4-6BB0-B1278D5FB3C8">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:28:18 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="p_delivery_price" id="B6F37386-B8D5-A38F-D51F-87EEE8688391">
 <sourceDDLFile>09301454.sql</sourceDDLFile>
 <createdBy>GGG</createdBy>
@@ -181,6 +193,18 @@
 <use>1</use>
 <logicalDatatype>LOGDT019</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="p_STOCK_QUANTITY" id="91ED0ADE-08C6-426F-B0AB-2F8186023B8E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:28:18 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>5</dataTypePrecision>
+<ownDataTypeParameters>,5,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>

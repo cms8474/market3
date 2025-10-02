@@ -1,0 +1,60 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="6A6723DE-FAC1-EA68-DAFB-DA3B84E6F5A3" name="CART">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:22:19 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<ordsAlias>table_24</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="C_ID" id="11866236-D84C-F825-AAB3-CCCA01A1E443">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:22:49 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="C_U_ID" id="D2E22D92-A849-18B2-5572-CD68AF163288">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:22:49 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>74314C1A-8D96-B7C9-2210-5824792DE314</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E369514F-F707-E2A0-7434-BCCFD7DA48FD" referredColumn="ACF68B60-D00B-26E4-0009-E335F331A15F"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="47CC4793-7C82-C72F-82CD-18D306C32E6D" name="CART_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:25:29 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="11866236-D84C-F825-AAB3-CCCA01A1E443"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D07EF7DE-1044-987A-5C84-B696564C5CDD" name=".U_ID ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:25:29 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D2E22D92-A849-18B2-5572-CD68AF163288"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

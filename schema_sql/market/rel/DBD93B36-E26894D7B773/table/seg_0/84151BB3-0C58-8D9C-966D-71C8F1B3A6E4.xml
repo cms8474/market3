@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="84151BB3-0C58-8D9C-966D-71C8F1B3A6E4" name="TERMS">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="84151BB3-0C58-8D9C-966D-71C8F1B3A6E4" name="M_TERMS">
 <createdBy>GGG</createdBy>
 <createdTime>2025-09-30 07:45:44 UTC</createdTime>
 <ownerDesignName>market</ownerDesignName>

@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="BuildSchema" id="E26AB3F5-3C92-4E6B-1F5C-3DD4577EEB3E" version="3.5">
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-24 07:41:37 UTC</createdTime>
-<ownerDesignName>BuildSchema</ownerDesignName>
-<capitalNames>false</capitalNames>
-<designId>E26AB3F5-3C92-4E6B-1F5C-3DD4577EEB3E</designId>
-</OSDM_Design>
