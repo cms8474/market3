@@ -1,4 +1,5 @@
 # marketDEMO
+# 연휴기간 중 db 필요하면 MARKET1002 사용하셔요
 
 [팀 스프레드 시트](https://docs.google.com/spreadsheets/d/1Oc1fbnkgcDMuQd03QQVy2wyel6cxXY1nyhEGNxIafB8/edit?gid=0#gid=0)    
 (편집가능. 시트 추가해도 됩니다)
