@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MarketDemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MarketDemoApplication.class, args);
-	}
+
+        SpringApplication.run(MarketDemoApplication.class, args);
+    }
 
 }

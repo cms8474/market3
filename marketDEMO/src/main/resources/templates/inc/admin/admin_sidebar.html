@@ -1,0 +1,112 @@
+<!-- src/main/resources/templates/inc/admin/admin_sidebar.html -->
+<div th:fragment="admin_sidebar">
+    <aside class="admin-sidebar">
+        <nav class="accordion acc">
+
+            <!-- 환경설정 -->
+            <div class="acc-item">
+                <input type="checkbox" id="acc-settings" class="acc-toggle">
+                <label for="acc-settings" class="acc-head">
+                    <span class="acc-ico">#</span>
+                    <span class="acc-title">환경설정</span>
+                    <span class="acc-caret"></span>
+                </label>
+                <div class="acc-panel">
+                    <a th:href="@{/admin/config/basic}">기본설정</a>
+                    <a th:href="@{/admin/config/banner}">배너관리</a>
+                    <a th:href="@{/admin/config/policy}">약관관리</a>
+                    <a th:href="@{/admin/config/category}">카테고리</a>
+                    <a th:href="@{/admin/config/version}">버전관리</a>
+                </div>
+            </div>
+
+            <!-- 상점관리 -->
+            <div class="acc-item">
+                <input type="checkbox" id="acc-store" class="acc-toggle">
+                <label for="acc-store" class="acc-head">
+                    <span class="acc-ico">@</span>
+                    <span class="acc-title">상점관리</span>
+                    <span class="acc-caret"></span>
+                </label>
+                <div class="acc-panel">
+                    <a th:href="@{/admin/shop/list}">상점목록</a>
+                    <a th:href="@{/admin/shop/sales}">매출현황</a>
+                </div>
+            </div>
+
+            <!-- 회원관리 -->
+            <div class="acc-item">
+                <input type="checkbox" id="acc-members" class="acc-toggle">
+                <label for="acc-members" class="acc-head">
+                    <span class="acc-ico">+</span>
+                    <span class="acc-title">회원관리</span>
+                    <span class="acc-caret"></span>
+                </label>
+                <div class="acc-panel">
+                    <a th:href="@{/admin/member/list}">회원목록</a>
+                    <a th:href="@{/admin/member/point}">포인트 관리</a>
+                </div>
+            </div>
+
+            <!-- 상품관리 -->
+            <div class="acc-item">
+                <input type="checkbox" id="acc-products" class="acc-toggle">
+                <label for="acc-products" class="acc-head">
+                    <span class="acc-ico">ㅁ</span>
+                    <span class="acc-title">상품관리</span>
+                    <span class="acc-caret"></span>
+                </label>
+                <div class="acc-panel">
+                    <a th:href="@{/admin/product/list}">상품목록</a>
+                    <a th:href="@{/admin/product/register}">상품등록</a>
+                </div>
+            </div>
+
+            <!-- 주문관리 -->
+            <div class="acc-item">
+                <input type="checkbox" id="acc-orders" class="acc-toggle">
+                <label for="acc-orders" class="acc-head">
+                    <span class="acc-ico">ㅂ</span>
+                    <span class="acc-title">주문관리</span>
+                    <span class="acc-caret"></span>
+                </label>
+                <div class="acc-panel">
+                    <a th:href="@{/admin/order/list}">주문현황</a>
+                    <a th:href="@{/admin/order/delivery}">배송현황</a>
+                </div>
+            </div>
+
+            <!-- 쿠폰관리 -->
+            <div class="acc-item">
+                <input type="checkbox" id="acc-coupons" class="acc-toggle">
+                <label for="acc-coupons" class="acc-head">
+                    <span class="acc-ico">--</span>
+                    <span class="acc-title">쿠폰관리</span>
+                    <span class="acc-caret"></span>
+                </label>
+                <div class="acc-panel">
+                    <a th:href="@{/admin/coupon/list}">쿠폰목록</a>
+                    <a th:href="@{/admin/coupon/issued}">쿠폰발급현황</a>
+                </div>
+            </div>
+
+            <!-- 고객센터 -->
+            <div class="acc-item">
+                <input type="checkbox" id="acc-support" class="acc-toggle">
+                <label for="acc-support" class="acc-head">
+                    <span class="acc-ico">?</span>
+                    <span class="acc-title">고객센터</span>
+                    <span class="acc-caret"></span>
+                </label>
+                <div class="acc-panel">
+                    <a th:href="@{/admin/cs/notice/list}">공지사항</a>
+                    <a th:href="@{/admin/cs/faq/list}">자주묻는질문</a>
+                    <a th:href="@{/admin/cs/qna/list}">문의하기</a>
+                    <a th:href="@{/admin/cs/recruit/list}">채용하기</a>
+
+                </div>
+            </div>
+
+        </nav>
+    </aside>
+</div>

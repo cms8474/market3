@@ -17,4 +17,13 @@ public class IndexController {
         System.out.println("go exPage");
         return "exPage";
     }
+    
+    
+    // 유진님 파트 진입 테스트 코드
+    @GetMapping("/login")
+    public String login() {
+        // 이 "login"은 src/main/resources/templates/login.html 파일을 찾으라는 뜻입니다.
+        return "inc/admin/shop/list";
+    }
+
 }

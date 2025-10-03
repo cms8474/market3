@@ -1,0 +1,129 @@
+/* src/main/resources/static/css/main.css */
+
+/* 전체 레이아웃 */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: Arial, sans-serif; color: #333; }
+.admin-body { display: flex; }
+
+/* 메인 컨텐츠 */
+.admin-content {
+    flex: 1;
+    padding: 20px;
+    background: #fff;
+}
+
+/* 상단 경로 & 타이틀 */
+.page-breadcrumb {
+  font-size: 12px; color: #666; text-align: right; margin-bottom: 8px;
+}
+.page-title {
+  margin: 0 0 14px 0;
+  font-size: 20px; font-weight: 700;
+}
+
+/* 카드 공통 */
+.card {
+  border: 1px solid #e2e2e2;
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 14px;
+}
+.card-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* 대시보드 */
+.dashboard {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    gap: 16px;
+    align-items: stretch;
+}
+.chart {
+    position: relative;
+    height: 360px;           /* <- 원하는 고정 높이 */
+    border: 1px solid #ddd;
+    padding: 15px;
+    background: #f9f9f9;
+}
+.chart canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    box-sizing: border-box;
+}
+
+/* 운영현황 */
+.statistics { margin-top: 30px; }
+.section-title {
+  font-weight: 700;
+  margin: 8px 0 12px;
+}
+/* .stat-box {
+    background: #eee;
+    padding: 15px;
+    text-align: center;
+    border-radius: 5px;
+}
+.stat-box strong {
+    display: block;
+    font-size: 20px;
+    margin-top: 5px;
+} */
+
+/* KPI 타일 */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.kpi {
+  background: #f0f3f7;
+  border: 1px solid #e2e6ea;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+.kpi-name { font-size: 13px; color: #666; }
+.kpi-value { font-size: 22px; font-weight: 800; margin-top: 4px; color: #d23; }
+
+/* 표 */
+.table-wrap { margin-top: 6px; }
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+.stat-table th, .stat-table td {
+  border: 1px solid #e6e6e6;
+  padding: 10px 12px;
+  text-align: center;
+  font-size: 14px;
+}
+.stat-table thead th { background: #f6f6f6; font-weight: 700; }
+
+/* 푸터 (선택) */
+.admin-footer {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    color: white;
+    background-color: gray;
+    text-align: left;
+    padding: 20px 10px;
+}
+.admin-footer span {
+    display: block;
+    color: #f0f0f0;
+    font-size: 14px;
+}
+
+/* 반응형 약간 */
+@media (max-width: 1200px) {
+  .dashboard { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .flex-2 { grid-template-columns: 1fr; }
+}

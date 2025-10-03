@@ -1,0 +1,52 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/faq-register.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>자주묻는질문 작성</h4>
+                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>자주묻는질문</b></div>
+            </div>
+
+            <form th:action="@{/cs/faq/write}" method="post">
+                <table class="view">
+                    <tr>
+                        <th>유형</th>
+                        <td>
+                            <div class="select-row">
+                                <!-- 1차 선택 -->
+                                <select name="type1" id="type1" class="sel" required>
+                                    <option value="">1차 선택</option>
+
+                                </select>
+
+                                <!-- 2차 선택(필요시 서버/JS로 채움; 일단 플레이스홀더) -->
+                                <select name="type2" id="type2" class="sel">
+                                    <option value="">2차 선택</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>제목</th>
+                        <td>
+                            <input type="text" class="inp" name="title" placeholder="제목을 입력합니다." maxlength="200" required>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>내용</th>
+                        <td class="answer">
+                            <textarea class="txtarea" name="content" placeholder="내용을 입력합니다." required></textarea>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="btn-area">
+                    <a href="/cs/faq/list" class="btn btn-cancel">취소하기</a>
+                    <button type="submit" class="btn btn-submit">등록하기</button>
+                </div>
+            </form>
+        </div>
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+</th:block>
