@@ -1,0 +1,48 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="212B2F81-920F-704C-27BB-62030050B583" name="BOARD_TYPE">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:12:26 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<ordsAlias>table_27</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="BT_TYPE" id="8A990F20-BE16-DE5A-8897-DC3967AA2729">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:13:46 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BT_NAME" id="EE3C191C-CB82-8801-AEB9-04AD46C38703">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:13:46 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="82CB65E1-EA5C-207E-2D0C-9C8EE447B9A8" name="BOARD_TYPE_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 06:13:46 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8A990F20-BE16-DE5A-8897-DC3967AA2729"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

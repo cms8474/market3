@@ -1,0 +1,73 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="coupon" directorySegmentName="seg_0" id="FA6774A4-298F-5A3D-B780-167AD9E0508A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:33:00 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="c_REQUIREMENTS" id="058D764A-AC19-1A03-F423-DFF3CFA8CA3A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:39:47 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="c_discount_money" id="0DDA06FA-26D4-21C1-9D48-7F87172B82B0">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="c_p_id" id="24B7D176-9E56-22AF-67BB-DB807CB78BAC">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="c_state" id="46052B09-E9A8-9404-340E-217E4292BA30">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:39:47 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="c_type" id="8D819DFC-A1A9-1CC9-31CF-2D320226DE31">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="c_dday" id="B5104AEF-662B-5EBA-E77A-5D9C6D9C743E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:43:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="c_text" id="BE43B32A-F4F3-A789-D06A-84E411538FA4">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:39:47 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="c_id" id="F05AF91D-1906-4789-7ABA-41C79DD94932">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="c_po_no" id="F94D2D2C-F87B-F7EC-4044-0286499BAD1F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="u_id. " id="2EC53489-1043-F32B-3FB3-8E9412906237">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="coupon_PK" id="5FEB777F-E0C5-0CF3-4CA6-AEB1AD62552F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:35:45 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev20c>

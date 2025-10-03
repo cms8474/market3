@@ -1,0 +1,108 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B2896DEA-8827-8526-6E1B-90765D6E43F5" name="CART_ITEMS">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:30:05 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<ordsAlias>table_25</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="CI_ID" id="5ADBBC62-60C6-4DBA-8823-315BB79E9640">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:33:22 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CI_C_ID" id="CDCCCFBF-5274-DE91-3649-EC662AE3E19B">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:33:22 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7F961F92-3045-4F18-E27A-B19748E8AA07" referredColumn="11866236-D84C-F825-AAB3-CCCA01A1E443"/>
+</associations>
+</Column>
+<Column name="CI_P_PID" id="C49D4302-981B-3E22-777C-F2160CCCDBC0">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:33:22 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>FAA74E9C-565E-3E7D-E67E-937BB685257F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="87E39FB7-D640-3175-6345-824E4814BC51" referredColumn="42BA3B07-C5FF-3E0D-82DD-2301875FF1F7"/>
+</associations>
+</Column>
+<Column name="CI_AMOUNT" id="7D338EB5-F04A-35A3-826A-232AB99AB4DC">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:33:22 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CI_TOT_PRICE" id="CB82B53A-32EB-0C7F-F720-0605321CFA60">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:19:33 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C89BD2C7-6B95-0140-96E1-10F80EB7DCBE" name="CART_ITEMS_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:35:11 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5ADBBC62-60C6-4DBA-8823-315BB79E9640"/>
+<colUsage columnID="C49D4302-981B-3E22-777C-F2160CCCDBC0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C1D7830A-AE43-5286-4579-7AF8FFFB70FB" name=".P_PID ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:33:22 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C49D4302-981B-3E22-777C-F2160CCCDBC0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="84269D9E-09C9-8FB0-83B7-DC16E23AA7B3" name="C_ID ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 05:33:22 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CDCCCFBF-5274-DE91-3649-EC662AE3E19B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

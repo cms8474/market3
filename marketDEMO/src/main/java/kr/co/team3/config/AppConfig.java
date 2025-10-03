@@ -1,6 +1,6 @@
-package kr.co.sboard.config;
+package kr.co.team3.config;
 
-import kr.co.sboard.intercepter.AppInfoIntercepter;
+import kr.co.team3.intercepter.AppInfoIntercepter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
@@ -16,8 +16,8 @@ public class AppConfig implements WebMvcConfigurer {
     private AppInfo appInfo;
 
     @Bean
-    public AppInfo getAppInfo() {
-        appInfo = new AppInfo();
+    public kr.co.team3.config.AppInfo getAppInfo() {
+        appInfo = new kr.co.team3.config.AppInfo();
         return appInfo;
     }
 

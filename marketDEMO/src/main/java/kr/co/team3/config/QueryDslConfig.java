@@ -1,4 +1,4 @@
-package kr.co.sboard.config;
+package kr.co.team3.config;
 
 import com.querydsl.core.annotations.Config;
 import com.querydsl.jpa.impl.JPAQueryFactory;

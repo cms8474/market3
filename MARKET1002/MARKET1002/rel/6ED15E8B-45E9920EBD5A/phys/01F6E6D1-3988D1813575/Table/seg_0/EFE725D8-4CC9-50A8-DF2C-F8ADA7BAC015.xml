@@ -1,0 +1,37 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="product_tags" directorySegmentName="seg_0" id="EFE725D8-4CC9-50A8-DF2C-F8ADA7BAC015">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="pt_state" id="0435ABA1-7C3F-D09E-DF32-095E685469E2">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<defaultValue>&apos;ACTIVE&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pt_path" id="4D83384F-5545-453A-032E-047548B8CDFF">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 05:37:12 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="pt_name" id="DDCC460E-1E9D-F4BB-8022-07B5390D3D41">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="priduct_tags_pk" id="DD83ACCD-1CEE-4BCD-E691-FE1620CA552F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev20c>

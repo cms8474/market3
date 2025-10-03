@@ -3,6 +3,10 @@ server:
     servlet:
         context-path: /
 spring:
+    thymeleaf:
+      prefix: classpath:/templates/
+      suffix: .html
+      cache: false
     application:
         name: marketDEMO
     datasource:

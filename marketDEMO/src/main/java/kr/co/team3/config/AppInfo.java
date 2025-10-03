@@ -1,4 +1,4 @@
-package kr.co.sboard.config;
+package kr.co.team3.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
