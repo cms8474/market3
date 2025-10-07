@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <style>
+        .notice-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+        }
+
+        /* 페이지 경로 */
+        .breadcrumb {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* 사이드바 + 본문 */
+        .notice-main {
+            display: flex;
+            gap: 24px;
+        }
+
+        /* 왼쪽 카테고리 */
+        .notice-sidebar {
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        .notice-sidebar h3 {
+            font-size: 15px;
+            font-weight: 700;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+        .notice-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .notice-sidebar li {
+            padding: 10px 14px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        .notice-sidebar li.active {
+            background: #1976d2;
+            color: #fff;
+            font-weight: bold;
+        }
+        .notice-sidebar li a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 오른쪽 리스트 */
+        .notice-content {
+            flex: 1;
+        }
+        .notice-content h2 {
+            font-size: 16px;
+            font-weight: 700;
+            border-bottom: 2px solid #222;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+        }
+        .notice-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .notice-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        .notice-list li span {
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* 페이지네이션 */
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            display: inline-block;
+            padding: 6px 10px;
+            margin: 0 2px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            color: #333;
+        }
+        .pagination a.active {
+            background: #1976d2;
+            color: #fff;
+            border-color: #1976d2;
+        }
+        /* 푸터 */
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            margin-top: 60px;
+            border-top: 1px solid #ddd;
+            font-size: 13px;
+            color: #333;
+        }
+        .footer-links {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .footer-links a {
+            margin: 0 8px;
+            color: #333;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .company-info, .customer-center {
+            width: 48%;
+        }
+        .footer-logo {
+            width: 60px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ 공통 헤더 -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+
+<main>
+    <div class="notice-container">
+
+        <!-- 경로 표시 -->
+        <div class="breadcrumb">
+            <a th:href="@{/cs/index}">홈</a> > 공지사항
+        </div>
+
+        <div class="notice-main">
+            <!-- 왼쪽 카테고리 -->
+            <aside class="notice-sidebar">
+                <h3>공지사항</h3>
+                <ul>
+                    <li class="active">
+                        <a th:href="@{/cs/notice/list}">전체</a>
+                    </li>
+                    <li><a href="#">고객서비스</a></li>
+                    <li><a href="#">안전거래</a></li>
+                    <li><a href="#">위해상품</a></li>
+                    <li><a href="#">이벤트당첨</a></li>
+                </ul>
+            </aside>
+
+            <!-- 오른쪽 본문 -->
+            <section class="notice-content">
+                <h2>전체</h2>
+                <ul class="notice-list">
+                    <li>
+                        <a th:href="@{/cs/notice/view}">[안내] 해외 결제사칭 문자주의</a>
+                        <span>00.00.00</span>
+                    </li>
+                    <li>[발표] G.Live X SK 스토아 이벤트 당첨자 <span>00.00.00</span></li>
+                    <li>[안내] 묶음배송/교환수거지시 연말 내 <span>00.00.00</span></li>
+                    <li>[안내] 위치정보이용약관 개정공지 <span>00.00.00</span></li>
+                    <li>[안내] 구매회원이용약관 개정 <span>00.00.00</span></li>
+                    <li>[안내] 세티즌 앱 시스템 점검(체크카드 결제서비스 일시 중단) <span>00.00.00</span></li>
+                </ul>
+
+                <!-- 페이지네이션 -->
+                <div class="pagination">
+                    <a href="#">이전</a>
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- ✅ 공통 푸터 -->
+<footer class="footer">
+    <div class="footer-links">
+        <a href="#">회사소개</a> |
+        <a href="#">서비스이용약관</a> |
+        <a href="#">개인정보처리방침</a> |
+        <a href="#">전자금융거래약관</a>
+    </div>
+
+    <div class="footer-content">
+        <div class="company-info">
+            <img th:src="@{/images/로고.png}" alt="회사 로고" class="footer-logo">
+            <p>(주)케이마켓</p>
+            <p>부산광역시 부산진구 중앙대로 103 그린타워 13층</p>
+            <p>대표이사 : 홍길동</p>
+            <p>사업자등록번호 : 123-45-12345</p>
+        </div>
+        <div class="customer-center">
+            <p><strong>고객센터</strong></p>
+            <p>Tel : 1234-5678 (평일 09:00~18:00)</p>
+            <p>전자금융거래 분쟁 담당 : 1234-1234 (365일 09:00~18:00)</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

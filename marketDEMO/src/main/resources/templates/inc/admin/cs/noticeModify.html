@@ -1,0 +1,45 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/notice-modify.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>공지사항 수정</h4>
+                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>공지사항</b></div>
+            </div>
+
+            <form th:action="@{/cs/notice/write}" method="post">
+                <table class="view">
+                    <tr>
+                        <th>유형</th>
+                        <td>
+                            <select name="searchType" id="searchType" class="sel" required>
+                                <option value="">유형선택</option>
+                                <option value="고객서비스">고객서비스</option>
+                                <option value="안전거래">안전거래</option>
+                                <option value="이벤트당첨">이벤트당첨</option>
+                                <option value="위해상품">위해상품</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>제목</th>
+                        <td>
+                            <input type="text" class="inp" name="title" placeholder="제목을 입력합니다." maxlength="200" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>내용</th>
+                        <td class="answer">
+                            <textarea class="txtarea" name="content" placeholder="내용을 입력합니다." required></textarea>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="btn-area">
+                    <a href="/cs/notice/list" class="btn btn-cancel">취소하기</a>
+                    <button type="submit" class="btn btn-submit">수정하기</button>
+                </div>
+            </form>
+        </div>
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+</th:block>

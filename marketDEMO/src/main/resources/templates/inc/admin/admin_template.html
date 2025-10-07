@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko" th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8" />
+    <title>관리자 레이아웃</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin_header.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin_sidebar.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin_main.css}" />
+    <link rel="stylesheet" th:href="@{/css/config/admin_config_banner.css}" />
+
+    <th:block th:if="${activeMenu=='config-basic'}">
+        <link rel="stylesheet" th:href="@{/css/config/admin_config_basic.css}">
+    </th:block>
+    <th:block th:if="${activeMenu=='config-banner'}">
+        <link rel="stylesheet" th:href="@{/css/config/admin_config_banner.css}"/>
+    </th:block>
+    <th:block th:if="${activeMenu=='config-policy'}">
+        <link rel="stylesheet" th:href="@{/css/config/admin_config_policy.css}">
+    </th:block>
+    <th:block th:if="${activeMenu=='config-category'}">
+        <link rel="stylesheet" th:href="@{/css/config/admin_config_category.css}">
+    </th:block>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<th:block th:insert="~{inc/admin/admin_header :: admin_header}"></th:block>
+
+<div class="admin-body">
+    <th:block th:insert="~{inc/admin/admin_sidebar :: admin_sidebar}"></th:block>
+    <main class="admin-content">
+
+
+
+        <th:block th:insert="${content}"></th:block>
+    </main>
+</div>
+
+<th:block th:insert="~{inc/admin/admin_footer :: admin_footer}"></th:block>
+</body>
+</html>

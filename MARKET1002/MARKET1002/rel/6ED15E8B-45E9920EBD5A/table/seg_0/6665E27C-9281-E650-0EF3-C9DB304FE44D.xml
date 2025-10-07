@@ -1,0 +1,148 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="6665E27C-9281-E650-0EF3-C9DB304FE44D" name="recruitment">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>F6D814F2-2FD0-641C-C3BB-185C1DA201A9</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="r_no" id="0730E7B4-52B5-B132-3F0C-B434A939A534">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>36A2B3C2-A1AA-DB79-429C-7BF39567C52A</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>86FDDC6B-7194-A553-C31F-B52DBB808E5E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<autoIncrementSequenceName>recruitment_r_no_seq</autoIncrementSequenceName>
+<autoIncrementTriggerName>recruitment_r_no_trg</autoIncrementTriggerName>
+</Column>
+<Column name="r_dept" id="34BA1128-C909-C250-622B-D20AA1400E99">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>989BFAA4-160B-A228-B0F9-E3BA2FB84148</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>03DF634D-C763-3F5B-7670-2E23802E128A</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="r_career" id="E8B5FA51-9310-4E05-11B2-195E2C197ECB">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>AA6BAEFA-7836-A717-5FDD-5ECCBBB8E472</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>03DF634D-C763-3F5B-7670-2E23802E128A</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="r_type" id="CFBD486F-A006-6687-E182-EDD866463E88">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>F198A74E-E5FB-0F8B-CF02-07A0A912965B</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>D20DC0F1-B803-BDB5-BD55-A3E5060C0179</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="r_title" id="CEF473F9-B0D8-A60C-754C-E0AE0E959B74">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>22B844DA-8309-4A0E-B756-D205559F0215</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>03DF634D-C763-3F5B-7670-2E23802E128A</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="r_status" id="1259C23D-F759-D2BF-DA94-143CCD44C787">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>9056655F-8371-0ECD-5555-AE2237AC9B36</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>D20DC0F1-B803-BDB5-BD55-A3E5060C0179</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="r_start_date" id="025F40C4-FB10-A71F-210E-0D4459876BD6">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>1AE1D654-B6E7-4AF6-C114-7A0025C32405</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>0C336B2E-AEE8-166B-E00D-05ADB6BAC402</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="r_end_date" id="531BB105-76D6-68E5-B11F-9C5ADF39B5BB">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>7E80C550-4A79-EFB9-2764-CE66A6760690</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>0C336B2E-AEE8-166B-E00D-05ADB6BAC402</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="r_reg_date" id="0689AEA8-BC29-99DE-E374-BEFB1C2F5715">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>E0C0A5A8-2E52-7DB6-97C0-BAF245765701</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT046</logicalDatatype>
+<domain>0513E7E1-2BBB-6548-60B1-A97431905960</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="9591BA9C-192F-7BD5-946A-8FC7524ACBC3" name="recruitment_pk">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>7BF400E1-FFB5-0996-9111-598C684EA132</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0730E7B4-52B5-B132-3F0C-B434A939A534"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

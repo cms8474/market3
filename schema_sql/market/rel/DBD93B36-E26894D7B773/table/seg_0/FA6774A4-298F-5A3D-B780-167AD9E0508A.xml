@@ -1,0 +1,154 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="FA6774A4-298F-5A3D-B780-167AD9E0508A" name="coupon">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:33:00 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<ordsAlias>table_14</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="c_id" id="F05AF91D-1906-4789-7ABA-41C79DD94932">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_ct_type" id="8D819DFC-A1A9-1CC9-31CF-2D320226DE31">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="25ACCD2A-1E12-427C-AC93-684C9BF2E1E9" referredColumn="BAC30561-04BD-FA80-9974-B69DCFB04175"/>
+</associations>
+</Column>
+<Column name="c_name" id="F94D2D2C-F87B-F7EC-4044-0286499BAD1F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:34:37 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_text" id="BE43B32A-F4F3-A789-D06A-84E411538FA4">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:39:47 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_s_u_id" id="058D764A-AC19-1A03-F423-DFF3CFA8CA3A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:39:47 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<domain>74314C1A-8D96-B7C9-2210-5824792DE314</domain>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_amount" id="FE506289-DCA8-5EE1-A807-E159CE74370A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:46:26 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_used" id="4C65DC6B-33B9-ECB2-6264-85299F3DD276">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:46:26 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_status" id="46052B09-E9A8-9404-340E-217E4292BA30">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:39:47 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_start_day" id="B5104AEF-662B-5EBA-E77A-5D9C6D9C743E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:43:25 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="c_end_day" id="D7E2373D-BB82-6F0A-2707-A13643053CD6">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:46:26 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5FEB777F-E0C5-0CF3-4CA6-AEB1AD62552F" name="coupon_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:35:45 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F05AF91D-1906-4789-7ABA-41C79DD94932"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A5A8CC04-A81E-FF84-0820-F4A9B3B70441" name="ct_type ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:52:50 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8D819DFC-A1A9-1CC9-31CF-2D320226DE31"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

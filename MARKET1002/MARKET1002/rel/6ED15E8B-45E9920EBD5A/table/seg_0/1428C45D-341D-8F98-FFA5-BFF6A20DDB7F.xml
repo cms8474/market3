@@ -1,0 +1,106 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="1428C45D-341D-8F98-FFA5-BFF6A20DDB7F" name="cart_items">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>CEA7F09F-D2C5-10EB-6943-0D9FD39DFF9F</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ci_u_id" id="F21BA45A-16E0-6749-3998-FBA3BE6A3D26">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>8C475BD4-5181-335F-F2CF-BC875FDEB712</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="DCBAF71A-E8D0-4DBC-FC12-05BC00FA77F8" referredColumn="3104E603-DD4A-AF5C-2B53-1F5A876FCBAC"/>
+</associations>
+</Column>
+<Column name="ci_p_pid" id="667D2617-585F-36B4-A4C6-EB5A43D222AD">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>796A7B79-9798-ECE0-FEF6-602060B9FC27</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>D20DC0F1-B803-BDB5-BD55-A3E5060C0179</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7F7132C8-F9C7-36C3-FF44-F1242096CAD3" referredColumn="13FDBA8A-81BB-CF89-2200-FE8D7CFB164B"/>
+</associations>
+</Column>
+<Column name="ci_amount" id="107757FB-4A16-5F46-F264-98EE0489BC47">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>3D93320D-64C6-515C-C847-804D3F102351</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>86FDDC6B-7194-A553-C31F-B52DBB808E5E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ci_tot_price" id="602D3495-158C-2F09-0BB8-FE7C56AFA3C2">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>B346EF1C-408B-8A7F-B80F-9EAD09F45365</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>A43C7C45-36E6-A9FB-D36C-C2EDB6A67954</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="82B660C5-02AB-1AD7-B765-60B8272939F6" name="cart_items_pk">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>87E5C6B8-F737-5F2A-B498-AD468C091541</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F21BA45A-16E0-6749-3998-FBA3BE6A3D26"/>
+<colUsage columnID="667D2617-585F-36B4-A4C6-EB5A43D222AD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C005EAC6-AD34-28EE-069B-A0759CC90197" name=".P_PID ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="667D2617-585F-36B4-A4C6-EB5A43D222AD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="0FB40812-7054-CE24-6788-B0237A0A7A65" name="u_id . ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:01:52 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F21BA45A-16E0-6749-3998-FBA3BE6A3D26"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

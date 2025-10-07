@@ -1,0 +1,10 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="m_option_o_no_seq" directorySegmentName="seg_0" id="35162BF0-F50E-AE52-D46B-5D227DC024A6">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:25 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<noCache>YES</noCache>
+<order>YES</order>
+<startWith>1</startWith>
+</SequenceOraclev10g>

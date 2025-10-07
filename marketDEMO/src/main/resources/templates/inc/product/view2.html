@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품정보 제공고시</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <!-- ✅ view2 전용 스타일 (상품정보 제공고시) -->
+    <style>
+        .product-detail-section { flex-grow: 1; padding: 20px 0 20px 20px; }
+        .product-notice-wrap { border: 1px solid #ccc; margin-top: 20px; }
+
+        .notice-header {
+            display: flex; align-items: center; padding: 10px;
+            background-color: #f7f7f7; border-bottom: 1px solid #ccc;
+        }
+        .notice-header .icon-label {
+            display: inline-flex; justify-content: center; align-items: center;
+            background-color: #ce0000; color: white; border-radius: 50%;
+            width: 20px; height: 20px; font-weight: bold; font-size: 12px;
+            margin-right: 10px;
+        }
+        .notice-header .section-title {
+            font-size: 16px; font-weight: bold; color: #333;
+            margin: 0 20px 0 0;
+        }
+        .notice-header .notice-text { font-size: 13px; color: #666; }
+
+        .table-container { position: relative; overflow: hidden; }
+        .product-notice-table {
+            width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed;
+        }
+        .product-notice-table th,
+        .product-notice-table td {
+            border-bottom: 1px solid #eee;
+            padding: 10px 15px;
+            vertical-align: middle;
+        }
+        .product-notice-table th {
+            width: 150px; text-align: left; background-color: #fcfcfc;
+            color: #444; font-weight: normal; border-right: 1px solid #eee;
+        }
+        .product-notice-table td { color: #333; }
+        .product-notice-table tbody tr:last-child th,
+        .product-notice-table tbody tr:last-child td { border-bottom: none; }
+
+        .marker-2 {
+            position: absolute; top: 290px; right: -10px;
+            background-color: #ce0000; color: white;
+            border-radius: 50%; width: 20px; height: 20px;
+            line-height: 20px; text-align: center;
+            font-weight: bold; font-size: 12px;
+            z-index: 10;
+        }
+
+        .refund-info-text {
+            padding: 15px; font-size: 12px; line-height: 1.6;
+            color: #666; background-color: #f7f7f7; border-top: 1px solid #ccc;
+        }
+        .refund-info-text a { color: #369; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<!-- ✅ header (공통) -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+<main class="product-page">
+    <div class="main-container">
+
+        <div class="sidebar-container">
+            <th:block th:replace="~{inc/_sidebar :: _sidebar}"/>
+            <aside class="best-product-list">
+                <h3 class="page-title">베스트 상품</h3>
+                <ul class="products">
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+
+        <!-- ✅ view2 본문: 상품정보 제공고시 -->
+        <section class="product-detail-section">
+
+            <div class="title-bar">
+                <h2 class="page-title">상품정보 제공고시</h2>
+                <nav class="breadcrumb">HOME &gt; 패션 · 의류 · 뷰티 &gt; 남성의류</nav>
+            </div>
+
+            <div class="product-notice-wrap">
+                <!-- 고시 헤더 -->
+                <div class="notice-header">
+                    <span class="icon-label">1</span>
+                    <h3 class="section-title">상품정보 제공고시</h3>
+                    <span class="notice-text">
+                        [전자상거래등에서의 소비자보호에 관한 법률에 따른 상품정보 제공에 관한 고시] 항목에 의거 등록된 정보입니다.
+                    </span>
+                </div>
+
+                <!-- 고시 테이블 -->
+                <div class="table-container">
+                    <table class="product-notice-table">
+                        <tbody>
+                        <tr><th>상품번호</th><td>10010118412</td></tr>
+                        <tr><th>상품상태</th><td>새상품</td></tr>
+                        <tr><th>부가세면세여부</th><td>과세상품</td></tr>
+                        <tr><th>영수증발행여부</th><td>발행가능 (신용카드전표, 온라인현금영수증 中)</td></tr>
+                        <tr><th>사업자구분</th><td>통신판매업자</td></tr>
+                        <tr><th>브랜드</th><td>블루포스</td></tr>
+                        <tr><th>원산지</th><td>국내생산</td></tr>
+                        <tr class="marker-row"><th>제조자/수입국</th><td>상세정보 직접입력</td></tr>
+                        <tr><th>제조국</th><td>상세정보 직접입력</td></tr>
+                        <tr><th>취급시 주의사항</th><td>상세정보 직접입력</td></tr>
+                        <tr><th>제조연월</th><td>상세정보 직접입력</td></tr>
+                        <tr><th>품질보증기준</th><td>상세정보 직접입력</td></tr>
+                        <tr><th>A/S 책임자</th><td>상세정보 직접입력</td></tr>
+                        <tr><th>전화번호</th><td>상세정보 직접입력</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="marker-2">2</div>
+                </div>
+
+                <!-- 교환/환불 안내 -->
+                <p class="refund-info-text">
+                    소비자가 전자상거래등에서 소비자보호에 관한 법률 제 17조 제1항 또는 제3항에 따라 청약철회를 하였고,
+                    동 법 제 18조 제1항에 따라 청약철회한 물품을 판매자에게 반환하였음에도 불구하고 결제 대금의 환급이
+                    3영업일를 넘게 지연된 경우, 소비자는 전자상거래등에서 소비자보호에 관한 법률 제 18조 제2항 및 동법
+                    시행령 제 21조 2에 따라 지연일수에 대하여 전상법 시행령으로 정하는 이율을 곱하여 산정한 지연이자
+                    ("지연배상금")를 신청할 수 있습니다.<br>
+                    아울러, 교환반품 및 결제대금의 환급신청은 <a href="#">[나의쇼핑정보]</a> 에서 하실 수 있으며,
+                    자세한 문의는 개별 판매자에게 연락하여 주시기 바랍니다.
+                </p>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- ✅ footer (공통) -->
+<th:block th:replace="~{inc/_footer :: _footer}"/>
+
+</body>
+</html>

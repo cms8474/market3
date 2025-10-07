@@ -1,0 +1,297 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/order-status.css">
+    <link rel="stylesheet" href="/css/admin/modal.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>주문현황</h4>
+                <div class="breadcrumb">HOME &gt; 주문관리 &gt; <b>주문현황</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-row">
+                <select name="searchType" id="searchType">
+                    <option value="#">상품명</option>
+                    <option value="#">상품코드</option>
+                    <option value="#">판매자 키워드</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어입력" />
+                <button class="btn" type="button">검색</button>
+            </div>
+
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th>주문번호</th>
+                    <th>주문자</th>
+                    <th>주문자명</th>
+                    <th>주문 건수</th>
+                    <th>주문합계</th>
+                    <th>결제수단</th>
+                    <th>주문 상태</th>
+                    <th>주문일</th>
+                    <th>배송</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="order-no"><a href="#">10121211341</a></td>
+                    <td>abc123</td>
+                    <td>김우신</td>
+                    <td>2</td>
+                    <td>102,900</td>
+                    <td>신용카드</td>
+                    <td class="status">결제 완료</td>
+                    <td>0000-00-00<br>00:00:00</td>
+                    <td>
+                        <button type="button" class="btn-ship" data-order-no="10121211341">배송입력</button>
+                    </td>
+                </tr>
+
+
+                </tbody>
+
+            </table>
+
+
+            <!-- 테이블 하단 영역 -->
+            <div class="pagination-wrap">
+                <div class="pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+            </div>
+
+            <!-- 배송입력 모달 -->
+            <div id="Modal" class="modal" aria-hidden="true">
+                <div class="modal__backdrop" data-close="true"></div>
+
+                <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="shopModalTitle">
+                    <div class="modal__header">
+                        <h5 id="shopModalTitle">배송입력</h5>
+                        <button type="button" class="modal__close" title="닫기" data-close="true">&times;</button>
+                    </div>
+
+                    <form id="shipForm" class="modal__body">
+                        <div class="form-grid">
+                            <!-- 주문번호 -->
+                            <label class="form-label" for="orderNo">주문번호</label>
+                            <div class="form-field">
+                                <input id="orderNo" name="orderNo" type="text" value="" readonly />
+                            </div>
+
+                            <!-- 수령인 -->
+                            <label class="form-label" for="receiver">수령인</label>
+                            <div class="form-field">
+                                <input id="receiver" name="receiver" type="text" placeholder="수령인" required />
+                            </div>
+
+                            <!-- 우편번호 -->
+                            <label class="form-label" for="zip2">우편번호</label>
+                            <div class="form-field">
+                                <div class="addr-row">
+                                    <input id="zip2" name="zip" type="text" placeholder="우편번호" readonly />
+                                    <button type="button" class="btn-outline" id="btnFindZip2">검색</button>
+                                </div>
+                            </div>
+
+                            <!-- 기본주소 -->
+                            <label class="form-label" for="addr1_2">기본주소</label>
+                            <div class="form-field">
+                                <input id="addr1_2" name="addr1" type="text" placeholder="기본주소" />
+                            </div>
+
+                            <!-- 상세주소 -->
+                            <label class="form-label" for="addr2_2">상세주소</label>
+                            <div class="form-field">
+                                <input id="addr2_2" name="addr2" type="text" placeholder="상세주소" />
+                            </div>
+
+                            <!-- 택배사 -->
+                            <label class="form-label" for="courier">택배사</label>
+                            <div class="form-field">
+                                <select id="courier" name="courier" required>
+                                    <option value="" hidden>택배사선택</option>
+                                    <option value="CJ대한통운">CJ대한통운</option>
+                                    <option value="한진택배">한진택배</option>
+                                    <option value="롯데택배">롯데택배</option>
+                                    <option value="우체국택배">우체국택배</option>
+                                    <option value="로젠택배">로젠택배</option>
+                                    <option value="쿠팡로지스틱스">쿠팡로지스틱스</option>
+                                </select>
+                            </div>
+
+                            <!-- 운송장번호 -->
+                            <label class="form-label" for="trackingNo">운송장번호</label>
+                            <div class="form-field">
+                                <input id="trackingNo" name="trackingNo" type="text" inputmode="numeric" placeholder="발급받은 택배사 운송장번호입력" required />
+                            </div>
+
+                            <!-- 기타 -->
+                            <label class="form-label" for="shipMemo">기타</label>
+                            <div class="form-field">
+                                <textarea id="shipMemo" name="memo" placeholder="기타정보입력"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="modal__footer">
+                            <button type="button" class="btn-gray" data-close="true">취소</button>
+                            <button type="submit" class="btn-green">등록하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <!-- 상세 모달 -->
+            <div id="DetailModal" class="modal" aria-hidden="true">
+                <div class="modal__backdrop" data-close="true"></div>
+
+                <div class="modal__dialog order-detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+                    <!-- 헤더  -->
+                    <div class="modal__header">
+                        <h5 id="detailTitle">주문상세</h5>
+                        <div class="order-no" aria-label="주문번호"><span id="od-orderNo">—</span></div>
+                        <button type="button" class="modal__close" data-close="true" aria-label="닫기">×</button>
+                    </div>
+
+                    <div class="modal__body">
+                        <!--  상품정보 -->
+                        <section class="od-section">
+                            <header class="od-sec-head">
+                                <h6>상품정보</h6>
+                            </header>
+
+                            <div class="od-products">
+                                <table class="od-table">
+                                    <thead>
+                                    <tr>
+                                        <th>이미지</th>
+                                        <th>상품번호</th>
+                                        <th>상품명</th>
+                                        <th>판매자</th>
+                                        <th class="num">가격</th>
+                                        <th class="num">할인</th>
+                                        <th class="num">수량</th>
+                                        <th class="num">배송비</th>
+                                        <th class="num">결제금액</th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <img src="#" alt="상품 이미지" width="45" height="45" />
+                                        </td>
+                                        <td>120120021</td>
+                                        <td>샘플 상품명</td>
+                                        <td>(주)판매자명</td>
+                                        <td class="num">24,000</td>
+                                        <td class="num">-1,200</td>
+                                        <td class="num">3</td>
+                                        <td class="num">0</td>
+                                        <td class="num"><b>68,400</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="/images/로고.png" alt="상품 이미지" class="thumb" />
+                                        </td>
+                                        <td>120120021</td>
+                                        <td>샘플 상품명</td>
+                                        <td>(주)판매자명</td>
+                                        <td class="num">24,000</td>
+                                        <td class="num">-1,200</td>
+                                        <td class="num">3</td>
+                                        <td class="num">0</td>
+                                        <td class="num"><b>68,400</b></td>
+                                    </tr>
+
+                                    </thead>
+                                </table>
+
+                                <aside class="od-totals">
+                                    <dl>
+                                        <div><dt>총 상품금액</dt><dd id="od-sumProduct">0 원</dd></div>
+                                        <div><dt>총 할인금액</dt><dd id="od-sumDiscount">0 원</dd></div>
+                                        <div><dt>배송비</dt><dd id="od-sumShipFee">0 원</dd></div>
+                                        <div class="total"><dt>총 결제금액</dt><dd id="od-sumPay">0 원</dd></div>
+                                    </dl>
+                                </aside>
+                            </div>
+                        </section>
+
+                        <!--  결제정보 -->
+                        <section class="od-section">
+                            <header class="od-sec-head">
+                                <h6>결제정보</h6>
+                            </header>
+
+                            <div class="od-info-grid">
+                                <div class="label">주문번호</div>
+                                <div id="od-pay-orderNo">—</div>
+                                <div class="label">결제방법</div>
+                                <div id="od-pay-method">—</div>
+                                <div class="label">주문자 / 연락처</div>
+                                <div>
+                                    <span id="od-buyer-name">—</span> / <span id="od-buyer-phone">—</span>
+                                </div>
+                                <div class="label">결제상태</div>
+                                <div id="od-pay-status" class="status">결제완료</div>
+                                <div class="label">총 결제금액</div>
+                                <div id="od-pay-total" class="num strong">0 원</div>
+                            </div>
+                        </section>
+
+                        <!--  배송정보 -->
+                        <section class="od-section">
+                            <header class="od-sec-head">
+                                <h6>배송정보</h6>
+                            </header>
+
+                            <div class="od-info-grid">
+                                <div class="label">수취인</div>
+                                <div id="od-rcv-name">—</div>
+                                <div class="label">연락처</div>
+                                <div id="od-rcv-phone">—</div>
+                                <div class="label">배송지 주소</div>
+                                <div id="od-rcv-addr">—</div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="modal__footer">
+                        <button type="button" class="btn-gray" data-close="true" data-autofocus>닫기</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>  <!-- -->
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+<script th:src="@{/js/modal.js}"></script>
+
+<script>
+    // 전체 선택
+    const chkAll = document.getElementById('chkAll');
+    chkAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('tbody input[type="checkbox"]')
+            .forEach(cb => cb.checked = e.target.checked);
+    });
+    document.querySelectorAll('td.status').forEach((el)=>{
+        const t = el.textContent.trim();
+        if(t === '결제 완료')  el.classList.add('status--paid');
+        else if(t === '결제 대기') el.classList.add('status--pending');
+        else if(t === '주문 취소') el.classList.add('status--cancel');
+    });
+
+
+
+</script>
+
+</th:block>

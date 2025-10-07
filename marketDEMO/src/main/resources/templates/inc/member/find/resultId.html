@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 찾기 결과</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <style>
+        .result-container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+        }
+        .result-container h2 {
+            font-size: 18px;
+            font-weight: 700;
+            border-bottom: 2px solid #222;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* 결과 테이블 */
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+        }
+        .result-table th,
+        .result-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .result-table th {
+            width: 120px;
+            background: #f9f9f9;
+            font-weight: 600;
+        }
+
+        /* 안내 문구 */
+        .info-text {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 24px;
+        }
+
+        /* 버튼 그룹 */
+        .btn-group {
+            text-align: right;
+        }
+        .btn-group button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        .btn-login {
+            background: #aaa;
+            color: #fff;
+        }
+        .btn-findpw {
+            background: #1976d2;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ 공통 헤더 -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+
+<main>
+    <div class="result-container">
+        <h2>아이디 찾기 결과</h2>
+
+        <!-- 결과 테이블 -->
+        <table class="result-table">
+            <tr>
+                <th>이름</th>
+                <td>홍길동</td>
+            </tr>
+            <tr>
+                <th>아이디</th>
+                <td>honggildong</td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td>honggildong@gmail.com</td>
+            </tr>
+            <tr>
+                <th>가입일</th>
+                <td>2022-11-16 10:20:22</td>
+            </tr>
+        </table>
+
+        <!-- 안내 문구 -->
+        <p class="info-text">고객님의 정보와 일치하는 아이디 입니다.</p>
+
+        <!-- 버튼 -->
+        <div class="btn-group">
+            <button class="btn-login">로그인</button>
+            <button class="btn-findpw">비밀번호 찾기</button>
+        </div>
+    </div>
+</main>
+
+<!-- ✅ 공통 푸터 -->
+<th:block th:replace="~{inc/_footer :: _footer}"/>
+
+</body>
+</html>

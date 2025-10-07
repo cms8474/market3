@@ -1,0 +1,83 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="ad_info" directorySegmentName="seg_0" id="23E32162-E3C0-6D7B-B5CF-A27A4799D947">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="a_no" id="13FA688E-41A1-B87D-C7B6-1D00BC12ED4F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<autoIncrementDDL>TRIGGER</autoIncrementDDL>
+</ColumnProxy>
+<ColumnProxy name="a_start_time" id="3AA98B7E-FBC8-1686-2A2E-B35B1DD2B31B">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="a_back_color" id="549A62D4-DF5D-125A-FD6F-C54ECE1F1A07">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="a_start_date" id="59945228-0B82-C44E-86CF-41264A9C59E2">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="a_reg_date" id="713B151C-3024-7076-178B-1063AED8EE18">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="a_end_time" id="8C6FD443-25AF-1C2E-5120-91B970159908">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="a_size" id="B34846C4-968A-BE7C-051A-2F7422AF299E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="a_link" id="BB418AD3-92EE-0B43-E76B-9BB741CFC322">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="a_name" id="D367680E-E148-F5AA-99B7-F35FB0F06194">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="a_location" id="D5F018E9-A676-7179-757C-47B997334DB2">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="a_end_date" id="E03530CA-1CF5-39A9-54E5-F8058BC66438">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="a_file" id="F87A4E01-1C8F-ADE9-0DF1-51A48EFE9688">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="ad_info_pk" id="1D6FCFA5-985A-A8B0-AB78-B0243503144C">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev20c>

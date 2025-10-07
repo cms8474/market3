@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문완료</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+</head>
+<body>
+<th:block th:replace="~{inc/_header :: _header}"/>
+<main class="product-page">
+    <div class="main-container">
+
+        <div class="sidebar-container">
+            <th:block th:replace="~{inc/_sidebar :: _sidebar}"/>
+            <aside class="best-product-list">
+                <h3 class="page-title">베스트 상품</h3>
+                <ul class="products">
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+
+        <!-- ✅ 주문완료 본문 -->
+        <section class="order-complete" style="flex:1;">
+
+            <!-- 상단 제목 + breadcrumb -->
+            <div class="title-bar" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h2 class="page-title" style="font-size:20px; font-weight:700; border-bottom:2px solid #222; padding-bottom:8px; margin:0;">주문완료</h2>
+                <nav class="breadcrumb" style="font-size:13px; color:#666;">HOME &gt; 주문하기 &gt; 주문완료</nav>
+            </div>
+
+            <!-- 안내 문구 -->
+            <div class="complete-msg" style="text-align:center; padding:20px; border:1px solid #ddd; margin-bottom:20px; background:#fafafa;">
+                <h3 style="font-size:18px; margin:0 0 10px;">고객님의 주문이 정상적으로 완료되었습니다.</h3>
+                <p style="font-size:14px; color:#555;">즐거운 쇼핑이 되셨나요? 항상 고객님을 위한 케이마켓이 되겠습니다.</p>
+            </div>
+
+            <!-- 주문상품 -->
+            <div class="order-box" style="border:1px solid #ccc; margin-bottom:20px;">
+                <h4 style="background:#f7f7f7; padding:10px; font-size:15px; font-weight:700; border-bottom:1px solid #ccc;">주문상품</h4>
+                <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                    <thead>
+                    <tr style="background:#fcfcfc; border-bottom:1px solid #eee;">
+                        <th style="padding:10px; text-align:left;">상품명</th>
+                        <th style="padding:10px;">판매가</th>
+                        <th style="padding:10px;">할인</th>
+                        <th style="padding:10px;">수량</th>
+                        <th style="padding:10px;">주문금액</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr style="border-bottom:1px solid #eee; text-align:center;">
+                        <td style="padding:10px; text-align:left;">샘플상품</td>
+                        <td>27,000</td>
+                        <td>-1,350</td>
+                        <td>1</td>
+                        <td style="color:#d32f2f; font-weight:700;">25,650</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div style="padding:12px; text-align:right; font-size:14px; line-height:1.6; background:#fafafa;">
+                    총 상품금액 <strong>27,000원</strong><br>
+                    할인금액 <strong>-1,350원</strong><br>
+                    배송비 <strong>0원</strong><br>
+                    <span style="font-size:16px; font-weight:700; color:#d32f2f;">= 최종 결제금액 25,650원</span>
+                </div>
+            </div>
+
+            <!-- 주문정보 -->
+            <div class="order-box" style="border:1px solid #ccc; margin-bottom:20px;">
+                <h4 style="background:#f7f7f7; padding:10px; font-size:15px; font-weight:700; border-bottom:1px solid #ccc;">주문정보</h4>
+                <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                    <tbody>
+                    <tr style="border-bottom:1px solid #eee;">
+                        <th style="width:150px; text-align:left; padding:10px; background:#fcfcfc;">주문번호</th>
+                        <td style="padding:10px;">100012121</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #eee;">
+                        <th style="padding:10px; background:#fcfcfc; text-align:left;">결제방법</th>
+                        <td style="padding:10px;">신용카드</td>
+                    </tr>
+                    <tr>
+                        <th style="padding:10px; background:#fcfcfc; text-align:left;">결제금액</th>
+                        <td style="padding:10px; font-weight:700; color:#d32f2f;">24,650원</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 배송정보 -->
+            <div class="order-box" style="border:1px solid #ccc;">
+                <h4 style="background:#f7f7f7; padding:10px; font-size:15px; font-weight:700; border-bottom:1px solid #ccc;">배송정보</h4>
+                <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                    <tbody>
+                    <tr style="border-bottom:1px solid #eee;">
+                        <th style="width:150px; text-align:left; padding:10px; background:#fcfcfc;">수령인</th>
+                        <td style="padding:10px;">홍길동</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #eee;">
+                        <th style="padding:10px; background:#fcfcfc; text-align:left;">연락처</th>
+                        <td style="padding:10px;">010-1234-1110</td>
+                    </tr>
+                    <tr>
+                        <th style="padding:10px; background:#fcfcfc; text-align:left;">배송지 주소</th>
+                        <td style="padding:10px;">서울시 강남구 역삼동 123-110</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+    </div>
+</main>
+
+<!-- 공통 푸터 -->
+<th:block th:replace="~{inc/_footer :: _footer}"/>
+
+</body>
+</html>

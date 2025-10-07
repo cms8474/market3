@@ -1,0 +1,144 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="2BE67E18-0A52-227D-257E-4A98065A062F" name="product_review">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>FC48BFDF-39EA-B705-AEEC-8EAECA1CB65E</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="pr_po_no" id="88DCE327-EE42-75D7-9320-6C7B35C6ECC5">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>13919A00-FF78-5913-7E20-972C40E46AD8</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>145FF0D7-FCD8-739E-D74A-BBFC6394744D</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C1F387F5-155E-10D5-9707-36FDDE7F8E3E" referredColumn="95698E60-659D-4DCF-DEDA-12384F968109"/>
+</associations>
+</Column>
+<Column name="pr_p_pid" id="A2203031-DCE5-DA3B-C5B6-FB72BB4ED5B2">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>E4748F21-6E6D-8643-F27A-A3EBCDDD4B9E</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>F9CEBD54-6321-F354-ACE5-A782B462650E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="pr_u_id" id="03BBAB19-F39F-66E7-CDBA-46AF66DA6B49">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>867C88AB-DA01-A3FB-5E3E-A70F5C8D8AB6</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>74314C1A-8D96-B7C9-2210-5824792DE314</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="06A01B70-CA90-E3E2-0745-074B14706D97" referredColumn="ACF68B60-D00B-26E4-0009-E335F331A15F"/>
+</associations>
+</Column>
+<Column name="pr_no" id="4D3F4B2F-C5DD-2B9B-53A1-65EDEC229B23">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>A93E3F6A-7087-C071-7C77-8BBA64D3089B</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>58DBBE5E-4403-B4DC-B68D-9E8F5390131E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="pr_star" id="950C7242-EAF6-7640-2158-E61E508C71A6">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>ECDE0EA0-8537-8271-C21B-8C8FF2F8D29A</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>3765A049-62A3-BCDE-760B-A78AE3A5730C</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="pr_body" id="48E5B79E-9B93-5647-B614-D219C508C38D">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>21A00BFA-685A-5D9F-F173-24D8976698F8</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>52D51E49-41A3-F00A-8633-1C90ACF81F5A</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="pr_reg_date" id="3147362F-3B5C-99B6-C7BF-5CD696C86CAE">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>6C8CE70D-FCD6-D578-CB2C-47B2C9A4F1E4</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<domain>00CB00CC-7DB5-12A7-EAB0-99ED786AA29E</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="CDCB0344-36F4-90FD-3158-132142F6C222" name="product_review_pk">
+<sourceDDLFile>09301454.sql</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<importedID>A830778A-6178-71E0-456E-DF5466DA1C50</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="88DCE327-EE42-75D7-9320-6C7B35C6ECC5"/>
+<colUsage columnID="A2203031-DCE5-DA3B-C5B6-FB72BB4ED5B2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7CDBF76F-06C3-E3A1-B0EA-2FEFAEA8A968" name="P_PID ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="03BBAB19-F39F-66E7-CDBA-46AF66DA6B49"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CD2197CF-D105-60D4-066C-0127B44A0748" name="product_review_fk">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="88DCE327-EE42-75D7-9320-6C7B35C6ECC5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

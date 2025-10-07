@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>장바구니</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <!-- ✅ cart.html 전용 스타일 -->
+    <style>
+        .cart { flex:1; min-width:0; padding:20px; }
+
+        /* 테이블 */
+        .cart-table {
+            width:100%; border-collapse:collapse; margin-bottom:20px;
+            font-size:14px; border-top:2px solid #222;
+        }
+        .cart-table th, .cart-table td {
+            border-bottom:1px solid #eee; padding:10px; text-align:center;
+        }
+        .cart-table th { background:#fafafa; font-weight:600; }
+        .cart-table .cart-info { display:flex; align-items:center; gap:10px; text-align:left; }
+        .cart-table .cart-info img {
+            width:60px; height:60px; object-fit:cover; border:1px solid #ddd; border-radius:6px;
+        }
+        .cart-table .cart-info strong { display:block; font-size:14px; margin-bottom:4px; }
+        .cart-table .cart-info .desc { font-size:12px; color:#666; margin:0; }
+        .cart-table .total { font-weight:700; color:#e11d48; }
+
+        /* 하단 영역 */
+        .cart-bottom {
+            display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+        }
+        .cart-left .btn-del {
+            padding:8px 12px; border:1px solid #ddd; border-radius:6px;
+            background:#f3f4f6; cursor:pointer;
+        }
+
+        /* 합계 */
+        .cart-summary {
+            border:1px solid #ddd; border-radius:8px;
+            padding:16px; background:#fafafa; min-width:260px;
+        }
+        .cart-summary h3 {
+            font-size:16px; margin-bottom:12px; border-bottom:1px solid #ddd; padding-bottom:6px;
+        }
+        .cart-summary ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+        .cart-summary li { display:flex; justify-content:space-between; font-size:13px; }
+        .cart-summary li strong { font-weight:600; }
+        .cart-summary li.final {
+            font-size:15px; font-weight:700; color:#111;
+            border-top:1px solid #ddd; padding-top:6px; margin-top:6px;
+        }
+        .btn-order {
+            margin-top:12px; width:100%; padding:10px 0;
+            background:#2563eb; color:white; font-weight:600;
+            border:none; border-radius:6px; cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ header (공통) -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+<main class="product-page">
+    <div class="main-container">
+
+        <div class="sidebar-container">
+            <th:block th:replace="~{inc/_sidebar :: _sidebar}"/>
+            <aside class="best-product-list">
+                <h3 class="page-title">베스트 상품</h3>
+                <ul class="products">
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <!-- ✅ 장바구니 본문 -->
+        <section class="cart">
+
+            <!-- 상단 제목 + breadcrumb -->
+            <div class="title-bar">
+                <h2 class="page-title">장바구니</h2>
+                <nav class="breadcrumb">HOME &gt; 패션 · 의류 · 뷰티 &gt; 장바구니</nav>
+            </div>
+
+            <!-- 장바구니 테이블 -->
+            <table class="cart-table">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="allCheck"></th>
+                    <th>상품명</th>
+                    <th>수량</th>
+                    <th>판매가</th>
+                    <th>할인</th>
+                    <th>포인트</th>
+                    <th>배송비</th>
+                    <th>합계</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox" name="cartItem"></td>
+                    <td class="cart-info">
+                        <img src="/images/로고.png" alt="상품">
+                        <div>
+                            <strong>상품명</strong>
+                            <p class="desc">상품 설명</p>
+                        </div>
+                    </td>
+                    <td>1</td>
+                    <td>27,000</td>
+                    <td>5%</td>
+                    <td>270</td>
+                    <td>무료배송</td>
+                    <td class="total">25,650</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- 하단 영역 -->
+            <div class="cart-bottom">
+
+                <!-- 선택삭제 -->
+                <div class="cart-left">
+                    <button type="button" class="btn-del">선택삭제</button>
+                </div>
+
+                <!-- 전체합계 -->
+                <div class="cart-summary">
+                    <h3>전체합계</h3>
+                    <ul>
+                        <li><span>상품수</span><strong>1</strong></li>
+                        <li><span>상품금액</span><strong>27,000</strong></li>
+                        <li><span>할인금액</span><strong>-1,350</strong></li>
+                        <li><span>배송비</span><strong>0</strong></li>
+                        <li class="final"><span>전체주문금액</span><strong>25,650</strong></li>
+                        <li><span>적립 포인트</span><strong>270</strong></li>
+                    </ul>
+                    <button type="button" class="btn-order">주문하기</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- ✅ footer (공통) -->
+<th:block th:replace="~{inc/_footer :: _footer}"/>
+
+</body>
+</html>

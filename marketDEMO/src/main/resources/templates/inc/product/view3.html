@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품리뷰</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <!-- ✅ view3 전용 스타일 -->
+    <style>
+        .product-review { flex:1; padding:20px; }
+        .title-bar { border-bottom:2px solid #222; margin-bottom:16px; padding-bottom:8px; }
+        .title-bar .page-title { font-size:20px; font-weight:700; margin:0; }
+        .breadcrumb { font-size:13px; color:#666; margin-top:4px; }
+
+        /* 리뷰 리스트 */
+        .review-list { display:flex; flex-direction:column; gap:20px; }
+        .review-item { border-bottom:1px solid #eee; padding-bottom:16px; }
+        .review-top { display:flex; justify-content:space-between; margin-bottom:8px; }
+        .review-top .stars { color:#ffb400; font-size:14px; }
+        .review-top .review-date { font-size:12px; color:#666; }
+
+        .review-body { display:flex; gap:16px; }
+        .review-thumb {
+            width:80px; height:80px; object-fit:cover;
+            border:1px solid #ddd; border-radius:6px;
+        }
+        .review-content { flex:1; }
+        .review-title { font-size:15px; font-weight:600; margin:0 0 6px; }
+        .review-text { font-size:14px; color:#333; line-height:1.5; margin:0; }
+
+        /* 페이지네이션 */
+        .pagination {
+            display:flex; justify-content:center; gap:6px; margin-top:20px;
+        }
+        .pagination a {
+            padding:6px 10px; border:1px solid #ddd; border-radius:4px;
+            font-size:13px; color:#333; text-decoration:none;
+        }
+        .pagination a.active {
+            background:#2563eb; color:#fff; border-color:#2563eb;
+        }
+        .pagination a:hover { background:#f3f4f6; }
+    </style>
+</head>
+<body>
+
+<!-- ✅ header (공통) -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+<main class="product-page">
+    <div class="main-container">
+
+        <div class="sidebar-container">
+            <th:block th:replace="~{inc/_sidebar :: _sidebar}"/>
+            <aside class="best-product-list">
+                <h3 class="page-title">베스트 상품</h3>
+                <ul class="products">
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+
+        <!-- ✅ 리뷰 영역 -->
+        <section class="product-review">
+
+            <!-- 상단바 -->
+            <div class="title-bar">
+                <h2 class="page-title">상품리뷰</h2>
+                <nav class="breadcrumb">HOME &gt; 패션 · 의류 · 뷰티 &gt; 남성의류</nav>
+            </div>
+
+            <!-- 리뷰 리스트 -->
+            <ul class="review-list">
+                <li class="review-item">
+                    <div class="review-top">
+                        <span class="stars">★★★★★</span>
+                        <span class="review-date">seo****** 2000-07-10</span>
+                    </div>
+                    <div class="review-body">
+                        <img src="/images/로고.png" alt="상품 이미지" class="review-thumb">
+                        <div class="review-content">
+                            <h4 class="review-title">상품명</h4>
+                            <p class="review-text">
+                                가격대비 정말 괜찮은 옷이라 생각되네요~ 제가 입기엔 어깨선이 맞고 푸르핏이라 하기도 좀 힘드네요.
+                                그래도 이만한 옷은 없다고 봅니다. 깨끗하고 포장도 괜찮고 다음에도 여기서 구매하고 싶네요.
+                                정말 만족하고 후기 남깁니다 많이 파시길 바래요~
+                            </p>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="review-item">
+                    <div class="review-top">
+                        <span class="stars">★★★★☆</span>
+                        <span class="review-date">seo****** 2000-07-10</span>
+                    </div>
+                    <div class="review-body">
+                        <img src="/images/로고.png" alt="상품 이미지" class="review-thumb">
+                        <div class="review-content">
+                            <h4 class="review-title">상품명</h4>
+                            <p class="review-text">
+                                옷감이 살짝 얇긴 한데 여름에 입기엔 딱이네요. 배송도 빠르고 만족합니다.
+                            </p>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="review-item">
+                    <div class="review-top">
+                        <span class="stars">★★★☆☆</span>
+                        <span class="review-date">seo****** 2000-07-10</span>
+                    </div>
+                    <div class="review-body">
+                        <img src="/images/로고.png" alt="상품 이미지" class="review-thumb">
+                        <div class="review-content">
+                            <h4 class="review-title">상품명</h4>
+                            <p class="review-text">
+                                디자인은 마음에 드는데 사이즈가 조금 크게 나왔습니다. 교환은 안했지만 참고하세요.
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <a href="#">이전</a>
+                <a href="#">1</a>
+                <a href="#" class="active">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">다음</a>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- ✅ footer (공통) -->
+<th:block th:replace="~{inc/_footer :: _footer}"/>
+
+</body>
+</html>

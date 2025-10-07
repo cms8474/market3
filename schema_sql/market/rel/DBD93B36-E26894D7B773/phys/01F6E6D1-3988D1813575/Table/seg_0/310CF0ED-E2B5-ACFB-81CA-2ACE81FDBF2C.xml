@@ -1,0 +1,145 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="product_order" directorySegmentName="seg_0" id="310CF0ED-E2B5-ACFB-81CA-2ACE81FDBF2C">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="po_recipient" id="04DEA8C6-C0A3-D0AA-4875-08E97C5EC24D">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_del_state" id="0A17E555-0ADB-FDE9-7E05-FCC74A1D38C1">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:29:59 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_REQUEST_NOTE" id="0B1BC8CE-19DB-49A7-934F-288827259ECA">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:20:41 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_etc" id="0E4C948A-476F-DA6E-57E0-DD1E5250EB8B">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:03:35 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_u_id" id="244430ED-AE14-BC4E-0970-3E23DC65679E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_pay_type" id="3A1561C5-9B4C-B1C8-A1D8-C69E3AD3C3C2">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_re_phone" id="5B6A24B4-BCCE-AD9E-96DA-3695D494ECB2">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_p_pid" id="5F77CB86-A83F-0318-1486-35982902E652">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_discount" id="6E7A2478-8FCF-ABA3-F45D-ED101E54E3B3">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_SHIPPING_COMPANY" id="6EA302E2-7FB7-60AD-E7AD-509854DF57D2">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:03:00 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_item_count" id="870B392F-7D50-5C32-B7D7-BF7242CD9E5F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_get_point" id="875A2444-4A1A-F845-8847-227FA827DCEC">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_postal" id="87884DAE-0CAD-0604-9CF4-C9576377AB51">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:19:06 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_base_addr" id="932BFDF6-F041-D817-AE2D-2F868A5ED18D">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:19:06 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_no" id="95698E60-659D-4DCF-DEDA-12384F968109">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<autoIncrementDDL>TRIGGER</autoIncrementDDL>
+</ColumnProxy>
+<ColumnProxy name="po_sum_price" id="9722A0A8-7D79-6834-0C5F-38A74B332A7A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_delivery_price" id="A5E91DB9-FF67-5F3C-5018-A74E5F52355A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_pay_detail" id="A70FDB76-4553-1236-634E-7B1D6E1BFC70">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:16:56 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_tot_price" id="DA685E46-5587-5ACD-137A-F72A610EB5A8">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_detail_addr" id="DB967F8D-0A54-DCCE-34AF-1AE276B5BA6F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 07:19:06 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_state" id="F9399E80-E448-12EE-6B16-8CF25BB87EDF">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:29:59 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="po_TRACKING_NUMBER" id="FEC82050-26B1-F005-009E-B256C4A77B58">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 08:03:00 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="P_PID v1" id="0A3E6B55-73A9-ECEB-DE25-0B93374D654F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="U_ID v1" id="8A9284AD-14BB-4C24-3D93-9BE80BC91C93">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="product_order_pk" id="AD15AA89-F0AE-7050-2B90-086BC0F74D84">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev20c>

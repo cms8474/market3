@@ -1,0 +1,181 @@
+<th:block th:fragment="content">
+    <div class="config-basic"> <!-- 이게 css 묶어주는거 -->
+        <div class="page-breadcrumb">HOME &gt; 환경설정 &gt; 기본설정</div>
+        <h2 class="page-title">기본설정</h2>
+
+        <form class="config-form" th:action="@{/admin/config/basic}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <!-- 1. 버전 정보 -->
+            <section class="card">
+                <div class="card-head">
+                    <h3>버전 정보</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <label class="label" for="siteVersion">사이트 버전</label>
+                        <input id="siteVersion" name="siteVersion" type="text" class="input readonly" value="1.0.1-RELEASE" readonly>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. 사이트 -->
+            <section class="card">
+                <div class="card-head">
+                    <h3>사이트</h3>
+                    <p class="desc">브라우저 탭, 헤더 및 푸터 노출 정보 입니다.</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <label class="label" for="siteTitle">제목</label>
+                        <input id="siteTitle" name="siteTitle" type="text" class="input" value="케이마켓">
+                    </div>
+                    <div class="row">
+                        <label class="label" for="siteSubtitle">부제</label>
+                        <input id="siteSubtitle" name="siteSubtitle" type="text" class="input" value="더나은쇼핑환경선택">
+                    </div>
+                </div>
+                <div class="card-foot">
+                    <button type="submit" name="action" value="save-site" class="btn primary">수정하기</button>
+                </div>
+            </section>
+
+            <!-- 3. 로고 -->
+            <section class="card">
+                <div class="card-head">
+                    <h3>로고</h3>
+                    <p class="desc">브라우저 탭, 헤더 및 푸터 노출 로고 입니다.</p>
+                </div>
+                <div class="card-body">
+                    <!-- 헤더 로고 -->
+                    <div class="row row-file">
+                        <label class="label">헤더 로고</label>
+                        <div class="fileline">
+                            <label class="filebtn">
+                                파일선택
+                                <input type="file" id="logoHeader" name="logoHeader" accept="image/*">
+                            </label>
+                        </div>
+                        <div class="size-hint">크기 <b>370 × 76</b> 권장</div>
+                    </div>
+
+                    <!-- 푸터 로고 -->
+                    <div class="row row-file">
+                        <label class="label">푸터 로고</label>
+                        <div class="fileline">
+                            <label class="filebtn">
+                                파일선택
+                                <input type="file" id="logoFooter" name="logoFooter" accept="image/*">
+                            </label>
+                        </div>
+                        <div class="size-hint">크기 <b>155 × 36</b> 권장</div>
+                    </div>
+
+                    <!-- 파비콘 -->
+                    <div class="row row-file">
+                        <label class="label">파비콘</label>
+                        <div class="fileline">
+                            <label class="filebtn">
+                                파일선택
+                                <input type="file" id="favicon" name="favicon" accept="image/x-icon,image/png">
+                            </label>
+                        </div>
+                        <div class="size-hint">크기 <b>32 × 32</b> 권장</div>
+                    </div>
+                </div>
+                <div class="card-foot">
+                    <button type="submit" name="action" value="save-logo" class="btn primary">수정하기</button>
+                </div>
+            </section>
+
+            <!-- 기업 정보 -->
+            <section class="card">
+                <div class="card-head">
+                    <h3>기업 정보</h3>
+                    <p class="desc">푸터에 노출되는 기업 정보 입니다 .</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <label class="label" for="companyName">상호명</label>
+                        <input id="companyName" name="companyName" type="text" class="input" value="케이마켓쇼핑주식회사">
+                    </div>
+                    <div class="row">
+                        <label class="label" for="ceoName">대표이사</label>
+                        <input id="ceoName" name="ceoName" type="text" class="input" value="홍길동">
+                    </div>
+                    <div class="row">
+                        <label class="label" for="bizRegNo">사업자등록번호</label>
+                        <input id="bizRegNo" name="bizRegNo" type="text" class="input" placeholder="000-00-00000" value="123-12-12345">
+                    </div>
+                    <div class="row">
+                        <label class="label" for="mailOrderNo">통신판매업신고</label>
+                        <input id="mailOrderNo" name="mailOrderNo" type="text" class="input" placeholder="연도-지역-번호" value="2024-서울강남-1234">
+                    </div>
+                    <div class="row">
+                        <label class="label" for="addr1">기본주소</label>
+                        <input id="addr1" name="addr1" type="text" class="input" value="부산광역시 부산진구 중앙동">
+                    </div>
+                    <div class="row">
+                        <label class="label" for="addr2">상세주소</label>
+                        <input id="addr2" name="addr2" type="text" class="input" value="( 삼성동 , WeWork 빌딩 ) 7 층">
+                    </div>
+                </div>
+
+                <div class="card-foot">
+                    <button type="submit" name="action" value="save-company" class="btn primary">수정하기</button>
+                </div>
+            </section>
+
+            <!-- 고객센터 정보 -->
+            <section class="card">
+                <div class="card-head">
+                    <h3>고객센터 정보</h3>
+                    <p class="desc">푸터에 노출되는 고객센터 정보 입니다 .</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <label class="label" for="csTel">전화번호</label>
+                        <input id="csTel" name="csTel" type="text" class="input" placeholder="00-0000-0000" value="02-1234-5678">
+                    </div>
+                    <div class="row">
+                        <label class="label" for="csHours">업무시간</label>
+                        <input id="csHours" name="csHours" type="text" class="input" value="평일 09:00 ~ 18:00">
+                    </div>
+                    <div class="row">
+                        <label class="label" for="csEmail">이메일</label>
+                        <input id="csEmail" name="csEmail" type="email" class="input" value="admin@kmarket.com">
+                    </div>
+                    <div class="row">
+                        <label class="label" for="disputeTel">전자금융거래 분쟁담당</label>
+                        <input id="disputeTel" name="disputeTel" type="text" class="input" placeholder="0000-0000" value="1234-1234">
+                    </div>
+                </div>
+                <div class="card-foot">
+                    <button type="submit" name="action" value="save-support" class="btn primary">수정하기</button>
+                </div>
+            </section>
+
+            <!-- 카피라이트 -->
+            <section class="card">
+                <div class="card-head">
+                    <h3>카피라이트</h3>
+                    <p class="desc">푸터에 노출되는 카피라이트 정보 입니다 .</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <label class="label" for="copyright">카피라이트</label>
+                        <input id="copyright" name="copyright" type="text" class="input"
+                               value="Copyrightⓒkmarket. All rights reserved">
+                    </div>
+                </div>
+
+                <div class="card-foot">
+                    <button type="submit" name="action" value="save-copyright" class="btn primary">수정하기</button>
+                </div>
+            </section>
+
+
+        </form>
+    </div>
+</th:block>

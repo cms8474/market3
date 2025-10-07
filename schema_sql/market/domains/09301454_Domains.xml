@@ -1,0 +1,129 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DomainFile class="oracle.dbtools.crest.model.design.DomainFileWrapper" fileName="09301454_Domains">
+<domains>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="TIMESTAMP WITH LOCAL TIME ZONE_6_0_0" id="00CB00CC-7DB5-12A7-EAB0-99ED786AA29E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>6</dataTypePrecision>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT047</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_0_0_0" id="145FF0D7-FCD8-739E-D74A-BBFC6394744D">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_50" id="1A96D33B-2F60-CAC5-5B76-228F374E88B0">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>50</dataTypeSize>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT024</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_2_1_0" id="3765A049-62A3-BCDE-760B-A78AE3A5730C">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>2</dataTypePrecision>
+<dataTypeScale>1</dataTypeScale>
+<dataTypeSize>0</dataTypeSize>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_3_0_0" id="518ECCF8-3CC9-D418-4D07-3CD2DFA4F5DE">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>3</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>0</dataTypeSize>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_500" id="52D51E49-41A3-F00A-8633-1C90ACF81F5A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>500</dataTypeSize>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT024</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_200" id="54E76ECA-8B17-7CC7-6E89-20AF9C6DDE64">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>200</dataTypeSize>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT024</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_10_0_0" id="58DBBE5E-4403-B4DC-B68D-9E8F5390131E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>10</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>0</dataTypeSize>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_12" id="74314C1A-8D96-B7C9-2210-5824792DE314">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>12</dataTypeSize>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT024</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="Date_0_0_0" id="B61CE145-26BB-A445-003F-3D3288BFEFFA">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT007</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_10" id="F9CEBD54-6321-F354-ACE5-A782B462650E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>10</dataTypeSize>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT024</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_20" id="FAA74E9C-565E-3E7D-E67E-937BB685257F">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>20</dataTypeSize>
+<fileName>09301454_Domains</fileName>
+<logicalDatatype>LOGDT024</logicalDatatype>
+</Domain>
+</domains>
+</DomainFile>

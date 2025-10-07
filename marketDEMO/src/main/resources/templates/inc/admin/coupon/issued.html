@@ -1,0 +1,182 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/coupon-status.css">
+    <link rel="stylesheet" href="/css/admin/modal.css">
+
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>쿠폰발급현황</h4>
+                <div class="breadcrumb">HOME &gt; 쿠폰관리 &gt; <b>쿠폰발급현황</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-row">
+                <select name="searchType" id="searchType">
+                    <option value="#">쿠폰번호</option>
+                    <option value="#">쿠폰명</option>
+                    <option value="#">발급자</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어입력" />
+                <button class="btn" type="button">검색</button>
+            </div>
+
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th>쿠폰번호</th>
+                    <th>쿠폰종류</th>
+                    <th>쿠폰명</th>
+                    <th>혜택</th>
+                    <th>사용기한</th>
+                    <th>발급자</th>
+                    <th>발급수</th>
+                    <th>사용수</th>
+                    <th>상태</th>
+                    <th>발급일</th>
+                    <th>관리</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="coupon-link">
+                        <a href="#">10121091234</a>
+                    </td>
+                    <td>배송비 쿠폰</td>
+                    <td>배송비 무료 쿠폰</td>
+                    <td>배송비 전액</td>
+                    <td>발급일로 10일</td>
+                    <td>최고관리자</td>
+                    <td class="num">567</td>
+                    <td class="num">122</td>
+                    <td class="coupon-status">종료</td>
+                    <td class="center">0000-00-00<br>00:00:00</td>
+                    <td><a href="#" class="btn-mini">종료</a></td>
+                </tr>
+
+
+                </tbody>
+
+            </table>
+
+
+            <!-- 테이블 하단 영역 -->
+            <div class="pagination-wrap">
+                <div class="pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+            </div>
+        </div>
+
+    <!-- 상세 모달 -->
+    <div id="DetailModal" class="modal" aria-hidden="true">
+        <div class="modal__backdrop" data-close="true"></div>
+
+        <div class="modal__dialog order-detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+            <!-- 헤더  -->
+            <div class="modal__header">
+                <h5 id="detailTitle">쿠폰정보</h5>
+                <div class="coupon-no" aria-label="쿠폰정보">
+                    <span id="od-couponNo">—3434</span></div>
+                <button type="button" class="modal__close" data-close="true" aria-label="닫기">×</button>
+            </div>
+
+            <div class="modal__body">
+                <section class="od-section">
+                    <table class="od-info-table">
+                        <tbody>
+                        <tr>
+                            <th>쿠폰번호</th>
+                            <td id="coupon-no">10121211341</td>
+                        </tr>
+
+                        <tr>
+                            <th>발급번호</th>
+                            <td>10121211341</td>
+                        </tr>
+                        <tr>
+                            <th>쿠폰종류</th>
+                            <td>종류1341</td>
+                        </tr>
+
+                        <tr>
+                            <th>발급처</th>
+                            <td>(주)디아요</td>
+                        </tr>
+                        <tr>
+                            <th>사용여부</th>
+                            <td>(주)디아요</td>
+                        </tr>
+                        <tr>
+                            <th>발급대상</th>
+                            <td>(주)디아요</td>
+                        </tr>
+
+                        <tr>
+                            <th>쿠폰명</th>
+                            <td>10월 한달 감사 쿠폰 이벤트</td>
+                        </tr>
+                        <tr>
+                            <th>혜택</th>
+                            <td>2,000 원 할인</td>
+                        </tr>
+                        <tr>
+                            <th>사용기간</th>
+                            <td>0000-00-00 ~ 0000-00-00</td>
+                        </tr>
+                        <tr>
+                            <th>유의사항</th>
+                            <td>
+                                상품 특정 할인 쿠폰<br>
+                                - 상품 구매시에만 사용 가능<br>
+                                - 현재 적립금/포인트결합 쿠폰과 중복 사용 가능<br><br>
+                                사용자<br>
+                                - (주)디아요
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+            </div>
+        </div>
+
+    </div>
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+<script th:src="@{/js/modal.js}"></script>
+
+<script>
+    // 전체 선택
+    const chkAll = document.getElementById('chkAll');
+    chkAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('tbody input[type="checkbox"]')
+            .forEach(cb => cb.checked = e.target.checked);
+    });
+
+    document.querySelectorAll('td.coupon-status').forEach(el=>{
+        const t = el.textContent.trim();
+        if (t === '발급중') el.classList.add('coupon-status--active');
+        else if (t === '종료') el.classList.add('coupon-status--closed');
+    });
+
+    document.querySelectorAll(".btn-mini").forEach(btn => {
+        btn.addEventListener("click", function(e){
+            e.preventDefault();
+            if (confirm("정말 종료하시겠습니까? 종료하면 발급이 중단됩니다.")) {
+                // 실제 종료 처리해야함 (백엔드 요청)
+                alert("쿠폰이 종료되었습니다.");
+            }
+        });
+    });
+
+
+</script>
+
+</th:block>

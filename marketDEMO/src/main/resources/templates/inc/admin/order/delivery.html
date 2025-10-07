@@ -1,0 +1,176 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/order-delivery.css">
+    <link rel="stylesheet" href="/css/admin/modal.css">
+    <!-- ■■■ 메인컨텐츠 시작 ■■■ -->
+    <div class="page">
+        <div class="topbar">
+            <h4>배송현황</h4>
+            <div class="breadcrumb">HOME &gt; 주문관리 &gt; <b>배송현황</b></div>
+        </div>
+
+        <!-- 검색 -->
+        <div class="search-row">
+            <select name="searchType" id="searchType">
+                <option value="trackingNo">송장번호</option>
+                <option value="orderNo">주문번호</option>
+                <option value="receiver">수령인</option>
+            </select>
+            <input type="text" name="keyword" placeholder="검색어입력" />
+            <button class="btn" type="button" id="btnSearch">검색</button>
+        </div>
+
+        <!-- 목록 -->
+        <table>
+            <thead>
+            <tr>
+                <th>송장번호</th>
+                <th>택배사</th>
+                <th>주문번호</th>
+                <th>수령인</th>
+                <th>상품명</th>
+                <th>건수</th>
+                <th>물품합계</th>
+                <th>배송비</th>
+                <th>배송상태</th>
+                <th>접수일</th>
+            </tr>
+            </thead>
+            <tbody id="list-body">
+            <tr>
+                <td class="order-no"><a href="#" data-waybill="10121220308">10121220308</a></td>
+                <td>한진택배</td>
+                <td>10121211338</td>
+                <td>강진찬</td>
+                <td>휴대폰 케이스</td>
+                <td >1</td>
+                <td >89,000</td>
+                <td >3,000</td>
+                <td class="status">반품요청</td>
+                <td class="col-date">0000-00-00<br>00:00:00</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination-wrap">
+            <div class="pagination">
+                <a href="#">이전</a>
+                <a href="#" aria-current="page">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">다음</a>
+            </div>
+        </div>
+
+        <!-- 상세 모달 -->
+        <div id="DetailModal" class="modal" aria-hidden="true">
+            <div class="modal__backdrop" data-close="true"></div>
+            <div class="modal__dialog order-detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+                <!-- 헤더 -->
+                <div class="modal__header">
+                    <h5 id="detailTitle">배송상세</h5>
+                    <div class="order-no" aria-label="송장번호"><span id="od-waybill">—</span></div>
+                    <button type="button" class="modal__close" data-close="true" aria-label="닫기">×</button>
+                </div>
+
+                <div class="modal__body">
+                    <!-- 상품정보 -->
+                    <section class="od-section">
+                        <header class="od-sec-head"><h6>상품정보</h6></header>
+                        <div class="od-products">
+                            <table class="od-table">
+                                <thead>
+                                <tr>
+                                    <th>이미지</th>
+                                    <th>상품번호</th>
+                                    <th>상품명</th>
+                                    <th>판매자</th>
+                                    <th class="num">가격</th>
+                                    <th class="num">수량</th>
+                                    <th class="num">배송비</th>
+                                    <th class="num">결제금액</th>
+                                </tr>
+                                </thead>
+                                <tbody id="od-items">
+                                <!-- JS 렌더링 영역 -->
+                                </tbody>
+                            </table>
+
+                            <!-- 합계 -->
+                            <aside class="od-totals">
+                                <dl>
+                                    <div>
+                                        <dt>총 상품금액</dt><dd id="od-sumProduct">0 원</dd>
+                                    </div>
+                                    <div>
+                                        <dt>총 할인금액</dt><dd id="od-sumDiscount">0 원</dd>
+                                    </div>
+                                    <div><dt>배송비</dt><dd id="od-sumShipFee">0 원</dd>
+                                    </div>
+                                    <div class="total">
+                                        <dt>총 결제금액</dt><dd id="od-sumPay">0 원</dd>
+                                    </div>
+                                </dl>
+                            </aside>
+                        </div>
+                    </section>
+
+                    <!-- 배송정보 -->
+                    <section class="od-section">
+                        <header class="od-sec-head"><h6>배송정보</h6></header>
+                        <div class="od-info-grid">
+                            <div class="label">주문번호</div>
+                            <div id="od-orderNo">—</div>
+                            <div class="label">수령인</div>
+                            <div>—</div>
+                            <div class="label">연락처</div>
+                            <div>—</div>
+                            <div class="label">배송지주소</div>
+                            <div>—</div>
+                            <div class="label">송장번호</div>
+                            <div>—</div>
+                            <div class="label">기타</div>
+                            <div id="od-memo">—</div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="modal__footer">
+                    <button type="button" class="btn-gray" data-close="true" data-autofocus>닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- □□□ 메인컨텐츠 종료 □□□ -->
+
+
+    <script th:src="@{/js/modal.js}"></script>
+
+<script>
+    // 전체 선택
+    const chkAll = document.getElementById('chkAll');
+    chkAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('tbody input[type="checkbox"]')
+            .forEach(cb => cb.checked = e.target.checked);
+    });
+
+    document.querySelectorAll('td.status').forEach((el) => {
+        const text = el.textContent.trim();
+
+        if (text === "배송준비") {
+            el.classList.add("status--ready");
+        } else if (text === "배송 중") {
+            el.classList.add("status--ing");
+        } else if (text === "반품요청") {
+            el.classList.add("status--return");
+        } else if (text === "배송완료") {
+            el.classList.add("status--done");
+        }
+    });
+
+</script>
+
+
+</th:block>
