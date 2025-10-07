@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>관리자 메인 (Static Preview)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- VSCode에서 열 때 상대경로 -->
+  <link rel="stylesheet" href="../static/css/admin_header.css" />
+  <link rel="stylesheet" href="../static/css/admin_sidebar.css" />
+  <link rel="stylesheet" href="../static/css/admin_main.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- 상단바 -->
+  <header class="admin-topbar">
+    <div class="top-menu">
+      <a href="#">홈</a>
+      <a href="#">로그아웃</a>
+      <a href="#">고객센터</a>
+    </div>
+  </header>
+
+  <div class="admin-body">
+    <!-- 좌측 사이드바 -->
+    <aside class="admin-sidebar">
+      <nav class="menu-list">
+        <a href="#">환경설정</a>
+        <a href="#">상점관리</a>
+        <a href="#">회원관리</a>
+        <a href="#">상품관리</a>
+        <a href="#">주문관리</a>
+        <a href="#">고객센터</a>
+      </nav>
+    </aside>
+
+    <!-- 메인 -->
+    <main class="admin-content">
+      <div class="page-breadcrumb">HOME &gt; 관리자 메인</div>
+      <h2 class="page-title">관리자메인</h2>
+
+      <!-- 집계현황 -->
+      <section class="dashboard">
+        <div class="card">
+          <div class="card-title">집계현황</div>
+          <canvas id="orderBarChart" height="145"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-title">주요매출</div>
+          <canvas id="salesPieChart" height="145"></canvas>
+        </div>
+      </section>
+
+      <!-- 운영현황 -->
+      <section class="statistics">
+        <div class="section-title">운영현황</div>
+
+        <div class="kpi-grid">
+          <div class="kpi"><div class="kpi-name">입금대기</div><div class="kpi-value">101</div></div>
+          <div class="kpi"><div class="kpi-name">배송준비</div><div class="kpi-value">124</div></div>
+          <div class="kpi"><div class="kpi-name">취소요청</div><div class="kpi-value">14</div></div>
+          <div class="kpi"><div class="kpi-name">교환요청</div><div class="kpi-value">7</div></div>
+          <div class="kpi"><div class="kpi-name">반품요청</div><div class="kpi-value">24</div></div>
+        </div>
+
+        <div class="table-wrap card">
+          <table class="stat-table">
+            <thead>
+              <tr>
+                <th>구분</th><th>주문건수</th><th>주문금액</th><th>회원가입</th><th>방문자 수</th><th>문의 게시물</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>오늘</td><td>60</td><td>1,200,000</td><td>102</td><td>1,900</td><td>10</td></tr>
+              <tr><td>어제</td><td>71</td><td>2,500,000</td><td>130</td><td>3,200</td><td>25</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flex-2 card-list">
+          <div class="card">
+            <div class="card-title">공지사항</div>
+            <ul class="list">
+              <li>[안내] 해외결제사점검공지 · 22.10.31</li>
+              <li>[업데이트] 배송정책 개편 · 22.11.05</li>
+              <li>[점검] 서버 점검 안내 · 22.11.12</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">고객문의</div>
+            <ul class="list">
+              <li>[가입] 가입문의내용 · ch*** · 22.10.31</li>
+              <li>[반품] 반품 진행 문의 · ky*** · 22.11.02</li>
+              <li>[배송] 배송 지연 문의 · su*** · 22.11.04</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="admin-footer">
+    <span>Copyright © Kmarket.co.kr All rights reserved. Kmarket ADMINISTRATOR Version 5.4.1.2</span>
+  </footer>
+
+  <!-- 임시 차트 데이터 -->
+  <script>
+    new Chart(document.getElementById('orderBarChart'), {
+      type: 'bar',
+      data: {
+        labels: ['10-10','10-11','10-12','10-13','10-14'],
+        datasets: [
+          { label: '주문', data: [80, 200, 130, 150, 190] },
+          { label: '결제', data: [60, 160, 110, 120, 140] },
+          { label: '취소', data: [10, 30, 25, 22, 28] }
+        ]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+    });
+    new Chart(document.getElementById('salesPieChart'), {
+      type: 'pie',
+      data: { labels: ['가전','식품','의류','뷰티','기타'], datasets: [{ data: [45, 20, 18, 12, 5] }] },
+      options: { responsive: true }
+    });
+  </script>
+</body>
+</html>

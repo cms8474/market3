@@ -1,0 +1,136 @@
+<th:block th:fragment="content">
+    <div class="config-policy">
+        <div class="page-breadcrumb">HOME &gt; 환경설정 &gt; 약관관리</div>
+        <h2 class="page-title">약관관리</h2>
+
+        <!-- 구매회원 약관 -->
+        <form class="config-form" th:action="@{/admin/config/policy}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="action" value="save-buyer-tos"/>
+
+            <section class="card">
+                <div class="card-head">
+                    <h3>구매회원 약관</h3>
+                    <p class="desc">회원가입 및 정책 페이지 노출 약관 입니다.</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <label class="label" for="buyerTos">약관내용</label>
+                        <textarea id="buyerTos" name="buyerTos" class="textarea"
+
+                                  th:text="${buyerTos}"></textarea>
+                    </div>
+                </div>
+
+                <div class="card-foot">
+                    <button type="submit" class="btn primary">수정하기</button>
+                </div>
+            </section>
+        </form>
+
+        <!-- 판매회원 약관 -->
+        <form class="config-form" th:action="@{/admin/config/policy}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="action" value="save-seller-tos"/>
+
+            <section class="card">
+                <div class="card-head">
+                    <h3>판매회원 약관</h3>
+                    <p class="desc">회원가입 및 정책 페이지 노출 약관 입니다.</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <label class="label" for="sellerTos">약관내용</label>
+                        <textarea id="sellerTos" name="sellerTos" class="textarea"
+
+                                  th:text="${sellerTos}"></textarea>
+                    </div>
+                </div>
+
+                <div class="card-foot">
+                    <button type="submit" class="btn primary">수정하기</button>
+                </div>
+            </section>
+        </form>
+
+        <!-- 전자금융ㄱ래 약관 -->
+        <form class="config-form" th:action="@{/admin/config/policy}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="action" value="save-finance-tos"/>
+
+            <section class="card">
+                <div class="card-head">
+                    <h3>전자금융거래 약관</h3>
+                    <p class="desc">회원가입 및 정책 페이지 노출 약관 입니다.</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <label class="label" for="financeTos">약관내용</label>
+                        <textarea id="financeTos" name="save-finance-Tos" class="textarea"
+
+                                  th:text="${financeTos}"></textarea>
+                    </div>
+                </div>
+
+                <div class="card-foot">
+                    <button type="submit" class="btn primary">수정하기</button>
+                </div>
+            </section>
+        </form>
+
+        <!-- 위치정보 약관 -->
+        <form class="config-form" th:action="@{/admin/config/policy}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="action" value="save-location-tos"/>
+
+            <section class="card">
+                <div class="card-head">
+                    <h3>위치정보 이용약관</h3>
+                    <p class="desc">회원가입 및 정책 페이지 노출 약관 입니다.</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <label class="label" for="locationTos">약관내용</label>
+                        <textarea id="locationTos" name="locationTos" class="textarea"
+
+                                  th:text="${locationTos}"></textarea>
+                    </div>
+                </div>
+
+                <div class="card-foot">
+                    <button type="submit" class="btn primary">수정하기</button>
+                </div>
+            </section>
+        </form>
+
+        <!-- 개인정보처리방침 -->
+        <form class="config-form" th:action="@{/admin/config/policy}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="action" value="privacy-tos"/>
+
+            <section class="card">
+                <div class="card-head">
+                    <h3>개인정보처리방침</h3>
+                    <p class="desc">회원가입 및 정책 페이지 노출 약관 입니다.</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <label class="label" for="privacyTos">약관내용</label>
+                        <textarea id="privacyTos" name="privacyTos" class="textarea"
+
+                                  th:text="${privacyTos}"></textarea>
+                    </div>
+                </div>
+
+                <div class="card-foot">
+                    <button type="submit" class="btn primary">수정하기</button>
+                </div>
+            </section>
+        </form>
+    </div>
+</th:block>
