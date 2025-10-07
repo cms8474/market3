@@ -34,13 +34,13 @@ public class SecurityConfig {
                 //.requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers("/member/**").hasAnyRole("ADMIN", "MANAGER", "MEMBER")
-                .requestMatchers("/guest/**" ).permitAll()
+                .requestMatchers("/admin/**" ).permitAll()
                 .requestMatchers("/article/**").hasAnyRole("ADMIN", "MANAGER", "MEMBER")
                 .anyRequest().permitAll()
         );
 
         // 기타 설정(??CSRF 보호 기능 비활성화??)
-        http.csrf(CsrfConfigurer::disable);
+        //http.csrf(CsrfConfigurer::disable);
 
         return http.build();
     }
