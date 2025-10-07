@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문하기</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+    <style>
+        .order-page { flex: 1; }
+        table.order-table {
+            width: 100%; border-collapse: collapse; margin-bottom: 20px;
+        }
+        table.order-table th, table.order-table td {
+            border: 1px solid #ddd; padding: 10px; text-align: center;
+        }
+        table.order-table th {
+            background: #f9f9f9; font-weight: bold;
+        }
+        .order-section { margin-bottom: 24px; }
+        .order-section h3 {
+            font-size: 16px; margin-bottom: 10px; border-bottom: 2px solid #333; padding-bottom: 4px;
+        }
+        .order-section input[type="text"] {
+            width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; box-sizing: border-box;
+        }
+        .order-section textarea {
+            width: 100%; padding: 8px; border: 1px solid #ccc; box-sizing: border-box; resize: none;
+        }
+        .discount-box, .payment-box {
+            border: 1px solid #ddd; padding: 12px; background: #fafafa;
+        }
+        .payment-options {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+        }
+        .payment-options label { display: flex; align-items: center; gap: 6px; }
+        .final-box {
+            border: 2px solid #333; padding: 16px; margin-top: 30px; background: #fff;
+        }
+        .final-box h3 { margin-bottom: 12px; }
+        .final-box .row {
+            display: flex; justify-content: space-between; margin-bottom: 6px;
+        }
+        .final-box .total {
+            font-weight: bold; font-size: 18px; color: #d32f2f;
+        }
+        .btn-pay {
+            width: 100%; padding: 12px; background: #b71c1c; color: #fff; font-weight: bold; border: none; cursor: pointer; margin-top: 10px;
+        }
+        .order-section .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .order-section .form-row label {
+            width: 100px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .order-section .form-row input,
+        .order-section .form-row textarea {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+        .order-section .form-row textarea {
+            resize: none;
+        }
+        .order-section .zipcode-box {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+        }
+        .order-section .zipcode-box input {
+            flex: 1;
+        }
+        .order-section .zipcode-box button {
+            padding: 10px 16px;
+            border: none;
+            background: #b71c1c;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .order-section .form-row input,
+        .order-section .form-row textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+        /* 📌 수령인, 휴대폰, 우편번호 크기 줄이기 */
+        .order-section .form-row input[type="text"] {
+            max-width: 300px;   /* 일반 사이트에서 많이 쓰는 크기 */
+        }
+
+        /* 📌 기본주소/상세주소는 그대로 100% 길이 */
+        .order-section .form-row:nth-child(4) input,
+        .order-section .form-row:nth-child(5) input {
+            max-width: none;
+            width: 100%;
+        }
+
+        /* 📌 우편번호 + 버튼 */
+        .order-section .zipcode-box {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+            max-width: 400px;   /* 우편번호 박스 전체 크기 제한 */
+        }
+        .order-section .zipcode-box input {
+            flex: none;
+            width: 200px;       /* 우편번호 입력칸 */
+        }
+        .order-section .zipcode-box button {
+            padding: 10px 16px;
+            border: none;
+            background: #b71c1c;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* 우편번호 + 버튼 가로 배치 */
+        .order-section .zipcode-box {
+            display: flex;          /* 가로 배치 */
+            align-items: center;    /* 높이 맞춤 */
+            gap: 8px;               /* 간격 */
+            max-width: 400px;
+        }
+
+        .order-section .zipcode-box input {
+            flex: none;
+            width: 200px;           /* 우편번호 입력칸 */
+        }
+
+        .order-section .zipcode-box button {
+            padding: 10px 16px;
+            border: none;
+            background: #b71c1c;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 40px;           /* input 높이에 맞춤 */
+        }
+
+        /* 우편번호 + 버튼 가로 배치 */
+        .order-section .zipcode-box {
+            display: flex;          /* 가로 배치 */
+            align-items: center;    /* 높이 맞춤 */
+            gap: 8px;               /* 간격 */
+            max-width: 400px;
+        }
+
+        .order-section .zipcode-box input {
+            flex: none;
+            width: 200px;           /* 우편번호 입력칸 */
+        }
+
+        .order-section .zipcode-box button {
+            padding: 10px 16px;
+            border: none;
+            background: #b71c1c;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 40px;           /* input 높이에 맞춤 */
+        }
+
+        /* 우편번호 + 버튼 가로 배치 */
+        .order-section .zipcode-box {
+            display: flex;              /* 가로 정렬 */
+            align-items: center;        /* 세로 중앙 맞춤 */
+            gap: 8px;                   /* 간격 */
+        }
+
+        .order-section .zipcode-box input {
+            width: 180px;               /* 우편번호 칸 넓이 */
+            height: 36px;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .order-section .zipcode-box button {
+            height: 36px;
+            padding: 0 14px;
+            border: none;
+            background: #b71c1c;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;        /* 글자가 줄바꿈 되지 않게 */
+        }
+
+
+    </style>
+</head>
+<body>
+
+<!-- ✅ 공통 헤더 -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+
+<main class="product-page">
+    <div class="main-container">
+
+        <!-- ✅ 사이드바 (카테고리 + 베스트상품) -->
+        <div class="sidebar-container">
+            <th:block th:replace="~{inc/_sidebar :: _sidebar}"/>
+            <aside class="best-product-list">
+                <h3 class="page-title">베스트 상품</h3>
+                <ul class="products">
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+
+        <!-- ✅ 주문 본문 -->
+        <section class="order-page">
+
+            <!-- 상품정보 -->
+            <div class="order-section">
+                <h3>주문하기</h3>
+                <table class="order-table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>상품명</th>
+                        <th>수량</th>
+                        <th>판매가</th>
+                        <th>할인</th>
+                        <th>포인트</th>
+                        <th>배송비</th>
+                        <th>총합</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td style="text-align:left; display:flex; align-items:center; gap:10px;">
+                            <img th:src="@{/images/로고.png}" alt="상품이미지" style="width:60px; height:60px; border:1px solid #ddd;">
+                            <div>
+                                <div>상품명</div>
+                                <div style="font-size:12px; color:#777;">상품설명</div>
+                            </div>
+                        </td>
+                        <td>1</td>
+                        <td>27,000</td>
+                        <td>5%</td>
+                        <td>270</td>
+                        <td>무료배송</td>
+                        <td style="color:#d32f2f; font-weight:bold;">25,650</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 배송정보 -->
+            <div class="order-section">
+                <h3>배송정보</h3>
+                <div class="form-row">
+                    <label>수령인</label>
+                    <input type="text" placeholder="수령인 입력">
+                </div>
+                <div class="form-row">
+                    <label>휴대폰</label>
+                    <input type="text" placeholder="010-0000-0000">
+                </div>
+                <div class="form-row">
+                    <label>우편번호</label>
+                    <div class="zipcode-box">
+                        <input type="text" placeholder="우편번호">
+                        <button type="button">검색</button>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label>기본주소</label>
+                    <input type="text" placeholder="기본주소 입력">
+                </div>
+                <div class="form-row">
+                    <label>상세주소</label>
+                    <input type="text" placeholder="상세주소 입력">
+                </div>
+                <div class="form-row">
+                    <label>기타</label>
+                    <textarea rows="3" placeholder="요청사항 입력"></textarea>
+                </div>
+            </div>
+
+            <!-- 할인정보 -->
+            <div class="order-section discount-box">
+                <h3>할인정보</h3>
+                <div style="margin-bottom:8px;">
+                    <span>현재포인트 : 7200점</span>
+                    <button>사용하기</button>
+                </div>
+                <div style="font-size:12px; color:#777; margin-bottom:10px;">
+                    포인트 5,000점 이상이면 현금처럼 사용 가능
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <select>
+                        <option>쿠폰 선택</option>
+                    </select>
+                    <button>사용하기</button>
+                </div>
+            </div>
+
+            <!-- 결제방법 -->
+            <div class="order-section payment-box">
+                <h3>결제방법</h3>
+                <div class="payment-options">
+                    <label><input type="radio" name="pay"> 신용카드</label>
+                    <label><input type="radio" name="pay"> 체크카드</label>
+                    <label><input type="radio" name="pay"> 계좌이체</label>
+                    <label><input type="radio" name="pay"> 무통장입금</label>
+                    <label><input type="radio" name="pay"> 휴대폰결제</label>
+                    <label><input type="radio" name="pay"> 카카오페이</label>
+                </div>
+            </div>
+
+            <!-- 최종결제정보 -->
+            <div class="final-box">
+                <h3>최종결제정보</h3>
+                <div class="row"><span>상품수</span><span>1</span></div>
+                <div class="row"><span>상품금액</span><span>27,000원</span></div>
+                <div class="row"><span>할인금액</span><span>-1,350원</span></div>
+                <div class="row"><span>배송비</span><span>0원</span></div>
+                <div class="row"><span>추가할인</span><span>-1,000원</span></div>
+                <div class="row total"><span>전체주문금액</span><span>24,650원</span></div>
+                <div class="row"><span>적립 포인트</span><span>270</span></div>
+                <button class="btn-pay">결제하기</button>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- ✅ 공통 푸터 -->
+<th:block th:replace="~{inc/_footer :: _footer}"/>
+
+</body>
+</html>
