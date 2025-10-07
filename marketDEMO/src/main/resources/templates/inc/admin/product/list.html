@@ -1,0 +1,103 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/product-list.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>상품현황</h4>
+                <div class="breadcrumb">HOME &gt; 상품관리 &gt; <b>상품목록</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-row">
+                <select name="searchType" id="searchType">
+                    <option value="#">상품명</option>
+                    <option value="#">상품코드</option>
+                    <option value="#">판매자 키워드</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어입력" />
+                <button class="btn" type="button">검색</button>
+            </div>
+
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                    <th class="col-no">사진</th>
+                    <th>상품코드</th>
+                    <th>상품명</th>
+                    <th>판매가격</th>
+                    <th>할인율</th>
+                    <th>재고</th>
+                    <th>판매자</th>
+                    <th>조회</th>
+                    <th>관리</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-check"><input type="checkbox"></td>
+                    <td class="center"><img class="thumb" src="#" alt="상품 이미지"></td>
+                    <td class="col-code">PRD-2024-001</td>
+                    <td class="col-name">무지 베이직 반팔 티셔츠</td>
+                    <td class="num col-price">19,900</td>
+                    <td class="num col-disc">10%</td>
+                    <td class="num col-stock">125</td>
+                    <td class="col-seller">shop_master</td>
+                    <td class="center col-views">342</td>
+                    <td class="actions col-actions">
+                        <a href="#">수정</a><a href="#">삭제</a>
+                    </td>
+                </tr>
+
+
+                </tbody>
+
+            </table>
+
+
+            <!-- 테이블 하단 영역 -->
+            <div class="table-bottom">
+                <div class="left">
+                    <a href="#" class="btn-gray">선택삭제</a>
+                </div>
+
+                <div class="center pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+
+                <div class="right">
+                    <a th:href="@{/admin/product/register}" class="btn-blue">상품등록</a>
+                </div>
+            </div>
+        </div>
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+    </div>
+</main>
+
+<script>
+    // 전체 선택
+    const chkAll = document.getElementById('chkAll');
+    chkAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('tbody input[type="checkbox"]')
+            .forEach(cb => cb.checked = e.target.checked);
+    });
+
+
+</script>
+
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<th:block th:insert="~{inc/admin_template :: _footer}"/>
+<!-- □□□□□ 푸터 □□□□□ -->
+<!-- <%@ include file="_footer.jsp" %> -->
+
+</th:block>

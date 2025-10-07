@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="159E381A-78F2-07E6-3AD5-B2790FB78AE7" containerWithKeyObject="8088A919-3E66-F540-78EF-45A13A793F5C" localFKIndex="EA5DF895-27DA-1CD6-D5F0-85B8CDA75D31" name="u_id .">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>2E29C776-2CD0-5867-81C6-5F2AEE66CA52</importedID>
+<referredTableLongName>u_user</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>BE1D023E-2158-BCFA-7897-8FEB67532E77</referredTableID>
+<keyObject>FE2BEC11-8E9A-7AE8-D7A5-A47FE6446F53</keyObject>
+<referredKeyID>FE2BEC11-8E9A-7AE8-D7A5-A47FE6446F53</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>u_id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

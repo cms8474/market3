@@ -1,0 +1,112 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/ask-list.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>자주묻는질문 목록</h4>
+                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>자주묻는질문</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-row">
+                <select id="typeLv1" aria-label="1차 유형">
+                    <option value="">1차 선택</option>
+                </select>
+                <select id="typeLv2" aria-label="2차 유형" disabled>
+                    <option value="">2차 선택</option>
+                </select>
+                <input type="text" id="keyword" placeholder="검색어입력" />
+                <button class="btn" type="button" id="btnSearch">검색</button>
+            </div>
+
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                    <th class="col-no">번호</th>
+                    <th class="col-type">1차유형</th>
+                    <th class="col-type">2차유형</th>
+                    <th>제목</th>
+                    <th class="col-views">작성자</th>
+                    <th class="col-date">작성일</th>
+                    <th class="col-actions">상태</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-check"><input type="checkbox"></td>
+                    <td class="col-no">120</td>
+                    <td>회원</td>
+                    <td>가입</td>
+                    <td class="title">
+                        <a href="#">개인회원과 법인회원에 차이가 있나요?</a>
+                    </td>
+                    <td class="col-writer">chh**</td>
+                    <td class="col-date">00.00.00</td>
+                    <td class="col-state state-pending">검토중</td>
+                </tr>
+
+                <tr>
+                    <td class="col-check"><input type="checkbox"></td>
+                    <td class="col-no">118</td>
+                    <td>회원</td>
+                    <td>가입</td>
+                    <td class="title">
+                        <a href="#">개인회원과 법인회원에 차이가 있나요?</a>
+                    </td>
+                    <td class="col-writer">chh**</td>
+                    <td class="col-date">00.00.00</td>
+                    <td class="col-state state-done">답변완료</td>
+                </tr>
+                </tbody>
+
+            </table>
+
+
+            <!-- 테이블 하단 영역 -->
+            <div class="table-bottom">
+                <div class="left">
+                    <a href="#" class="btn-gray">선택삭제</a>
+                </div>
+
+                <div class="center pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+                <div class="right"></div>
+
+            </div>
+        </div>
+
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+
+<script>
+    // 전체 선택
+    const chkAll = document.getElementById('chkAll');
+    chkAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('tbody input[type="checkbox"]')
+            .forEach(cb => cb.checked = e.target.checked);
+    });
+
+    // FAQ/문의 상태 색상 처리
+    document.querySelectorAll('td.col-state').forEach((el) => {
+        const text = el.textContent.trim();
+
+        if (text === "검토중") {
+            el.classList.add("state--pending");
+        } else if (text === "답변완료") {
+            el.classList.add("state--answered");
+        }
+    });
+
+
+
+</script>
+</th:block>

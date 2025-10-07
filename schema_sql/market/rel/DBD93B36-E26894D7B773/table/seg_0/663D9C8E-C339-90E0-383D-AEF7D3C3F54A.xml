@@ -1,0 +1,60 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="663D9C8E-C339-90E0-383D-AEF7D3C3F54A" name="coupon_type">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:47:02 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<ordsAlias>table_33</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ct_type" id="BAC30561-04BD-FA80-9974-B69DCFB04175">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:49:58 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ct_dis_money" id="441208E2-B022-BBA1-8267-219F30E250F6">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:49:58 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ct_dis_delivery" id="9AF9A555-8E8B-7DA3-F05F-933CDE4CDB3A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:49:58 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="EA405FBD-7BBD-1313-4AC6-87F766AEEF90" name="coupon_type_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-01 07:50:51 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BAC30561-04BD-FA80-9974-B69DCFB04175"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

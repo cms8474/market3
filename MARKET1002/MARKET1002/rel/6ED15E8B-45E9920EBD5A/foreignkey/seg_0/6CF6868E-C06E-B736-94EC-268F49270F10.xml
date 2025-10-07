@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="6CF6868E-C06E-B736-94EC-268F49270F10" containerWithKeyObject="5C68A371-1D80-5DA1-2D3B-152F868C8F72" localFKIndex="15704319-E5BC-AE14-C3E5-9BC6EAB9759E" name="ct_type ">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>CA87C60C-F803-6B3C-F4D1-AA0E3C7BA5F5</importedID>
+<referredTableLongName>coupon_type</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>ADB1381A-29D9-97D5-BBB5-C2DCA8869ED7</referredTableID>
+<keyObject>B3EF42B5-089E-D5EC-70C0-9F0C4F5A9A7A</keyObject>
+<referredKeyID>B3EF42B5-089E-D5EC-70C0-9F0C4F5A9A7A</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ct_type</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

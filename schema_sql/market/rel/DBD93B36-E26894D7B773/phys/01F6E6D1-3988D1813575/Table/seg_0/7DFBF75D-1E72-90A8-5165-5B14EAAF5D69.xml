@@ -1,0 +1,110 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="product_detail" directorySegmentName="seg_0" id="7DFBF75D-1E72-90A8-5165-5B14EAAF5D69">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="pd_state" id="0D4CF8E4-EA46-EF54-9945-AC321FBE1E5D">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;새상품&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_as" id="2BBEAE2D-1577-3619-5806-EC375D55D526">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;미입력&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_receipt" id="2F8BE36D-07BF-0A05-F635-3F088DF34459">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;발행가능신용카드전표, 온라인현금영수증&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_phone" id="315EE655-855C-48BC-BEA1-FC93E7AB591E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;미입력&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_warranty_info" id="326ACC4A-953E-AB72-13B6-B4CE576E3F22">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;미입력&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_maker" id="55D2C830-7505-6751-8D88-93CD79C8E5F3">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;미입력&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_brand" id="669D9020-DE59-8CAA-ABFC-9E1A7D7938DE">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;미입력&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_tax" id="8ECBF5D3-EBB8-605E-82D8-2926652777B7">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;과세상품&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_s_seller_type" id="B286A27D-2BC0-697A-215C-A88F0B973885">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="pd_manuf_country" id="BDF919FD-9977-7F39-EF11-B4016146A5D3">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;미입력&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_manuf_date" id="BF7E63E8-A340-BF29-3D96-6EE81F2EDF9A">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;미입력&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_care" id="CC6A6519-A365-EE58-5B6D-033DB55187FC">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;미입력&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_origin" id="EDB5BA17-464C-7F6D-A5F4-B83EF59ED5F2">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<defaultValue>&apos;미입력&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="pd_p_pid" id="F6B93A33-5D67-16D1-62B8-76ED85DF37D9">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="P_PID v2" id="712D5613-541B-02F7-14D6-7A86FD9E9831">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="product_detail_pk" id="AFC2B2EC-2910-D26E-3FD8-CC07314B58FA">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 06:17:01 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev20c>

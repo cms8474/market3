@@ -1,0 +1,68 @@
+/* 좌측 사이드바 */
+.admin-sidebar {
+  width: 220px;
+  background: #ffffff;
+  color: #fff;
+  min-height: calc(100vh - 50px);
+  padding: 16px 10px;
+  box-sizing: border-box;
+}
+.accordion { display: flex; flex-direction: column; }
+
+.acc-toggle { position: absolute; opacity: 0; pointer-events: none; }
+
+.acc-toggle:checked ~ .acc-panel { max-height: 800px; }
+.acc-toggle:checked ~ .acc-head .acc-caret { transform: rotate(45deg); }
+.acc-item {
+  background: #d8d8d8;
+  border: 1px solid #cfcfcf;
+  overflow: hidden;
+  position: relative;
+}
+.acc-head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+.acc-panel {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .25s ease;
+}
+.acc-panel a:hover { text-decoration: underline; }
+
+.acc-item.open .acc-panel {
+    max-height: 800px;
+}
+.acc-head:hover { background: #cfcfcf; }
+.acc-ico { width: 18px; text-align: center; opacity: .9; }
+.acc-title { flex: 1; font-size: 15px; font-weight: 600; color: #222; }
+
+.acc-caret {
+  width: 10px; height: 10px;
+  border-right: 2px solid #555; border-bottom: 2px solid #555;
+  transform: rotate(-45deg);
+  transition: transform .2s ease;
+}
+/* 접히는거?  */
+.acc-panel {
+  max-height: 0; overflow: hidden;
+  background: #efefef;
+  border-top: 1px solid #d8d8d8;
+  transition: max-height .25s ease;
+}
+/* 메뉴 밑에거*/
+.acc-panel a {
+  display: block; padding: 10px 14px 10px 36px;
+  text-decoration: none; color: #333; font-size: 14px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.acc-panel a:last-child { border-bottom: 0; }
+.acc-panel a:hover { background: #e6e6e6; }
+
+.acc-head:focus-visible { outline: 2px solid #4c9ffe; outline-offset: 2px; }

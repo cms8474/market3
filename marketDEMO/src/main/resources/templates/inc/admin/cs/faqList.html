@@ -1,0 +1,77 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/faq-list.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>자주묻는질문 목록</h4>
+                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>자주묻는질문</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-row">
+                <select id="typeLv1" aria-label="1차 유형">
+                    <option value="">1차 선택</option>
+                </select>
+                <select id="typeLv2" aria-label="2차 유형" disabled>
+                    <option value="">2차 선택</option>
+                </select>
+                <input type="text" id="keyword" placeholder="검색어입력" />
+                <button class="btn" type="button" id="btnSearch">검색</button>
+            </div>
+
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                    <th class="col-no">번호</th>
+                    <th class="col-type">1차유형</th>
+                    <th class="col-type">2차유형</th>
+                    <th>제목</th>
+                    <th class="col-views">조회</th>
+                    <th class="col-date">날짜</th>
+                    <th class="col-actions">관리</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cs : ${dtoList}">
+                    <td class="col-check"><input type="checkbox"></td>
+                    <td class="col-no">[[${cs.ano}]]</td>
+                    <td>[[${cs.cate1}]]</td>
+                    <td>[[${cs.cate2}]]</td>
+                    <td class="title">[[${cs.title}]]</td>
+                    <td class="col-views">[[${cs.view_cnt}]]</td>
+                    <td class="col-date">[[${cs.wdate}]]</td>
+                    <td class="actions"><a href="#">삭제</a> <a href="#">수정</a></td>
+                </tr>
+                </tbody>
+
+            </table>
+
+
+
+            <!-- 테이블 하단 영역 -->
+            <div class="table-bottom">
+                <div class="left">
+                    <a href="#" class="btn-gray">선택삭제</a>
+                </div>
+
+                <div class="center pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+
+                <div class="right">
+                    <button class="btn-blue">작성하기</button>
+                </div>
+            </div>
+        </div>
+
+    <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+</th:block>

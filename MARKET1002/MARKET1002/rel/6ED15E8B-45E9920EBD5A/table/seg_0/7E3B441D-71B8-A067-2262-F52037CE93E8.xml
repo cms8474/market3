@@ -1,0 +1,108 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="7E3B441D-71B8-A067-2262-F52037CE93E8" name="POINT_HISTORY">
+<sourceDDLFile>1002_1627.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:13:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<ordsAlias>table_25</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="UH_NO" id="EA776156-8B92-92E9-7BF0-24A934BBE263">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:14:44 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="UH_U_ID" id="EEB22A9A-B946-2638-9E2A-E836588CE908">
+<sourceDDLFile>1002_1627.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:14:44 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CFF515BB-97EA-1781-7D88-2B7A404F5C99" referredColumn="3104E603-DD4A-AF5C-2B53-1F5A876FCBAC"/>
+</associations>
+</Column>
+<Column name="UH_TEXT" id="3FC67F4F-6505-0879-445C-4DFE93EA6FC5">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:14:44 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>200</dataTypeSize>
+<ownDataTypeParameters>200,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="UH_CHANGE_POINT" id="B115B0B6-3827-F42B-0FDE-2B9BC7C3E6E5">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:14:44 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="UH_CHANGE_DATE" id="D69C9E3A-B44A-C41A-1C0A-FCB9825771F3">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:14:44 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="UH_DDAY" id="A9EEDD85-8ACE-7225-32D1-89159FA6493C">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:14:44 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="AD4F80AD-4B6C-7FAD-3881-D26934420EC5" name="POINT_HISTORY_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:15:39 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EA776156-8B92-92E9-7BF0-24A934BBE263"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="016F8681-61B9-1A83-81A6-D123CB296D45" name="U_ID ..">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 03:15:39 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EEB22A9A-B946-2638-9E2A-E836588CE908"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="69D98B30-8F85-435C-85E0-7F320499D56F" mainViewID="05370887-5B02-0B08-AF26-17B4AFE9D61C">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 05:58:55 UTC</createdTime>
+<ownerDesignName>market</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</LogicalDesign>

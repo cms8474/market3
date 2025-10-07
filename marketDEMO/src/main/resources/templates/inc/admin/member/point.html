@@ -1,0 +1,96 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/point-manage.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>포인트관리</h4>
+                <div class="breadcrumb">HOME &gt; 회원관리 &gt; <b>포인트관리</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-row">
+                <select name="searchType" id="searchType">
+                    <option value="#">아이디</option>
+                    <option value="#">이름</option>
+                    <option value="#">이메일</option>
+                    <option value="#">휴대폰</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어입력" />
+                <button class="btn" type="button">검색</button>
+            </div>
+
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                    <th class="col-no">번호</th>
+                    <th>아이디</th>
+                    <th>이름</th>
+                    <th>지급포인트</th>
+                    <th>잔여포인트</th>
+                    <th>지급 내용</th>
+                    <th>지급 날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-check"><input type="checkbox"></td>
+                    <td class="col-no">5</td>
+                    <td>abc1234</td>
+                    <td>정우성</td>
+                    <td class="num">1,000</td>
+                    <td class="num">15,000</td>
+                    <td>구매적립 포인트 지급</td>
+                    <td class="col-date">0000-00-00 00:00:00</td>
+                </tr>
+                <tr>
+                    <td class="col-check"><input type="checkbox"></td>
+                    <td class="col-no">5</td>
+                    <td>abc1234</td>
+                    <td>정우성</td>
+                    <td class="num">1,000</td>
+                    <td class="num">15,000</td>
+                    <td>구매적립 포인트 지급</td>
+                    <td class="col-date">0000-00-00 00:00:00</td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+            <!-- 테이블 하단 영역 -->
+            <div class="table-bottom">
+                <div class="left">
+                    <a href="#" class="btn-gray">선택삭제</a>
+                </div>
+
+                <div class="center pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+                <div class="right"></div>
+
+            </div>
+        </div>
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+
+
+<script>
+    // 전체 선택
+    const chkAll = document.getElementById('chkAll');
+    chkAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('tbody input[type="checkbox"]')
+            .forEach(cb => cb.checked = e.target.checked);
+    });
+
+
+</script>
+
+</th:block>

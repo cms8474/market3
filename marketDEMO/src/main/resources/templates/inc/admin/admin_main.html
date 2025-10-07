@@ -1,0 +1,203 @@
+<th:block th:fragment="content"
+          th:with="S=${stats}, TD=${statsToday}, YD=${statsYesterday}, TOT=${statsTotal}">
+    <div class="page-breadcrumb">HOME &gt; 관리자 메인</div>
+    <h2 class="page-title">관리자메인</h2>
+
+    <!-- 집계현황 -->
+    <section class="dashboard">
+        <div class="chart">
+            <h3>집계현황</h3>
+            <div class="chart-viewport">
+                <canvas id="orderChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart">
+            <h3>주요매출</h3>
+            <div class="chart-viewport">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- 운영현황 -->
+    <section class="statistics">
+        <h3>운영현황</h3>
+
+        <table class="stats-table">
+            <thead>
+            <tr>
+                <th>입금대기</th>
+                <th>배송준비</th>
+                <th>취소요청</th>
+                <th>교환요청</th>
+                <th>반품요청</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <!-- 상단 굵은 숫자 라인 -->
+            <tr class="row-strong">
+                <td><span class="num" th:text="${S.waiting}">0</span></td>
+                <td><span class="num" th:text="${S.ready}">0</span></td>
+                <td><span class="num" th:text="${S.cancel}">0</span></td>
+                <td><span class="num" th:text="${S.exchange}">0</span></td>
+                <td><span class="num" th:text="${S.returnA}">0</span></td>
+            </tr>
+
+            <tr class="sep"><td colspan="5"></td></tr>
+
+            <!-- 지표 라벨 라인 (그대로) -->
+            <tr class="row-labels">
+                <td>주문건수</td>
+                <td>주문금액</td>
+                <td>회원가입</td>
+                <td>방문자 수</td>
+                <td>문의 게시물</td>
+            </tr>
+            <tr class="row-strong">
+                <td><span class="num" th:text="${TOT.orderCount}">0</span></td>
+                <td><span class="num money" th:text="${#numbers.formatInteger(TOT.orderAmount, 3, 'COMMA')}">0</span></td>
+                <td><span class="num" th:text="${TOT.registerCount}">0</span></td>
+                <td><span class="num" th:text="${TOT.visitor}">0</span></td>
+                <td><span class="num" th:text="${TOT.qna}">0</span></td>
+            </tr>
+
+
+
+
+            <!-- 오늘/어제 breakdown -->
+            <tr class="row-sub">
+                <td>
+                    <div><span class="muted">오늘</span> <span th:text="${TD.orderCount}">0</span></div>
+                    <div><span class="muted">어제</span> <span th:text="${YD.orderCount}">0</span></div>
+                </td>
+                <td>
+                    <div><span class="muted">오늘</span> <span th:text="${#numbers.formatInteger(TD.orderAmount, 3, 'COMMA')}">0</span></div>
+                    <div><span class="muted">어제</span> <span th:text="${#numbers.formatInteger(YD.orderAmount, 3, 'COMMA')}">0</span></div>
+                </td>
+                <td>
+                    <div><span class="muted">오늘</span> <span th:text="${TD.registerCount}">0</span></div>
+                    <div><span class="muted">어제</span> <span th:text="${YD.registerCount}">0</span></div>
+                </td>
+                <td>
+                    <div><span class="muted">오늘</span> <span th:text="${TD.visitor}">0</span></div>
+                    <div><span class="muted">어제</span> <span th:text="${YD.visitor}">0</span></div>
+                </td>
+                <td>
+                    <div><span class="muted">오늘</span> <span th:text="${TD.qna}">0</span></div>
+                    <div><span class="muted">어제</span> <span th:text="${YD.qna}">0</span></div>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </section>
+    <section class="boards">
+        <div class="board">
+            <div class="board-title"><h3>공지사항</h3></div>
+            <ul class="board-list">
+                <li th:if="${#lists.isEmpty(noticeTop5)}" class="empty">최근 글이 없습니다.</li>
+                <li th:each="n : ${noticeTop5}">
+                    <a th:href="@{/cs/notice/{id}(id=${n.id})}" class="row">
+                        <span class="title" th:text="${n.title}">제목</span>
+                        <span class="date" th:text="${#temporals.format(n.createdAt,'yy.MM.dd')}">22.10.31</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+            <!-- ② 고객문의 Top 5 -->
+        <div class="board">
+            <div class="board-title"><h3>고객문의</h3></div>
+            <ul class="board-list">
+                <li th:if="${#lists.isEmpty(qnaTop5)}" class="empty">최근 글이 없습니다.</li>
+                <li th:each="q : ${qnaTop5}">
+                    <a th:href="@{/cs/qna/{id}(id=${q.id})}" class="row">
+                        <span class="title"><span class="cate">[일반]</span> <span th:text="${q.title}">문의제목</span></span>
+                        <span class="meta">
+                        <span class="writer"
+                            th:text="${#strings.length(q.questioner) >= 3 ? #strings.substring(q.questioner,0,3) + '**' : q.questioner}">user**</span>
+                        <span class="date" th:text="${#temporals.format(q.createdAt,'yy.MM.dd')}">22.10.31</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+
+    <!-- 페이지 전용 스크립트(차트/아코디언) -->
+    <script th:inline="javascript">
+        const BAR = /*[[${bar}]]*/ {labels:[], orders:[], payments:[], cancels:[]};
+        const PIE = /*[[${pie}]]*/ {labels:[], values:[]};
+        const comma = n => (n ?? 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        window.__charts__ = window.__charts__ || {};
+        function upsertChart(id, cfg){
+            const el = document.getElementById(id);
+            if(!el) return;
+            if(window.__charts__[id]){ try{ window.__charts__[id].destroy(); }catch(e){} }
+            window.__charts__[id] = new Chart(el.getContext('2d'), cfg);
+        }
+        function renderCharts(){
+            const payments = (BAR.payments || []).map(v => Math.round((Number(v) || 0) / 10000));
+
+            upsertChart('orderChart', {
+                type:'bar',
+                data:{
+                    labels: BAR.labels || [],
+                    datasets:[
+                        { label:'주문', data: BAR.orders   || [] },
+                        { label:'결제', data: payments },
+                        { label:'취소', data: BAR.cancels  || [] }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (ctx) {
+                                    const label = ctx.dataset.label || '';
+                                    const v = ctx.parsed.y ?? 0;
+                                    if (label.startsWith('결제')) {
+                                        const originalWon = Number((BAR.payments || [])[ctx.dataIndex] || 0);
+                                        return `${label}: ${comma(v)} (만원) / ${comma(originalWon)}원`;
+                                    }
+                                    return `${label}: ${comma(v)}`;
+                                }
+                            }
+                        },
+                        legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        y: { ticks: { callback: (val) => comma(val) } }
+                    }
+                }
+            });
+            upsertChart('salesChart', {
+                type:'pie',
+                data:{
+                    labels: PIE.labels,
+                    datasets:[{ data: PIE.values }]
+                },
+                options:{
+                    responsive:true, maintainAspectRatio:false,
+                    plugins:{
+                        legend:{
+                            position:'bottom',
+                            align:'center',
+                            labels:{ usePointStyle:true, boxWidth:10, padding:12 }
+                        }
+                    },
+                    layout:{ padding:{ bottom:12 } }
+                }
+            });
+        }
+        if(document.readyState==='loading'){
+            document.addEventListener('DOMContentLoaded', renderCharts);
+        } else { renderCharts(); }
+    </script>
+
+</th:block>

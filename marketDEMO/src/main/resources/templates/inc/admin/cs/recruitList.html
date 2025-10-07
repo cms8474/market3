@@ -1,0 +1,194 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/recruit-list.css">
+    <link rel="stylesheet" href="/css/admin/modal.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>채용하기 목록</h4>
+                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>채용하기</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-row">
+                <select name="searchType" id="searchType">
+                    <option value="#">번호</option>
+                    <option value="#">채용부서</option>
+                    <option value="#">채용형태</option>
+                    <option value="#">제목</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어입력" />
+                <button class="btn" type="button">검색</button>
+            </div>
+
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th class="col-check"><input type="checkbox" id="chkAll"></th>
+                    <th>번호</th>
+                    <th>채용부서</th>
+                    <th>경력사항</th>
+                    <th>채용형태</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>상태</th>
+                    <th>모집기간</th>
+                    <th>작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-check"><input type="checkbox"></td>
+                    <td>120</td>
+                    <td>광고사업</td>
+                    <td>경력 4 ~ 15년</td>
+                    <td>정규직</td>
+                    <td>광고 프로젝트 기획</td>
+                    <td>관리자</td>
+                    <td class="status">모집중</td>
+                    <td class="col-date">0000-00-00 ~ 0000-00-00</td>
+                    <td class="col-date">0000-00-00</td>
+                </tr>
+
+                <tr>
+                    <td class="col-check"><input type="checkbox"></td>
+                    <td>118</td>
+                    <td>운영</td>
+                    <td>무관</td>
+                    <td>계약직</td>
+                    <td>단기 아르바이트 모집</td>
+                    <td>관리자</td>
+                    <td class="status">종료</td>
+                    <td class="col-date">0000-00-00 ~ 0000-00-00</td>
+                    <td class="col-date">0000-00-00</td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+
+            <!-- 테이블 하단 영역 -->
+            <div class="table-bottom">
+                <div class="left">
+                    <a href="#" class="btn-gray">선택삭제</a>
+                </div>
+
+                <div class="center pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+
+                <div class="right">
+                    <button class="btn-blue" type="button">채용등록</button>
+                </div>
+            </div>
+
+            <!-- 채용하기 모달 -->
+            <div id="Modal" class="modal" aria-hidden="true">
+                <div class="modal__backdrop" data-close="true"></div>
+
+                <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="ModalTitle">
+                    <div class="modal__header">
+                        <h5 id="ModalTitle">채용하기</h5>
+                        <button type="button" class="modal__close" title="닫기" data-close="true">&times;</button>
+                    </div>
+
+                    <form id="Form" class="modal__body">
+                        <div class="form-grid">
+
+                            <!-- 제목 -->
+                            <label class="form-label" for="title">제목</label>
+                            <div class="form-field">
+                                <input id="title" name="title" type="text" placeholder="채용 공고 제목 입력" required />
+                            </div>
+
+                            <!-- 채용부서 -->
+                            <label class="form-label" for="dept">채용부서</label>
+                            <div class="form-field">
+                                <select id="dept" name="dept" required>
+                                    <option value="" hidden>채용부서 선택</option>
+                                    <option>개발팀</option>
+                                    <option>디자인팀</option>
+                                    <option>마케팅팀</option>
+                                    <option>영업팀</option>
+                                    <option>경영지원팀</option>
+                                </select>
+                            </div>
+
+                            <!-- 경력사항 -->
+                            <label class="form-label" for="career">경력사항</label>
+                            <div class="form-field">
+                                <select id="career" name="career" required>
+                                    <option value="" hidden>경력사항 선택</option>
+                                    <option value="신입">신입</option>
+                                    <option value="경력">경력</option>
+                                    <option value="무관">무관</option>
+                                </select>
+                            </div>
+
+                            <!-- 채용형태 -->
+                            <label class="form-label" for="hireType">채용형태</label>
+                            <div class="form-field">
+                                <select id="hireType" name="hireType" required>
+                                    <option value="" hidden>채용형태 선택</option>
+                                    <option value="정규직">정규직</option>
+                                    <option value="계약직">계약직</option>
+                                    <option value="인턴">인턴</option>
+                                    <option value="아르바이트">아르바이트</option>
+                                </select>
+                            </div>
+
+                            <!-- 모집기간 -->
+                            <label class="form-label" for="dateStart">모집기간</label>
+                            <div class="form-field">
+                                <div class="range-row">
+                                    <input id="dateStart" name="dateStart" type="date" required />
+                                    <span class="tilde">~</span>
+                                    <input id="dateEnd" name="dateEnd" type="date" required />
+                                </div>
+                            </div>
+
+                            <!-- 비고 -->
+                            <label class="form-label" for="memo">비고</label>
+                            <div class="form-field">
+                                <textarea id="memo" name="memo" placeholder="추가 안내/비고 입력"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="modal__footer">
+                            <button type="button" class="btn-gray" data-close="true">취소</button>
+                            <button type="submit" class="btn-green">등록하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+
+<script th:src="@{/js/modal.js}"></script>
+
+<script>
+    // 전체 선택
+    const chkAll = document.getElementById('chkAll');
+    chkAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('tbody input[type="checkbox"]')
+            .forEach(cb => cb.checked = e.target.checked);
+    });
+    // 상태 색상 (모집중=초록, 종료=회색)
+    document.querySelectorAll('td.status').forEach(el => {
+        const t = el.textContent.trim();
+        if (t === '모집중') el.classList.add('status--open');
+        else if (t === '종료') el.classList.add('status--closed');
+    });
+
+</script>
+</th:block>

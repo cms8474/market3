@@ -1,0 +1,250 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/member-list.css">
+    <link rel="stylesheet" href="/css/admin/modal.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>회원목록</h4>
+                <div class="breadcrumb">HOME &gt; 회원관리 &gt; <b>회원목록</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-row">
+                <select name="searchType" id="searchType">
+                    <option value="#">아이디</option>
+                    <option value="#">이름</option>
+                    <option value="#">휴대폰</option>
+                    <option value="#">이메일</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어입력" />
+                <button class="btn" type="button">검색</button>
+            </div>
+
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                    <th class="col-no">번호</th>
+                    <th>아이디</th>
+                    <th>이름</th>
+                    <th>성별</th>
+                    <th>등급</th>
+                    <th>포인트</th>
+                    <th>이메일</th>
+                    <th>휴대폰</th>
+                    <th>가입일</th>
+                    <th>상태</th>
+                    <th>관리</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-check"><input type="checkbox"></td>
+                    <td class="col-no">5</td>
+                    <td>xxx_***</td>
+                    <td>정우성</td>
+                    <td>M</td>
+                    <td>
+                        <select name="grade" class="grade-select">
+                            <option value="VVIP"  >VVIP</option>
+                            <option value="VIP"   >VIP</option>
+                            <option value="GOLD"  selected>GOLD</option>
+                            <option value="SILVER">SILVER</option>
+                            <option value="FAMILY">FAMILY</option>
+                        </select>
+                    </td>
+                    <td>15,000</td>
+                    <td>xxxx@....</td>
+                    <td>010-1234-0000</td>
+                    <td>0000-00-00 00:00:00</td>
+                    <td class="status">정상</td>
+                    <td class="actions"><a href="#">수정</a> <a href="#">중지</a></td>
+                </tr>
+
+                <tr>
+                    <td class="col-check"><input type="checkbox"></td>
+                    <td class="col-no">3</td>
+                    <td>zzz_***</td>
+                    <td>하정우</td>
+                    <td>M</td>
+                    <td>
+                        <select name="grade" class="grade-select">
+                            <option value="VVIP"  >VVIP</option>
+                            <option value="VIP"   >VIP</option>
+                            <option value="GOLD"  selected>GOLD</option>
+                            <option value="SILVER">SILVER</option>
+                            <option value="FAMILY">FAMILY</option>
+                        </select>
+                    </td>
+
+                    <td>1,200</td>
+                    <td>zzzz@....</td>
+                    <td>010-1234-2222</td>
+                    <td>0000-00-00 00:00:00</td>
+                    <td class="status">중지</td>
+                    <td class="actions"><a href="#">수정</a> <a href="#">승인</a></td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+            <!-- 테이블 하단 영역 -->
+            <div class="table-bottom">
+                <div class="left">
+                    <a href="#" class="btn-gray">선택수정</a>
+                </div>
+
+                <div class="center pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+
+                <div class="right">
+                    <button class="btn-blue">회원수정</button>
+                </div>
+            </div>
+            <!-- 회원수정 모달 -->
+            <div id="Modal" class="modal" aria-hidden="true">
+                <div class="modal__backdrop" data-close="true"></div>
+
+                <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="ModalTitle">
+                    <div class="modal__header">
+                        <h5 id="ModalTitle">회원수정</h5>
+                        <button type="button" class="modal__close" title="닫기" data-close="true">&times;</button>
+                    </div>
+
+                    <form id="Form" class="modal__body">
+                        <div class="form-grid">
+
+                            <!-- 아이디  -->
+                            <label class="form-label" for="userid">아이디</label>
+                            <div class="form-field">
+                                <input id="userid" name="userid" type="text" value="" readonly />
+                            </div>
+
+                            <!-- 이름 -->
+                            <label class="form-label" for="name">이름</label>
+                            <div class="form-field">
+                                <input id="name" name="name" type="text" placeholder="이름 입력" />
+                            </div>
+
+                            <!-- 성별 -->
+                            <label class="form-label">성별</label>
+                            <div class="form-field radio">
+                                <label><input type="radio" name="gender" value="M" checked> 남</label>
+                                <label><input type="radio" name="gender" value="F"> 여</label>
+                            </div>
+
+
+                            <!-- 등급 (수정 불가 표시 + 안내문) -->
+                            <label class="form-label" for="grade">등급</label>
+                            <div class="form-field">
+                                <input id="grade" name="grade" type="text" value="FAMILY" readonly />
+                                <p class="hint">등급 수정은 회원 목록에서 선택수정 가능</p>
+                            </div>
+
+                            <!-- 상태 -->
+                            <label class="form-label" for="status">상태</label>
+                            <div class="form-field">
+                                <input id="status" name="status" type="text" value="정상" readonly />
+                            </div>
+
+
+                            <!-- EMAIL -->
+                            <label class="form-label" for="email">EMAIL</label>
+                            <div class="form-field">
+                                <input id="email" name="email" type="email" placeholder="example@domain.com" />
+                            </div>
+
+                            <!-- 휴대폰 -->
+                            <label class="form-label" for="mobile">휴대폰</label>
+                            <div class="form-field">
+                                <input id="mobile" name="mobile" type="text" inputmode="numeric" placeholder="010-0000-0000" />
+                            </div>
+
+                            <!-- 우편번호 -->
+                            <label class="form-label" for="zip">우편번호</label>
+                            <div class="form-field">
+                                <div class="addr-row">
+                                    <input id="zip" name="zip" type="text" placeholder="우편번호" readonly />
+                                    <button type="button" class="btn-outline" id="btnFindZip">검색</button>
+                                </div>
+                            </div>
+
+                            <!-- 기본주소 -->
+                            <label class="form-label" for="addr1">기본주소</label>
+                            <div class="form-field">
+                                <input id="addr1" name="addr1" type="text" placeholder="기본주소" />
+                            </div>
+
+                            <!-- 상세주소 -->
+                            <label class="form-label" for="addr2">상세주소</label>
+                            <div class="form-field">
+                                <input id="addr2" name="addr2" type="text" placeholder="상세주소" />
+                            </div>
+
+                            <!-- 가입일 (읽기 전용) -->
+                            <label class="form-label" for="joinAt">가입일</label>
+                            <div class="form-field">
+                                <input id="joinAt" name="joinAt" type="text" value="" readonly />
+                            </div>
+
+                            <!-- 최근로그인일자 (읽기 전용) -->
+                            <label class="form-label" for="lastLoginAt">최근로그인일자</label>
+                            <div class="form-field">
+                                <input id="lastLoginAt" name="lastLoginAt" type="text" value="" readonly />
+                            </div>
+
+                            <!-- 기타 -->
+                            <label class="form-label" for="memo">기타</label>
+                            <div class="form-field">
+                                <textarea id="memo" name="memo" placeholder="회원에 대한 기타정보입력"></textarea>
+                            </div>
+
+
+                        </div>
+
+                        <div class="modal__footer">
+                            <button type="button" class="btn-gray" data-close="true">취소</button>
+                            <button type="submit" class="btn-green">수정하기</button>
+                        </div>
+                    </form>
+                </div> <!-- /.modal__dialog -->
+            </div>
+            <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+    </div>
+<script th:src="@{/js/modal.js}"></script>
+<script>
+    // 전체 선택
+    const chkAll = document.getElementById('chkAll');
+    chkAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('tbody input[type="checkbox"]')
+            .forEach(cb => cb.checked = e.target.checked);
+    });
+
+
+    document.querySelectorAll(".status").forEach(td => {
+        const text = td.innerText.trim();
+        if (text === "정상") {
+            td.style.color = "#19c37d";  // 초록
+        } else if (text === "중지") {
+            td.style.color = "#ff4d4f";  // 빨강
+        } else if (text === "휴면" || text === "탈퇴") {
+            td.style.color = "#999";     // 회색
+        }
+    });
+
+
+</script>
+
+</th:block>

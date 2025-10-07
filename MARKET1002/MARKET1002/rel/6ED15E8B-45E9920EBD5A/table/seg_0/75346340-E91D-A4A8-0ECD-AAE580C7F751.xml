@@ -1,0 +1,185 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="75346340-E91D-A4A8-0ECD-AAE580C7F751" name="order_items">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>3755DA30-292C-033A-4B55-B3B4047EF223</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="oi_po_no" id="DF6C843F-491F-1C14-F4DF-DB44D9C56DB6">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>993299B1-776E-E1A2-02F2-8A4666923D3A</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>86FDDC6B-7194-A553-C31F-B52DBB808E5E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C9F210A2-5F06-7651-187B-72AE39BBCFFA" referredColumn="470108B1-8E0C-2BE9-F88B-BF990A7BC883"/>
+</associations>
+</Column>
+<Column name="oi_p_pid" id="84D43D18-A891-DB33-D205-DE37B0FDF352">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>D5CE05E7-75C1-B697-6193-F01C418FDF7F</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>D20DC0F1-B803-BDB5-BD55-A3E5060C0179</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="90678CF9-6FF3-F7D7-3387-714472F68BB5" referredColumn="13FDBA8A-81BB-CF89-2200-FE8D7CFB164B"/>
+</associations>
+</Column>
+<Column name="oi_s_u_id" id="1ABFC0EA-53C0-6597-A1B2-4A42290DDD0C">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>E7D3D0A6-F2AB-4D70-A0F0-A44189D083FA</importedID>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1D529308-DEFE-1C7C-8F13-F98933935465" referredColumn="CDDFDA05-BE38-A1B8-B706-A0BE167C2F9C"/>
+</associations>
+</Column>
+<Column name="oi_prod_qty" id="F7458F57-0A79-720C-6013-1CB172559B95">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>2FCA0A41-3D93-6D84-7B47-35D75282D7DA</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>86FDDC6B-7194-A553-C31F-B52DBB808E5E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<autoIncrementSequenceName>order_items_oi_prod_qty_seq</autoIncrementSequenceName>
+<autoIncrementTriggerName>order_items_oi_prod_qty_trg</autoIncrementTriggerName>
+</Column>
+<Column name="oi_tot_price" id="8A1A8CB7-47BF-FF23-68F5-199377D59A92">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>81BA7AFA-CF11-9FA8-B297-24948A450ED6</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>A43C7C45-36E6-A9FB-D36C-C2EDB6A67954</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="oi_tracking_company" id="9332ED0E-A8AF-BD23-24FD-E6C6317D853F">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>8C5B2A98-9206-F478-8F3D-4663DA8323D1</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>D20DC0F1-B803-BDB5-BD55-A3E5060C0179</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="oi_tracking_num" id="D5D5E56A-B0B6-3BD5-58FE-7C4B16174AC6">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>87D5A584-9DEA-E599-460A-D47FDB7F9320</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>D20DC0F1-B803-BDB5-BD55-A3E5060C0179</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="oi_etc" id="23F142D8-ED9D-B1A4-A9A0-60F4FE1CC65C">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>2963EE17-6B2F-1A65-B926-F16E108646CC</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>BB62FCEB-B568-0045-14D4-4DEEB9B9CD06</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="oi_del_status" id="6768E003-9B86-56BE-BCC1-572F9C99BD43">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>5B24667D-A050-806C-B90A-2630E874B33F</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>03DF634D-C763-3F5B-7670-2E23802E128A</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="54491644-FF0A-C995-D9D4-162A77F8F8BF" name="order_items_pk">
+<sourceDDLFile>1001_1743.ddl</sourceDDLFile>
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<importedID>1AE995E2-F122-7DF0-5ED2-37B5453178C2</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DF6C843F-491F-1C14-F4DF-DB44D9C56DB6"/>
+<colUsage columnID="84D43D18-A891-DB33-D205-DE37B0FDF352"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DD950EF3-6884-C399-E8E3-897A4EA4728C" name="..P_PID ">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="84D43D18-A891-DB33-D205-DE37B0FDF352"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="EE09BBF2-2FE9-2AAC-3A01-134EF821B41D" name="po_no">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DF6C843F-491F-1C14-F4DF-DB44D9C56DB6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3FF33AAC-D4EA-5AF9-EBE3-70729424A10F" name="s_u_id">
+<createdBy>GGG</createdBy>
+<createdTime>2025-10-02 02:22:30 UTC</createdTime>
+<ownerDesignName>MARKET1002</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1ABFC0EA-53C0-6597-A1B2-4A42290DDD0C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

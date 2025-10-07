@@ -1,0 +1,199 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/shop-list.css">
+    <link rel="stylesheet" href="/css/admin/modal.css">
+
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>상점목록</h4>
+                <div class="breadcrumb">HOME &gt; 상점관리 &gt; <b>상점목록</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-row">
+                <select name="searchType" id="searchType">
+                    <option value="#">상호명</option>
+                    <option value="#">대표</option>
+                    <option value="#">사업자등록번호</option>
+                    <option value="#">연락처</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어입력" />
+                <button class="btn" type="button">검색</button>
+            </div>
+
+            <!-- 상태 범례 -->
+            <div class="legend">
+                <span><i class="dot blue"></i>운영 준비</span>
+                <span><i class="dot red"></i>운영 중지</span>
+                <span><i class="dot green"></i>운영</span>
+            </div>
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                    <th class="col-no">번호</th>
+                    <th>상호명</th>
+                    <th>대표</th>
+                    <th>사업자등록번호</th>
+                    <th>통신판매업번호</th>
+                    <th>연락처</th>
+                    <th>운영</th>
+                    <th>관리</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-check"><input type="checkbox" /></td>
+                    <td class="col-no">5</td>
+                    <td>(주)다나와</td>
+                    <td>정우성</td>
+                    <td>112-12-12345</td>
+                    <td>2024-서울강남-04433</td>
+                    <td>010-1234-1001</td>
+                    <td class="status"><i class="dot green"></i></td>
+                    <td class="actions"><a href="#">중단</a></td>
+                </tr>
+
+                <tr>
+                    <td class="col-check"><input type="checkbox" /></td>
+                    <td class="col-no">5</td>
+                    <td>(주)다나와</td>
+                    <td>정우성</td>
+                    <td>112-12-12345</td>
+                    <td>2024-서울강남-04433</td>
+                    <td>010-1234-1001</td>
+                    <td class="status"><i class="dot red"></i></td>
+                    <td class="actions"><a href="#">재개</a></td>
+                </tr>
+
+
+                </tbody>
+            </table>
+
+            <!-- 테이블 하단 영역 -->
+            <div class="table-bottom">
+                <div class="left">
+                    <a href="#" class="btn-gray">선택삭제</a>
+                </div>
+
+                <div class="center pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+
+                <div class="right">
+                    <button class="btn-blue">상점등록</button>
+                </div>
+            </div>
+        </div>
+
+    <!-- 상점 등록 모달 -->
+    <div id="Modal" class="modal" aria-hidden="true">
+        <div class="modal__backdrop" data-close="true"></div>
+
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="ModalTitle">
+            <div class="modal__header">
+                <h5 id="ModalTitle">상점등록</h5>
+                <button type="button" class="modal__close" title="닫기" data-close="true">&times;</button>
+            </div>
+
+            <form id="Form" class="modal__body">
+                <div class="form-grid">
+
+                    <label class="form-label" for="userid">아이디</label>
+                    <div class="form-field">
+                        <input id="userid" name="userid" type="text" placeholder="아이디" required />
+                        <p class="hint">영문, 숫자 4~12자</p>
+                    </div>
+
+                    <label class="form-label" for="pass">비밀번호</label>
+                    <div class="form-field">
+                        <input id="pass" name="pass" type="password" placeholder="비밀번호" required />
+                        <p class="hint">영문, 숫자, 특수문자 8~12자</p>
+                    </div>
+
+                    <label class="form-label" for="pass2">비밀번호확인</label>
+                    <div class="form-field">
+                        <input id="pass2" name="pass2" type="password" placeholder="비밀번호 확인" required />
+                    </div>
+
+                    <label class="form-label" for="name">상점명</label>
+                    <div class="form-field">
+                        <input id="name" name="name" type="text" placeholder="상호명 입력" required />
+                        <p class="hint"> 예)  (주)그린마켓 </p>
+
+                    </div>
+
+                    <label class="form-label" for="owner">대표</label>
+                    <div class="form-field">
+                        <input id="owner" name="owner" type="text" placeholder="대표자명" required />
+                    </div>
+
+                    <label class="form-label" for="bizNo">사업자등록번호</label>
+                    <div class="form-field">
+                        <input id="bizNo" name="bizNo" type="text" inputmode="numeric" placeholder="사업자등록번호 입력" required />
+                        <p class="hint"> - 포함 12자리 입력 </p>
+                    </div>
+
+                    <label class="form-label" for="mailOrderNo">통신판매업번호</label>
+                    <div class="form-field">
+                        <input id="mailOrderNo" name="mailOrderNo" type="text" placeholder="통신판매업번호 입력" />
+                        <p class="hint"> - 포함 12자리 입력 </p>
+                    </div>
+
+                    <label class="form-label" for="tel">전화번호</label>
+                    <div class="form-field">
+                        <input id="tel" name="tel" type="text" inputmode="numeric" placeholder="전화번호 입력" />
+                    </div>
+
+                    <label class="form-label" for="fax">팩스</label>
+                    <div class="form-field">
+                        <input id="fax" name="fax" type="text" inputmode="numeric" placeholder="팩스번호 입력" />
+                    </div>
+
+                    <label class="form-label">주소</label>
+                    <div class="form-field">
+                        <div class="addr-row">
+                            <input id="zip" name="zip" type="text" placeholder="우편번호" readonly />
+                            <button type="button" class="btn-outline" id="btnFindZip">검색</button>
+                        </div>
+                        <input id="addr1" name="addr1" type="text" placeholder="기본주소" />
+                        <input id="addr2" name="addr2" type="text" placeholder="상세주소" />
+                    </div>
+
+                </div>
+
+                <div class="modal__footer">
+                    <button type="button" class="btn-gray" data-close="true">취소</button>
+                    <button type="submit" class="btn-green">등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script th:src="@{/js/modal.js}"></script>
+    <script>
+        // ===== 테이블: 전체 선택 =====
+        const chkAll = document.getElementById('chkAll');
+        chkAll?.addEventListener('change', (e) => {
+            document.querySelectorAll('tbody input[type="checkbox"]')
+                .forEach(cb => cb.checked = e.target.checked);
+        });
+
+    </script>
+
+
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<th:block th:insert="~{inc/admin_template :: _footer}"/>
+<!-- □□□□□ 푸터 □□□□□ -->
+<!-- <%@ include file="_footer.jsp" %> -->
+
+</th:block>
