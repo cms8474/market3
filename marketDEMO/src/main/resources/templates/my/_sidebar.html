@@ -1,0 +1,15 @@
+<div class="sidebar" th:fragment="_sidebar" style="width: 25%;">
+    <aside class="MyPage-menu" style="height: 100%;">
+        <nav style="display: flex; flex-direction: column;
+            font-size: 22px; margin-left: 22%;
+            gap: 20px; height: 100%;
+        ">
+            <a th:href="@{/my/order}">전체주문내역</a>
+            <a th:href="@{/my/point}">포인트내역</a>
+            <a th:href="@{/my/coupon}">쿠폰</a>
+            <a th:href="@{/my/review}">나의리뷰</a>
+            <a th:href="@{/my/qna}">문의하기</a>
+            <a th:href="@{/my/info}">나의설정</a>
+        </nav>
+    </aside>
+</div>
