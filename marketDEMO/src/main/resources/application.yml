@@ -8,7 +8,7 @@ spring:
       suffix: .html
       cache: false
     application:
-        name: marketDEMO
+      name: marketDEMO
     datasource:
         driver-class-name: oracle.jdbc.driver.OracleDriver
         password: 1234
