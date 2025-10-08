@@ -13,14 +13,54 @@
             margin: 0 auto;
         }
 
-        /* 회사소개 메인 스타일 */
-        .intro-img {
-            width: 100%; height: 700px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-end;
-            border: solid 1px; /* 임시 테두리 */
+        /* ===== 공통 토큰 ===== */
+        :root{
+            --container: 1920px;
+            --content: 980px;
+            --ink: #111827;
+            --muted: #4b5563;
+            --line: #e5e7eb;
+            --brand: #111827;
+            --bg-soft: #f9fafb;
         }
+
+        /* 공통 레이아웃 */
+        .section-wrap { padding: 56px 24px; }
+        .section-head { max-width: var(--content); margin: 0 auto 24px; }
+        .section-eyebrow { color:#6b7280; font-size:13px; letter-spacing:.04em; margin:0 0 6px; }
+        .section-title { font-size:28px; margin:0 0 10px; line-height:1.35; color:var(--ink); }
+        .section-desc { color:#374151; margin:0 0 18px; }
+
+        /* 메인 컨테이너 */
+        .mincheolkang {
+            display:flex; flex-direction:column;
+            max-width: var(--container);
+            margin: 0 auto;
+            color: var(--ink);
+        }
+
+        /* ===== Hero: company-introduction(통일) ===== */
+        .company-introduction { padding: 0 0 40px; }
+
+        /* 배경 이미지 히어로 */
+        .company-introduction .intro-img{
+            width:100%; height: 560px; /* 톤 맞춰 살짝 낮춤 */
+            display:flex; justify-content:flex-start; align-items:flex-end;
+            background: #dfe3ea center/cover no-repeat; /* 실제 이미지를 inline style로 주입해도 됨 */
+            position:relative;
+            border: 0; /* 기존 테두리 제거 */
+            background-image:url('#'); /* 추후 이미지 추가 */
+        }
+
+        /* 좌→우 그라데이션+아래 음영 살짝 */
+        .company-introduction .intro-img::before{
+            content:"";
+            position:absolute; inset:0;
+            background: linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.25) 60%),
+            linear-gradient(90deg, rgba(0,0,0,.35), rgba(0,0,0,0) 40%);
+        }
+
+        /* 히어로 타이틀 박스 (공통 타이포 스케일에 맞춤) */
         @keyframes fadeUp {
             from {
                 opacity: 0;
@@ -31,22 +71,100 @@
                 transform: translateY(0);
             }
         }
-        .company-introduction .title {
-            margin-left: 40px;
-            margin-bottom: 40px;
+        .company-introduction .title{
+            position:relative; z-index:1;
+            margin: 0 0 40px 40px;
+            max-width: min(780px, 90vw);
             animation: fadeUp 0.6s ease-out forwards;
         }
-        .company-introduction .title p {
-            font-size: xx-large;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        .company-introduction .introduction {
-            margin-left: 7%;
-            font-size: x-large;
-            line-height: 2.5;
+        .company-introduction .title p{
+            margin:0;
+            font-size: 28px; line-height:1.4; font-weight: 700;
+            color:#fff;
+            padding: 14px 16px;
+            background: rgba(0,0,0,.45);
+            border-radius: 10px;
         }
 
+        /* 히어로 아래 소개문(섹션 헤드 스타일과 톤 맞춤) */
+        .company-introduction .introduction{
+            max-width: var(--content);
+            margin: 28px auto 0;
+            padding: 0 24px;
+        }
+        .company-introduction .introduction p{
+            margin:0;
+            font-size: 18px; line-height: 1.9; color: var(--muted);
+        }
+
+        /* ===== 공통 ===== */
+        .kculture.section-wrap { padding: 56px 24px; }
+        .kculture-head { max-width: 980px; margin: 0 auto 24px; }
+        .kculture-eyebrow { color:#6b7280; font-size:13px; letter-spacing:.04em; margin:0 0 6px; }
+        .kculture-title { font-size:28px; margin:0 0 10px; line-height:1.35; }
+        .kculture-desc { color:#374151; margin:0 0 18px; }
+
+        /* ===== 문화 원칙 카드 ===== */
+        .kculture-grid{
+            max-width:980px; margin:0 auto;
+            display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+        }
+        .kculture-card{
+            border:1px solid #e5e7eb; border-radius:12px; padding:16px 14px; background:#fff;
+        }
+        .kculture-card h3{ margin:6px 0 8px; font-size:18px; }
+        .kculture-card p{ margin:0; color:#4b5563; font-size:14px; line-height:1.6; }
+        .kculture-icon{ font-size:24px; }
+
+        /* ===== 일하는 방식 ===== */
+        .kstyle-list{ max-width:980px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+        .kstyle-item{ border-left:4px solid #2563eb; background:#f8fafc; padding:14px 16px; border-radius:6px; }
+        .kstyle-item h4{ margin:0 0 6px; font-size:16px; }
+        .kstyle-item p{ margin:0; color:#4b5563; font-size:14px; }
+
+        /* ===== 베네핏 ===== */
+        .kbenefits{
+            max-width:980px; margin:0 auto; padding:12px 18px 8px; background:#fbfbfd;
+            border:1px solid #eceff5; border-radius:10px; list-style:none;
+        }
+        .kbenefits li{ margin:8px 0; font-size:14px; color:#374151; }
+
+        /* ===== 인재상 ===== */
+        .ktalent-grid{
+            max-width:980px; margin:0 auto;
+            display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+        }
+        .ktalent-card{
+            border:1px solid #e5e7eb; border-radius:12px; padding:16px 14px; background:#fff;
+        }
+        .ktalent-card h3{ margin:0 0 8px; font-size:16px; }
+        .ktalent-card p{ margin:0; color:#4b5563; font-size:14px; line-height:1.6; }
+
+        /* ===== CTA ===== */
+        .kculture-cta{
+            max-width:980px; margin:24px auto 80px; text-align:center; padding:28px 20px;
+            border:1px dashed #d1d5db; border-radius:14px; background:#f9fafb;
+        }
+        .kculture-cta h2{ margin:0 0 10px; font-size:22px; }
+        .kculture-cta p{ margin:0 0 16px; color:#4b5563; }
+        .kculture-btn{
+            display:inline-block; padding:10px 16px; border-radius:999px; background:#111827; color:#fff;
+            text-decoration:none;
+        }
+        .kculture-btn:hover{ background:#000; }
+
+        /* ===== 반응형 ===== */
+        @media (max-width: 1024px){
+            .kculture-grid{ grid-template-columns:repeat(2,1fr); }
+            .ktalent-grid{ grid-template-columns:repeat(2,1fr); }
+        }
+        @media (max-width: 640px){
+            .kculture.section-wrap{ padding:40px 16px; }
+            .kstyle-list{ grid-template-columns:1fr; }
+            .kculture-grid{ grid-template-columns:1fr; }
+            .ktalent-grid{ grid-template-columns:1fr; }
+            .kculture-title{ font-size:24px; }
+        }
 
     </style>
 </head>
@@ -73,6 +191,120 @@
             </p>
         </div>
     </section>
+    <!-- ====== Culture: 케이마켓의 문화 원칙 ====== -->
+    <section class="kculture section-wrap" id="culture-values">
+        <div class="kculture-head">
+            <p class="kculture-eyebrow">K-Market Culture</p>
+            <h2 class="kculture-title">케이마켓의 문화 원칙</h2>
+            <p class="kculture-desc">우리는 ‘안정성 있게, 혁신성 있게’를 사람 중심으로 실천합니다.</p>
+        </div>
+
+        <div class="kculture-grid">
+            <article class="kculture-card">
+                <div class="kculture-icon" aria-hidden="true">🤝</div>
+                <h3>신뢰를 기반으로</h3>
+                <p>서로의 전문성을 존중하고, 자율과 책임 속에서 투명하게 일합니다.</p>
+            </article>
+
+            <article class="kculture-card">
+                <div class="kculture-icon" aria-hidden="true">🚀</div>
+                <h3>실패를 두려워하지 않음</h3>
+                <p>가설을 세워 빠르게 검증하고, 결과보다 배움을 더 크게 봅니다.</p>
+            </article>
+
+            <article class="kculture-card">
+                <div class="kculture-icon" aria-hidden="true">📊</div>
+                <h3>데이터로 결정</h3>
+                <p>의견보다 근거를, 감보다 데이터와 사용자 피드백을 우선합니다.</p>
+            </article>
+
+            <article class="kculture-card">
+                <div class="kculture-icon" aria-hidden="true">🌱</div>
+                <h3>함께 성장</h3>
+                <p>고객·파트너·동료의 성장을 우리의 성장으로 여깁니다.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- ====== Work Style: 우리가 일하는 방식 ====== -->
+    <section class="kculture section-wrap" id="work-style">
+        <div class="kculture-head">
+            <p class="kculture-eyebrow">Work Style</p>
+            <h2 class="kculture-title">우리가 일하는 방식</h2>
+            <p class="kculture-desc">자율과 협업, 그리고 성장을 중심으로 케이마켓의 일상이 만들어집니다.</p>
+        </div>
+
+        <div class="kstyle-list">
+            <article class="kstyle-item">
+                <h4>자율과 책임</h4>
+                <p>성과 중심 운영. 목표는 명확하게, 실행은 자율적으로.</p>
+            </article>
+            <article class="kstyle-item">
+                <h4>개방적 소통</h4>
+                <p>직급보다 역할, 직책보다 문제 해결을 중시하는 수평 피드백.</p>
+            </article>
+            <article class="kstyle-item">
+                <h4>지속적 학습</h4>
+                <p>사내 스터디·테크톡·교육비 지원으로 개인과 팀의 성장을 응원.</p>
+            </article>
+            <article class="kstyle-item">
+                <h4>업무 효율화</h4>
+                <p>반복 업무는 자동화·템플릿화. 중요한 일에 집중할 수 있게.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- ====== Benefits: 함께 더 나은 일상을 위해 ====== -->
+    <section class="kculture section-wrap" id="benefits">
+        <div class="kculture-head">
+            <p class="kculture-eyebrow">Benefits</p>
+            <h2 class="kculture-title">함께 더 나은 일상을 위해</h2>
+            <p class="kculture-desc">일과 삶의 균형이 곧 장기적인 경쟁력이라고 믿습니다.</p>
+        </div>
+
+        <ul class="kbenefits">
+            <li><strong>유연·원격 근무</strong> — 상황에 맞는 하이브리드 근무 운영</li>
+            <li><strong>리프레시 휴가</strong> — 장기 근속/프로젝트 종료 시 보너스 휴가</li>
+            <li><strong>성장 지원</strong> — 교육비·도서비·컨퍼런스 참가비 지원</li>
+            <li><strong>웰니스</strong> — 선택적 복지 포인트, 심리 상담 연계</li>
+        </ul>
+    </section>
+
+    <!-- ====== Talent: 케이마켓이 함께하고 싶은 사람 ====== -->
+    <section class="kculture section-wrap" id="talent">
+        <div class="kculture-head">
+            <p class="kculture-eyebrow">We Value People Who…</p>
+            <h2 class="kculture-title">케이마켓이 함께하고 싶은 사람</h2>
+            <p class="kculture-desc">‘안정성 있게, 혁신성 있게’를 자신만의 방식으로 실천하는 동료를 기다립니다.</p>
+        </div>
+
+        <div class="ktalent-grid">
+            <article class="ktalent-card">
+                <h3>고객 집착형 문제 해결자</h3>
+                <p>고객 문제를 집요하게 파고들고, 가치를 만드는 데 집중합니다.</p>
+            </article>
+            <article class="ktalent-card">
+                <h3>데이터 감각이 있는 실행가</h3>
+                <p>가설→실험→회고의 사이클을 스스로 설계하고 실행합니다.</p>
+            </article>
+            <article class="ktalent-card">
+                <h3>협업을 스킬로 가진 동료</h3>
+                <p>개방적으로 소통하고, 팀의 성공을 개인의 성취만큼 중요하게 여깁니다.</p>
+            </article>
+            <article class="ktalent-card">
+                <h3>학습이 즐거운 사람</h3>
+                <p>새로운 도구·방식·관점을 빠르게 흡수하고 공유합니다.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- ====== CTA ====== -->
+    <section class="kculture-cta">
+        <h2>케이마켓과 함께 굵은 점을 찍을 준비가 되셨나요?</h2>
+        <p>지금 케이마켓의 채용 공고를 확인해보세요.</p>
+        <a class="kculture-btn" th:href="@{/company/recruit}">채용 보기</a>
+    </section>
+
 </main>
 </body>
 </html>
