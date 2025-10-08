@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회사소개::메인</title>
+    <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/sidebar.css" rel="stylesheet">
+    <style>
+        .mincheolkang {
+            display: flex;
+            flex-direction: column;
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        /* 회사소개 메인 스타일 */
+        .intro-img {
+            width: 100%; height: 700px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+            border: solid 1px; /* 임시 테두리 */
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .title {
+            margin-left: 40px;
+            margin-bottom: 40px;
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+        .title p {
+            font-size: xx-large;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .introduction {
+            margin-left: 7%;
+            font-size: x-large;
+            line-height: 2.5;
+        }
+
+
+    </style>
+</head>
+<body>
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div class="header-wrap" th:replace="~{company/_header.html}"></div>
+<!-- □□□□□ 헤더 □□□□□ -->
+<main class="mincheolkang">
+    <section class="company-introduction">
+        <div class="intro-img">
+            <div class="title">
+                <p>
+                    대기업의 안정성과 스타트업의 혁신성을 함께,<br>
+                    케이마켓에서 우리는 성장하고 있어요.
+                </p>
+            </div>
+        </div>
+        <div class="introduction">
+            <p>
+                케이마켓은 안정성있게, 혁신성 있게 우리의 문화를 만들어가고 있어요.<br>
+                구성원들은 수평적이고 자율적인 문화 속에서<br>
+                개선을 넘어서 혁신적인 케이마켓만의 서비스를 만들어요.<br>
+                그렇게 굵은점을 찍어가며, 우리는 케이마켓과 함께 성장하고 있어요.
+            </p>
+        </div>
+    </section>
+</main>
+</body>
+</html>

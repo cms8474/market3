@@ -36,17 +36,17 @@
                 transform: translateY(0);
             }
         }
-        .title {
+        .main-introduction .title {
             margin-left: 40px;
             margin-bottom: 40px;
             animation: fadeUp 0.6s ease-out forwards;
         }
-        .title p {
+        .main-introduction .title p {
             font-size: xx-large;
             color: white;
             background-color: rgba(0, 0, 0, 0.5);
         }
-        .introduction {
+        .main-introduction .introduction {
             margin-left: 7%;
             font-size: x-large;
             line-height: 2.5;
@@ -132,6 +132,7 @@
         }
 
         /* 케이마켓 연혁 스타일 */
+        /* 케이마켓 연혁 스타일 - REPLACED */
         :root{
             --line:#d9dde6;
             --dot:#8c95a8;
@@ -141,74 +142,103 @@
             --maxw: 980px;
         }
         .history *{box-sizing:border-box}
-        .history {margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,sans-serif;color:#111}
-        .history {max-width:var(--maxw);margin:30px auto;padding:0 16px}
-        .history h1{font-size:28px;margin:0 0 24px;line-height:1.35}
-        .history .lead{color:#374151;margin:6px 0 24px}
+        .history{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,sans-serif;color:#111}
+        .history{max-width:var(--maxw);padding:40px;}
+        .history h1{font-size:28px;margin:0 40px 24px;line-height:1.35}
+        .history .lead{color:#374151;margin:6px 40px 24px}
 
-        /* 타임라인 레이아웃 */
+        /* ===== 타임라인 레이아웃(2-컬럼) ===== */
         .timeline{
             position:relative;
-            padding-left:120px;   /* 연도 + 점 공간 */
-            margin:0;
-        }
-        .timeline::before{
-            content:"";
-            position:absolute;left:78px;top:0;bottom:0;
-            width:2px;background:var(--line);
-        }
-        .year{
-            position:relative;
-            margin:18px 0 8px;
-            padding-left:0;
-            font-weight:800;font-size:24px;color:#4b5563;
-        }
-        .year .dot{
-            position:absolute;left:72px;top:8px;
-            width:12px;height:12px;border-radius:50%;background:var(--dot);
-            box-shadow:0 0 0 4px #f8fafc; /* 라인과 분리 */
+            display:grid;
+            grid-template-columns: 100px 1fr; /* 왼쪽=연도, 오른쪽=내용 */
+            column-gap:24px;
+            padding:24px 0;
+            margin-left: 40px;
         }
 
-        /* 항목(카드) */
+        /* 가운데 수직선 */
+        .timeline::before{
+            content:"";
+            position:absolute;
+            left:100px;           /* 왼쪽 컬럼 끝 위치와 정확히 맞춤 */
+            top:0; bottom:0;
+            width:2px;
+            background:var(--line);
+        }
+
+        /* 연도(왼쪽 컬럼에 고정) */
+        .year{
+            grid-column:1;
+            position: sticky;     /* 스크롤 시 상단 고정하려면 사용, 아니면 제거해도 OK */
+            top:12px;
+            align-self:start;
+            margin:0;
+            padding:8px 0;
+            font-weight:800;
+            font-size:32px;
+            color:#4b5563;
+        }
+        /* 연도 옆 점은 쓰지 않음(라인과 이벤트 점만 노출) */
+        .year .dot{ display:none; }
+
+        /* 이벤트 카드(오른쪽 컬럼) */
         .event{
-            position:relative;
-            display:flex;gap:16px;align-items:flex-start;
+            grid-column:2;
+            position:relative;    /* dot의 기준 */
+            display:flex;
+            gap:16px;
+            align-items:flex-start;
             margin:12px 0 22px;
         }
-        .event .dot{
-            position:absolute;left:-48px;top:14px;
-            width:10px;height:10px;border-radius:50%;background:var(--dot);
-            box-shadow:0 0 0 3px #f8fafc;
+
+        /* 이벤트 점: 수직선 위에 정확히 중앙 정렬되도록 오프셋 */
+        .event::before{
+            content:"";
+            position:absolute;
+            /* 오른쪽 컬럼의 왼쪽 경계(= 100px + 24px)에서 수직선(=100px)까지
+               간격 24px + 점 반지름 6px 만큼 왼쪽으로 당김 → 30px */
+            left:-30px;
+            top:24px;
+            width:12px; height:12px;
+            border-radius:50%;
+            background:var(--dot);
+            box-shadow:0 0 0 4px #fff; /* 바깥 링 */
         }
+
+        /* 썸네일 + 카드 기본 */
         .thumb{
-            width:64px;height:64px;flex:0 0 64px;background:#eef2ff;border:1px solid #e5e7eb;border-radius:6px;
+            width:64px;height:64px;flex:0 0 64px;
+            background:#eef2ff;border:1px solid #e5e7eb;border-radius:6px;
             display:grid;place-items:center;color:#9aa3b2;
         }
         .thumb svg{width:38px;height:38px}
         .card{
-            background:var(--card);border-radius:10px;border:1px solid #eceff5;
-            padding:10px 14px;min-width:240px;max-width:620px
+            background:var(--card);
+            border-radius:10px;border:1px solid #eceff5;
+            padding:10px 14px;min-width:240px;max-width:620px;
         }
         .meta{font-size:13px;color:var(--muted);margin-bottom:2px}
         .title{font-weight:800;color:var(--title);margin:2px 0 6px}
         .desc{font-size:13px;color:#6b7280;margin:0}
 
+        /* ===== 반응형 튜닝 ===== */
         @media (max-width:640px){
-            .timeline{padding-left:88px}
-            .timeline::before{left:58px}
-            .year{font-size:20px}
-            .year .dot{left:52px}
-            .event .dot{left:-28px}
+            .timeline{grid-template-columns:72px 1fr; column-gap:16px;}
+            .timeline::before{left:72px;}
+            .year{font-size:24px}
+            .event::before{ left:-24px; } /* gap 16 + 반지름 6 = 22~24px 정도 */
             .card{max-width:100%}
         }
+
     </style>
 </head>
 <body>
 <!-- ■■■■■ 헤더 ■■■■■ -->
-<div class="header-wrap" th:replace="~{company/_header.html}"></div>
+<div th:replace="~{company/_header.html}"></div>
 <!-- □□□□□ 헤더 □□□□□ -->
 <main class="mincheolkang">
-    <section class="main-content">
+    <section class="main-introduction">
         <div class="intro-img">
             <div class="title">
                 <p>
@@ -470,6 +500,9 @@
         </section>
     </section>
 </main>
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div th:replace="~{company/_footer.html}"></div>
+<!-- □□□□□ 헤더 □□□□□ -->
 </body>
 </html>
 <script>
