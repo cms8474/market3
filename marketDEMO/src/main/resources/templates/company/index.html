@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>회사소개::메인</title>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
     <link href="/css/header.css" rel="stylesheet">
     <link href="/css/sidebar.css" rel="stylesheet">
     <style>
         .mincheolkang {
             display: flex;
+            flex-direction: column;
             max-width: 1920px;
             margin: 0 auto;
         }
 
+        /* 회사소개 메인 스타일 */
         .intro-img {
             width: 100%; height: 700px;
             display: flex;
@@ -19,11 +26,22 @@
             align-items: flex-end;
             border: solid 1px; /* 임시 테두리 */
         }
-        .slogun {
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .title {
             margin-left: 40px;
             margin-bottom: 40px;
+            animation: fadeUp 0.6s ease-out forwards;
         }
-        .slogun p {
+        .title p {
             font-size: xx-large;
             color: white;
             background-color: rgba(0, 0, 0, 0.5);
@@ -32,6 +50,156 @@
             margin-left: 7%;
             font-size: x-large;
             line-height: 2.5;
+        }
+
+        /* 회사소개 슬로건 스타일 */
+        .slogan {
+            padding: 40px;
+        }
+
+        .headline {
+            font-size: 24px;
+            margin-bottom: 30px;
+            margin-left: 40px;
+        }
+
+        .swiper {
+            width: 100%;
+            max-width: 1900px;
+            margin: auto;
+        }
+
+        .swiper-slide {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .banner {
+            width: 48%; /* 두 개의 배너가 한 슬라이드에 나오도록 */
+            text-align: center;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            background: #eee;
+            margin-bottom: 10px;
+        }
+
+        .banner h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .banner p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .swiper-button-next, .swiper-button-prev {
+            background-color: #333;
+            color: white;
+        }
+
+        .swiper-pagination {
+            bottom: 10px;
+        }
+
+        /* 소식과 이야기 스타일 */
+        .news {padding: 40px;}
+        .news h2 {margin-left: 40px;}
+        .news div:first-child p {font-size: larger;}
+        .news article {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+        }
+        .news article h3 {
+            color: blue;
+        }
+        .news article div:last-child {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        .news article div button {
+            border: solid 1px #d8d8d8;
+            border-radius: 50px;
+            width: 50px;
+            background: none;
+        }
+
+        /* 케이마켓 연혁 스타일 */
+        :root{
+            --line:#d9dde6;
+            --dot:#8c95a8;
+            --title:#111827;
+            --muted:#6b7280;
+            --card:#ffffff;
+            --maxw: 980px;
+        }
+        .history *{box-sizing:border-box}
+        .history {margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,sans-serif;color:#111}
+        .history {max-width:var(--maxw);margin:30px auto;padding:0 16px}
+        .history h1{font-size:28px;margin:0 0 24px;line-height:1.35}
+        .history .lead{color:#374151;margin:6px 0 24px}
+
+        /* 타임라인 레이아웃 */
+        .timeline{
+            position:relative;
+            padding-left:120px;   /* 연도 + 점 공간 */
+            margin:0;
+        }
+        .timeline::before{
+            content:"";
+            position:absolute;left:78px;top:0;bottom:0;
+            width:2px;background:var(--line);
+        }
+        .year{
+            position:relative;
+            margin:18px 0 8px;
+            padding-left:0;
+            font-weight:800;font-size:24px;color:#4b5563;
+        }
+        .year .dot{
+            position:absolute;left:72px;top:8px;
+            width:12px;height:12px;border-radius:50%;background:var(--dot);
+            box-shadow:0 0 0 4px #f8fafc; /* 라인과 분리 */
+        }
+
+        /* 항목(카드) */
+        .event{
+            position:relative;
+            display:flex;gap:16px;align-items:flex-start;
+            margin:12px 0 22px;
+        }
+        .event .dot{
+            position:absolute;left:-48px;top:14px;
+            width:10px;height:10px;border-radius:50%;background:var(--dot);
+            box-shadow:0 0 0 3px #f8fafc;
+        }
+        .thumb{
+            width:64px;height:64px;flex:0 0 64px;background:#eef2ff;border:1px solid #e5e7eb;border-radius:6px;
+            display:grid;place-items:center;color:#9aa3b2;
+        }
+        .thumb svg{width:38px;height:38px}
+        .card{
+            background:var(--card);border-radius:10px;border:1px solid #eceff5;
+            padding:10px 14px;min-width:240px;max-width:620px
+        }
+        .meta{font-size:13px;color:var(--muted);margin-bottom:2px}
+        .title{font-weight:800;color:var(--title);margin:2px 0 6px}
+        .desc{font-size:13px;color:#6b7280;margin:0}
+
+        @media (max-width:640px){
+            .timeline{padding-left:88px}
+            .timeline::before{left:58px}
+            .year{font-size:20px}
+            .year .dot{left:52px}
+            .event .dot{left:-28px}
+            .card{max-width:100%}
         }
     </style>
 </head>
@@ -42,7 +210,7 @@
 <main class="mincheolkang">
     <section class="main-content">
         <div class="intro-img">
-            <div class="slogun">
+            <div class="title">
                 <p>
                     취향을, 브랜드를, 해택을 발견하는 즐거움<br>
                     지금 케이마켓에서 만나요
@@ -58,6 +226,265 @@
             </p>
         </div>
     </section>
+    <section class="slogan">
+        <h2 class="headline">쇼핑을 새롭게, 세상을 이롭게 만들어 나가요.</h2>
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <!-- 슬라이드 1 -->
+                <div class="swiper-slide">
+                    <div class="banner">
+                        <img src="배너1.jpg" alt="배너1">
+                        <h3>고객이 원하고 만족하는 서비스를 만들어요</h3>
+                        <p>
+                            케이마켓은 단순히 상품만을 판매하는<br>
+                            플랫폼이 아니라, 상품에 대한 경험을<br>
+                            함께 제공할 수 있는 플랫폼을 목표로 하고<br>
+                            있어요. 해외직구, 뷰티, 그로서리...
+                        </p>
+                    </div>
+                    <div class="banner">
+                        <img src="배너2.jpg" alt="배너2">
+                        <h3>배너 2</h3>
+                        <p>설명 2</p>
+                    </div>
+                </div>
+
+                <!-- 슬라이드 2 -->
+                <div class="swiper-slide">
+                    <div class="banner">
+                        <img src="배너3.jpg" alt="배너3">
+                        <h3>배너 3</h3>
+                        <p>설명 3</p>
+                    </div>
+                    <div class="banner">
+                        <img src="배너4.jpg" alt="배너4">
+                        <h3>배너 4</h3>
+                        <p>설명 4</p>
+                    </div>
+                </div>
+
+                <!-- 슬라이드 3 -->
+                <div class="swiper-slide">
+                    <div class="banner">
+                        <img src="배너5.jpg" alt="배너5">
+                        <h3>배너 5</h3>
+                        <p>설명 5</p>
+                    </div>
+                    <div class="banner">
+                        <img src="배너6.jpg" alt="배너6">
+                        <h3>배너 6</h3>
+                        <p>설명 6</p>
+                    </div>
+                </div>
+
+                <!-- 슬라이드 4 -->
+                <div class="swiper-slide">
+                    <div class="banner">
+                        <img src="배너7.jpg" alt="배너7">
+                        <h3>배너 7</h3>
+                        <p>설명 7</p>
+                    </div>
+                    <div class="banner">
+                        <img src="배너8.jpg" alt="배너8">
+                        <h3>배너 8</h3>
+                        <p>설명 8</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 네비게이션 버튼 -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+
+            <!-- 페이지네이션 (하단 점) -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+    <section class="news">
+        <h2>케이마켓은 이렇게 성장하고 있어요.</h2>
+        <article>
+            <div>
+                <p>2025.03</p>
+                <h3>'월간 케이마 3월호에서 만나는 500원 도넛, 1천원 양념감자!</h3>
+            </div>
+            <div>
+                <button><p>></p></button>
+            </div>
+        </article>
+        <article>
+            <div>
+                <p>2025.03</p>
+                <h3>'월간 케이마 3월호에서 만나는 500원 도넛, 1천원 양념감자!</h3>
+            </div>
+            <div>
+                <button><p>></p></button>
+            </div>
+        </article>
+        <article>
+            <div>
+                <p>2025.03</p>
+                <h3>'월간 케이마 3월호에서 만나는 500원 도넛, 1천원 양념감자!</h3>
+            </div>
+            <div>
+                <button><p>></p></button>
+            </div>
+        </article>
+        <article>
+            <div>
+                <p>2025.03</p>
+                <h3>'월간 케이마 3월호에서 만나는 500원 도넛, 1천원 양념감자!</h3>
+            </div>
+            <div>
+                <button><p>></p></button>
+            </div>
+        </article>
+    </section>
+    <section class="history">
+        <h1>국내 최초의 온라인 종합 쇼핑몰, <strong>케이마켓</strong>의 연혁</h1>
+        <p class="lead">고객의 쇼핑 경험을 바꾸어 온 케이마켓의 주요 발자취입니다.</p>
+
+        <section class="timeline" aria-label="케이마켓 연혁">
+
+            <!-- 2025 -->
+            <h2 class="year">2025 <span class="dot" aria-hidden="true"></span></h2>
+
+            <article class="event">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="thumb" aria-hidden="true">
+                    <!-- placeholder icon -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="m7 14 3-4 3 3 3-2 1 3"/>
+                    </svg>
+                </div>
+                <div class="card">
+                    <div class="meta">2025년 03월</div>
+                    <div class="title">동반성장주간기념식 대통령 표창</div>
+                    <p class="desc">파트너 협력 생태계 공로로 국무총리상에 이어 대통령 표창 수훈.</p>
+                </div>
+            </article>
+
+            <article class="event">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="thumb" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="M7 9h10M7 13h6M7 17h8"/>
+                    </svg>
+                </div>
+                <div class="card">
+                    <div class="meta">2025년 01월</div>
+                    <div class="title">케이마켓 페이 출시</div>
+                    <p class="desc">간편결제 · 송금 · 포인트 통합 ‘K-Pay’ 출시, 가입 3개월 500만 돌파.</p>
+                </div>
+            </article>
+
+            <!-- 2024 -->
+            <h2 class="year">2024 <span class="dot" aria-hidden="true"></span></h2>
+
+            <article class="event">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="thumb" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="m7 14 3-4 3 3 3-2 1 3"/>
+                    </svg>
+                </div>
+                <div class="card">
+                    <div class="meta">2024년 11월</div>
+                    <div class="title">신선식품 새벽배송 전국 확대</div>
+                    <p class="desc">물류 거점 7개 확충, 주문 마감 23시 → 익일 7시 도착 서비스 개시.</p>
+                </div>
+            </article>
+
+            <article class="event">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="thumb" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="M7 9h10M7 13h10"/>
+                    </svg>
+                </div>
+                <div class="card">
+                    <div class="meta">2024년 06월</div>
+                    <div class="title">라이브커머스 ‘K-라이브’ 론칭</div>
+                    <p class="desc">실시간 구매 지원·채팅 상담·재고 연동을 통한 전환율 2.3배 향상.</p>
+                </div>
+            </article>
+
+            <!-- 2023 -->
+            <h2 class="year">2023 <span class="dot" aria-hidden="true"></span></h2>
+
+            <article class="event">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="thumb" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="M7 13h5l2 3 3-6"/>
+                    </svg>
+                </div>
+                <div class="card">
+                    <div class="meta">2023년 09월</div>
+                    <div class="title">해외 역직구관 오픈</div>
+                    <p class="desc">동남아 4개국 직배송 시작, 현지 통화·관부가세 자동 정산 지원.</p>
+                </div>
+            </article>
+
+            <!-- 2022 -->
+            <h2 class="year">2022 <span class="dot" aria-hidden="true"></span></h2>
+
+            <article class="event">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="thumb" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="M7 9h6M7 13h10"/>
+                    </svg>
+                </div>
+                <div class="card">
+                    <div class="meta">2022년 02월</div>
+                    <div class="title">케이마켓 리브랜딩</div>
+                    <p class="desc">새 로고/컬러 시스템 도입, 접근성 가이드 라인 준수로 웹 접근성 AA 획득.</p>
+                </div>
+            </article>
+
+            <!-- 시작 연도 -->
+            <h2 class="year">2020 <span class="dot" aria-hidden="true"></span></h2>
+
+            <article class="event">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="thumb" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="M7 13h10M7 9h8"/>
+                    </svg>
+                </div>
+                <div class="card">
+                    <div class="meta">2020년 05월</div>
+                    <div class="title">케이마켓 베타 오픈</div>
+                    <p class="desc">국내 최초 ‘가격 자동비교 + 무료반품 30일’ 정책으로 베타 론칭.</p>
+                </div>
+            </article>
+
+        </section>
+    </section>
 </main>
 </body>
 </html>
+<script>
+    const swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 20, // 배너 간 간격
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        loop: true,
+    });
+</script>
+
