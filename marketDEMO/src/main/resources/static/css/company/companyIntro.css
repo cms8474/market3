@@ -609,3 +609,6 @@
     width: inherit;
     height: inherit;
 }
+
+/* ============================== 푸터 스타일 ================================== */
+.footer-text .nav nav a {text-decoration: none;}

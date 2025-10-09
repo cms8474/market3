@@ -1,7 +1,26 @@
-<div th:fragment="_footer" class="footer-wrapper">
+<div class="footer-wrapper" th:fragment="_footer">
     <footer>
-        <div class="footer">
-            <span>Copyright ©Green University All rights reserved.ADMINISTRATOR Version 1.4.1</span>
+        <div class="footer" style="display: flex; align-items: center;">
+            <div class="footer-logo" style="margin-left: 5%; margin-right: 50px;">
+                <svg height="100" style="background-color: rgba(0,0,0,0.5);" width="200">
+                    <rect height="90" style="fill: white;" width="190" x="5" y="5"/>
+                    <circle cx="122" cy="40" r="23" fill="gray" style="stroke: white; stroke-width: 3"/>
+                    <polygon points="10,90 130,90 70,20" fill="gray" style="stroke: white; stroke-width: 3"/>
+                    <polygon points="80,90 180,90 130,40" fill="gray" style="stroke: white; stroke-width: 3"/>
+                </svg>
+            </div>
+            <div class="footer-text">
+                <div class="nav" style="margin-bottom: 40px;">
+                    <nav style="display: flex; align-items: baseline; gap: 30px;">
+                        <a th:href="@{/company/index}">HOME</a>
+                        <a th:href="@{/company/culture}">기업문화</a>
+                        <a th:href="@{/company/story}">소식과이야기</a>
+                        <a th:href="@{/company/recruit}">채용</a>
+                        <a th:href="@{/company/media}">미디어</a>
+                    </nav>
+                </div>
+                <span>Copyright ©Green University All rights reserved.ADMINISTRATOR Version 1.4.1</span>
+            </div>
         </div>
     </footer>
     </body>
