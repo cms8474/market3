@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>회사소개::메인</title>
+    <title>회사소개::기업문화</title>
     <link href="/css/header.css" rel="stylesheet">
-    <link href="/css/sidebar.css" rel="stylesheet">
     <style>
+        .main-header .nav a {text-decoration: none;}
+
+        .main-header .nav a:nth-child(2) {text-decoration: underline;}
+
         .mincheolkang {
             display: flex;
             flex-direction: column;
@@ -304,7 +307,9 @@
         <p>지금 케이마켓의 채용 공고를 확인해보세요.</p>
         <a class="kculture-btn" th:href="@{/company/recruit}">채용 보기</a>
     </section>
-
 </main>
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<div th:replace="~{company/_footer.html}"></div>
+<!-- □□□□□ 푸터 □□□□□ -->
 </body>
 </html>

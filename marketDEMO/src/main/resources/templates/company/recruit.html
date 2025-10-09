@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회사소개::채용</title>
+    <link href="/css/header.css" rel="stylesheet">
+    <style>
+        .main-header .nav a {text-decoration: none;}
+
+        .main-header .nav a:nth-child(4) {text-decoration: underline;}
+
+        .mincheolkang {
+            display: flex;
+            flex-direction: column;
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        .recruit-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+            font-family: 'Pretendard', sans-serif;
+            color: #111;
+        }
+
+        /* 제목 영역 */
+        .recruit-header {
+            margin-bottom: 20px;
+        }
+        .recruit-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0;
+        }
+        .recruit-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* ── 채용 테이블 ───────────────────────────────────────────── */
+
+        .recruit-table{
+            width:100%;
+            border-collapse:separate;     /* 모서리 둥글게 + 외곽 보더 */
+            border-spacing:0;
+            margin-top:18px;
+            border:1px solid #e5e7eb;     /* 외곽선 */
+            border-radius:12px;           /* 둥근 모서리 */
+            background:#fff;
+            overflow:hidden;              /* radius가 깔끔히 먹도록 */
+            table-layout:fixed;           /* 열 너비 고정(타이틀 말줄임) */
+            font-size:14px;
+        }
+
+        /* 헤더 */
+        .recruit-table thead th,
+        .recruit-table > tr:first-child > th{
+            background:#f6f7f9;           /* 연회색 헤더 */
+            color:#656a73;
+            font-weight:700;
+            text-align:center;
+            padding:14px 16px;
+            border-bottom:1px solid #e5e7eb;
+        }
+
+        /* 데이터 셀 */
+        .recruit-table td{
+            padding:14px 16px;
+            border-bottom:1px solid #eef0f3; /* 행 구분선 */
+            color:#2a2f36;
+            background:#fff;
+            vertical-align:middle;
+        }
+
+        /* 마지막 행 구분선 제거 */
+        .recruit-table tr:last-child td{ border-bottom:none; }
+
+        /* 행 호버 */
+        .recruit-table tbody tr:hover,
+        .recruit-table tr:hover{ background:#f9fbff; }
+
+        /* 각 열 정렬 & 너비(대략 스샷 비율) */
+        .recruit-table th:nth-child(1),
+        .recruit-table td:nth-child(1){ width:72px; text-align:center; }
+        .recruit-table th:nth-child(2){ width:140px;}
+        .recruit-table td:nth-child(2){ width:140px; text-align:left; }
+        .recruit-table th:nth-child(3){ width:160px;}
+        .recruit-table td:nth-child(3){ width:160px; text-align:left; color:#555; }
+        .recruit-table th:nth-child(4){ width:110px;}
+        .recruit-table td:nth-child(4){ width:110px; text-align:center; color:#555; }
+        .recruit-table td:nth-child(5){
+            text-align:left;              /* 제목(가변 폭) */
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;       /* 길면 … 처리 */
+        }
+        .recruit-table th:nth-child(6),
+        .recruit-table td:nth-child(6){ width:90px; text-align:center; font-weight:700; }
+        .recruit-table th:nth-child(7),
+        .recruit-table td:nth-child(7){ width:220px; text-align:center; color:#666; }
+
+        /* 상태 색감(텍스트만 있을 때 최소 스타일) */
+        .recruit-table td:nth-child(6){ color:#16a34a; }  /* 기본을 모집중(초록)으로 */
+
+        /* 접근성/브라우저 호환 위해 권장(선택): 상태에 클래스 사용 시
+           <td class="status open">모집중</td>
+           <td class="status closed">종료</td>
+        */
+        .recruit-table td.status.open{ color:#16a34a; }
+        .recruit-table td.status.closed{ color:#9aa0a6; }
+
+        /* 작은 화면 대응 */
+        @media (max-width: 768px){
+            .recruit-table{ font-size:13px; }
+            .recruit-table th:nth-child(7),
+            .recruit-table td:nth-child(7){ display:none; } /* 모바일에서 모집기간 숨김(선택) */
+        }
+
+        /* 페이지네이션 스타일 */
+        .Pagenation {
+            margin-top:40px;
+        }
+        .Pagenation a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div th:replace="~{company/_header.html}"></div>
+<!-- □□□□□ 헤더 □□□□□ -->
+<main class="mincheolkang">
+    <section class="recruit-main">
+        <!-- 메인 타이틀 -->
+        <header class="recruit-header">
+            <h2 class="recruit-title">
+                쇼핑을 새롭게, 세상을 이롭게 이끌<br>
+                쇼핑 좀 해본 인재를 모십니다!
+            </h2>
+            <p class="recruit-subtitle">
+                케이마켓은 안정성 있고 혁신성 있게 우리의 문화를 만들어가고 있어요.<br>
+                구성원들은 수평적이고 자율적인 문화 속에서 개선을 넘어서 혁신적인 케이마켓만의 서비스를 만들어요.<br>
+                케이마켓과 함께 굵은점을 찍어가며 성장하실 분들을 기다립니다.
+            </p>
+        </header>
+        <table class="recruit-table">
+            <tr>
+                <th>번호</th>
+                <th>채용부서</th>
+                <th>경력사항</th>
+                <th>채용형태</th>
+                <th>제목</th>
+                <th>상태</th>
+                <th>모집기간</th>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>광고사업</td>
+                <td>경력 4 ~ 15년</td>
+                <td>정규직</td>
+                <td>광고 플랫폼 기획</td>
+                <td>모집중</td>
+                <td>0000-00-00 ~ 0000-00-00</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>IT</td>
+                <td>경력 2 ~ 15년</td>
+                <td>정규직</td>
+                <td>IT 인재 상시 영입(경력)</td>
+                <td>모집중</td>
+                <td>0000-00-00 ~ 0000-00-00</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>운영</td>
+                <td>무관</td>
+                <td>계약직</td>
+                <td>단기 아르바이트 모집</td>
+                <td>종료</td>
+                <td>0000-00-00 ~ 0000-00-00</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>경영</td>
+                <td>신입</td>
+                <td>계약직</td>
+                <td>경영지원 직원 채용 공고</td>
+                <td>종료</td>
+                <td>0000-00-00 ~ 0000-00-00</td>
+            </tr>
+        </table>
+
+        <div class="Pagenation" style="text-align: center;">
+            <a href="#">이전</a>&nbsp;&nbsp;
+            <a href="#">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>&nbsp;&nbsp;
+            <a href="#">다음</a>
+        </div>
+    </section>
+
+</main>
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<div th:replace="~{company/_footer.html}"></div>
+<!-- □□□□□ 푸터 □□□□□ -->
+</body>
+</html>

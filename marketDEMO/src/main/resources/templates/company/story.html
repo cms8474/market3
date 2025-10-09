@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회사소개::소식과 이야기</title>
+    <link href="/css/header.css" rel="stylesheet">
+    <style>
+        .main-header .nav a {text-decoration: none;}
+
+        .main-header .nav a:nth-child(3) {text-decoration: underline;}
+
+        .mincheolkang {
+            display: flex;
+            flex-direction: column;
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        .news-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+            font-family: 'Pretendard', sans-serif;
+            color: #111;
+        }
+
+        /* 제목 영역 */
+        .news-header {
+            margin-bottom: 20px;
+        }
+        .news-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0;
+        }
+        .news-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* 카테고리 탭 */
+        .news-category {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 24px;
+        }
+        .news-category ul {
+            display: flex;
+            gap: 24px;
+            padding: 0;
+            list-style: none;
+            margin: 0;
+        }
+        .news-category li a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            padding-bottom: 6px;
+            display: inline-block;
+        }
+        .news-category li.active a,
+        .news-category li a:hover {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        /* 카드 리스트 */
+        .news-cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .news-card {
+            flex: 1 1 calc(33.333% - 20px);
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.2s ease;
+        }
+        .news-card:hover {
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+        }
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-body {
+            padding: 14px 16px;
+        }
+        .card-body h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 8px;
+            line-height: 1.4;
+        }
+        .card-meta {
+            font-size: 14px;
+            color: #777;
+            margin: 0;
+        }
+
+        /* 반응형 */
+        @media (max-width: 1024px) {
+            .news-card { flex: 1 1 calc(50% - 20px); }
+        }
+        @media (max-width: 640px) {
+            .news-card { flex: 1 1 100%; }
+        }
+
+        .footer-wrapper {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div th:replace="~{company/_header.html}"></div>
+<!-- □□□□□ 헤더 □□□□□ -->
+<main class="mincheolkang">
+    <section class="news-main">
+        <!-- 메인 타이틀 -->
+        <header class="news-header">
+            <h2 class="news-title">케이마켓을 더 알고 싶다면!</h2>
+            <p class="news-subtitle">우리의 다양한 이야기를 소개합니다</p>
+        </header>
+
+        <!-- 카테고리 탭 -->
+        <nav class="news-category">
+            <ul>
+                <li class="active"><a href="#">전체보기</a></li>
+                <li><a href="#">기업문화</a></li>
+                <li><a href="#">인터뷰</a></li>
+                <li><a href="#">채용</a></li>
+                <li><a href="#">보도자료</a></li>
+                <li><a href="#">ESG</a></li>
+            </ul>
+        </nav>
+
+        <!-- 카드형 뉴스 리스트 -->
+        <div class="news-cards">
+            <article class="news-card">
+                <img src="/images/sample1.jpg" alt="봄 스타일링 완성 시킬 데님 브랜드 와크 75% 할인">
+                <div class="card-body">
+                    <h3>봄 스타일링 완성시킬 데님 브랜드 ‘와크’ 75% 할인</h3>
+                    <p class="card-meta">케이마켓에서 써보인 인기 브랜드는?</p>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <img src="/images/sample2.jpg" alt="봄 스타일링 완성 시킬 데님 브랜드 와크 75% 할인">
+                <div class="card-body">
+                    <h3>봄 스타일링 완성시킬 데님 브랜드 ‘와크’ 75% 할인</h3>
+                    <p class="card-meta">케이마켓에서 써보인 인기 브랜드는?</p>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <img src="/images/sample3.jpg" alt="봄 스타일링 완성 시킬 데님 브랜드 와크 75% 할인">
+                <div class="card-body">
+                    <h3>봄 스타일링 완성시킬 데님 브랜드 ‘와크’ 75% 할인</h3>
+                    <p class="card-meta">케이마켓에서 써보인 인기 브랜드는?</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+</main>
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<div th:replace="~{company/_footer.html}"></div>
+<!-- □□□□□ 푸터 □□□□□ -->
+</body>
+</html>
