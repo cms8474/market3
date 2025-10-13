@@ -6,121 +6,29 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/product.css">
-
-    <!-- bxSlider CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 
     <style>
-        /* ✅ 메인 배너 */
-        .main-banner {
-            width: 100%;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-        .main-banner img {
-            width: 100%;
-            height: 350px;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* ✅ 메인 상품 전용 (grid-products만 적용) */
+        .main-banner img { width:100%; height:350px; object-fit:cover; display:block; }
         .grid-products {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4개씩 */
-            gap: 20px;
-            list-style: none;
-            padding: 0;
-            margin: 0 0 30px 0;
+            display:grid; grid-template-columns:repeat(4,1fr);
+            gap:20px; list-style:none; padding:0; margin-bottom:30px;
         }
-        .grid-products .product {
-            display: block;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            background: #fff;
-            padding: 12px;
-            text-align: center;
-            transition: transform 0.2s;
+        .product {
+            border:1px solid #ddd; border-radius:6px; background:#fff; padding:12px;
+            text-align:center; transition:transform 0.2s;
         }
-        .grid-products .product:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        .product:hover { transform:translateY(-4px); box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+        .product img { width:100%; height:160px; object-fit:cover; margin-bottom:8px; }
+        .name { font-size:14px; font-weight:600; margin-bottom:4px; }
+        .origin { font-size:13px; text-decoration:line-through; color:#777; margin-right:4px; }
+        .discount { font-size:13px; color:#d32f2f; font-weight:bold; }
+        .sale { font-size:15px; font-weight:bold; color:#222; margin-top:4px; }
+        .badge.shipping {
+            display:inline-block; font-size:12px; padding:2px 6px; background:#1976d2;
+            color:#fff; border-radius:4px; margin-top:6px;
         }
-        .grid-products .product img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            margin-bottom: 8px;
-        }
-        .grid-products .product .name {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        .grid-products .product .origin {
-            font-size: 13px;
-            text-decoration: line-through;
-            color: #777;
-            margin-right: 4px;
-        }
-        .grid-products .product .discount {
-            font-size: 13px;
-            color: #d32f2f;
-            font-weight: bold;
-        }
-        .grid-products .product .sale {
-            font-size: 15px;
-            font-weight: bold;
-            color: #222;
-            margin-top: 4px;
-        }
-        .grid-products .badge.shipping {
-            display: inline-block;
-            font-size: 12px;
-            padding: 2px 6px;
-            background: #1976d2;
-            color: #fff;
-            border-radius: 4px;
-            margin-top: 6px;
-        }
-        .footer {
-            background: #f5f5f5;
-            padding: 20px;
-            margin-top: 40px;
-            border-top: 1px solid #ddd;
-            font-size: 13px;
-            color: #333;
-        }
-        .footer-links {
-            text-align: center;
-            margin-bottom: 16px;
-        }
-        .footer-links a {
-            margin: 0 8px;
-            color: #333;
-            text-decoration: none;
-        }
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .company-info, .customer-center {
-            width: 48%;
-        }
-        .footer-logo {
-            width: 60px;
-            margin-bottom: 10px;
-        }
-
     </style>
-
-
 </head>
 <body>
 
@@ -130,42 +38,25 @@
 <main class="product-page">
     <div class="main-container">
 
-        <!-- ✅ 왼쪽 사이드바 (list.html과 동일) -->
+        <!-- ✅ 사이드바 -->
         <div class="sidebar-container">
             <th:block th:replace="~{inc/_sidebar :: _sidebar}"/>
+
+            <!-- 베스트 상품 -->
             <aside class="best-product-list">
                 <h3 class="page-title">베스트 상품</h3>
                 <ul class="products">
-                    <li class="best-product-item">
-                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                    <li class="best-product-item" th:each="p : ${bestProducts}">
+                        <img th:src="${p.imageBase64}" alt="베스트 상품">
                         <div class="info">
-                            <h4 class="name">상품명</h4>
+                            <h4 class="name" th:text="${p.pName}">상품명</h4>
                             <p class="price">
-                                <span class="origin">30,000원</span>
-                                <span class="discount">10% ↓</span>
-                                <span class="sale">27,000원</span>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="best-product-item">
-                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
-                        <div class="info">
-                            <h4 class="name">상품명</h4>
-                            <p class="price">
-                                <span class="origin">30,000원</span>
-                                <span class="discount">10% ↓</span>
-                                <span class="sale">27,000원</span>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="best-product-item">
-                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
-                        <div class="info">
-                            <h4 class="name">상품명</h4>
-                            <p class="price">
-                                <span class="origin">30,000원</span>
-                                <span class="discount">10% ↓</span>
-                                <span class="sale">27,000원</span>
+                                <span class="origin" th:text="${#numbers.formatInteger(p.pPrice, 3, 'COMMA')} + '원'">30,000원</span>
+                                <span class="discount" th:text="${p.pDiscount + '% ↓'}">10%</span>
+                                <span class="sale"
+                                      th:text="${#numbers.formatInteger(p.pPrice * (100 - p.pDiscount) / 100, 3, 'COMMA')} + '원'">
+                                    27,000원
+                                </span>
                             </p>
                         </div>
                     </li>
@@ -173,168 +64,65 @@
             </aside>
         </div>
 
-        <!-- ✅ 오른쪽 메인 컨텐츠 -->
+        <!-- ✅ 오른쪽 메인 -->
         <section class="product-list">
 
             <!-- 🔹 메인 배너 -->
             <div class="main-banner">
                 <ul class="bxslider">
-                    <li><img th:src="@{/images/로고.png}" alt="배너1"></li>
-                    <li><img th:src="@{/images/로고.png}" alt="배너2"></li>
-                    <li><img th:src="@{/images/로고.png}" alt="배너3"></li>
-                    <li><img th:src="@{/images/로고.png}" alt="배너4"></li>
-                    <li><img th:src="@{/images/로고.png}" alt="배너5"></li>
+                    <li th:each="b : ${slideBanners}">
+                        <a th:href="${b.aLink}">
+                            <img th:src="${b.aImageBase64}" alt="배너">
+                        </a>
+                    </li>
                 </ul>
             </div>
 
             <!-- 🔹 히트상품 -->
             <h2 class="page-title">히트상품</h2>
             <ul class="grid-products">
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">30,000원</span><span class="discount"> 10% ↓</span></div>
-                    <div class="sale">27,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">50,000원</span><span class="discount"> 20% ↓</span></div>
-                    <div class="sale">40,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">15,000원</span><span class="discount"> 5% ↓</span></div>
-                    <div class="sale">14,250원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">100,000원</span><span class="discount"> 30% ↓</span></div>
-                    <div class="sale">70,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">30,000원</span><span class="discount"> 10% ↓</span></div>
-                    <div class="sale">27,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">50,000원</span><span class="discount"> 20% ↓</span></div>
-                    <div class="sale">40,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">15,000원</span><span class="discount"> 5% ↓</span></div>
-                    <div class="sale">14,250원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">100,000원</span><span class="discount"> 30% ↓</span></div>
-                    <div class="sale">70,000원</div>
+                <li class="product" th:each="p : ${hitProducts}">
+                    <img th:src="${p.imageBase64}" alt="상품 이미지">
+                    <div class="name" th:text="${p.pName}">상품명</div>
+                    <div>
+                        <span class="origin" th:text="${#numbers.formatInteger(p.pPrice, 3, 'COMMA')} + '원'"></span>
+                        <span class="discount" th:text="${p.pDiscount + '% ↓'}"></span>
+                    </div>
+                    <div class="sale"
+                         th:text="${#numbers.formatInteger(p.pPrice * (100 - p.pDiscount) / 100, 3, 'COMMA')} + '원'">
+                    </div>
                     <span class="badge shipping">무료배송</span>
                 </li>
             </ul>
 
-
             <!-- 🔹 추천상품 -->
             <h2 class="page-title">추천상품</h2>
             <ul class="grid-products">
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div>
-                    <div class="sale">18,000원</div>
+                <li class="product" th:each="p : ${recommendProducts}">
+                    <img th:src="${p.imageBase64}" alt="상품 이미지">
+                    <div class="name" th:text="${p.pName}"></div>
+                    <div>
+                        <span class="origin" th:text="${#numbers.formatInteger(p.pPrice,3,'COMMA')} + '원'"></span>
+                        <span class="discount" th:text="${p.pDiscount + '% ↓'}"></span>
+                    </div>
+                    <div class="sale"
+                         th:text="${#numbers.formatInteger(p.pPrice * (100 - p.pDiscount)/100,3,'COMMA')} + '원'"></div>
                     <span class="badge shipping">무료배송</span>
                 </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div>
-                    <div class="sale">20,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div>
-                    <div class="sale">34,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">60,000원</span><span class="discount"> 50% ↓</span></div>
-                    <div class="sale">30,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">70,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">59,500원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div><div class="sale">18,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div><div class="sale">20,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">34,000원</div><span class="badge shipping">무료배송</span></li>
-
             </ul>
 
             <!-- 🔹 최신상품 -->
             <h2 class="page-title">최신상품</h2>
             <ul class="grid-products">
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div><div class="sale">18,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div><div class="sale">20,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">34,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">60,000원</span><span class="discount"> 50% ↓</span></div><div class="sale">30,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">120,000원</span><span class="discount"> 60% ↓</span></div><div class="sale">50,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div><div class="sale">18,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div><div class="sale">20,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">34,000원</div><span class="badge shipping">무료배송</span></li>
-
-            </ul>
-
-
-            <!-- 🔹 인기상품 -->
-            <h2 class="page-title">인기상품</h2>
-            <ul class="grid-products">
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">70,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">59,500원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div><div class="sale">18,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div><div class="sale">20,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">34,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div>
-                    <div class="sale">18,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div>
-                    <div class="sale">20,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div>
-                    <div class="sale">34,000원</div>
-                    <span class="badge shipping">무료배송</span>
-                </li>
-                <li class="product">
-                    <img th:src="@{/images/로고.png}" alt="상품 이미지">
-                    <div class="name">상품명</div>
-                    <div><span class="origin">60,000원</span><span class="discount"> 50% ↓</span></div>
-                    <div class="sale">30,000원</div>
+                <li class="product" th:each="p : ${latestProducts}">
+                    <img th:src="${p.imageBase64}" alt="상품 이미지">
+                    <div class="name" th:text="${p.pName}"></div>
+                    <div>
+                        <span class="origin" th:text="${#numbers.formatInteger(p.pPrice,3,'COMMA')} + '원'"></span>
+                        <span class="discount" th:text="${p.pDiscount + '% ↓'}"></span>
+                    </div>
+                    <div class="sale"
+                         th:text="${#numbers.formatInteger(p.pPrice * (100 - p.pDiscount)/100,3,'COMMA')} + '원'"></div>
                     <span class="badge shipping">무료배송</span>
                 </li>
             </ul>
@@ -342,14 +130,17 @@
             <!-- 🔹 할인상품 -->
             <h2 class="page-title">할인상품</h2>
             <ul class="grid-products">
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">120,000원</span><span class="discount"> 60% ↓</span></div><div class="sale">50,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div><div class="sale">18,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div><div class="sale">20,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">34,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div><div class="sale">18,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div><div class="sale">20,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">34,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">60,000원</span><span class="discount"> 50% ↓</span></div><div class="sale">30,000원</div><span class="badge shipping">무료배송</span></li>
+                <li class="product" th:each="p : ${discountProducts}">
+                    <img th:src="${p.imageBase64}" alt="상품 이미지">
+                    <div class="name" th:text="${p.pName}"></div>
+                    <div>
+                        <span class="origin" th:text="${#numbers.formatInteger(p.pPrice,3,'COMMA')} + '원'"></span>
+                        <span class="discount" th:text="${p.pDiscount + '% ↓'}"></span>
+                    </div>
+                    <div class="sale"
+                         th:text="${#numbers.formatInteger(p.pPrice * (100 - p.pDiscount)/100,3,'COMMA')} + '원'"></div>
+                    <span class="badge shipping">무료배송</span>
+                </li>
             </ul>
 
         </section>
@@ -365,15 +156,13 @@
         <a href="#">전자금융거래약관</a>
     </div>
 
-    <div class="footer-content">
+    <div class="footer-content" th:each="v : ${companyInfo}">
         <div class="company-info">
-            <img th:src="@{/images/로고.png}" alt="회사 로고" class="footer-logo">
-            <p>(주)케이마켓</p>
-            <p>부산광역시 부산진구 중앙대로 103 그린타워 13층</p>
-            <p>대표이사 : 홍길동</p>
-            <p>사업자등록번호 : 123-45-12345</p>
+            <p th:text="${v.vCompany}">회사명</p>
+            <p th:text="${v.vAddr}">주소</p>
+            <p th:text="${v.vEmail}">이메일</p>
+            <p th:text="${v.vTel}">연락처</p>
         </div>
-
         <div class="customer-center">
             <p><strong>고객센터</strong></p>
             <p>Tel : 1234-5678 (평일 09:00~18:00)</p>
@@ -382,20 +171,14 @@
     </div>
 </footer>
 
-
-<!-- bxSlider JS -->
+<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 <script>
     $(document).ready(function(){
         $('.bxslider').bxSlider({
-            auto: true,
-            mode: 'horizontal',
-            speed: 500,
-            pause: 4000,
-            pager: true,
-            controls: true,
-            adaptiveHeight: true
+            auto:true, mode:'horizontal', speed:500, pause:4000,
+            pager:true, controls:true, adaptiveHeight:true
         });
     });
 </script>

@@ -187,14 +187,23 @@
 
                 <!-- 문의 상세 -->
                 <div class="qna-detail">
-                    <h3>[가입] 가입문의내용</h3>
-                    <div class="meta">chh** | 2022-11-21</div>
-                    <div class="question">
+                    <h3 th:text="'[' + ${board.boardType1} + '] ' + ${board.boardTitle}">[가입] 가입문의내용</h3>
+                    <div class="meta">
+                        <span th:text="${board.boardWriter}">작성자</span> |
+                        <span th:text="${#temporals.format(board.boardRegDate, 'yyyy-MM-dd')}">2022-11-21</span>
+                    </div>
+                    <div class="question" th:text="${board.boardContent}">
                         회원가입하고 싶어요. 어떻게 가입하나요?
                     </div>
-                    <div class="answer">
-                        <strong>[답변]</strong> 안녕하세요. 회원님 회원가입하시면 됩니다.
+
+                    <div class="answer" th:if="${board.boardAnswer != null}">
+                        <strong>[답변]</strong>
+                        <span th:text="${board.boardAnswer}">안녕하세요. 회원님 회원가입하시면 됩니다.</span>
                     </div>
+                    <div class="answer" th:if="${board.boardAnswer == null}">
+                        <strong>[답변]</strong> 아직 답변이 등록되지 않았습니다.
+                    </div>
+
                 </div>
 
                 <!-- 목록 버튼 -->

@@ -182,17 +182,17 @@
                 <!-- 가입 FAQ -->
                 <h2>가입 관련 문의</h2>
                 <ul class="faq-list" id="joinFaq">
-                    <li>
-                        <a th:href="@{/cs/faq/view}" class="question">
-                            Q. 개인회원과 법인회원에 차이가 있나요?
-                        </a>
+                    <li th:each="faq : ${joinList}">
+                        <a th:href="@{'/cs/faq/view'(no=${faq.boardNo})}" class="question"
+                           th:text="'Q. ' + ${faq.boardTitle}"></a>
+                        <span class="answer" th:text="${faq.boardAnswer}"></span>
                     </li>
-                    <li><span class="question">Q.</span> 외국인도 가입할 수 있나요?</li>
-                    <li><span class="question">Q.</span> 법인 회원 가입 절차는 어떻게 되나요?</li>
-                    <li><span class="question">Q.</span> 14세 미만도 가입할 수 있나요?</li>
-                    <li><span class="question">Q.</span> 아이디 중복확인은 어떻게 하나요?</li>
-                    <li><span class="question">Q.</span> 이메일 인증은 어떻게 하나요?</li>
+
+                    <li th:if="${#lists.isEmpty(joinList)}">
+                        등록된 가입 관련 FAQ가 없습니다.
+                    </li>
                 </ul>
+
                 <div class="faq-toggle">
                     <button id="joinToggle">더보기</button>
                 </div>
@@ -200,16 +200,21 @@
                 <!-- 탈퇴 FAQ -->
                 <h2>탈퇴 관련 문의</h2>
                 <ul class="faq-list" id="leaveFaq">
-                    <li><span class="question">Q.</span> 회원 탈퇴는 어떻게 하나요?</li>
-                    <li><span class="question">Q.</span> 탈퇴 후 재가입이 가능한가요?</li>
-                    <li><span class="question">Q.</span> 탈퇴하면 구매 내역도 삭제되나요?</li>
-                    <li><span class="question">Q.</span> 탈퇴 시 포인트는 어떻게 되나요?</li>
-                    <li><span class="question">Q.</span> 탈퇴 신청 후 취소할 수 있나요?</li>
-                    <li><span class="question">Q.</span> 탈퇴 후 동일 아이디 재사용이 가능한가요?</li>
+                    <li th:each="faq : ${leaveList}">
+                        <a th:href="@{'/cs/faq/view'(no=${faq.boardNo})}" class="question"
+                           th:text="'Q. ' + ${faq.boardTitle}"></a>
+                        <span class="answer" th:text="${faq.boardAnswer}"></span>
+                    </li>
+
+                    <li th:if="${#lists.isEmpty(leaveList)}">
+                        등록된 탈퇴 관련 FAQ가 없습니다.
+                    </li>
                 </ul>
+
                 <div class="faq-toggle">
                     <button id="leaveToggle">더보기</button>
                 </div>
+
             </section>
         </div>
     </div>

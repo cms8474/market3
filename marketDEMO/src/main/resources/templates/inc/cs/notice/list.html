@@ -176,29 +176,35 @@
 
             <!-- 오른쪽 본문 -->
             <section class="notice-content">
-                <h2>전체</h2>
+                <h2 th:text="${type1 != null ? type1 : '전체'}">전체</h2>
+
                 <ul class="notice-list">
-                    <li>
-                        <a th:href="@{/cs/notice/view}">[안내] 해외 결제사칭 문자주의</a>
-                        <span>00.00.00</span>
+                    <li th:each="notice : ${list.content}">
+                        <a th:href="@{'/cs/notice/view'(no=${notice.boardNo})}"
+                           th:text="${notice.boardTitle}"></a>
+                        <span th:text="${#temporals.format(notice.boardRegDate, 'yy.MM.dd')}"></span>
                     </li>
-                    <li>[발표] G.Live X SK 스토아 이벤트 당첨자 <span>00.00.00</span></li>
-                    <li>[안내] 묶음배송/교환수거지시 연말 내 <span>00.00.00</span></li>
-                    <li>[안내] 위치정보이용약관 개정공지 <span>00.00.00</span></li>
-                    <li>[안내] 구매회원이용약관 개정 <span>00.00.00</span></li>
-                    <li>[안내] 세티즌 앱 시스템 점검(체크카드 결제서비스 일시 중단) <span>00.00.00</span></li>
+
+                    <li th:if="${#lists.isEmpty(list.content)}">
+                        등록된 공지사항이 없습니다.
+                    </li>
                 </ul>
 
+
                 <!-- 페이지네이션 -->
-                <div class="pagination">
-                    <a href="#">이전</a>
-                    <a href="#" class="active">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">다음</a>
+                <div class="pagination" th:if="${list.totalPages > 1}">
+                    <a th:if="${list.hasPrevious()}"
+                       th:href="@{'/cs/notice/list'(pg=${list.number})}">이전</a>
+
+                    <a th:each="pageNum : ${#numbers.sequence(1, list.totalPages)}"
+                       th:href="@{'/cs/notice/list'(pg=${pageNum})}"
+                       th:text="${pageNum}"
+                       th:classappend="${pageNum == list.number + 1} ? 'active'"></a>
+
+                    <a th:if="${list.hasNext()}"
+                       th:href="@{'/cs/notice/list'(pg=${list.number + 2})}">다음</a>
                 </div>
+
             </section>
         </div>
     </div>

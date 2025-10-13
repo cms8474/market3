@@ -177,21 +177,21 @@
 
             <!-- 오른쪽 상세내용 -->
             <section class="faq-content">
-                <h2>회원</h2>
+                <h2 th:text="${board.boardType1}">회원</h2>
+
 
                 <!-- 질문 -->
                 <div class="faq-question">
-                    Q. 개인회원과 법인회원에 차이가 있나요?
+                    Q. <span th:text="${board.boardTitle}">개인회원과 법인회원에 차이가 있나요?</span>
                 </div>
+
 
                 <!-- 답변 -->
-                <div class="faq-answer">
+                <div class="faq-answer" th:text="${board.boardContent}">
                     개인회원(개인 명의)과 법인회원(사업자 회원)은 오픈마켓 이용 범위에 차이가 있습니다.
                     법인회원은 사업자등록증을 제출해야 하며, 일부 서비스는 법인회원만 이용 가능합니다.
-
-                    ▶ 경찰청 사이버수사국 (국번없이 182) : http://cyberbureau.police.go.kr
-                    ▶ KISA 인터넷침해대응센터 (국번없이 118) : http://www.krcert.or.kr
                 </div>
+
 
                 <!-- 목록 버튼 -->
                 <a  th:href="@{/cs/faq/list}" class="btn-back">목록</a>
