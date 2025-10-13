@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.team3.mapper.ProductOrderMapper">
+    <select id="selectRecent5WithUID" resultType="kr.co.team3.dto.my.ProductOrderDTO">
+        SELECT * FROM PRODUCT_ORDER
+        WHERE po_u_id = #{po_u_id}
+        ORDER BY po_orderdate DESC
+        OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+    </select>
+</mapper>
