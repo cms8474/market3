@@ -1,0 +1,77 @@
+<article id="orderDetails" class="modal">
+    <div class="modal-window">
+        <div class="modal-titleBar">
+            <h2>주문상세</h2>
+            <p>20xx-12-13</p>
+            <span id="closeODModal" class="close">&times</span>
+        </div>
+        <div class="modal-content">
+            <h3>주문정보</h3>
+            <table class="orderInfo">
+                <tr>
+                    <th>날짜</th>
+                    <th colspan="2">상품정보</th>
+                    <th>결제금액</th>
+                    <th>상태</th>
+                </tr>
+                <tr>
+                    <td>2022-12-13</td>
+                    <td><img src="/images/로고.png"/></td>
+                    <td>
+                        주문번호 : 1012211341<br>
+                        (주) 상호명<br>
+                        상품명<br>
+                        수량 : 1개<br>
+                        <b class="finalPrice">34,000원</b>
+                    </td>
+                    <td>
+                        <div>
+                            <div><div>판매가</div><div>34,000원</div></div>
+                            <div><div>할인</div><div>-3,000원</div></div>
+                            <div><div>결제금액</div><div><b class="finalPrice">31,000원</b></div></div>
+                        </div>
+                    </td>
+                    <td>배송완료</td>
+                </tr>
+            </table>
+            <h3>배송정보</h3>
+            <table class="delivInfo">
+                <tr>
+                    <td>이름</td>
+                    <td>홍길동</td>
+                </tr>
+                <tr>
+                    <td>연락처</td>
+                    <td>010-1234-1001</td>
+                </tr>
+                <tr>
+                    <td>주소</td>
+                    <td>[210**] 부산광역시 부산진구 대연동 121 10층 1004호</td>
+                </tr>
+                <tr>
+                    <td>배송요청사항</td>
+                    <td>없음</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--■■■■■모달 창 스크립트■■■■■-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById("orderDetails");
+            const closeModalButton = document.getElementById("closeODModal");
+
+            document.addEventListener('click', function (e) {
+                if(e.target.className === 'orderNum') {
+                    e.preventDefault();
+
+                    modal.style.display = "block";
+                }
+            });
+
+            closeModalButton.onclick = function () {
+                modal.style.display = "none";
+            }
+        });
+    </script>
+</article>

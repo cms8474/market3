@@ -1,0 +1,97 @@
+<article id="returnRequest" class="modal">
+    <div class="modal-window">
+        <div class="modal-titleBar">
+            <h2>반품신청</h2>
+            <span id="closeRRModal" class="close">&times</span>
+        </div>
+        <div class="modal-content">
+            <h3>상품정보</h3>
+            <table class="productInfo">
+                <tr>
+                    <th>날짜</th>
+                    <th colspan="2">상품정보</th>
+                    <th>결제금액</th>
+                    <th>상태</th>
+                </tr>
+                <tr>
+                    <td>2022-12-13</td>
+                    <td><img src="/images/로고.png"/></td>
+                    <td>
+                        주문번호 : 1012211341<br>
+                        (주) 상호명<br>
+                        상품명<br>
+                        수량 : 1개<br>
+                        <b class="finalPrice">34,000원</b>
+                    </td>
+                    <td>
+                        <div>
+                            <div><div>판매가</div><div>34,000원</div></div>
+                            <div><div>할인</div><div>-3,000원</div></div>
+                            <div><div>결제금액</div><div><b class="finalPrice">31,000원</b></div></div>
+                        </div>
+                    </td>
+                    <td>배송완료</td>
+                </tr>
+            </table>
+            <h3>반품정보 입력</h3>
+            <form>
+                <table class="returnInfo">
+                    <tr>
+                        <td>반품유형</td>
+                        <td>
+                            <label><input type="radio" name="reasonType"/><span>단순 변심</span></label>
+                            <label><input type="radio" name="reasonType"/><span>파손 및 불량</span></label>
+                            <label><input type="radio" name="reasonType"/><span>주문 실수</span></label>
+                            <label><input type="radio" name="reasonType"/><span>기타</span></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>사유입력</td>
+                        <td>
+                            <textarea rows="4" cols="105"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>사진첨부(선택)</td>
+                        <td>
+                            <input type="file"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>배송요청사항</td>
+                        <td>없음</td>
+                    </tr>
+                </table>
+                <div>
+                    <input type="submit" value="반품신청"/>
+                    <button id="requestRCancel">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--■■■■■모달 창 스크립트■■■■■-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const returnRequestModal = document.getElementById("returnRequest");
+            const closeModalButton = document.getElementById("closeRRModal");
+            const requestCancelButton = document.getElementById("requestRCancel")
+
+            document.addEventListener('click', function (e) {
+                if(e.target.name === 'returnRequest') {
+                    e.preventDefault();
+
+                    returnRequestModal.style.display = "block";
+                }
+            });
+
+            closeModalButton.onclick = function () {
+                returnRequestModal.style.display = "none";
+            }
+
+            requestCancelButton.addEventListener('click', function(e){
+                e.preventDefault();
+                returnRequestModal.style.display = "none";
+            });
+        });
+    </script>
+</article>

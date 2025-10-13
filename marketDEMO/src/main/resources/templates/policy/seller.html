@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>약관::판매회원 약관</title>
+    <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/sidebar.css" rel="stylesheet">
+    <style>
+        .mincheolkang {
+            display: flex;
+            flex-wrap: nowrap;
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+        .category-menu {
+            width: initial;
+        }
+        button:hover {cursor: pointer;}
+
+        .policy-nav {margin-top: 30px;}
+        .policy-nav button {background: none; border: none;}
+        .policy-nav button img {
+            width: 80px; height: 80px;
+            border: solid 1px; /* 임시 스타일 */
+        }
+        .policy-nav button span {font-size: large;}
+        .policy-nav button:nth-child(2) img {border: solid 2px #0070c0;}
+        .policy-nav button:nth-child(2) span {color: #0070c0;}
+
+        .policy-content {
+            border-bottom: solid 1px #bfbfbf;
+        }
+        .policy-content p {
+            font-family: "돋움",serif;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div class="header-wrap" th:replace="~{policy/_header.html}"></div>
+<!-- □□□□□ 헤더 □□□□□ -->
+<main class="mincheolkang">
+    <!-- ■■■■■ 사이드바 ■■■■■ -->
+    <div th:replace="~{policy/_sidebar.html}"></div>
+    <!-- □□□□□ 사이드바 □□□□□ -->
+    <section class="main-content" style="margin-left: 40px;">
+        <div style="display: flex;">
+            <div style="margin-right: auto;">
+                <h1>Kmarket 서비스 이용약관</h1>
+            </div>
+            <nav class="policy-nav">
+                <button th:attr="onclick=|location.href='@{/policy/buyer}'|">
+                    <img src="#" title="구매회원 약관"><br>
+                    <span>구매회원 약관</span>
+                </button>
+                <button th:attr="onclick=|location.href='@{/policy/seller}'|">
+                    <img title="판매회원 약관" src="#"/><br>
+                    <span>판매회원 약관</span>
+                </button>
+                <button th:attr="onclick=|location.href='@{/policy/finance}'|">
+                    <img title="전자금융거래" src="#"><br>
+                    <span>전자금융거래</span>
+                </button>
+                <button th:attr="onclick=|location.href='@{/policy/location}'|">
+                    <img src="#" title="위치정보 약관"><br>
+                    <span>위치정보 약관</span>
+                </button>
+                <button th:attr="onclick=|location.href='@{/policy/privacy}'|">
+                    <img src="#" title="개인정보처리"><br>
+                    <span>개인정보처리</span>
+                </button>
+            </nav>
+        </div>
+        <section style="margin-bottom: 50px;">
+            <div style="
+                display: flex;
+                margin-top: 20px;
+            ">
+                <div style="
+                    margin-right: auto;
+                ">
+                    <h2>판매회원 이용약관</h2>
+                </div>
+                <div style="margin-right: 10px;">
+                    <button style="background: none;border: none;">
+                        <img src="#" style="width: 80px;
+                            height: 80px;
+                            border: solid 1px;
+                        " title="약관 출력"><br>
+                    </button>
+                </div>
+            </div>
+            <article class="policy-content">
+                <h3>제 1조 (목적)</h3>
+                <p>
+                    이 약관은 케이마켓(이하 “회사”)이 운영하는 인터넷 오픈마켓 및 모바일 애플리케이션(이하
+                    “사이트”)에서 제공하는 전자상거래 관련 서비스(이하 “서비스”)를 이용하는 자의 권리·의무 및
+                    책임사항을 규정함을 목적으로 합니다.
+                </p>
+            </article>
+            <article class="policy-content">
+                <h3>제 2조 (목적)</h3>
+                <p>
+                    이 약관은 케이마켓(이하 “회사”)이 운영하는 인터넷 오픈마켓 및 모바일 애플리케이션(이하
+                    “사이트”)에서 제공하는 전자상거래 관련 서비스(이하 “서비스”)를 이용하는 자의 권리·의무 및
+                    책임사항을 규정함을 목적으로 합니다.
+                </p>
+            </article>
+            <article class="policy-content">
+                <h3>제 3조 (목적)</h3>
+                <p>
+                    이 약관은 케이마켓(이하 “회사”)이 운영하는 인터넷 오픈마켓 및 모바일 애플리케이션(이하
+                    “사이트”)에서 제공하는 전자상거래 관련 서비스(이하 “서비스”)를 이용하는 자의 권리·의무 및
+                    책임사항을 규정함을 목적으로 합니다.
+                </p>
+            </article>
+            <article class="policy-content">
+                <h3>제 4조 (목적)</h3>
+                <p>
+                    이 약관은 케이마켓(이하 “회사”)이 운영하는 인터넷 오픈마켓 및 모바일 애플리케이션(이하
+                    “사이트”)에서 제공하는 전자상거래 관련 서비스(이하 “서비스”)를 이용하는 자의 권리·의무 및
+                    책임사항을 규정함을 목적으로 합니다.
+                </p>
+            </article>
+            <article class="policy-content">
+                <h3>제 5조 (목적)</h3>
+                <p>
+                    이 약관은 케이마켓(이하 “회사”)이 운영하는 인터넷 오픈마켓 및 모바일 애플리케이션(이하
+                    “사이트”)에서 제공하는 전자상거래 관련 서비스(이하 “서비스”)를 이용하는 자의 권리·의무 및
+                    책임사항을 규정함을 목적으로 합니다.
+                </p>
+            </article>
+        </section>
+    </section>
+</main>
+
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<div th:replace="~{policy/_footer.html}"></div>
+<!-- □□□□□ 푸터 □□□□□ -->
+
+
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
+

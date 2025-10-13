@@ -1,0 +1,70 @@
+<article id="sellerInquire" class="modal">
+    <div class="modal-window">
+        <div class="modal-titleBar">
+            <h2>문의하기</h2>
+            <span id="closeSIqModal" class="close">&times</span>
+        </div>
+        <div class="modal-content">
+            <form>
+                <table class="sellerInquireTable">
+                    <tr>
+                        <td>문의종류</td>
+                        <td>
+                            <label><input type="radio" name="inquireType"/><span>상품</span></label>
+                            <label><input type="radio" name="inquireType"/><span>배송</span></label>
+                            <label><input type="radio" name="inquireType"/><span>반품/취소</span></label>
+                            <label><input type="radio" name="inquireType"/><span>교환</span></label>
+                            <label><input type="radio" name="inquireType"/><span>기타</span></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>
+                            <input type="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>제목</td>
+                        <td>
+                            <input type="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>내용</td>
+                        <td><textarea></textarea></td>
+                    </tr>
+                </table>
+                <div>
+                    <input type="submit" value="등록하기"/>
+                    <button id="inquireCancel">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--■■■■■모달 창 스크립트■■■■■-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sellerInquireModal = document.getElementById("sellerInquire");
+            const sellerInfoModal = document.getElementById("sellerInfo");
+            const openModalButton = document.getElementById("sellerInquireButton");
+            const closeModalButton = document.getElementById("closeSIqModal");
+            const inquireCancelButton = document.getElementById("inquireCancel")
+
+            openModalButton.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                sellerInquireModal.style.display = "block";
+            });
+
+            closeModalButton.onclick = function () {
+                sellerInquireModal.style.display = "none";
+            }
+
+            inquireCancelButton.addEventListener('click', function(e){
+                e.preventDefault();
+                sellerInquireModal.style.display = "none";
+                sellerInfoModal.style.display = "block";
+            });
+        });
+    </script>
+</article>

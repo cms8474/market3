@@ -8,7 +8,7 @@ spring:
       suffix: .html
       cache: false
     application:
-        name: marketDEMO
+      name: marketDEMO
     datasource:
         driver-class-name: oracle.jdbc.driver.OracleDriver
         password: 1234
@@ -19,7 +19,7 @@ spring:
             enabled: true
     jpa:
         hibernate:
-            ddl-auto: update
+            ddl-auto: none
             naming:
                 physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         properties:
