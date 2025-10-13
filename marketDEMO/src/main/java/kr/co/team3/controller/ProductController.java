@@ -6,12 +6,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ProductController {
 
+    // 메인 페이지
     @GetMapping("/index")
     public String index() {
         return "index";
     }
 
     //product
+    // =======================
+    // ✅ 상품 관련 페이지
+    // =======================
     @GetMapping("/product/list")
     public String productList() {
         return "inc/product/list";
@@ -110,34 +114,3 @@ public class ProductController {
     public String noticeList() {
         return "inc/cs/notice/list";
     }
-
-    @GetMapping("/cs/notice/view")
-    public String noticeView() {
-        return "inc/cs/notice/view";
-    }
-
-    @GetMapping("/cs/faq/list")
-    public String faqList() {
-        return "inc/cs/faq/list";
-    }
-
-    @GetMapping("/cs/faq/view")
-    public String faqView() {
-        return "inc/cs/faq/view";
-    }
-
-    @GetMapping("/cs/qna/list")
-    public String qnaList() {
-        return "inc/cs/qna/list";
-    }
-
-    @GetMapping("/cs/qna/view")
-    public String qnaView() {
-        return "inc/cs/qna/view";
-    }
-
-    @GetMapping("/cs/qna/write")
-    public String qnaWrite() {
-        return "inc/cs/qna/write";
-    }
-}
