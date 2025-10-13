@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회사소개::채용</title>
+    <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/company/companyIntro.css" rel="stylesheet">
+    <style>
+        .main-header .nav a:nth-child(4) {text-decoration: underline;}
+    </style>
+</head>
+<body>
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div th:replace="~{company/_header.html}"></div>
+<!-- □□□□□ 헤더 □□□□□ -->
+<main class="mincheolkang">
+    <section class="recruit-main">
+        <!-- 메인 타이틀 -->
+        <header class="recruit-header">
+            <h2 class="recruit-title">
+                쇼핑을 새롭게, 세상을 이롭게 이끌<br>
+                쇼핑 좀 해본 인재를 모십니다!
+            </h2>
+            <p class="recruit-subtitle">
+                케이마켓은 안정성 있고 혁신성 있게 우리의 문화를 만들어가고 있어요.<br>
+                구성원들은 수평적이고 자율적인 문화 속에서 개선을 넘어서 혁신적인 케이마켓만의 서비스를 만들어요.<br>
+                케이마켓과 함께 굵은점을 찍어가며 성장하실 분들을 기다립니다.
+            </p>
+        </header>
+        <table class="recruit-table">
+            <tr>
+                <th>번호</th>
+                <th>채용부서</th>
+                <th>경력사항</th>
+                <th>채용형태</th>
+                <th>제목</th>
+                <th>상태</th>
+                <th>모집기간</th>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>광고사업</td>
+                <td>경력 4 ~ 15년</td>
+                <td>정규직</td>
+                <td>광고 플랫폼 기획</td>
+                <td>모집중</td>
+                <td>0000-00-00 ~ 0000-00-00</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>IT</td>
+                <td>경력 2 ~ 15년</td>
+                <td>정규직</td>
+                <td>IT 인재 상시 영입(경력)</td>
+                <td>모집중</td>
+                <td>0000-00-00 ~ 0000-00-00</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>운영</td>
+                <td>무관</td>
+                <td>계약직</td>
+                <td>단기 아르바이트 모집</td>
+                <td>종료</td>
+                <td>0000-00-00 ~ 0000-00-00</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>경영</td>
+                <td>신입</td>
+                <td>계약직</td>
+                <td>경영지원 직원 채용 공고</td>
+                <td>종료</td>
+                <td>0000-00-00 ~ 0000-00-00</td>
+            </tr>
+        </table>
+
+        <div class="Pagenation" style="text-align: center;">
+            <a href="#">이전</a>&nbsp;&nbsp;
+            <a href="#">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>&nbsp;&nbsp;
+            <a href="#">다음</a>
+        </div>
+    </section>
+
+</main>
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<div th:replace="~{company/_footer.html}"></div>
+<!-- □□□□□ 푸터 □□□□□ -->
+</body>
+</html>

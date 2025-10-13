@@ -1,0 +1,21 @@
+<div th:fragment="_header">
+    <header class="header" style="border-bottom: 1px solid #d9d9d9;">
+        <!-- 헤더 메인 -->
+        <div class="main-header" style="align-items: center">
+            <div class="logo">
+                <!-- 로고 -->
+                <img src="/images/로고.png" alt="로고">
+            </div>
+            <!-- 검색 -->
+            <div class="nav" style="margin-right: 100px;">
+                <nav style="display: flex; align-items: baseline; gap: 30px;">
+                    <a th:href="@{/company/index}">HOME</a>
+                    <a th:href="@{/company/culture}">기업문화</a>
+                    <a th:href="@{/company/story}">소식과이야기</a>
+                    <a th:href="@{/company/recruit}">채용</a>
+                    <a th:href="@{/company/media}">미디어</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+</div>

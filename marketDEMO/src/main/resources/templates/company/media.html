@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회사소개::미디어</title>
+    <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/company/companyIntro.css" rel="stylesheet">
+    <style>
+        .main-header .nav a:nth-child(5) {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div th:replace="~{company/_header.html}"></div>
+<!-- □□□□□ 헤더 □□□□□ -->
+<main class="mincheolkang">
+    <section class="media-main">
+        <!-- 메인 타이틀 -->
+        <header class="media-header">
+            <h2 class="media-title">미디어 세상 속 케이마켓을 소개합니다!</h2>
+            <p class="media-subtitle">더 다양한 Kmarket 영상을 소개합니다.</p>
+        </header>
+        <section class="media-list">
+            <article class="media-item">
+                <div class="media-item-content">
+                    <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen frameborder="0"
+                            height="315" referrerpolicy="strict-origin-when-cross-origin"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=JIr-TEzYhHxq8udR"
+                            title="YouTube video player" width="560"></iframe>
+                </div>
+                <div class="media-item-title">
+                    <h2># 영상제목 1</h2>
+                    <p># 부제목 EP.201 | Kmarket 0000년 00월 00일 방송</p>
+                </div>
+            </article>
+            <article class="media-item">
+                <div class="media-item-content">
+                    <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen frameborder="0"
+                            height="315" referrerpolicy="strict-origin-when-cross-origin"
+                            src="https://www.youtube.com/embed/yebNIHKAC4A?si=TShDPOf9XDQoa11Y"
+                            title="YouTube video player" width="560"></iframe>
+                </div>
+                <div class="media-item-title">
+                    <h2># 영상제목 2</h2>
+                    <p># 부제목 EP.200 | Kmarket 0000년 00월 00일 방송</p>
+                </div>
+            </article>
+        </section>
+    </section>
+
+</main>
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<div th:replace="~{company/_footer.html}"></div>
+<!-- □□□□□ 푸터 □□□□□ -->
+</body>
+</html>
