@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>INDEX</title>
+    <title>메인 페이지_2조</title>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/product.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
-
     <style>
-        .main-banner img { width:100%; height:350px; object-fit:cover; display:block; }
         .grid-products {
             display:grid; grid-template-columns:repeat(4,1fr);
             gap:20px; list-style:none; padding:0; margin-bottom:30px;
@@ -28,7 +25,11 @@
             display:inline-block; font-size:12px; padding:2px 6px; background:#1976d2;
             color:#fff; border-radius:4px; margin-top:6px;
         }
+        h2.page-title a { text-decoration:none; color:inherit; }
+        .product a { display:block; text-decoration:none; color:inherit; }
     </style>
+
+
 </head>
 <body>
 
@@ -38,25 +39,20 @@
 <main class="product-page">
     <div class="main-container">
 
-        <!-- ✅ 사이드바 -->
+        <!--  사이드바 -->
         <div class="sidebar-container">
             <th:block th:replace="~{inc/_sidebar :: _sidebar}"/>
-
-            <!-- 베스트 상품 -->
             <aside class="best-product-list">
                 <h3 class="page-title">베스트 상품</h3>
                 <ul class="products">
-                    <li class="best-product-item" th:each="p : ${bestProducts}">
-                        <img th:src="${p.imageBase64}" alt="베스트 상품">
+                    <li class="best-product-item">
+                        <img src="/images/로고.png" alt="샘플상품">
                         <div class="info">
-                            <h4 class="name" th:text="${p.pName}">상품명</h4>
+                            <h4 class="name">프리미엄 티셔츠</h4>
                             <p class="price">
-                                <span class="origin" th:text="${#numbers.formatInteger(p.pPrice, 3, 'COMMA')} + '원'">30,000원</span>
-                                <span class="discount" th:text="${p.pDiscount + '% ↓'}">10%</span>
-                                <span class="sale"
-                                      th:text="${#numbers.formatInteger(p.pPrice * (100 - p.pDiscount) / 100, 3, 'COMMA')} + '원'">
-                                    27,000원
-                                </span>
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
                             </p>
                         </div>
                     </li>
@@ -64,123 +60,108 @@
             </aside>
         </div>
 
-        <!-- ✅ 오른쪽 메인 -->
+        <!--  메인 상품 영역 -->
         <section class="product-list">
 
-            <!-- 🔹 메인 배너 -->
-            <div class="main-banner">
-                <ul class="bxslider">
-                    <li th:each="b : ${slideBanners}">
-                        <a th:href="${b.aLink}">
-                            <img th:src="${b.aImageBase64}" alt="배너">
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 🔹 히트상품 -->
-            <h2 class="page-title">히트상품</h2>
+            <!--  히트상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=hit">히트상품</a>
+            </h2>
             <ul class="grid-products">
-                <li class="product" th:each="p : ${hitProducts}">
-                    <img th:src="${p.imageBase64}" alt="상품 이미지">
-                    <div class="name" th:text="${p.pName}">상품명</div>
-                    <div>
-                        <span class="origin" th:text="${#numbers.formatInteger(p.pPrice, 3, 'COMMA')} + '원'"></span>
-                        <span class="discount" th:text="${p.pDiscount + '% ↓'}"></span>
-                    </div>
-                    <div class="sale"
-                         th:text="${#numbers.formatInteger(p.pPrice * (100 - p.pDiscount) / 100, 3, 'COMMA')} + '원'">
-                    </div>
-                    <span class="badge shipping">무료배송</span>
+                <li class="product">
+                    <a href="/product/view"><img src="/images/로고.png" alt="상품 이미지">
+                        <div class="name">프리미엄 티셔츠</div>
+                        <div><span class="origin">30,000원</span><span class="discount">10% ↓</span></div>
+                        <div class="sale">27,000원</div><span class="badge shipping">무료배송</span>
+                    </a>
                 </li>
             </ul>
 
-            <!-- 🔹 추천상품 -->
-            <h2 class="page-title">추천상품</h2>
+            <!--  추천상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=recommend">추천상품</a>
+            </h2>
             <ul class="grid-products">
-                <li class="product" th:each="p : ${recommendProducts}">
-                    <img th:src="${p.imageBase64}" alt="상품 이미지">
-                    <div class="name" th:text="${p.pName}"></div>
-                    <div>
-                        <span class="origin" th:text="${#numbers.formatInteger(p.pPrice,3,'COMMA')} + '원'"></span>
-                        <span class="discount" th:text="${p.pDiscount + '% ↓'}"></span>
-                    </div>
-                    <div class="sale"
-                         th:text="${#numbers.formatInteger(p.pPrice * (100 - p.pDiscount)/100,3,'COMMA')} + '원'"></div>
-                    <span class="badge shipping">무료배송</span>
+                <li class="product">
+                    <a href="/product/view"><img src="/images/로고.png" alt="상품 이미지">
+                        <div class="name">프리미엄 티셔츠</div>
+                        <div><span class="origin">30,000원</span><span class="discount">10% ↓</span></div>
+                        <div class="sale">27,000원</div><span class="badge shipping">무료배송</span>
+                    </a>
                 </li>
             </ul>
 
-            <!-- 🔹 최신상품 -->
-            <h2 class="page-title">최신상품</h2>
+            <!--  추천상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=recommend">추천상품</a>
+            <!--  최신상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=latest">최신상품</a>
+            </h2>
             <ul class="grid-products">
-                <li class="product" th:each="p : ${latestProducts}">
-                    <img th:src="${p.imageBase64}" alt="상품 이미지">
-                    <div class="name" th:text="${p.pName}"></div>
-                    <div>
-                        <span class="origin" th:text="${#numbers.formatInteger(p.pPrice,3,'COMMA')} + '원'"></span>
-                        <span class="discount" th:text="${p.pDiscount + '% ↓'}"></span>
-                    </div>
-                    <div class="sale"
-                         th:text="${#numbers.formatInteger(p.pPrice * (100 - p.pDiscount)/100,3,'COMMA')} + '원'"></div>
-                    <span class="badge shipping">무료배송</span>
+                <li class="product">
+                    <a href="/product/view"><img src="/images/로고.png" alt="상품 이미지">
+                        <div class="name">오버핏 맨투맨</div>
+                        <div><span class="origin">40,000원</span><span class="discount">20% ↓</span></div>
+                        <div class="sale">32,000원</div><span class="badge shipping">무료배송</span>
+                        <div class="name">스포츠 트레이닝복</div>
+                        <div><span class="origin">70,000원</span><span class="discount">30% ↓</span></div>
+                        <div class="sale">49,000원</div><span class="badge shipping">무료배송</span>
+                    </a>
                 </li>
             </ul>
 
-            <!-- 🔹 할인상품 -->
-            <h2 class="page-title">할인상품</h2>
+            <!--  최신상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=latest">최신상품</a>
+            <!--  할인상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=discount">할인상품</a>
+            </h2>
             <ul class="grid-products">
-                <li class="product" th:each="p : ${discountProducts}">
-                    <img th:src="${p.imageBase64}" alt="상품 이미지">
-                    <div class="name" th:text="${p.pName}"></div>
-                    <div>
-                        <span class="origin" th:text="${#numbers.formatInteger(p.pPrice,3,'COMMA')} + '원'"></span>
-                        <span class="discount" th:text="${p.pDiscount + '% ↓'}"></span>
-                    </div>
-                    <div class="sale"
-                         th:text="${#numbers.formatInteger(p.pPrice * (100 - p.pDiscount)/100,3,'COMMA')} + '원'"></div>
-                    <span class="badge shipping">무료배송</span>
+                <li class="product">
+                    <a href="/product/view"><img src="/images/로고.png" alt="상품 이미지">
+                        <div class="name">스포츠 트레이닝복</div>
+                        <div><span class="origin">70,000원</span><span class="discount">30% ↓</span></div>
+                        <div class="sale">49,000원</div><span class="badge shipping">무료배송</span>
+                        <div class="name">가죽 점퍼</div>
+                        <div><span class="origin">120,000원</span><span class="discount">25% ↓</span></div>
+                        <div class="sale">90,000원</div><span class="badge shipping">무료배송</span>
+                    </a>
                 </li>
             </ul>
 
+            <!--  인기상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=popular">인기상품</a>
+            </h2>
+            <ul class="grid-products">
+                <li class="product">
+                    <a href="/product/view"><img src="/images/로고.png" alt="상품 이미지">
+                        <div class="name">데일리 청바지</div>
+                        <div><span class="origin">50,000원</span><span class="discount">15% ↓</span></div>
+                        <div class="sale">42,500원</div><span class="badge shipping">무료배송</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!--  할인상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=discount">할인상품</a>
+            </h2>
+            <ul class="grid-products">
+                <li class="product">
+                    <a href="/product/view"><img src="/images/로고.png" alt="상품 이미지">
+                        <div class="name">가죽 점퍼</div>
+                        <div><span class="origin">120,000원</span><span class="discount">25% ↓</span></div>
+                        <div class="sale">90,000원</div><span class="badge shipping">무료배송</span>
+                    </a>
+                </li>
+            </ul>
         </section>
     </div>
 </main>
 
-<!-- ✅ 공통 푸터 -->
-<footer class="footer">
-    <div class="footer-links">
-        <a href="#">회사소개</a> |
-        <a href="#">서비스이용약관</a> |
-        <a href="#">개인정보처리방침</a> |
-        <a href="#">전자금융거래약관</a>
-    </div>
-
-    <div class="footer-content" th:each="v : ${companyInfo}">
-        <div class="company-info">
-            <p th:text="${v.vCompany}">회사명</p>
-            <p th:text="${v.vAddr}">주소</p>
-            <p th:text="${v.vEmail}">이메일</p>
-            <p th:text="${v.vTel}">연락처</p>
-        </div>
-        <div class="customer-center">
-            <p><strong>고객센터</strong></p>
-            <p>Tel : 1234-5678 (평일 09:00~18:00)</p>
-            <p>전자금융거래 분쟁 담당 : 1234-1234 (365일 09:00~18:00)</p>
-        </div>
-    </div>
-</footer>
-
-<!-- JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $('.bxslider').bxSlider({
-            auto:true, mode:'horizontal', speed:500, pause:4000,
-            pager:true, controls:true, adaptiveHeight:true
-        });
-    });
-</script>
+<th:block th:replace="~{inc/_footer :: _footer}"/>
 </body>
 </html>

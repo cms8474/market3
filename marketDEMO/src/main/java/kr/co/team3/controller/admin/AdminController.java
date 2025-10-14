@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("kmarket/admin")
+@RequestMapping("/admin")
 public class AdminController {
     private final DashboardService dashboardService;
     private final NoticeService noticeService;
@@ -24,32 +24,27 @@ public class AdminController {
 
     @GetMapping({"", "/"})
     public String admin(Model model) {
+        var stats          = dashboardService.stats();
+        var statsTotal     = dashboardService.totals();
+        var statsToday     = dashboardService.today();
+        var statsYesterday = dashboardService.yesterday();
+        var bar            = dashboardService.bar();
+        var pie            = dashboardService.pie();
 
+        model.addAttribute("stats",          stats);
+        model.addAttribute("statsTotal",     statsTotal);
+        model.addAttribute("statsToday",     statsToday);
+        model.addAttribute("statsYesterday", statsYesterday);
+        model.addAttribute("bar",            bar);
+        model.addAttribute("pie",            pie);
 
-        var stats = dashboardService.stats();
-        if (stats == null) {
-            stats = DashboardDTO.builder()
-                    .waiting(0).ready(0).cancel(0).exchange(0).returnA(0)
-                    .orderCount(0).orderAmount(0).registerCount(0).visitor(0).qna(0)
-                    .build();
-        }
-
-        model.addAttribute("stats",        dashboardService.stats());
-        model.addAttribute("statsTotal",   dashboardService.totals());
-        model.addAttribute("statsToday",   dashboardService.today());
-        model.addAttribute("statsYesterday", dashboardService.yesterday());
-        model.addAttribute("bar",          dashboardService.bar());
-        model.addAttribute("pie",          dashboardService.pie());
-
-
-        model.addAttribute("noticeTop5", noticeService.latest5());
-        model.addAttribute("qnaTop5", qnaService.latest5());
-
-        model.addAttribute("contentFragment", "inc/admin/admin_main :: content");
-
-
-        model.addAttribute("pageTitle", "관리자 대시보드");
-        model.addAttribute("activeMenu", "dashboard");
+        model.addAttribute("noticeTop5",     noticeService.latest5());
+        model.addAttribute("qnaTop5",        qnaService.latest5());
+        model.addAttribute("contentFragment","inc/admin/admin_main :: content");
+        model.addAttribute("pageTitle",      "관리자 대시보드");
+        model.addAttribute("activeMenu",     "dashboard");
         return "admin";
     }
+
+
 }

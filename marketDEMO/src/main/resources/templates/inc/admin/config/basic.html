@@ -13,7 +13,8 @@
                 <div class="card-body">
                     <div class="row">
                         <label class="label" for="siteVersion">사이트 버전</label>
-                        <input id="siteVersion" name="siteVersion" type="text" class="input readonly" value="1.0.1-RELEASE" readonly>
+                        <input id="siteVersion" name="siteVersion" type="text" class="input readonly"
+                               th:value="${v != null ? v.vname : 'N/A'}" readonly>
                     </div>
                 </div>
             </section>
@@ -27,11 +28,11 @@
                 <div class="card-body">
                     <div class="row">
                         <label class="label" for="siteTitle">제목</label>
-                        <input id="siteTitle" name="siteTitle" type="text" class="input" value="케이마켓">
+                        <input id="siteTitle" name="siteTitle" type="text" class="input" th:value="${v != null ? v.title : ''}">
                     </div>
                     <div class="row">
                         <label class="label" for="siteSubtitle">부제</label>
-                        <input id="siteSubtitle" name="siteSubtitle" type="text" class="input" value="더나은쇼핑환경선택">
+                        <input id="siteSubtitle" name="siteSubtitle" type="text" class="input" th:value="${v != null ? v.subTitle : ''}">
                     </div>
                 </div>
                 <div class="card-foot">
@@ -96,27 +97,28 @@
                 <div class="card-body">
                     <div class="row">
                         <label class="label" for="companyName">상호명</label>
-                        <input id="companyName" name="companyName" type="text" class="input" value="케이마켓쇼핑주식회사">
+                        <input id="companyName" name="companyName" type="text" class="input" th:value="${v != null ? v.company : ''}">
                     </div>
                     <div class="row">
                         <label class="label" for="ceoName">대표이사</label>
-                        <input id="ceoName" name="ceoName" type="text" class="input" value="홍길동">
+                        <input id="ceoName" name="ceoName" type="text" class="input"  th:value="${v != null ? v.ceo : ''}">
                     </div>
                     <div class="row">
                         <label class="label" for="bizRegNo">사업자등록번호</label>
-                        <input id="bizRegNo" name="bizRegNo" type="text" class="input" placeholder="000-00-00000" value="123-12-12345">
+                        <input id="bizRegNo" name="bizRegNo" type="text" class="input" placeholder="000-00-00000" th:value="${v != null ? v.sellerRegNo : ''}">
                     </div>
                     <div class="row">
                         <label class="label" for="mailOrderNo">통신판매업신고</label>
-                        <input id="mailOrderNo" name="mailOrderNo" type="text" class="input" placeholder="연도-지역-번호" value="2024-서울강남-1234">
+                        <input id="mailOrderNo" name="mailOrderNo" type="text" class="input" placeholder="연도-지역-번호" th:value="${v != null ? v.onlineSalesRegNo : ''}">
                     </div>
                     <div class="row">
                         <label class="label" for="addr1">기본주소</label>
-                        <input id="addr1" name="addr1" type="text" class="input" value="부산광역시 부산진구 중앙동">
+                        <input id="addr1" name="addr1" type="text" class="input"
+                               th:value="${v != null && v.addr != null ? #strings.arraySplit(v.addr,' ')[0] : ''}">
                     </div>
                     <div class="row">
                         <label class="label" for="addr2">상세주소</label>
-                        <input id="addr2" name="addr2" type="text" class="input" value="( 삼성동 , WeWork 빌딩 ) 7 층">
+                        <input id="addr2" name="addr2" type="text" class="input"  th:value="${v != null && v.addr != null ? v.addr : ''}">
                     </div>
                 </div>
 
@@ -135,19 +137,22 @@
                 <div class="card-body">
                     <div class="row">
                         <label class="label" for="csTel">전화번호</label>
-                        <input id="csTel" name="csTel" type="text" class="input" placeholder="00-0000-0000" value="02-1234-5678">
+                        <input id="csTel" name="csTel" type="text" class="input" placeholder="00-0000-0000"
+                               th:value="${v != null ? v.tel : ''}">
                     </div>
                     <div class="row">
                         <label class="label" for="csHours">업무시간</label>
-                        <input id="csHours" name="csHours" type="text" class="input" value="평일 09:00 ~ 18:00">
+                        <input id="csHours" name="csHours" type="text" class="input"
+                               th:value="${v != null ? v.actTime : ''}">
                     </div>
                     <div class="row">
                         <label class="label" for="csEmail">이메일</label>
-                        <input id="csEmail" name="csEmail" type="email" class="input" value="admin@kmarket.com">
+                        <input id="csEmail" name="csEmail" type="email" class="input" th:value="${v != null ? v.email : ''}">
                     </div>
                     <div class="row">
                         <label class="label" for="disputeTel">전자금융거래 분쟁담당</label>
-                        <input id="disputeTel" name="disputeTel" type="text" class="input" placeholder="0000-0000" value="1234-1234">
+                        <input id="disputeTel" name="disputeTel" type="text" class="input" placeholder="0000-0000"
+                               th:value="${v != null ? v.managerPhone : ''}">
                     </div>
                 </div>
                 <div class="card-foot">
@@ -166,7 +171,7 @@
                     <div class="row">
                         <label class="label" for="copyright">카피라이트</label>
                         <input id="copyright" name="copyright" type="text" class="input"
-                               value="Copyrightⓒkmarket. All rights reserved">
+                               th:value="${v != null ? v.copylight : ''}">
                     </div>
                 </div>
 

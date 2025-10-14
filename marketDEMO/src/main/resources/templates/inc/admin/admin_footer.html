@@ -1,7 +1,9 @@
 <div th:fragment="admin_footer">
     <footer>
         <div class="admin-footer">
-            <span>Copyright ©Kmarket.co.kr All rights reserved. Kmarket ADMINISTRATOR Version 1.4.1</span>
+             <span th:text="${v != null ? v.copylight + ' Kmarket ADMINISTRATOR Version ' + v.vname :
+                             'Copyright ©Kmarket.co.kr All rights reserved. Kmarket ADMINISTRATOR Version 1.4.1'}">
+            </span>
         </div>
     </footer>
     </body>
