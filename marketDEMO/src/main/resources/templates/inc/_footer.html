@@ -1,9 +1,41 @@
 <div th:fragment="_footer">
-    <footer>
-        <div class="footer">
-            <span>Copyright ©Green University All rights reserved.ADMINISTRATOR Version 1.4.1</span>
+    <footer class="footer" style="background:#f5f5f5; padding:30px 0; border-top:1px solid #ddd; font-size:13px; color:#333;">
+
+        <!-- 상단 링크 -->
+        <div class="footer-links" style="text-align:center; margin-bottom:20px;">
+            <a href="#" style="margin:0 8px; color:#333; text-decoration:none;">회사소개</a> |
+            <a href="#" style="margin:0 8px; color:#333; text-decoration:none;">서비스이용약관</a> |
+            <a href="#" style="margin:0 8px; color:#333; text-decoration:none;">개인정보처리방침</a> |
+            <a href="#" style="margin:0 8px; color:#333; text-decoration:none;">전자금융거래약관</a>
         </div>
+
+        <!-- 회사 및 고객센터 -->
+        <div class="footer-content" style="max-width:1100px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap;">
+
+            <div class="company-info" style="width:48%; min-width:300px;">
+                <img th:src="@{/images/로고.png}" alt="회사 로고" class="footer-logo" style="width:60px; margin-bottom:10px;">
+                <p><strong>(주)케이마켓</strong></p>
+                <p>부산광역시 부산진구 중앙대로 103 그린타워 13층</p>
+                <p>대표이사 : 홍길동</p>
+                <p>사업자등록번호 : 123-45-12345</p>
+            </div>
+
+            <div class="customer-center" style="width:48%; min-width:300px;">
+                <p><strong>고객센터</strong></p>
+                <p>Tel : 1234-5678 (평일 09:00~18:00)</p>
+                <p>전자금융거래 분쟁 담당 : 1234-1234 (365일 09:00~18:00)</p>
+            </div>
+        </div>
+
+        <!-- 하단 카피라이트 + 버전 정보 -->
+        <div class="footer-bottom" style="margin-top:30px; text-align:center; font-size:12px; color:#666;">
+            <span>
+                Copyright © K_MARKET.
+                All rights reserved. | ADMINISTRATOR
+                <strong>Version 1.4.1</strong> |
+                Updated: <span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span>
+            </span>
+        </div>
+
     </footer>
-    </body>
-    </html>
 </div>
