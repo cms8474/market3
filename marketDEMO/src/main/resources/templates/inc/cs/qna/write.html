@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>문의하기 작성</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <style>
+        .qna-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+        }
+
+        /* 경로 */
+        .breadcrumb {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* 사이드바 + 본문 */
+        .qna-main {
+            display: flex;
+            gap: 24px;
+        }
+
+        /* 왼쪽 사이드바 */
+        .qna-sidebar {
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        .qna-sidebar h3 {
+            font-size: 15px;
+            font-weight: 700;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+        .qna-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .qna-sidebar li {
+            padding: 10px 14px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        .qna-sidebar li.active {
+            background: #1976d2;
+            color: #fff;
+            font-weight: bold;
+        }
+        .qna-sidebar li a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 오른쪽 작성 폼 */
+        .qna-content {
+            flex: 1;
+        }
+        .qna-content h2 {
+            font-size: 16px;
+            font-weight: 700;
+            border-bottom: 2px solid #222;
+            margin-bottom: 20px;
+            padding-bottom: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .form-group label {
+            width: 100px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            height: 120px;
+            resize: none;
+        }
+        .form-group select {
+            margin-right: 8px;
+        }
+
+        /* 버튼 */
+        .btn-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-group button {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 4px;
+        }
+        .btn-cancel {
+            background: #aaa;
+            color: #fff;
+        }
+        .btn-submit {
+            background: #1976d2;
+            color: #fff;
+        }
+        /* 푸터 */
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            margin-top: 60px;
+            border-top: 1px solid #ddd;
+            font-size: 13px;
+            color: #333;
+        }
+        .footer-links {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .footer-links a {
+            margin: 0 8px;
+            color: #333;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .company-info, .customer-center {
+            width: 48%;
+        }
+        .footer-logo {
+            width: 60px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ 공통 헤더 -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+
+<main>
+    <div class="qna-container">
+        <!-- 경로 -->
+        <div class="breadcrumb">
+            <a th:href="@{/cs/index}">홈</a> > 고객센터 > 문의하기 > 작성
+        </div>
+
+        <div class="qna-main">
+            <!-- 왼쪽 사이드바 -->
+            <aside class="qna-sidebar">
+                <h3>문의하기</h3>
+                <ul>
+                    <li class="active">
+                        <a th:href="@{/cs/qna/list}">회원</a>
+                    </li>
+                    <li><a href="#">쿠폰/이벤트</a></li>
+                    <li><a href="#">주문/결제</a></li>
+                    <li><a href="#">배송</a></li>
+                    <li><a href="#">취소/반품/교환</a></li>
+                    <li><a href="#">여행/숙박/항공</a></li>
+                    <li><a href="#">안전거래</a></li>
+                </ul>
+            </aside>
+
+            <!-- 오른쪽 본문 -->
+            <section class="qna-content">
+                <h2>회원</h2>
+
+                <form th:action="@{/cs/qna/write}" method="post" th:object="${board}">
+                    <!-- 문의유형 -->
+                    <div class="form-group">
+                        <label>문의유형</label>
+                        <select th:field="*{boardType1}">
+                            <option value="">1차 선택</option>
+                            <option value="회원">회원</option>
+                            <option value="쿠폰/이벤트">쿠폰/이벤트</option>
+                            <option value="주문/결제">주문/결제</option>
+                            <option value="배송">배송</option>
+                            <option value="취소/반품/교환">취소/반품/교환</option>
+                            <option value="여행/숙박/항공">여행/숙박/항공</option>
+                            <option value="안전거래">안전거래</option>
+                        </select>
+
+                        <select th:field="*{boardType2}">
+                            <option value="">2차 선택</option>
+                            <option value="가입">가입</option>
+                            <option value="탈퇴">탈퇴</option>
+                            <option value="정보수정">정보수정</option>
+                            <option value="아이디 관련">아이디 관련</option>
+                            <option value="비밀번호 관련">비밀번호 관련</option>
+                            <option value="기타">기타</option>
+                        </select>
+
+                    </div>
+
+                    <!-- 제목 -->
+                    <div class="form-group">
+                        <label for="title">제목</label>
+                        <input type="text" id="title" th:field="*{boardTitle}" placeholder="제목을 입력하세요.">
+
+                    </div>
+
+                    <!-- 내용 -->
+                    <div class="form-group">
+                        <label for="content">내용</label>
+                        <textarea id="content" th:field="*{boardContent}" placeholder="내용을 입력하세요."></textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn-cancel"
+                        <button type="button" class="btn-cancel" th:onclick="|location.href='@{/cs/qna/list}'|">취소하기</button>
+                        <button type="submit" class="btn-submit">등록하기</button>
+                    </div>
+
+                </form>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- ✅ 공통 푸터 -->
+<footer class="footer">
+    <div class="footer-links">
+        <a href="#">회사소개</a> |
+        <a href="#">서비스이용약관</a> |
+        <a href="#">개인정보처리방침</a> |
+        <a href="#">전자금융거래약관</a>
+    </div>
+
+    <div class="footer-content">
+        <div class="company-info">
+            <img th:src="@{/images/로고.png}" alt="회사 로고" class="footer-logo">
+            <p>(주)케이마켓</p>
+            <p>부산광역시 부산진구 중앙대로 103 그린타워 13층</p>
+            <p>대표이사 : 홍길동</p>
+            <p>사업자등록번호 : 123-45-12345</p>
+        </div>
+        <div class="customer-center">
+            <p><strong>고객센터</strong></p>
+            <p>Tel : 1234-5678 (평일 09:00~18:00)</p>
+            <p>전자금융거래 분쟁 담당 : 1234-1234 (365일 09:00~18:00)</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

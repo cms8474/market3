@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 약관동의</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <style>
+        /* 메인 컨테이너 */
+        .signup-container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .signup-container h2 {
+            font-size: 18px;
+            font-weight: 700;
+            border-bottom: 2px solid #222;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* 약관 박스 */
+        .terms-box {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #fafafa;
+        }
+
+        .terms-box label {
+            font-weight: 600;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .terms-box textarea {
+            width: 100%;
+            max-width: 100%;
+            height: 80px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+            font-size: 13px;
+            background: #f9f9f9;
+            resize: none;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .terms-box .agree {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            font-size: 13px;
+            margin-top: 6px;
+            gap: 4px;
+        }
+
+        .terms-box .agree input {
+            margin: 0;
+        }
+
+        /* 전체 동의 버튼 */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: #d32f2f;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 20px;
+            text-decoration: none; /* 링크 밑줄 제거 */
+        }
+        .submit-btn:hover {
+            background: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ 공통 헤더 -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+
+<main>
+    <div class="signup-container">
+        <h2>약관동의</h2>
+
+        <!-- 이용약관 -->
+        <div class="terms-box">
+            <label>(필수) 이용약관</label>
+            <textarea readonly>
+제1조 (목적)
+본 약관은 케이마켓(이하 "회사")이 제공하는 서비스의 이용조건 및 절차에 관한 기본적인 사항을 규정함을 목적으로 합니다.
+
+제2조 (회원의 정의)
+회원이라 함은 회사의 서비스에 접속하여 본 약관에 따라 이용계약을 체결하고 회사가 제공하는 서비스를 이용하는 고객을 말합니다.
+
+제3조 (서비스 이용)
+회원은 회사가 제공하는 서비스를 자유롭게 이용할 수 있으며, 단 회사의 정책에 따라 일부 서비스의 이용이 제한될 수 있습니다.
+            </textarea>
+            <div class="agree">
+                <input type="checkbox" id="agree1">
+                <label for="agree1">동의하기</label>
+            </div>
+        </div>
+
+        <!-- 전자금융 이용약관 -->
+        <div class="terms-box">
+            <label>(필수) 전자금융 이용약관</label>
+            <textarea readonly>
+제1조 (목적)
+본 약관은 전자금융거래법에 따라 케이마켓이 제공하는 전자금융서비스의 이용에 관한 기본적인 사항을 정함을 목적으로 합니다.
+
+제2조 (전자금융거래의 정의)
+전자금융거래라 함은 회사가 제공하는 전자적 장치를 통하여 금융거래를 수행하는 것을 말합니다.
+
+제3조 (이용자의 의무)
+이용자는 접근매체를 제3자에게 대여하거나 양도할 수 없으며, 비밀번호 등의 관리책임은 이용자 본인에게 있습니다.
+            </textarea>
+            <div class="agree">
+                <input type="checkbox" id="agree2">
+                <label for="agree2">동의하기</label>
+            </div>
+        </div>
+
+        <!-- 개인정보 수집 동의 -->
+        <div class="terms-box">
+            <label>(필수) 개인정보 수집 동의</label>
+            <textarea readonly>
+제1조 (개인정보 수집 항목)
+회사는 회원가입, 상담, 서비스 신청 등을 위해 다음과 같은 개인정보를 수집할 수 있습니다.
+- 필수항목: 이름, 아이디, 비밀번호, 이메일, 휴대전화번호
+- 선택항목: 주소, 관심분야
+
+제2조 (개인정보의 수집 및 이용목적)
+수집된 개인정보는 회원 관리, 서비스 제공, 본인 확인, 마케팅 활용 등을 위해 사용됩니다.
+
+제3조 (개인정보의 보유 및 이용기간)
+회사는 개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다.
+            </textarea>
+            <div class="agree">
+                <input type="checkbox" id="agree3">
+                <label for="agree3">동의하기</label>
+            </div>
+        </div>
+
+        <!-- 위치정보 이용약관 -->
+        <div class="terms-box">
+            <label>(선택) 위치정보 이용약관</label>
+            <textarea readonly>
+제1조 (목적)
+본 약관은 회사가 위치정보사업 또는 위치기반서비스사업과 관련하여 회사와 회원 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
+
+제2조 (위치정보의 수집방법)
+회사는 GPS, Wi-Fi, 기지국 기반 기술을 이용하여 회원의 위치정보를 수집할 수 있습니다.
+
+제3조 (위치정보의 이용목적)
+수집된 위치정보는 맞춤형 서비스 제공, 주변 매장 안내, 마케팅 정보 제공에 활용될 수 있습니다.
+
+제4조 (동의의 철회)
+회원은 언제든지 위치정보 제공에 대한 동의를 철회할 수 있으며, 회사는 즉시 해당 정보를 삭제합니다.
+            </textarea>
+            <div class="agree">
+                <input type="checkbox" id="agree4">
+                <label for="agree4">동의하기</label>
+            </div>
+        </div>
+
+        <!-- ✅ 전체 동의 후 다음 페이지로 이동 -->
+        <a th:href="@{/member/join}" class="submit-btn">동의하기</a>
+    </div>
+</main>
+
+<!-- ✅ 공통 푸터 -->
+<th:block th:replace="~{inc/_footer :: _footer}"/>
+
+</body>
+</html>

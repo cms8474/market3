@@ -1,0 +1,98 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/notice-list.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>공지사항 목록</h4>
+                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>공지사항</b></div>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-row">
+                <select name="searchType" id="searchType">
+                    <option value="#">유형선택</option>
+                    <option value="#">고객서비스</option>
+                    <option value="#">안전거래</option>
+                    <option value="#">이벤트당첨</option>
+                    <option value="#">위해상품</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어입력" />
+                <button class="btn" type="button">검색</button>
+            </div>
+
+
+            <!-- 목록 -->
+            <table>
+                <thead>
+                <tr>
+                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                    <th class="col-no">번호</th>
+                    <th class="col-type">유형</th>
+                    <th>제목</th>
+                    <th class="col-views">조회</th>
+                    <th class="col-date">날짜</th>
+                    <th class="col-actions">관리</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cs : ${dtoList}">
+                    <td class="col-check"><input type="checkbox" /></td>
+                    <td class="col-no">[[${cs.ano}]]</td>
+                    <td class="col-type">[[${cs.cate1}]]</td>
+                    <td class="title">[[${cs.title}]]</td>
+                    <td class="col-views">[[${cs.view_cnt}]]</td>
+                    <td class="col-date">[[${cs.wdate}]]</td>
+                    <td class="actions">
+                        <a th:href="@{/cs/delete/{ano}(ano=${cs.ano})}">삭제</a>
+                        <a th:href="@{/cs/modify/{ano}(ano=${cs.ano})}">수정</a>
+                    </td>
+                </tr>
+
+
+
+
+
+                </tbody>
+
+            </table>
+
+
+            <!-- 테이블 하단 영역 -->
+            <div class="table-bottom">
+                <div class="left">
+                    <a href="#" class="btn-gray">선택삭제</a>
+                </div>
+
+                <div class="center pagination">
+                    <a href="#">이전</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">다음</a>
+                </div>
+
+                <div class="right">
+                    <button class="btn-blue">작성하기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+
+<script>
+    // 전체 선택
+    const chkAll = document.getElementById('chkAll');
+    chkAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('tbody input[type="checkbox"]')
+            .forEach(cb => cb.checked = e.target.checked);
+    });
+
+
+
+</script>
+
+</th:block>

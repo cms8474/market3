@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FAQ - 가입/탈퇴</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <style>
+        .faq-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+        }
+        .breadcrumb {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .faq-main {
+            display: flex;
+            gap: 24px;
+        }
+
+        /* 사이드바 */
+        .faq-sidebar {
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        .faq-sidebar h3 {
+            font-size: 15px;
+            font-weight: 700;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+        .faq-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .faq-sidebar li {
+            padding: 10px 14px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        .faq-sidebar li.active {
+            background: #1976d2;
+            color: #fff;
+            font-weight: bold;
+        }
+        .faq-sidebar li a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 본문 */
+        .faq-content {
+            flex: 1;
+        }
+        .faq-content h2 {
+            font-size: 16px;
+            font-weight: 700;
+            border-bottom: 2px solid #222;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+        }
+
+        /* FAQ 리스트 */
+        .faq-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+        .faq-list li {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .faq-list .question {
+            font-weight: bold;
+            color: #1976d2;
+            margin-right: 6px;
+        }
+        .faq-list .answer {
+            color: #333;
+            margin-left: 20px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        /* 더보기 버튼 */
+        .faq-toggle {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .faq-toggle button {
+            padding: 6px 14px;
+            font-size: 13px;
+            border: 1px solid #ccc;
+            background: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .faq-toggle button:hover {
+            background: #e0e0e0;
+        }
+        /* 푸터 */
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            margin-top: 60px;
+            border-top: 1px solid #ddd;
+            font-size: 13px;
+            color: #333;
+        }
+        .footer-links {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .footer-links a {
+            margin: 0 8px;
+            color: #333;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .company-info, .customer-center {
+            width: 48%;
+        }
+        .footer-logo {
+            width: 60px;
+            margin-bottom: 10px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<!-- ✅ 공통 헤더 -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+
+<main>
+    <div class="faq-container">
+        <!-- 경로 -->
+        <div class="breadcrumb">
+            <a th:href="@{/cs/index}">홈</a> > 고객센터 > 자주묻는질문 > 가입/탈퇴
+        </div>
+
+        <div class="faq-main">
+            <!-- 사이드바 -->
+            <aside class="faq-sidebar">
+                <h3>자주묻는질문</h3>
+                <ul>
+                    <li class="active">
+                        <a th:href="@{/cs/faq/list}">회원</a>
+                    </li>
+                    <li><a href="#">쿠폰/이벤트</a></li>
+                    <li><a href="#">주문/결제</a></li>
+                    <li><a href="#">배송</a></li>
+                    <li><a href="#">취소/반품/교환</a></li>
+                    <li><a href="#">여행/숙박/항공</a></li>
+                    <li><a href="#">안전거래</a></li>
+                </ul>
+            </aside>
+
+            <!-- 본문 -->
+            <section class="faq-content">
+                <!-- 가입 FAQ -->
+                <h2>가입 관련 문의</h2>
+                <ul class="faq-list" id="joinFaq">
+                    <li th:each="faq : ${joinList}">
+                        <a th:href="@{'/cs/faq/view'(no=${faq.boardNo})}" class="question"
+                           th:text="'Q. ' + ${faq.boardTitle}"></a>
+                        <span class="answer" th:text="${faq.boardAnswer}"></span>
+                    </li>
+
+                    <li th:if="${#lists.isEmpty(joinList)}">
+                        등록된 가입 관련 FAQ가 없습니다.
+                    </li>
+                </ul>
+
+                <div class="faq-toggle">
+                    <button id="joinToggle">더보기</button>
+                </div>
+
+                <!-- 탈퇴 FAQ -->
+                <h2>탈퇴 관련 문의</h2>
+                <ul class="faq-list" id="leaveFaq">
+                    <li th:each="faq : ${leaveList}">
+                        <a th:href="@{'/cs/faq/view'(no=${faq.boardNo})}" class="question"
+                           th:text="'Q. ' + ${faq.boardTitle}"></a>
+                        <span class="answer" th:text="${faq.boardAnswer}"></span>
+                    </li>
+
+                    <li th:if="${#lists.isEmpty(leaveList)}">
+                        등록된 탈퇴 관련 FAQ가 없습니다.
+                    </li>
+                </ul>
+
+                <div class="faq-toggle">
+                    <button id="leaveToggle">더보기</button>
+                </div>
+
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- ✅ 공통 푸터 -->
+<footer class="footer">
+    <div class="footer-links">
+        <a href="#">회사소개</a> |
+        <a href="#">서비스이용약관</a> |
+        <a href="#">개인정보처리방침</a> |
+        <a href="#">전자금융거래약관</a>
+    </div>
+
+    <div class="footer-content">
+        <div class="company-info">
+            <img th:src="@{/images/로고.png}" alt="회사 로고" class="footer-logo">
+            <p>(주)케이마켓</p>
+            <p>부산광역시 부산진구 중앙대로 103 그린타워 13층</p>
+            <p>대표이사 : 홍길동</p>
+            <p>사업자등록번호 : 123-45-12345</p>
+        </div>
+        <div class="customer-center">
+            <p><strong>고객센터</strong></p>
+            <p>Tel : 1234-5678 (평일 09:00~18:00)</p>
+            <p>전자금융거래 분쟁 담당 : 1234-1234 (365일 09:00~18:00)</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function setupToggle(listId, btnId, limit = 3) {
+        const list = document.getElementById(listId);
+        const btn = document.getElementById(btnId);
+        const items = list.querySelectorAll('li');
+        let expanded = false;
+
+        // 초기 3개만 보이게
+        items.forEach((item, idx) => {
+            if (idx >= limit) item.style.display = 'none';
+        });
+
+        btn.addEventListener('click', () => {
+            expanded = !expanded;
+            items.forEach((item, idx) => {
+                if (idx >= limit) {
+                    item.style.display = expanded ? 'block' : 'none';
+                }
+            });
+            btn.textContent = expanded ? '접기' : '더보기';
+        });
+    }
+
+    setupToggle('joinFaq', 'joinToggle', 3);
+    setupToggle('leaveFaq', 'leaveToggle', 3);
+</script>
+
+</body>
+</html>

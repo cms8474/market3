@@ -1,0 +1,59 @@
+
+        .page {width: 100%; max-width: 1630px; margin: 0; min-height:650px; color:#222; }
+        h4 { font-size: 22px; margin: 0 0 12px; }
+        .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;
+            border-bottom: 3px solid #ddd; padding-bottom: 6px}
+        .breadcrumb { font-size:13px; color:#666; }
+        .breadcrumb b { color:#000; }
+
+        .block {border:1px solid #e5e5e5; margin-bottom:24px; background:#fafafa;}
+        .block-head {background:#f3f3f3; padding:10px 12px; border-bottom:1px solid #e5e5e5;}
+        .block-head strong {font-size:15px;}
+        .block-head .help {margin-left:10px; font-size:12px; color:#777;}
+        .tbl {width:100%; border-collapse:collapse; background:#fff;}
+        .tbl th {width:140px; text-align:left; padding:10px 12px; border-bottom:1px solid #eee; background:#fff;}
+        .tbl td {padding:8px 12px; border-bottom:1px solid #eee;}
+        .inp, select {height:34px; padding:0 10px; border:1px solid #ccc; border-radius:3px; font-size:14px;}
+        /* 버튼(100px로 통일) */
+        .btn-area {text-align:right; margin-top:16px;}
+        .btn {display:inline-block; width:100px; height:40px; line-height:40px; border:0; border-radius:4px; text-align:center; text-decoration:none; box-sizing:border-box; margin-left:6px; }
+
+        .btn {
+            display:inline-block;
+            width:90px; height:40px; line-height:40px;
+            border:0; border-radius:4px;
+            text-align:center; text-decoration:none;
+            box-sizing:border-box; margin-left:6px;
+            font-size:14px; cursor:pointer;
+            margin-bottom: 10px;
+        }
+        button.btn {appearance:none;}
+
+        /* 파란색 버튼 통일 */
+        .btn-primary {
+            background:#5a9bf5; color:#fff;
+        }
+        .btn-primary:hover {
+            background:#4a8ae5;
+        }
+        .btn-sm {
+            width:auto;
+            height:28px;
+            line-height:28px;
+            padding:0 8px;
+            font-size:12px;
+            margin-left:8px;
+            background:#ccc;
+            color:#000;
+            border-radius:3px;
+        }
+        .btn-sm:hover {
+            background:#bbb;
+        }
+
+
+        /* 노란 안내 박스(하단 고시 안내) */
+        .notice-box{
+            background:#fff9c4;border:1px solid #f0e68c;padding:12px 14px;margin:16px 0 0;
+            font-size:13px;color:#333;line-height:1.55
+        }

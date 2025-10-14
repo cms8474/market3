@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <style>
+        /* 메인 컨테이너 */
+        .join-container {
+            max-width: 800px;
+            margin: 60px auto;
+            text-align: center;
+        }
+
+        /* 상단 안내문 */
+        .join-header {
+            margin-bottom: 40px;
+        }
+        .join-header h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+        .join-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        /* 회원가입 카드 영역 */
+        .join-cards {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+        .join-card {
+            width: 280px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .join-card h2 {
+            font-size: 16px;
+            font-weight: 700;
+            padding: 12px;
+            margin: -20px -20px 20px -20px;
+            color: #fff;
+        }
+        .join-card.red h2 {
+            background: #d32f2f;  /* 빨강 */
+        }
+        .join-card.blue h2 {
+            background: #1976d2;  /* 파랑 */
+        }
+
+        .join-card p {
+            font-size: 14px;
+            margin: 12px 0;
+            color: #333;
+        }
+        .join-card button {
+            margin-top: 16px;
+            padding: 10px 20px;
+            border: 1px solid #999;
+            border-radius: 4px;
+            background: #f5f5f5;
+            cursor: pointer;
+        }
+        .join-card button:hover {
+            background: #e0e0e0;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            margin-top: 60px;
+            border-top: 1px solid #ddd;
+            font-size: 13px;
+            color: #333;
+        }
+        .footer-links {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .footer-links a {
+            margin: 0 8px;
+            color: #333;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .company-info, .customer-center {
+            width: 48%;
+        }
+        .footer-logo {
+            width: 60px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ 공통 헤더 -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+
+<main>
+    <div class="join-container">
+        <!-- 안내문 -->
+        <div class="join-header">
+            <h3>대한민국 1등 온라인 인터넷 쇼핑</h3>
+            <h1>케이마켓에 오신 것을 환영합니다.</h1>
+        </div>
+
+        <!-- 카드 2개 -->
+        <div class="join-cards">
+            <!-- 일반회원가입 -->
+            <div class="join-card red">
+                <h2>일반회원가입</h2>
+                <p>개인구매회원 (외국인포함)<br>만 14세 이상 가능</p>
+                <button>회원가입</button>
+            </div>
+
+            <!-- 판매회원가입 -->
+            <div class="join-card blue">
+                <h2>판매회원가입</h2>
+                <p>사업자판매회원<br>사업자등록증을 보유한 회원</p>
+                <button>회원가입</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- ✅ 공통 푸터 -->
+<footer class="footer">
+    <div class="footer-links">
+        <a href="#">회사소개</a> |
+        <a href="#">서비스이용약관</a> |
+        <a href="#">개인정보처리방침</a> |
+        <a href="#">전자금융거래약관</a>
+    </div>
+
+    <div class="footer-content">
+        <div class="company-info">
+            <img th:src="@{/images/로고.png}" alt="회사 로고" class="footer-logo">
+            <p>(주)케이마켓</p>
+            <p>부산광역시 부산진구 중앙대로 103 그린타워 13층</p>
+            <p>대표이사 : 홍길동</p>
+            <p>사업자등록번호 : 123-45-12345</p>
+        </div>
+
+        <div class="customer-center">
+            <p><strong>고객센터</strong></p>
+            <p>Tel : 1234-5678 (평일 09:00~18:00)</p>
+            <p>전자금융거래 분쟁 담당 : 1234-1234 (365일 09:00~18:00)</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

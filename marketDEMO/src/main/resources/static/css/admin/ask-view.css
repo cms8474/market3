@@ -1,0 +1,44 @@
+
+
+        /* 레이아웃 */
+        .page {width: 100%; max-width: 1630px; margin: 0; min-height:650px;color:#222; }
+        h4 { font-size: 22px; margin: 0 0 10px; }
+        .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:60px;
+            border-bottom: 3px solid #ddd;}
+        .breadcrumb { font-size:13px; color:#666; }
+        .breadcrumb b { color:#000; }
+
+        table.view { width:100%; border-collapse:collapse; border-top:2px solid #444;  margin-bottom:20px; }
+        table.view th { width:120px; border-bottom:1px solid #ddd; text-align:left; padding:20px;}
+        table.view td { border-bottom:1px solid #ddd; padding:10px;}
+
+        table.view td.answer {
+            padding-top:20px;
+            padding-bottom:20px;
+            min-height: 300px;
+            vertical-align: top;
+        }
+
+        .btn-area {
+            text-align:right;
+            margin-top:20px;
+        }
+
+        .btn-area a {
+            display:inline-block;
+            min-width:70px;
+            padding:6px 14px;
+            border:0;
+            border-radius:3px;
+            cursor:pointer;
+            margin-left:6px;
+            text-align:center;
+            text-decoration:none;
+        }
+
+        .btn-delete { background:#ccc; color:#000; }
+        .btn-list   { background:#5a9bf5; color:#fff; }
+
+        .btn-delete:hover { background:#bbb; }
+        .btn-list:hover   { background:#4a8ae5; }
+

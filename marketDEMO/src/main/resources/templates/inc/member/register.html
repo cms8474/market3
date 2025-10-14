@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>일반 회원가입</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <style>
+        .register-container {
+            max-width: 800px;
+            margin: 40px auto;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            background: #fff;
+        }
+
+        .register-container h2 {
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 2px solid #222;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            width: 140px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="email"],
+        .form-group input[type="date"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group .hint {
+            margin-left: 10px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .form-group .btn {
+            margin-left: 8px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            background: #1976d2;
+            color: #fff;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .address-group input {
+            margin-bottom: 6px;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            background: #d32f2f;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background: #b71c1c;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="email"],
+        .form-group input[type="date"] {
+            width: 60%;          /* ✅ 기존 flex:1 대신 고정 너비 */
+            max-width: 300px;    /* ✅ 최대 크기 제한 */
+            padding: 8px;        /* 조금 더 얇게 */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group .btn {
+            margin-left: 8px;
+            padding: 7px 10px;
+            font-size: 13px;
+        }
+
+        .address-group input {
+            width: 100%;   /* 주소 입력만 가로 전체 */
+            margin-bottom: 6px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ✅ 공통 헤더 -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+
+<main>
+    <div class="register-container">
+        <h2>일반 회원가입</h2>
+        <form>
+            <div class="form-group">
+                <label for="userid">아이디</label>
+                <input type="text" id="userid" name="userid" placeholder="아이디 입력">
+                <span class="hint">영문, 숫자 4~12자 설정</span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" placeholder="비밀번호 입력">
+                <span class="hint">영문, 숫자, 특수문자 8~12자 설정</span>
+            </div>
+
+            <div class="form-group">
+                <label for="passwordConfirm">비밀번호 확인</label>
+                <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="비밀번호 재입력">
+            </div>
+
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input type="text" id="name" name="name" placeholder="이름 입력">
+            </div>
+
+            <div class="form-group">
+                <label for="birth">생년월일</label>
+                <input type="date" id="birth" name="birth">
+            </div>
+
+            <div class="form-group">
+                <label>성별</label>
+                <div class="gender-options">
+                    <label><input type="radio" name="gender" value="M"> 남</label>
+                    <label><input type="radio" name="gender" value="F"> 여</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">EMAIL</label>
+                <input type="email" id="email" name="email" placeholder="이메일 입력">
+                <button type="button" class="btn">이메일 인증</button>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">휴대폰</label>
+                <input type="text" id="phone" name="phone" placeholder="휴대폰 입력">
+                <button type="button" class="btn">휴대폰 인증</button>
+            </div>
+
+            <div class="form-group address-group">
+                <label for="postcode">주소</label>
+                <div style="flex:1;">
+                    <input type="text" id="postcode" name="postcode" placeholder="우편번호 입력">
+                    <button type="button" class="btn">우편번호 검색</button>
+                    <input type="text" id="address1" name="address1" placeholder="기본주소 입력" style="width:100%;">
+                    <input type="text" id="address2" name="address2" placeholder="상세주소 입력" style="width:100%;">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">회원가입</button>
+        </form>
+    </div>
+</main>
+
+<!-- ✅ 공통 푸터 -->
+<th:block th:replace="~{inc/_footer :: _footer}"/>
+
+</body>
+</html>

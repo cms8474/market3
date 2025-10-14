@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지::쿠폰내역</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/my/myPage.css">
+    <style>
+        .sidebar nav a:nth-child(3) {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div class="header-wrap" th:replace="~{my/_header.html}"></div>
+<!-- □□□□□ 헤더 □□□□□ -->
+<!-- 마이페이지 요약 정보 -->
+<!-- DB연결 예정 for each -->
+<div style="width: 100%;  background-color: #f2f2f2; display: flex; flex-direction: column; position: sticky; top: 0; height: 100px;max-width: 1920px;
+            margin: 0 auto;">
+    <div class="summary" style="display: inline-flex; min-width: 1060px; margin: 0 auto; width: 100%;">
+        <div style="margin-left: 5%; margin-right: auto; display: flex; align-items: center; height: 100px;">
+            <span style="font-size: 24px; font-weight: bold;">나의쇼핑정보</span>
+        </div>
+        <div style="width: 25%; margin-right: 5%; display: flex; align-items: center;">
+            <table style="border-collapse: collapse; text-align: center; width: 100%; height: 70%;">
+                <colgroup>
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                </colgroup>
+                <tr>
+                    <th style="border-right: solid 1px #d9d9d9;">주문</th>
+                    <th style="border-right: solid 1px #d9d9d9;">쿠폰</th>
+                    <th style="border-right: solid 1px #d9d9d9;">포인트</th>
+                    <th>문의</th>
+                </tr>
+                <tr>
+                    <td style="border-right: solid 1px #d9d9d9;">2</td>
+                    <td style="border-right: solid 1px #d9d9d9;">1</td>
+                    <td style="border-right: solid 1px #d9d9d9;">1,000</td>
+                    <td>1</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- ■■■■■ 사이드바 ■■■■■ -->
+    <div th:replace="~{my/_sidebar.html}"></div>
+    <!-- □□□□□ 사이드바 □□□□□ -->
+</div>
+<main class="mincheolkang" style="display: flex; flex-wrap: nowrap;">
+    <!-- ■■■■■ 사이드바 공간 ■■■■■ -->
+    <div style="width: 25%; height: 1px; min-width: 240px;"></div>
+    <!-- □□□□□ 사이드바 공간 □□□□□ -->
+    <section class="main-content" style="margin-left: 10px;">
+        <div class="ad-banner" style="width: 100%; height: 86px; text-align: center;">
+            <img src="/images/광고.png" style="width: 810px; height: 100%;">
+        </div>
+        <article>
+            <h3>포인트내역</h3>
+            <form action="#" method="get" class="search-period">
+                <span>기간별조회</span>
+
+                <!-- 단위 버튼 (radio) -->
+                <label><input type="radio" name="unit" value="1w"> 1주일</label>
+                <label><input type="radio" name="unit" value="15d"> 15일</label>
+                <label><input type="radio" name="unit" value="1m"> 1개월</label>
+
+                <!-- 최근 5개월 -->
+                <select name="recentMonths">
+                    <option value="">-- 최근 개월수 선택 --</option>
+                    <option value="1">최근 1개월</option>
+                    <option value="2">최근 2개월</option>
+                    <option value="3">최근 3개월</option>
+                    <option value="4">최근 4개월</option>
+                    <option value="5">최근 5개월</option>
+                </select>
+
+                <!-- 시작일 ~ 종료일 -->
+                <input type="date" name="startDate"> ~
+                <input type="date" name="endDate">
+
+                <button type="submit">조회</button>
+            </form>
+            <!-- 쿠폰 내역 -->
+            <table class="pointList myPageTable">
+                <tr>
+                    <th>쿠폰명</th>
+                    <th>할인금액</th>
+                    <th>적용기준/제한조건</th>
+                    <th>상태</th>
+                    <th>유효기간</th>
+                </tr>
+                <tr>
+                    <td>1만 원 할인 중복 쿠폰</td>
+                    <td>10,000원</td>
+                    <td>10,000원 이상 구매시</td>
+                    <td>사용가능</td>
+                    <td>~ 12/31</td>
+                </tr>
+                <tr>
+                    <td>회원가입 축하 5천 원 할인쿠폰</td>
+                    <td>5,000원</td>
+                    <td>5,000원 이상 구매시</td>
+                    <td>사용가능</td>
+                    <td>~ 12/31</td>
+                </tr>
+            </table>
+            <div class="couponRule" style="">
+                <ul class="couponRule">
+                    <li>순금/골드바/돌반지/상품권 등 환금성 카테고리 및 중고상품 및 일부 프로모션 상품에는 쿠폰 사용이 제한됩니다.</li>
+                    <li>쿠폰 적용 가능한 금액 기준은 판매자 상품별 할인과 G마켓 추가할인이 모두 포함된 할인 적용가 입니다.</li>
+                    <li>중복쿠폰은 판매자 할인, G마켓 할인과 중복 적용 가능하며 하나의 상품당 한 장의 중복쿠폰만 사용 가능합니다.</li>
+                    <li>항공 할인은 항공권 전용 할인으로 결제시점에 할인 혜택을 받을 수 있습니다.</li>
+                    <li>항공권 예약취소 또는 환불 시 적용했던 항공할인은 id당 1회 한하여 다시 발급됩니다.</li>
+                </ul>
+            </div>
+        </article>
+    </section>
+</main>
+
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<div th:replace="~{my/_footer.html}"></div>
+<!-- □□□□□ 푸터 □□□□□ -->
+
+
+
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
+
+

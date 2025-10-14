@@ -1,0 +1,42 @@
+<article id="buyConfirm" class="modal">
+    <div class="modal-window">
+        <div class="modal-titleBar">
+            <h2>구매확정</h2>
+            <span id="closeBCModal" class="close">&times</span>
+        </div>
+        <div class="modal-content">
+            <p>
+                상품을 받으셨나요?<br>
+                상품을 받으신 분만 구매확정을 해주세요.
+            </p>
+            <div>
+                <button class="BCConfirmButton">확인</button>
+                <button id="confirmCancel" class="BCCancelButton">취소</button>
+            </div>
+        </div>
+    </div>
+    <!--■■■■■모달 창 스크립트■■■■■-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById("buyConfirm");
+            const closeModalButton = document.getElementById("closeBCModal");
+            const confirmCancelButton = document.getElementById("confirmCancel")
+
+            document.addEventListener('click', function (e) {
+                if(e.target.name === 'buyConfirm') {
+                    e.preventDefault();
+
+                    modal.style.display = "block";
+                }
+            });
+
+            closeModalButton.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            confirmCancelButton.onclick = function () {
+                modal.style.display = "none";
+            }
+        });
+    </script>
+</article>

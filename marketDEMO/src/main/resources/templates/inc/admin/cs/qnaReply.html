@@ -1,0 +1,44 @@
+<th:block th:fragment="content">
+    <link rel="stylesheet" href="/css/admin/ask-answer.css">
+        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+        <div class="page">
+            <div class="topbar">
+                <h4>문의하기 보기</h4>
+                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>문의하기</b></div>
+            </div>
+
+            <!-- 답변 입력 폼 -->
+            <form action="/cs/qna/reply" method="post">
+                <!-- 글번호 hidden -->
+                <input type="hidden" name="no" value="123">
+
+                <table class="view">
+                    <tr>
+                        <th>유형</th>
+                        <td>회원 - 가입</td>
+                    </tr>
+                    <tr>
+                        <th>제목</th>
+                        <td>개인회원과 법인회원에 차이가 있나요?</td>
+                    </tr>
+                    <tr>
+                        <th>내용</th>
+                        <td>개인적인 사정으로 아이디를 3개나 썼었는데 사용할 수 있나요?</td>
+                    </tr>
+                    <tr>
+                        <th>답변</th>
+                        <td>
+                            <textarea class="txtarea" name="reply" placeholder="답변을 입력하세요." required></textarea>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="btn-area">
+                    <a href="#" class="btn btn-delete" id="btnDelete">삭제</a>
+                    <button type="submit" class="btn btn-primary2">답변등록</button>
+                    <a href="#" class="btn btn-primary">목록</a>
+                </div>
+            </form>
+        </div>
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+</th:block>

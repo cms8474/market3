@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품검색결과</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/product.css">
+
+    <!-- ✅ search.html 전용 style -->
+    <style>
+        /* 검색 결과 요약 */
+        .search-summary {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .search-summary .keyword {
+            font-weight: 700;
+            color: #d32f2f;
+        }
+        .search-summary .count {
+            color: #333;
+        }
+
+        /* 검색바 컨테이너 */
+        .search-bar {
+            border: 1px solid #ddd;
+            padding: 12px;
+            background: #fafafa;
+            margin-bottom: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* 검색바 한 줄 */
+        .search-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        /* 검색 입력창 */
+        .search-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            height: 36px;
+            box-sizing: border-box;
+        }
+
+        /* 검색 버튼 */
+        .search-btn {
+            padding: 0 20px;
+            height: 36px;
+            background: #b71c1c;
+            color: #fff;
+            border: 1px solid #b71c1c;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* 체크박스 */
+        .checkboxes {
+            display: flex;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        /* 가격 범위 */
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .price-input {
+            width: 90px;
+            padding: 6px;
+            border: 1px solid #ccc;
+            height: 32px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 공통 헤더 -->
+<th:block th:replace="~{inc/_header :: _header}"/>
+
+<main class="product-page">
+    <div class="main-container">
+
+        <!-- ✅ 사이드바 (공통) -->
+        <div class="sidebar-container">
+            <th:block th:replace="~{inc/_sidebar :: _sidebar}"/>
+            <aside class="best-product-list">
+                <h3 class="page-title">베스트 상품</h3>
+                <ul class="products">
+                    <li class="best-product-item">
+                        <img th:src="@{/images/로고.png}" alt="베스트 상품">
+                        <div class="info">
+                            <h4 class="name">상품명</h4>
+                            <p class="price">
+                                <span class="origin">30,000원</span>
+                                <span class="discount">10% ↓</span>
+                                <span class="sale">27,000원</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+
+        <!-- ✅ 본문 -->
+        <section class="product-search">
+
+            <!-- 제목 + breadcrumb -->
+            <div class="title-bar">
+                <h2 class="page-title">상품검색결과</h2>
+                <nav class="breadcrumb">HOME &gt; 상품검색 &gt; 검색결과</nav>
+            </div>
+
+            <!-- 검색결과 요약 -->
+            <div class="search-summary">
+                <span class="keyword">셔츠</span> 검색결과
+                <span class="count">(총 : 20건)</span>
+            </div>
+
+            <!-- ✅ 검색바 -->
+            <div class="search-bar">
+                <div class="search-row">
+                    <!-- 검색창 -->
+                    <input type="text" placeholder="검색어 입력" class="search-input">
+
+                    <!-- 검색 버튼 -->
+                    <button type="button" class="search-btn">검색</button>
+
+                    <!-- 체크박스 -->
+                    <div class="checkboxes">
+                        <label><input type="checkbox"> 상품명</label>
+                        <label><input type="checkbox"> 설명</label>
+                        <label><input type="checkbox"> 가격</label>
+                    </div>
+
+                    <!-- 가격 범위 -->
+                    <div class="price-range">
+                        <input type="text" placeholder="최소금액" class="price-input">
+                        <span>~</span>
+                        <input type="text" placeholder="최대금액" class="price-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ✅ 정렬 탭 -->
+            <div class="category-tabs">
+                <button>판매많은순</button>
+                <button>낮은가격순</button>
+                <button>높은가격순</button>
+                <button>평점높은순</button>
+                <button>후기많은순</button>
+                <button>최근등록순</button>
+            </div>
+
+            <!-- ✅ 검색 결과 리스트 -->
+            <ul class="products">
+                <li class="product">
+                    <img th:src="@{/images/로고.png}" alt="상품이미지">
+
+                    <!-- 가운데 정보 -->
+                    <div class="info">
+                        <h3 class="name">상품명</h3>
+                        <p class="desc">간단한 상품 설명</p>
+                        <div class="delivery-badges">
+                            <span class="badge shipping">무료배송</span>
+                        </div>
+                        <div class="seller-line">
+                            판매자 <span class="seller-name">상호명</span>
+                            <span class="badge grade">그린등급</span>
+                        </div>
+                        <div class="rating-line">
+                            상품평 <span class="stars">★★★★☆</span> <span class="count">(120)</span>
+                        </div>
+                    </div>
+
+                    <!-- 우측 가격 -->
+                    <div class="meta-right">
+                        <div class="sale-price">27,000원</div>
+                        <div class="origin-line">
+                            <span class="origin">30,000원</span>
+                            <span class="discount">10% ↓</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- ✅ 페이지네이션 -->
+            <div class="pagination">
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- 공통 푸터 -->
+<th:block th:replace="~{inc/_footer :: _footer}"/>
+
+</body>
+</html>
