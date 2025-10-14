@@ -5,8 +5,14 @@ plugins {
 }
 
 group = 'kr.co.team3'
-version = '0.0.1-SNAPSHOT'
+version = property('spring_application_version')
 description = 'marketDEMO'
+
+// 💡 JAR 파일 이름만 원하는 버전으로 설정합니다.
+bootJar {
+    //marketDEMO-n.n.n.jar
+    archiveFileName = "${archivesBaseName}-${version}.jar"
+}
 
 java {
 	toolchain {
@@ -28,7 +34,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    //implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
