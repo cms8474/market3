@@ -28,9 +28,12 @@
         h2.page-title a { text-decoration:none; color:inherit; }
         .product a { display:block; text-decoration:none; color:inherit; }
     </style>
+
+
 </head>
 <body>
 
+<!-- ✅ 공통 헤더 -->
 <th:block th:replace="~{inc/_header :: _header}"/>
 
 <main class="product-page">
@@ -115,6 +118,20 @@
                     </a>
                 </li>
             </ul>
+
+            <!-- 🔹 할인상품 -->
+            <h2 class="page-title">할인상품</h2>
+            <ul class="grid-products">
+                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">120,000원</span><span class="discount"> 60% ↓</span></div><div class="sale">50,000원</div><span class="badge shipping">무료배송</span></li>
+                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div><div class="sale">18,000원</div><span class="badge shipping">무료배송</span></li>
+                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div><div class="sale">20,000원</div><span class="badge shipping">무료배송</span></li>
+                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">34,000원</div><span class="badge shipping">무료배송</span></li>
+                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div><div class="sale">18,000원</div><span class="badge shipping">무료배송</span></li>
+                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div><div class="sale">20,000원</div><span class="badge shipping">무료배송</span></li>
+                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">34,000원</div><span class="badge shipping">무료배송</span></li>
+                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">60,000원</span><span class="discount"> 50% ↓</span></div><div class="sale">30,000원</div><span class="badge shipping">무료배송</span></li>
+            </ul>
+
         </section>
     </div>
 </main>

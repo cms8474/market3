@@ -60,7 +60,7 @@
             <section>
                 <div style="display: flex; align-items: center;">
                     <h3 style="margin-right: auto;">최근주문내역</h3>
-                    <a href="#" style="margin-right: 20px;">더보기 ></a>
+                    <a th:href="@{/my/order}" style="margin-right: 20px;">더보기 ></a>
                 </div>
                 <table class="orderList myPageTable">
                     <tr>
@@ -69,35 +69,17 @@
                         <th>상태</th>
                         <th>확인/신청</th>
                     </tr>
-                    <tr>
-                        <td>2022-12-13</td>
+                    <tr th:each="order : ${orderDTOList}" th:object="${order}">
+                        <td>[[*{po_orderdate}]]</td>
                         <td><img src="/images/로고.png"/></td>
                         <td>
-                            <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
-                            <a href="#" class="tradeName">(주) 상호명</a><br>
+                            <a href="#" class="orderNum">주문번호 : [[*{po_no}]]</a><br>
+                            <a href="#" class="tradeName">[[*{s_company_name}]]</a><br>
                             <a href="#">상품명</a><br>
-                            수량 : 1개<br>
-                            <b>3,4000원</b>
+                            수량 : [[*{oi_prod_qty}]]개<br>
+                            <b>[[*{po_sum_price}]]원</b>
                         </td>
-                        <td>배송완료</td>
-                        <td>
-                            <button name="buyConfirm" class="blueButton">구매확정</button><br>
-                            <button name="productReview" class="blueButton">상품평쓰기</button><br>
-                            <button name="returnRequest">반품신청</button><br>
-                            <button name="exchangeRequest">교환신청</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2022-12-13</td>
-                        <td><img src="/images/로고.png"/></td>
-                        <td>
-                            <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
-                            <a href="#" class="tradeName">(주) 상호명</a><br>
-                            <a href="#">상품명</a><br>
-                            수량 : 1개<br>
-                            <b>3,4000원</b>
-                        </td>
-                        <td>배송완료</td>
+                        <td>[[*{po_orderdate}]]</td>
                         <td>
                             <button name="buyConfirm" class="blueButton">구매확정</button><br>
                             <button name="productReview" class="blueButton">상품평쓰기</button><br>

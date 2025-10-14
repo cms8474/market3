@@ -102,9 +102,19 @@
     color: #333;
 }
 
-.swiper-button-next, .swiper-button-prev {
-    background-color: #333;
-    color: white;
+.swiper-button-prev,
+.swiper-button-next {
+    background: transparent;
+    color: gray;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    transform: scale(1.2);
 }
 
 .swiper-pagination {

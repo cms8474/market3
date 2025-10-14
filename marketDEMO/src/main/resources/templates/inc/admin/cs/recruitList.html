@@ -38,31 +38,35 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td class="col-check"><input type="checkbox"></td>
-                    <td>120</td>
-                    <td>광고사업</td>
-                    <td>경력 4 ~ 15년</td>
-                    <td>정규직</td>
-                    <td>광고 프로젝트 기획</td>
-                    <td>관리자</td>
-                    <td class="status">모집중</td>
-                    <td class="col-date">0000-00-00 ~ 0000-00-00</td>
-                    <td class="col-date">0000-00-00</td>
-                </tr>
+<!--                <tr>-->
+<!--                    <td class="col-check"><input type="checkbox"></td>-->
+<!--                    <td>120</td>-->
+<!--                    <td>광고사업</td>-->
+<!--                    <td>경력 4 ~ 15년</td>-->
+<!--                    <td>정규직</td>-->
+<!--                    <td>광고 프로젝트 기획</td>-->
+<!--                    <td>관리자</td>-->
+<!--                    <td class="status">모집중</td>-->
+<!--                    <td class="col-date">0000-00-00 ~ 0000-00-00</td>-->
+<!--                    <td class="col-date">0000-00-00</td>-->
+<!--                </tr>-->
 
-                <tr>
-                    <td class="col-check"><input type="checkbox"></td>
-                    <td>118</td>
-                    <td>운영</td>
-                    <td>무관</td>
-                    <td>계약직</td>
-                    <td>단기 아르바이트 모집</td>
-                    <td>관리자</td>
-                    <td class="status">종료</td>
-                    <td class="col-date">0000-00-00 ~ 0000-00-00</td>
-                    <td class="col-date">0000-00-00</td>
-                </tr>
+                    <tr th:each="recruitment : ${list}">
+                        <td class="col-check"><input type="checkbox"></td>
+                        <td th:text="${recruitment.r_no}"></td>
+                        <td th:text="${recruitment.r_dept}"></td>
+                        <td th:text="${recruitment.r_career}"></td>
+                        <td th:text="${recruitment.r_type}"></td>
+                        <td th:text="${recruitment.r_title}"></td>
+                        <td>관리자</td>
+                        <td th:text="${recruitment.r_status}" class="status"></td>
+                        <td class="col-date"
+                            th:text="${#temporals.format(recruitment.r_start_date, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(recruitment.r_end_date, 'yyyy-MM-dd')}">
+                        </td>
+                        <td class="col-date" th:text="${#temporals.format(recruitment.r_reg_date, 'yyyy-MM-dd')}"></td>
+                    </tr>
+
+
 
                 </tbody>
 
