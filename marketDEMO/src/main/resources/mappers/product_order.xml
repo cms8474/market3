@@ -4,9 +4,19 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.team3.mapper.ProductOrderMapper">
     <select id="selectRecent5WithUID" resultType="kr.co.team3.dto.my.ProductOrderDTO">
-        SELECT * FROM PRODUCT_ORDER
+        SELECT po.*, si.*,
+        oi_prod_qty,
+        oi_tot_price,
+        oi_tracking_company,
+        oi_tracking_num,
+        oi_etc,
+        oi_del_status
+        FROM PRODUCT_ORDER po
+        JOIN order_items oi on po.po_no = oi.oi_po_no
+        JOIN seller_info si ON oi.oi_s_u_id = si.s_u_id
         WHERE po_u_id = #{po_u_id}
         ORDER BY po_orderdate DESC
         OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+
     </select>
 </mapper>

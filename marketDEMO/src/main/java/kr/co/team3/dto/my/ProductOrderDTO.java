@@ -27,4 +27,22 @@ public class ProductOrderDTO {
     private String po_detail_addr;
     private String po_request_not;
     private String po_orderdate;
+
+    // seller_info 컬럼
+    private String s_u_id;
+    private String s_company_name;
+    private String s_seller_no;
+    private String s_sales_reg_num;
+    private String s_tel;
+    private String s_fax;
+    private String s_state;
+    private String s_seller_type;
+
+    // order_items 컬럼
+    private int oi_prod_qty;
+    private int oi_tot_price;
+    private String oi_tracking_company;
+    private String oi_tracking_num;
+    private String oi_etc;
+    private String oi_del_state;
 }
