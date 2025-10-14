@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회사소개::소식과 이야기</title>
+    <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/company/companyIntro.css" rel="stylesheet">
+    <style>
+        .main-header .nav a:nth-child(3) {text-decoration: underline;}
+    </style>
+</head>
+<body>
+<!-- ■■■■■ 헤더 ■■■■■ -->
+<div th:replace="~{company/_header.html}"></div>
+<!-- □□□□□ 헤더 □□□□□ -->
+<main class="mincheolkang">
+    <section class="news-main">
+        <!-- 메인 타이틀 -->
+        <header class="news-header">
+            <h2 class="news-title">케이마켓을 더 알고 싶다면!</h2>
+            <p class="news-subtitle">우리의 다양한 이야기를 소개합니다</p>
+        </header>
+
+        <!-- 카테고리 탭 -->
+        <nav class="news-category">
+            <ul>
+                <li class="active"><a href="#">전체보기</a></li>
+                <li><a href="#">기업문화</a></li>
+                <li><a href="#">인터뷰</a></li>
+                <li><a href="#">채용</a></li>
+                <li><a href="#">보도자료</a></li>
+                <li><a href="#">ESG</a></li>
+            </ul>
+        </nav>
+
+        <!-- 카드형 뉴스 리스트 -->
+        <div class="news-cards">
+            <article class="news-card">
+                <img src="/images/sample1.jpg" alt="봄 스타일링 완성 시킬 데님 브랜드 와크 75% 할인">
+                <div class="card-body">
+                    <h3>봄 스타일링 완성시킬 데님 브랜드 ‘와크’ 75% 할인</h3>
+                    <p class="card-meta">케이마켓에서 써보인 인기 브랜드는?</p>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <img src="/images/sample2.jpg" alt="봄 스타일링 완성 시킬 데님 브랜드 와크 75% 할인">
+                <div class="card-body">
+                    <h3>봄 스타일링 완성시킬 데님 브랜드 ‘와크’ 75% 할인</h3>
+                    <p class="card-meta">케이마켓에서 써보인 인기 브랜드는?</p>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <img src="/images/sample3.jpg" alt="봄 스타일링 완성 시킬 데님 브랜드 와크 75% 할인">
+                <div class="card-body">
+                    <h3>봄 스타일링 완성시킬 데님 브랜드 ‘와크’ 75% 할인</h3>
+                    <p class="card-meta">케이마켓에서 써보인 인기 브랜드는?</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+</main>
+<!-- ■■■■■ 푸터 ■■■■■ -->
+<div th:replace="~{company/_footer.html}"></div>
+<!-- □□□□□ 푸터 □□□□□ -->
+</body>
+</html>

@@ -1,12 +1,24 @@
 package kr.co.team3.controller;
 
+import kr.co.team3.dto.my.ProductOrderDTO;
+import kr.co.team3.service.my.ProductOrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @Controller
+@RequiredArgsConstructor
 public class MyPageController {
+    private final ProductOrderService productOrderService;
+
     @GetMapping("/my/home")
-    public String home(){
+    public String home(Model model){
+        String dummyId = "user01"; // 추후 로그인 세션이랑 연동
+        List<ProductOrderDTO> orderDTOList = productOrderService.selectRecent5WithUID(dummyId);
+        model.addAttribute("orderDTOList", orderDTOList);
         return "my/home";
     }
 

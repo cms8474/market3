@@ -6,20 +6,20 @@
             <a href="#"><img src="/images/광고.png" alt="메인 상단 광고"></a>
         </div>
 
-
-        <!-- 우상단 작은 메뉴-->
+        <!-- 우상단 작은 메뉴 -->
         <div class="top-menu">
-            <a href="#">로그인</a>
-            <a href="#">회원가입</a>
+            <!--  로그인 / 회원가입 기능 연결 -->
+            <a href="/member/login">로그인</a>
+            <a href="/member/join">회원가입</a>
             <a href="#">마이페이지</a>
-            <a href="#">장바구니</a>
+            <a href="/product/cart">장바구니</a>
         </div>
 
         <!-- 헤더 메인 -->
         <div class="main-header">
             <div class="logo">
-                <!-- 로고 -->
-                <img src="/images/로고.png" alt="로고">
+                <!--  로고 클릭 시 메인 페이지 이동 -->
+                <a href="/"><img src="/images/로고.png" alt="로고"></a>
             </div>
             <!-- 검색 -->
             <div class="search-bar">
@@ -29,16 +29,14 @@
         </div>
 
         <!-- 헤더 메뉴 카테고리 -->
-        <!-- DB연결 예정 for each -->
+        <!--  상품 목록 이동 기능 추가 -->
         <nav class="header-menu">
-            <a href="#">히트상품</a>
-            <a href="#">추천상품</a>
-            <a href="#">최신상품</a>
-            <a href="#">인기상품</a>
-            <a href="#">할인상품</a>
+            <a href="/product/list?type=hit">히트상품</a>
+            <a href="/product/list?type=recommend">추천상품</a>
+            <a href="/product/list?type=latest">최신상품</a>
+            <a href="/product/list?type=popular">인기상품</a>
+            <a href="/product/list?type=discount">할인상품</a>
         </nav>
-
-
 
     </header>
 </div>

@@ -192,39 +192,49 @@
             <section class="qna-content">
                 <h2>회원</h2>
 
-                <form>
+                <form th:action="@{/cs/qna/write}" method="post" th:object="${board}">
                     <!-- 문의유형 -->
                     <div class="form-group">
                         <label>문의유형</label>
-                        <select>
-                            <option>1차 선택</option>
-                            <option>가입</option>
-                            <option>탈퇴</option>
-                            <option>정보수정</option>
+                        <select th:field="*{boardType1}">
+                            <option value="">1차 선택</option>
+                            <option value="회원">회원</option>
+                            <option value="쿠폰/이벤트">쿠폰/이벤트</option>
+                            <option value="주문/결제">주문/결제</option>
+                            <option value="배송">배송</option>
+                            <option value="취소/반품/교환">취소/반품/교환</option>
+                            <option value="여행/숙박/항공">여행/숙박/항공</option>
+                            <option value="안전거래">안전거래</option>
                         </select>
-                        <select>
-                            <option>2차 선택</option>
-                            <option>아이디 관련</option>
-                            <option>비밀번호 관련</option>
-                            <option>기타</option>
+
+                        <select th:field="*{boardType2}">
+                            <option value="">2차 선택</option>
+                            <option value="가입">가입</option>
+                            <option value="탈퇴">탈퇴</option>
+                            <option value="정보수정">정보수정</option>
+                            <option value="아이디 관련">아이디 관련</option>
+                            <option value="비밀번호 관련">비밀번호 관련</option>
+                            <option value="기타">기타</option>
                         </select>
+
                     </div>
 
                     <!-- 제목 -->
                     <div class="form-group">
                         <label for="title">제목</label>
-                        <input type="text" id="title" placeholder="제목을 입력하세요.">
+                        <input type="text" id="title" th:field="*{boardTitle}" placeholder="제목을 입력하세요.">
+
                     </div>
 
                     <!-- 내용 -->
                     <div class="form-group">
                         <label for="content">내용</label>
-                        <textarea id="content" placeholder="내용을 입력하세요."></textarea>
+                        <textarea id="content" th:field="*{boardContent}" placeholder="내용을 입력하세요."></textarea>
                     </div>
 
                     <div class="btn-group">
                         <button type="button" class="btn-cancel"
-                                th:onclick="|location.href='@{/cs/qna/list}'|">취소하기</button>
+                        <button type="button" class="btn-cancel" th:onclick="|location.href='@{/cs/qna/list}'|">취소하기</button>
                         <button type="submit" class="btn-submit">등록하기</button>
                     </div>
 
