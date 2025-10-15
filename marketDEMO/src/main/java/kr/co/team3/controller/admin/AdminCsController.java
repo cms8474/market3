@@ -5,8 +5,13 @@ import jakarta.servlet.http.HttpSession;
 import kr.co.team3.admin_dto.RecruitmentDTO;
 import kr.co.team3.admin_entity.Recruitment;
 import kr.co.team3.admin_service.RecruitmentService;
+import kr.co.team3.product_dto.CsDTO;
+import kr.co.team3.product_service.CsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.query.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,18 +20,29 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("kmarket/admin/cs")
+@RequestMapping("/admin/cs")
 @RequiredArgsConstructor
 public class AdminCsController {
 
     private final RecruitmentService recruitmentService;
+    private final CsService csService;
 
     /*------------------ Notice ------------------*/
     @GetMapping("/notice/list")
-    public String noticeList() {
-        log.info("go cs/noticeList");
+    public String noticeList(@RequestParam(required = false) String q,
+                             @RequestParam(name = "cate", required = false) String catePrefix, // ex) noti01
+                             @PageableDefault(size = 10, sort = "boardRegDate") Pageable pageable,
+                             Model model) {
+        Page<CsDTO> page = (q != null || catePrefix != null)
+                ? csService.searchByPrefix("noti", catePrefix, q, pageable)
+                : csService.getListByPrefix("noti", pageable);
+
+        model.addAttribute("page", page);
+        model.addAttribute("q", q);
+        model.addAttribute("cate", catePrefix);
         return "admin/cs/notice/noticeList";
     }
+
 
     @GetMapping("/notice/modify")
     public String noticeModify() {
