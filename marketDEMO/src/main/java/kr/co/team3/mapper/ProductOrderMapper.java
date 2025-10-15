@@ -8,5 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface ProductOrderMapper {
-    public List<ProductOrderDTO> selectRecent5WithUID(@Param("po_u_id") String po_u_id);
+    public List<ProductOrderDTO> selectRecent5WithU_id(@Param("u_id") String u_id);
+    public ProductOrderDTO selectWithU_idAndPo_noAndP_pid(@Param("u_id") String u_id,
+                                                                @Param("po_no") String po_no,
+                                                                @Param("p_pid") String p_pid);
 }

@@ -168,7 +168,7 @@
 .orderInfo td:nth-child(4) div div div:first-child {margin-right: auto;}
 .orderInfo td:nth-child(5) {text-align: center; width: 15%;}
 
-.finalPrice {font-weight: 800;}
+.finalPrice, .sumPrice {font-weight: 800;}
 
 .delivInfo {border-collapse: collapse; width: 100%;}
 

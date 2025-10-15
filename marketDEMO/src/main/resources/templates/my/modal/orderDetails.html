@@ -18,16 +18,16 @@
                     <td>2022-12-13</td>
                     <td><img src="/images/로고.png"/></td>
                     <td>
-                        주문번호 : 1012211341<br>
+                        주문번호 : <span>1012211341</span><br>
                         (주) 상호명<br>
                         상품명<br>
                         수량 : 1개<br>
-                        <b class="finalPrice">34,000원</b>
+                        <b class="sumPrice">34,000원</b>
                     </td>
                     <td>
                         <div>
-                            <div><div>판매가</div><div>34,000원</div></div>
-                            <div><div>할인</div><div>-3,000원</div></div>
+                            <div><div>판매가</div><div class="sellingPrice">34,000원</div></div>
+                            <div><div>할인</div><div class="discountPrice">-3,000원</div></div>
                             <div><div>결제금액</div><div><b class="finalPrice">31,000원</b></div></div>
                         </div>
                     </td>
@@ -64,6 +64,24 @@
             document.addEventListener('click', function (e) {
                 if(e.target.className === 'orderNum') {
                     e.preventDefault();
+
+                    let po_no = e.target.getAttribute('order');
+                    console.log(po_no);
+                    let p_pid = e.target.getAttribute('product');
+                    console.log(p_pid);
+
+                    fetch(`/my/modal/orderDetail?u_id=user01&po_no=${po_no}&p_pid=${p_pid}`, {
+                        method: 'GET',
+                        headers: {"Content-Type": "application/json"},
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
 
                     modal.style.display = "block";
                 }

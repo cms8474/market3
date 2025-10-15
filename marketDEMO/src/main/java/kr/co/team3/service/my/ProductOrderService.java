@@ -13,15 +13,16 @@ public class ProductOrderService {
     private final ProductOrderMapper productOrderMapper;
 
     public void insert(){}
-    public void select(){}
-    public List<ProductOrderDTO> selectRecent5WithUID(String po_u_id){
-        List<ProductOrderDTO> dtoList = productOrderMapper.selectRecent5WithUID(po_u_id);
-        dtoList.stream().map(dto -> {
+    public ProductOrderDTO get1OrderItem(String u_id, String po_no, String p_pid){
+        return productOrderMapper.selectWithU_idAndPo_noAndP_pid(u_id,po_no,p_pid);
+    }
+    public List<ProductOrderDTO> getRecent5(String u_id){
+        List<ProductOrderDTO> dtoList = productOrderMapper.selectRecent5WithU_id(u_id);
+        return dtoList.stream().map(dto -> {
             String timestamp = dto.getPo_orderdate();
             dto.setPo_orderdate(timestamp.substring(0,10));
             return dto;
         }).toList();
-        return dtoList;
     }
     public void selectAll(){}
     public void modify(){}

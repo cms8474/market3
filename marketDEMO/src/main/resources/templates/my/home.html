@@ -70,13 +70,13 @@
                         <td>[[*{po_orderdate}]]</td>
                         <td><img src="/images/로고.png"/></td>
                         <td>
-                            <a href="#" class="orderNum">주문번호 : [[*{po_no}]]</a><br>
+                            <a href="#" class="orderNum" th:attr="order=*{po_no}, product=*{p_pid}">주문번호 : [[*{po_no}]]</a><br>
                             <a href="#" class="tradeName">[[*{s_company_name}]]</a><br>
-                            <a href="#">상품명</a><br>
+                            <a href="#">[[*{p_name}]]</a><br>
                             수량 : [[*{oi_prod_qty}]]개<br>
-                            <b>[[*{po_sum_price}]]원</b>
+                            <b><span th:text="${#numbers.formatInteger(order.p_price, 3, 'COMMA')} + '원'"></span></b>
                         </td>
-                        <td>[[*{po_orderdate}]]</td>
+                        <td>[[*{oi_del_status}]]</td>
                         <td>
                             <button name="buyConfirm" class="blueButton">구매확정</button><br>
                             <button name="productReview" class="blueButton">상품평쓰기</button><br>
