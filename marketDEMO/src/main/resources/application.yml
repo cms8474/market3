@@ -23,7 +23,7 @@ spring:
     # 사용자 암호
     password: MarketDev_1234
     # JDBC URL 형식: jdbc:oracle:thin:@//[IP]:[포트]/[서비스이름]
-    url: jdbc:oracle:thin:@//43.201.9.146:1521/xepdb1
+    url: jdbc:oracle:thin:@//43.201.9.146:1521/XEPDB1
   devtools:
     livereload:
       enabled: true
@@ -34,12 +34,8 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
-        format_sql: true
-        show_sql: true
-  servlet:
-    multipart:
-      location: upload
-      max-file-size: 10MB
+        format_sql: false
+        show_sql: false
   security:
     user:
       name: user
