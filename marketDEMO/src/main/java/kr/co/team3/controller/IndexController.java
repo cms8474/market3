@@ -20,7 +20,7 @@ public class IndexController {
 
 
     // 유진님 파트 진입 테스트 코드
-    @GetMapping("/login")
+    @GetMapping("/syj")
     public String login() {
         return "inc/admin/shop/sales";
     }

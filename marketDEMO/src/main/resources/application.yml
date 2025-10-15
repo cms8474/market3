@@ -2,9 +2,13 @@ server:
     port: 8080
     servlet:
         context-path: /
+
 mybatis:
   mapper-locations: classpath*:mappers/**/*.xml
+
 spring:
+  main:
+    allow-circular-references: true
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -32,6 +36,10 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+  servlet:
+    multipart:
+      location: upload
+      max-file-size: 10MB
   security:
     user:
       name: user
