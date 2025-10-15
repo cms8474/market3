@@ -8,17 +8,17 @@
             </div>
 
             <!-- 검색 -->
-            <div class="search-row">
-                <select name="searchType" id="searchType">
-                    <option value="#">유형선택</option>
-                    <option value="#">고객서비스</option>
-                    <option value="#">안전거래</option>
-                    <option value="#">이벤트당첨</option>
-                    <option value="#">위해상품</option>
+            <form method="get" th:action="@{/admin/cs/notice/list}" class="search-row">
+                <select name="cate" id="searchType">
+                    <option value="">유형선택</option>
+                    <option value="noti01" th:selected="${cate == 'noti01'}">고객서비스</option>
+                    <option value="noti02" th:selected="${cate == 'noti02'}">안전거래</option>
+                    <option value="noti03" th:selected="${cate == 'noti03'}">이벤트당첨</option>
+                    <option value="noti04" th:selected="${cate == 'noti04'}">위해상품</option>
                 </select>
-                <input type="text" name="keyword" placeholder="검색어입력" />
-                <button class="btn" type="button">검색</button>
-            </div>
+                <input type="text" name="q" placeholder="검색어입력" th:value="${q}" />
+                <button class="btn" type="submit">검색</button>
+            </form>
 
 
             <!-- 목록 -->
@@ -35,23 +35,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="cs : ${dtoList}">
-                    <td class="col-check"><input type="checkbox" /></td>
-                    <td class="col-no">[[${cs.ano}]]</td>
-                    <td class="col-type">[[${cs.cate1}]]</td>
-                    <td class="title">[[${cs.title}]]</td>
-                    <td class="col-views">[[${cs.view_cnt}]]</td>
-                    <td class="col-date">[[${cs.wdate}]]</td>
+                <tr th:each="cs, stat : ${page.content}">
+                    <td><input type="checkbox" /></td>
+                    <td th:text="${page.totalElements - (page.number * page.size) - stat.index}">1</td>
+                    <td th:text="${#strings.substring(cs.boardId, 0, 6)}">noti01</td>
+                    <td class="title">
+                        <a th:href="@{/admin/cs/notice/view/{id}(id=${cs.boardId})}"
+                           th:text="${cs.boardTitle}">제목</a>
+                    </td>
+                    <td th:text="${cs.boardView}">0</td>
+                    <td th:text="${#temporals.format(cs.boardRegDate, 'yyyy-MM-dd')}">2025-10-15</td>
                     <td class="actions">
-                        <a th:href="@{/cs/delete/{ano}(ano=${cs.ano})}">삭제</a>
-                        <a th:href="@{/cs/modify/{ano}(ano=${cs.ano})}">수정</a>
+                        <a href="#" class="btn-small">수정</a>
+                        <a href="#" class="btn-small">삭제</a>
                     </td>
                 </tr>
-
-
-
-
-
+                <tr th:if="${page.content.size() == 0}">
+                    <td colspan="7" style="text-align:center;">등록된 공지사항이 없습니다.</td>
+                </tr>
                 </tbody>
 
             </table>
@@ -64,13 +65,16 @@
                 </div>
 
                 <div class="center pagination">
-                    <a href="#">이전</a>
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">다음</a>
+                    <a th:if="${!page.first}"
+                       th:href="@{|?page=${page.number - 1}&q=${q}&cate=${cate}|}">이전</a>
+
+                    <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                       th:href="@{|?page=${i}&q=${q}&cate=${cate}|}"
+                       th:text="${i + 1}"
+                       th:classappend="${i == page.number} ? 'active'">1</a>
+
+                    <a th:if="${!page.last}"
+                       th:href="@{|?page=${page.number + 1}&q=${q}&cate=${cate}|}">다음</a>
                 </div>
 
                 <div class="right">
