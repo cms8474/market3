@@ -17,7 +17,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 @Controller
-@RequestMapping("/admin/config")
+@RequestMapping("kmarket/admin/config")
 public class AdminConfigController {
     private final VersionService versionService;
 
