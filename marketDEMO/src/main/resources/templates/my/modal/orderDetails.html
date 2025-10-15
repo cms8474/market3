@@ -11,21 +11,21 @@
                 <tbody>
                 <tr>
                     <th>총 금액</th>
-                    <td class="totalPrice">64000원</td>
+                    <td>64000원</td>
                 </tr>
                 <tr>
                     <th>할인금액</th>
-                    <td class="discountPrice">4000원</td>
+                    <td>4000원</td>
                 </tr>
                 <tr>
                     <th>포인트</th>
-                    <td class="point">100원</td>
+                    <td>100원</td>
                 </tr>
                 </tbody>
                 <tfoot>
                 <tr>
                     <th>결제금액</th>
-                    <td class="payPrice">59900원</td>
+                    <td>59900원</td>
                 </tr>
                 </tfoot>
             </table>
@@ -66,7 +66,6 @@
             const modal = document.getElementById("orderDetails");
             const closeModalButton = document.getElementById("closeODModal");
 
-            // 주문 상세 요소
             const orderInfo = document.getElementsByClassName('orderInfo')[0]
                 .getElementsByTagName("tbody")[0];
 
@@ -77,8 +76,6 @@
                     let u_id = "user01"; // 추후 로그인 연동
                     let po_no = e.target.getAttribute('order');
                     console.log(po_no);
-
-                    let totalPrice = 0;
 
                     fetch(`/my/modal/orderDetail/${u_id}/${po_no}`)
                         .then(response => response.json())
@@ -104,13 +101,11 @@
                                 console.log(item);
 
                                 orderInfo.insertAdjacentHTML('beforeend', itemTableRow);
-                                totalPrice = totalPrice + item.oi_tot_price;
                             }
                         })
                         .catch(err => {
                             console.log(err);
                         });
-
 
                     modal.style.display = "block";
                 }
