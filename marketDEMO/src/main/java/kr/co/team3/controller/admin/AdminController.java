@@ -83,4 +83,6 @@ public class AdminController {
         LocalDate from = to.minusDays(6);
         return service.stats(from, to);
     }
+
+
 }

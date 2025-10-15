@@ -8,11 +8,21 @@
 
         <!-- 우상단 작은 메뉴 -->
         <div class="top-menu">
-            <!--  로그인 / 회원가입 기능 연결 -->
-            <a href="/member/login">로그인</a>
-            <a href="/member/join">회원가입</a>
-            <a href="#">마이페이지</a>
-            <a href="/product/cart">장바구니</a>
+            <!-- 로그인하지 않은 경우 -->
+            <div th:unless="${#authentication.isAuthenticated() and #authentication.name != 'anonymousUser'}">
+                <a href="/member/login">로그인</a>
+                <a href="/member/join">회원가입</a>
+            </div>
+            
+            <!-- 로그인한 경우 -->
+            <div th:if="${#authentication.isAuthenticated() and #authentication.name != 'anonymousUser'}">
+                <span class="welcome-message">
+                    <span th:text="${@customUserDetailsService.getUserName(#authentication.principal.username)}"></span>님 환영합니다.
+                </span>
+                <a href="/my/home">마이페이지</a>
+                <a href="/product/cart">장바구니</a>
+                <a href="/member/logout">로그아웃</a>
+            </div>
         </div>
 
         <!-- 헤더 메인 -->
