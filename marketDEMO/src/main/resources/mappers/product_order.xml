@@ -26,7 +26,7 @@
         ORDER BY po_orderdate DESC
         OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
     </select>
-    <select id="selectWithU_idAndPo_noAndP_pid" resultType="kr.co.team3.dto.my.ProductOrderDTO">
+    <select id="selectWithU_idAndPo_no" resultType="kr.co.team3.dto.my.ProductOrderDTO">
         SELECT po.*, si.*,
         oi_prod_qty,
         oi_tot_price,
@@ -47,7 +47,6 @@
         JOIN PRODUCT_ITEM t ON oi.OI_P_PID = t.P_PID
         WHERE po_u_id = #{u_id}
         AND po_no = #{po_no}
-        AND p_pid = #{p_pid}
         ORDER BY po_orderdate DESC
         OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
     </select>

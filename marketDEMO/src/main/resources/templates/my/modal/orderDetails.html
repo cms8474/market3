@@ -6,33 +6,38 @@
             <span id="closeODModal" class="close">&times</span>
         </div>
         <div class="modal-content">
+            <h3>결제정보</h3>
+            <table class="payInfo">
+                <tbody>
+                <tr>
+                    <th>총 금액</th>
+                    <td>64000원</td>
+                </tr>
+                <tr>
+                    <th>할인금액</th>
+                    <td>4000원</td>
+                </tr>
+                <tr>
+                    <th>포인트</th>
+                    <td>100원</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>결제금액</th>
+                    <td>59900원</td>
+                </tr>
+                </tfoot>
+            </table>
             <h3>주문정보</h3>
             <table class="orderInfo">
-                <tr>
-                    <th>날짜</th>
-                    <th colspan="2">상품정보</th>
-                    <th>결제금액</th>
-                    <th>상태</th>
-                </tr>
-                <tr>
-                    <td>2022-12-13</td>
-                    <td><img src="/images/로고.png"/></td>
-                    <td>
-                        주문번호 : <span>1012211341</span><br>
-                        (주) 상호명<br>
-                        상품명<br>
-                        수량 : 1개<br>
-                        <b class="sumPrice">34,000원</b>
-                    </td>
-                    <td>
-                        <div>
-                            <div><div>판매가</div><div class="sellingPrice">34,000원</div></div>
-                            <div><div>할인</div><div class="discountPrice">-3,000원</div></div>
-                            <div><div>결제금액</div><div><b class="finalPrice">31,000원</b></div></div>
-                        </div>
-                    </td>
-                    <td>배송완료</td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <th>날짜</th>
+                        <th colspan="2">상품정보</th>
+                        <th>상태</th>
+                    </tr>
+                </tbody>
             </table>
             <h3>배송정보</h3>
             <table class="delivInfo">
@@ -57,27 +62,46 @@
     </div>
     <!--■■■■■모달 창 스크립트■■■■■-->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const modal = document.getElementById("orderDetails");
             const closeModalButton = document.getElementById("closeODModal");
 
+            const orderInfo = document.getElementsByClassName('orderInfo')[0]
+                .getElementsByTagName("tbody")[0];
+
             document.addEventListener('click', function (e) {
-                if(e.target.className === 'orderNum') {
+                if (e.target.className === 'orderNum') {
                     e.preventDefault();
 
+                    let u_id = "user01"; // 추후 로그인 연동
                     let po_no = e.target.getAttribute('order');
                     console.log(po_no);
-                    let p_pid = e.target.getAttribute('product');
-                    console.log(p_pid);
 
-                    fetch(`/my/modal/orderDetail?u_id=user01&po_no=${po_no}&p_pid=${p_pid}`, {
-                        method: 'GET',
-                        headers: {"Content-Type": "application/json"},
-                    })
+                    fetch(`/my/modal/orderDetail/${u_id}/${po_no}`)
                         .then(response => response.json())
                         .then(data => {
                             console.log(data);
 
+                            for (const item of data) {
+                                // 가격 포맷팅: 쉼표 추가
+                                const formattedPrice = new Intl.NumberFormat().format(item.p_price);
+
+                                const itemTableRow = `<tr class="orderItem">
+                                                            <td>${item.po_orderdate}</td>
+                                                            <td><img src="/images/로고.png"/></td>
+                                                            <td>
+                                                                주문번호 : <span class="orderNum">${item.po_no}</span><br>
+                                                                <span class="sellerName">${item.s_company_name}</span><br>
+                                                                <span class="productName">${item.p_name}</span><br>
+                                                                수량 : <span class="prodQuantity">${item.oi_prod_qty}</span>개<br>
+                                                                <b class="unitPrice">${formattedPrice}원</b>
+                                                            </td>
+                                                            <td>${item.oi_del_status}</td>
+                                                        </tr>`;
+                                console.log(item);
+
+                                orderInfo.insertAdjacentHTML('beforeend', itemTableRow);
+                            }
                         })
                         .catch(err => {
                             console.log(err);
@@ -88,6 +112,11 @@
             });
 
             closeModalButton.onclick = function () {
+                const orderItems = Array.from(document.getElementsByClassName('orderItem'));
+
+                orderItems.forEach(function(orderItem) {
+                    orderItem.remove();
+                });
                 modal.style.display = "none";
             }
         });

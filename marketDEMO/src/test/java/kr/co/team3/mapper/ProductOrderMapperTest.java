@@ -24,8 +24,8 @@ class ProductOrderMapperTest {
 
     @Test
     void selectWithU_idAndPo_noAndP_pid() {
-        ProductOrderDTO dto = productOrderMapper.selectWithU_idAndPo_noAndP_pid("user01",
-                "user01_0002", "seller01_200001_73459186");
+        List<ProductOrderDTO> dto = productOrderMapper.selectWithU_idAndPo_no("user01",
+                "user01_0002");
         assertNotNull(dto);
         System.out.println(dto);
     }

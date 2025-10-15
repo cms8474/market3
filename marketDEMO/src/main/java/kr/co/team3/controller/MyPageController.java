@@ -3,9 +3,11 @@ package kr.co.team3.controller;
 import kr.co.team3.dto.my.ProductOrderDTO;
 import kr.co.team3.service.my.ProductOrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,10 +26,11 @@ public class MyPageController {
         return "my/home";
     }
 
-    @GetMapping("/my/modal/orderDetail")
+    @GetMapping("/my/modal/orderDetail/{u_id}/{po_no}")
     @ResponseBody
-    public ProductOrderDTO orderDetail(@RequestParam("u_id") String u_id, @RequestParam("po_no") String po_no, @RequestParam("p_pid") String p_pid){
-        return productOrderService.get1OrderItem(u_id, po_no, p_pid);
+    public ResponseEntity<List<ProductOrderDTO>> orderDetail(@PathVariable("u_id") String u_id, @PathVariable("po_no") String po_no){
+        List<ProductOrderDTO> orderDTOList = productOrderService.get1Order(u_id, po_no);
+        return ResponseEntity.ok(orderDTOList);
     }
 
     @GetMapping("/my/order")
