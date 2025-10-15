@@ -1,5 +1,6 @@
 package kr.co.team3.admin_service;
 
+import jakarta.transaction.Transactional;
 import kr.co.team3.product_dto.CsDTO;
 import kr.co.team3.product_entity.CsEntity;
 import kr.co.team3.product_repository.CsRepository;
@@ -24,7 +25,7 @@ public class AdminCsService {
     }
 
 
-/*    *//** 검색/카테고리: catePrefix가 있으면 catePrefix% 로, 없으면 prefix% 로 *//*
+    // 검색/카테고리: catePrefix가 있으면 catePrefix% 로, 없으면 prefix% 로
     public Page<CsDTO> searchByPrefix(String prefix, String catePrefix, String q, Pageable pageable) {
         if (catePrefix == null || catePrefix.isBlank()) {
             // 전체(not i% / faq% / qna%) + 통합검색
@@ -38,5 +39,11 @@ public class AdminCsService {
             return csRepository.findByBoardIdStartingWithOrderByBoardRegDateDesc(catePrefix, pageable)
                     .map(CsDTO::fromEntity);
         }
-    }*/
+    }
+
+    @Transactional
+    public CsDTO getDetail(String id) {
+        csRepository.increaseView(id);
+        return csRepository.findById(id).map(CsDTO::fromEntity).orElse(null);
+    }
 }
