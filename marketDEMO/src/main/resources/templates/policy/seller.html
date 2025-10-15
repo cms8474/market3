@@ -21,11 +21,11 @@
         .policy-nav button {background: none; border: none;}
         .policy-nav button img {
             width: 80px; height: 80px;
-            border: solid 1px; /* 임시 스타일 */
+            box-sizing: border-box;
         }
         .policy-nav button span {font-size: large;}
-        .policy-nav button:nth-child(2) img {border: solid 2px #0070c0;}
-        .policy-nav button:nth-child(2) span {color: #0070c0;}
+        .policy-nav button:nth-child(2) img {border: solid 3px #0070c0;}
+        .policy-nav button:nth-child(2) span {color: #0070c0; font-weight: bold;}
 
         .policy-content {
             border-bottom: solid 1px #bfbfbf;
@@ -52,23 +52,23 @@
             </div>
             <nav class="policy-nav">
                 <button th:attr="onclick=|location.href='@{/policy/buyer}'|">
-                    <img src="#" title="구매회원 약관"><br>
+                    <img th:src="@{/images/policy/buyer_policy.png}" title="구매회원 약관"><br>
                     <span>구매회원 약관</span>
                 </button>
                 <button th:attr="onclick=|location.href='@{/policy/seller}'|">
-                    <img title="판매회원 약관" src="#"/><br>
+                    <img title="판매회원 약관" th:src="@{/images/policy/seller_policy.png}"/><br>
                     <span>판매회원 약관</span>
                 </button>
                 <button th:attr="onclick=|location.href='@{/policy/finance}'|">
-                    <img title="전자금융거래" src="#"><br>
+                    <img title="전자금융거래" th:src="@{/images/policy/digital_deal_policy.png}"><br>
                     <span>전자금융거래</span>
                 </button>
                 <button th:attr="onclick=|location.href='@{/policy/location}'|">
-                    <img src="#" title="위치정보 약관"><br>
+                    <img th:src="@{/images/policy/location_policy.png}" title="위치정보 약관"><br>
                     <span>위치정보 약관</span>
                 </button>
                 <button th:attr="onclick=|location.href='@{/policy/privacy}'|">
-                    <img src="#" title="개인정보처리"><br>
+                    <img th:src="@{/images/policy/privacy_policy.png}" title="개인정보처리"><br>
                     <span>개인정보처리</span>
                 </button>
             </nav>
