@@ -16,9 +16,17 @@ class ProductOrderMapperTest {
     ProductOrderMapper productOrderMapper;
 
     @Test
-    void selectRecent5WithUID() {
-        List<ProductOrderDTO> dtoList = productOrderMapper.selectRecent5WithUID("user01");
+    void selectRecent5WithU_id() {
+        List<ProductOrderDTO> dtoList = productOrderMapper.selectRecent5WithU_id("user01");
         assertNotNull(dtoList);
         System.out.println(dtoList);
+    }
+
+    @Test
+    void selectWithU_idAndPo_noAndP_pid() {
+        List<ProductOrderDTO> dto = productOrderMapper.selectWithU_idAndPo_no("user01",
+                "user01_0002");
+        assertNotNull(dto);
+        System.out.println(dto);
     }
 }

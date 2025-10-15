@@ -1,53 +1,87 @@
+// src/main/java/kr/co/team3/security/SecurityConfig.java
 package kr.co.team3.security;
 
+import kr.co.team3.security.CustomUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomUserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-/*
-        // 로그인 설정
-        http.formLogin(form -> form
-                .loginPage("/user/login")
-                .defaultSuccessUrl("/")
-                .failureUrl("/user/login?error=true")
-                .usernameParameter("usid")
-                .passwordParameter("pass")
-        );
-
-        // 로그아웃 설정
-        http.logout(logout -> logout
-                .logoutUrl("/user/logout")
-                .invalidateHttpSession(true)
-                .logoutSuccessUrl("/user/login?logout=true"));
-*/
-        // 인가 설정
-        http.authorizeHttpRequests(authorize -> authorize
-                //.requestMatchers("/admin/**").hasRole("ADMIN")
+        http
+            // 인가 설정
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/member/join", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/member/login").anonymous() // 로그인하지 않은 사용자만 접근 가능
+                .requestMatchers("/my/**").authenticated() // 로그인한 사용자만 접근 가능
                 .requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")
-                //.requestMatchers("/member/**").hasAnyRole("ADMIN", "MANAGER", "MEMBER")
-                .requestMatchers("/admin/**" ).permitAll()
+                .requestMatchers("/admin/**").permitAll()
                 .requestMatchers("/article/**").hasAnyRole("ADMIN", "MANAGER", "MEMBER")
                 .anyRequest().permitAll()
-        );
-
-        // 기타 설정(??CSRF 보호 기능 비활성화??)
-        //http.csrf(CsrfConfigurer::disable);
+            )
+            
+            // 로그인 설정
+            .formLogin(form -> form
+                .loginPage("/member/login")
+                .loginProcessingUrl("/member/login")
+                .defaultSuccessUrl("/")
+                .failureUrl("/member/login?error=true")
+                .usernameParameter("uId")
+                .passwordParameter("uPw")
+                .permitAll()
+            )
+            
+            // 로그아웃 설정
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID", "remember-me")
+                .clearAuthentication(true)
+                .permitAll()
+            )
+            
+            // Remember Me 설정
+            .rememberMe(remember -> remember
+                .rememberMeParameter("rememberMe")
+                .tokenValiditySeconds(7 * 24 * 60 * 60) // 7일
+                .userDetailsService(userDetailsService)
+                .key("remember-me-key")
+                .alwaysRemember(false) // 명시적으로 false 설정
+            )
+            
+            // CSRF 설정
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
 
         return http.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return rawPassword.toString(); // 평문 그대로 반환
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                // 평문 비밀번호 직접 비교
+                return rawPassword.toString().equals(encodedPassword);
+            }
+        };
     }
 
 }

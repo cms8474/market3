@@ -2,20 +2,27 @@ package kr.co.team3.admin_dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class DashboardDTO {
-    private long waiting;
-    private long ready;
-    private long cancel;
-    private long exchange;
-    private long returnA;
-    private long orderCount;
-    private long orderAmount;
-    private long registerCount;
-    private long visitor;
-    private long qna;
+    private int depositDone;
+    private int canceledCnt;
+    private int exchangeCnt;
+    private int returnCnt;
+    private int shippingCnt;
+
+    private int orderCnt;
+    private long orderAmt;
+
+    private int signupCnt;
+    private int visitCnt;
+    private int boardCnt;
+
+    private LocalDate from;
+    private LocalDate to;
 }

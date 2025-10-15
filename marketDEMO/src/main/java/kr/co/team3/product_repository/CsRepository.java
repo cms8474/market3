@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
+import java.util.Optional;
+
 public interface CsRepository extends JpaRepository<CsEntity, String> {
 
     /** 타입별 조회 (NOTICE / FAQ / QNA) */

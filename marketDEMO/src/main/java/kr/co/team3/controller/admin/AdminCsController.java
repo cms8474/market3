@@ -28,6 +28,7 @@ public class AdminCsController {
     private final AdminCsService csService;
 
     /*------------------ Notice ------------------*/
+/*
     @GetMapping("/notice/list")
     public String noticeList(@RequestParam(required = false) String q,
                              @RequestParam(name = "cate", required = false) String catePrefix, // ex) noti01
@@ -42,6 +43,8 @@ public class AdminCsController {
         model.addAttribute("cate", catePrefix);
         return "admin/cs/notice/noticeList";
     }
+*/
+
 
 
     @GetMapping("/notice/modify")

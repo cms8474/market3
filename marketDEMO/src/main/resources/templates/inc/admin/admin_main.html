@@ -126,78 +126,161 @@
         </div>
     </section>
 
+    <!--------------------------------- 스크립트단 ---------------------------------->
 
     <!-- 페이지 전용 스크립트(차트/아코디언) -->
     <script th:inline="javascript">
+        /* 서버에서 내려주는 원본 데이터 구조 유지 */
         const BAR = /*[[${bar}]]*/ {labels:[], orders:[], payments:[], cancels:[]};
         const PIE = /*[[${pie}]]*/ {labels:[], values:[]};
-        const comma = n => (n ?? 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
+        /* 유틸 */
+        const comma = n => (Number(n||0)).toLocaleString('ko-KR');
+        const toMan = w => Math.round((Number(w||0))/10000); // 원→만원(반올림)
+
+        /* 팔레트(스샷 분위기) */
+        const COLORS = {
+            blue  : 'rgba(54,162,235,0.85)',   blueLine  : 'rgba(54,162,235,1)',
+            red   : 'rgba(255,99,132,0.85)',   redLine   : 'rgba(255,99,132,1)',
+            green : 'rgba(75,192,192,0.85)',   greenLine : 'rgba(75,192,192,1)',
+            gray  : 'rgba(0,0,0,0.06)'
+        };
+        const PIE_COLORS = [
+            'rgba(54,162,235,0.9)',   // 가전(예시)
+            'rgba(255,99,132,0.9)',   // 식품
+            'rgba(153,102,255,0.9)',  // 의류
+            'rgba(255,205,86,0.9)',   // 기타
+            'rgba(75,192,192,0.9)'    // 여분
+        ];
+
+        /* 차트 인스턴스 관리 */
         window.__charts__ = window.__charts__ || {};
         function upsertChart(id, cfg){
             const el = document.getElementById(id);
             if(!el) return;
-            if(window.__charts__[id]){ try{ window.__charts__[id].destroy(); }catch(e){} }
+            if(window.__charts__[id]) { try{ window.__charts__[id].destroy(); }catch(e){} }
             window.__charts__[id] = new Chart(el.getContext('2d'), cfg);
         }
+
         function renderCharts(){
-            const payments = (BAR.payments || []).map(v => Math.round((Number(v) || 0) / 10000));
+            /* 1) 막대차트: 주문수/결제금액(만원)/취소수 */
+            const payMan = (BAR.payments||[]).map(toMan);
 
             upsertChart('orderChart', {
-                type:'bar',
-                data:{
+                type: 'bar',
+                data: {
                     labels: BAR.labels || [],
-                    datasets:[
-                        { label:'주문', data: BAR.orders   || [] },
-                        { label:'결제', data: payments },
-                        { label:'취소', data: BAR.cancels  || [] }
+                    datasets: [
+                        {
+                            label: '주문',
+                            data: BAR.orders || [],
+                            backgroundColor: COLORS.blue,
+                            borderColor: COLORS.blueLine,
+                            borderWidth: 1,
+                            borderRadius: 6,
+                            barThickness: 26,
+                            maxBarThickness: 28,
+                            categoryPercentage: 0.62
+                        },
+                        {
+                            label: '결제(만원)',
+                            data: payMan,
+                            backgroundColor: COLORS.red,
+                            borderColor: COLORS.redLine,
+                            borderWidth: 1,
+                            borderRadius: 6,
+                            barThickness: 26,
+                            maxBarThickness: 28,
+                            categoryPercentage: 0.62
+                        },
+                        {
+                            label: '취소',
+                            data: BAR.cancels || [],
+                            backgroundColor: COLORS.green,
+                            borderColor: COLORS.greenLine,
+                            borderWidth: 1,
+                            borderRadius: 6,
+                            barThickness: 26,
+                            maxBarThickness: 28,
+                            categoryPercentage: 0.62
+                        }
                     ]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
                     plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { usePointStyle: true, padding: 14 }
+                        },
                         tooltip: {
                             callbacks: {
-                                label: function (ctx) {
+                                label: ctx => {
                                     const label = ctx.dataset.label || '';
                                     const v = ctx.parsed.y ?? 0;
+                                    /* 결제는 원/만원 모두 보여주기 */
                                     if (label.startsWith('결제')) {
-                                        const originalWon = Number((BAR.payments || [])[ctx.dataIndex] || 0);
-                                        return `${label}: ${comma(v)} (만원) / ${comma(originalWon)}원`;
+                                        const won = Number((BAR.payments||[])[ctx.dataIndex] || 0);
+                                        return `${label}: ${comma(v)} (만원) / ${comma(won)}원`;
                                     }
                                     return `${label}: ${comma(v)}`;
                                 }
                             }
-                        },
-                        legend: { position: 'bottom' }
+                        }
                     },
                     scales: {
-                        y: { ticks: { callback: (val) => comma(val) } }
+                        x: { grid: { display: false } },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: COLORS.gray },
+                            ticks: { callback: val => comma(val) }
+                        }
                     }
                 }
             });
+
+            /* 2) 파이차트: 주요매출 (값=원) */
+            const pieValues = (PIE.values||[]).map(Number);
+            const pieLabels = PIE.labels || [];
+            const total = pieValues.reduce((a,b)=>a+(b||0), 0);
+
             upsertChart('salesChart', {
-                type:'pie',
-                data:{
-                    labels: PIE.labels,
-                    datasets:[{ data: PIE.values }]
+                type: 'pie',
+                data: {
+                    labels: pieLabels,
+                    datasets: [{
+                        data: pieValues,
+                        backgroundColor: pieLabels.map((_,i)=> PIE_COLORS[i % PIE_COLORS.length]),
+                        borderWidth: 0
+                    }]
                 },
-                options:{
-                    responsive:true, maintainAspectRatio:false,
-                    plugins:{
-                        legend:{
-                            position:'bottom',
-                            align:'center',
-                            labels:{ usePointStyle:true, boxWidth:10, padding:12 }
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            align: 'center',
+                            labels:{ usePointStyle: true, boxWidth: 10, padding: 12 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => {
+                                    const val = Number(ctx.parsed) || 0;
+                                    const pct = total ? (val/total*100) : 0;
+                                    return `${ctx.label}: ${comma(val)}원 (${pct.toFixed(1)}%)`;
+                                }
+                            }
                         }
                     },
-                    layout:{ padding:{ bottom:12 } }
+                    layout:{ padding:{ bottom: 12 } }
                 }
             });
         }
+
         if(document.readyState==='loading'){
             document.addEventListener('DOMContentLoaded', renderCharts);
         } else { renderCharts(); }
     </script>
+
 
 </th:block>
