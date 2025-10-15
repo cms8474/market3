@@ -24,7 +24,7 @@ public class AdminCsService {
     }
 
 
-    /** 검색/카테고리: catePrefix가 있으면 catePrefix% 로, 없으면 prefix% 로 */
+/*    *//** 검색/카테고리: catePrefix가 있으면 catePrefix% 로, 없으면 prefix% 로 *//*
     public Page<CsDTO> searchByPrefix(String prefix, String catePrefix, String q, Pageable pageable) {
         if (catePrefix == null || catePrefix.isBlank()) {
             // 전체(not i% / faq% / qna%) + 통합검색
@@ -38,5 +38,5 @@ public class AdminCsService {
             return csRepository.findByBoardIdStartingWithOrderByBoardRegDateDesc(catePrefix, pageable)
                     .map(CsDTO::fromEntity);
         }
-    }
+    }*/
 }
