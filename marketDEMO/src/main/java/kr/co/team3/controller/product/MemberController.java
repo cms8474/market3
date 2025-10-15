@@ -1,12 +1,20 @@
 package kr.co.team3.controller.product;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import kr.co.team3.product_entity.MemberEntity;
 import kr.co.team3.product_service.MemberService;
+import kr.co.team3.security.OAuth2UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Arrays;
 
 @Controller
 @RequestMapping("/member")
@@ -45,39 +53,41 @@ public class MemberController {
     }
 
 
+
     /* ================================
        ✅ 로그인/로그아웃 관련
     ================================= */
 
     /** 로그인 페이지 */
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginForm(HttpSession session) {
+        // 이미 로그인된 사용자는 메인 페이지로 리다이렉트
+        if (session.getAttribute("SPRING_SECURITY_CONTEXT") != null) {
+            return "redirect:/";
+        }
         return "inc/member/login"; // ✅ templates/inc/member/login.html
     }
 
-    /** 로그인 처리 */
-    @PostMapping("/login")
-    public String login(@RequestParam String uId,
-                        @RequestParam String uPw,
-                        HttpSession session,
-                        Model model) {
-        return memberService.login(uId, uPw)
-                .map(member -> {
-                    session.setAttribute("loginMember", member);
-                    return "redirect:/";
-                })
-                .orElseGet(() -> {
-                    model.addAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
-                    return "inc/member/login"; // ✅ 동일한 템플릿 반환
-                });
-    }
-
-    /** 로그아웃 */
+    // ✅ 로그아웃 (백업용 - Spring Security가 처리하지 못할 경우)
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, HttpServletResponse response) {
         session.invalidate();
+        
+        // remember-me 쿠키 삭제
+        Cookie rememberMeCookie = new Cookie("remember-me", null);
+        rememberMeCookie.setMaxAge(0);
+        rememberMeCookie.setPath("/");
+        response.addCookie(rememberMeCookie);
+        
+        // JSESSIONID 쿠키 삭제
+        Cookie sessionCookie = new Cookie("JSESSIONID", null);
+        sessionCookie.setMaxAge(0);
+        sessionCookie.setPath("/");
+        response.addCookie(sessionCookie);
+        
         return "redirect:/";
     }
+
 
 
     /* ================================
@@ -118,4 +128,18 @@ public class MemberController {
     public MemberEntity getMember(@PathVariable String uId) {
         return memberService.getMember(uId).orElse(null);
     }
+
+
+    /* ================================
+       ✅ 비밀번호 암호화
+    ================================= */
+    @GetMapping("/update-passwords")
+    public String updatePasswords() {
+        memberService.updatePasswordToEncrypted();
+        return "redirect:/";
+    }
+
+
+
+    
 }
