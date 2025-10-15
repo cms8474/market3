@@ -1,5 +1,7 @@
 package kr.co.team3.controller.admin;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import kr.co.team3.admin_dto.RecruitmentDTO;
 import kr.co.team3.admin_entity.Recruitment;
 import kr.co.team3.admin_service.RecruitmentService;
@@ -7,8 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -95,13 +96,19 @@ public class AdminCsController {
     /*------------------ Recruit ------------------*/
     @GetMapping("/recruit/list")
     public String recruitList(Model model) {
-        log.info("go cs/recruitList");
-
         List<Recruitment> list = recruitmentService.findAll();
 
         log.info("recruit list size = {}", list.size());
         model.addAttribute("list", list);
         return "admin/cs/recruit/recruitList";
     }
+
+    @PostMapping("/recruit/register")
+    public String recruitRegister(RecruitmentDTO recruitmentDTO) {
+        log.info("recruitmentDTO = {}", recruitmentDTO);
+        recruitmentService.save(recruitmentDTO);
+        return "redirect:/kmarket/admin/cs/recruit/list";
+    }
+
 
 }

@@ -1,9 +1,12 @@
 package kr.co.team3.admin_service;
 
+import kr.co.team3.admin_dto.RecruitmentDTO;
 import kr.co.team3.admin_entity.Recruitment;
 import kr.co.team3.admin_repository.RecruitmentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,14 +27,13 @@ public class RecruitmentService {
         return null;
     }
 
-    public Recruitment save(Recruitment recruitment){
+    public RecruitmentDTO save(RecruitmentDTO recruitmentDTO) {
+        Recruitment saved = recruitmentRepository.save(recruitmentDTO.toEntity());
 
-        return null;
+        return saved.toDTO();
     }
 
-    public void delete(int r_no){
-
-    }
+    public void delete(int r_no){}
 
 
 }

@@ -84,13 +84,16 @@
             <ul class="grid-products">
                 <li class="product">
                     <a href="/product/view"><img src="/images/로고.png" alt="상품 이미지">
-                        <div class="name">오버핏 맨투맨</div>
-                        <div><span class="origin">40,000원</span><span class="discount">20% ↓</span></div>
-                        <div class="sale">32,000원</div><span class="badge shipping">무료배송</span>
+                        <div class="name">프리미엄 티셔츠</div>
+                        <div><span class="origin">30,000원</span><span class="discount">10% ↓</span></div>
+                        <div class="sale">27,000원</div><span class="badge shipping">무료배송</span>
                     </a>
                 </li>
             </ul>
 
+            <!--  추천상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=recommend">추천상품</a>
             <!--  최신상품 -->
             <h2 class="page-title">
                 <a href="/product/list?type=latest">최신상품</a>
@@ -98,9 +101,46 @@
             <ul class="grid-products">
                 <li class="product">
                     <a href="/product/view"><img src="/images/로고.png" alt="상품 이미지">
+                        <div class="name">오버핏 맨투맨</div>
+                        <div><span class="origin">40,000원</span><span class="discount">20% ↓</span></div>
+                        <div class="sale">32,000원</div><span class="badge shipping">무료배송</span>
                         <div class="name">스포츠 트레이닝복</div>
                         <div><span class="origin">70,000원</span><span class="discount">30% ↓</span></div>
                         <div class="sale">49,000원</div><span class="badge shipping">무료배송</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!--  최신상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=latest">최신상품</a>
+            <!--  할인상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=discount">할인상품</a>
+            </h2>
+            <ul class="grid-products">
+                <li class="product">
+                    <a href="/product/view"><img src="/images/로고.png" alt="상품 이미지">
+                        <div class="name">스포츠 트레이닝복</div>
+                        <div><span class="origin">70,000원</span><span class="discount">30% ↓</span></div>
+                        <div class="sale">49,000원</div><span class="badge shipping">무료배송</span>
+                        <div class="name">가죽 점퍼</div>
+                        <div><span class="origin">120,000원</span><span class="discount">25% ↓</span></div>
+                        <div class="sale">90,000원</div><span class="badge shipping">무료배송</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!--  인기상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=popular">인기상품</a>
+            </h2>
+            <ul class="grid-products">
+                <li class="product">
+                    <a href="/product/view"><img src="/images/로고.png" alt="상품 이미지">
+                        <div class="name">데일리 청바지</div>
+                        <div><span class="origin">50,000원</span><span class="discount">15% ↓</span></div>
+                        <div class="sale">42,500원</div><span class="badge shipping">무료배송</span>
                     </a>
                 </li>
             </ul>
@@ -118,20 +158,6 @@
                     </a>
                 </li>
             </ul>
-
-            <!-- 🔹 할인상품 -->
-            <h2 class="page-title">할인상품</h2>
-            <ul class="grid-products">
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">120,000원</span><span class="discount"> 60% ↓</span></div><div class="sale">50,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div><div class="sale">18,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div><div class="sale">20,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">34,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">20,000원</span><span class="discount"> 10% ↓</span></div><div class="sale">18,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">25,000원</span><span class="discount"> 20% ↓</span></div><div class="sale">20,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">40,000원</span><span class="discount"> 15% ↓</span></div><div class="sale">34,000원</div><span class="badge shipping">무료배송</span></li>
-                <li class="product"><img th:src="@{/images/로고.png}" alt="상품 이미지"><div class="name">상품명</div><div><span class="origin">60,000원</span><span class="discount"> 50% ↓</span></div><div class="sale">30,000원</div><span class="badge shipping">무료배송</span></li>
-            </ul>
-
         </section>
     </div>
 </main>
