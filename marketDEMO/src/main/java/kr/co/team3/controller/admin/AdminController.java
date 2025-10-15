@@ -4,24 +4,24 @@ import kr.co.team3.admin_dto.DashboardDTO;
 import kr.co.team3.admin_service.DashboardService;
 import kr.co.team3.admin_service.NoticeService;
 import kr.co.team3.admin_service.QnaService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final DashboardService dashboardService;
-    private final NoticeService noticeService;
-    private final QnaService qnaService;
+    private final DashboardService service;
 
-    public AdminController(DashboardService dashboardService, NoticeService noticeService, QnaService qnaService) {
-        this.dashboardService = dashboardService;
-        this.noticeService = noticeService;
-        this.qnaService = qnaService;
+    public AdminController(DashboardService service) {
+        this.service = service;
     }
-
     @GetMapping({"", "/"})
     public String admin(Model model) {
         var stats          = dashboardService.stats();
