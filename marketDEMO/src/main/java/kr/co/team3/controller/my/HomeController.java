@@ -1,4 +1,4 @@
-package kr.co.team3.controller;
+package kr.co.team3.controller.my;
 
 import kr.co.team3.dto.my.ProductOrderDTO;
 import kr.co.team3.service.my.ProductOrderService;
@@ -11,14 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class MyPageController {
+public class HomeController {
     private final ProductOrderService productOrderService;
 
     @GetMapping("/my/home")
@@ -43,12 +42,7 @@ public class MyPageController {
         return ResponseEntity.ok(orderDTOList);
     }
 
-//    @GetMapping("/my/modal/coupon/{u_id}/{po_no}")
-//    @ResponseBody
-//    public ResponseEntity<List<ProductOrderDTO>> orderDetail(@PathVariable("u_id") String u_id, @PathVariable("po_no") String po_no){
-//        List<ProductOrderDTO> orderDTOList = productOrderService.get1Order(u_id, po_no);
-//        return ResponseEntity.ok(orderDTOList);
-//    }
+
 
     @GetMapping("/my/order")
     public String order(){

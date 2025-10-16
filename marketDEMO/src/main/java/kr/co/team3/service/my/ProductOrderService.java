@@ -1,7 +1,7 @@
 package kr.co.team3.service.my;
 
 import kr.co.team3.dto.my.ProductOrderDTO;
-import kr.co.team3.mapper.ProductOrderMapper;
+import kr.co.team3.mapper.my.ProductOrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
