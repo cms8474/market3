@@ -51,4 +51,17 @@ public class Recruitment {
                 .build();
     }
 
+    @Transient
+    public String getComputedStatus() {
+        LocalDate today = LocalDate.now();
+
+        LocalDate start = r_start_date;
+        LocalDate end   = r_end_date;
+
+        if (start == null || end == null) return "미정";
+        if (today.isBefore(start)) return "모집예정";
+        if (!today.isAfter(end))   return "모집중";
+        return "종료";
+    }
+
 }

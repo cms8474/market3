@@ -52,14 +52,22 @@
             <!--                </tr>-->
 
             <tr th:each="recruitment : ${list}">
-                <td class="col-check"><input type="checkbox"></td>
+                <td class="col-check">
+                    <input type="checkbox" th:value="${recruitment.r_no}">
+                </td>
                 <td th:text="${recruitment.r_no}"></td>
                 <td th:text="${recruitment.r_dept}"></td>
                 <td th:text="${recruitment.r_career}"></td>
                 <td th:text="${recruitment.r_type}"></td>
                 <td th:text="${recruitment.r_title}"></td>
                 <td>관리자</td>
-                <td th:text="${recruitment.r_status}" class="status"></td>
+
+                <td class="status"
+                    th:text="${recruitment.computedStatus}"
+                    th:classappend="${recruitment.computedStatus == '모집중'} ? ' status--open' :
+                    (${recruitment.computedStatus == '종료'} ? ' status--closed' : ' status--scheduled')">
+                </td>
+
                 <td class="col-date"
                     th:text="|${#temporals.format(recruitment.r_start_date,'yyyy-MM-dd')} ~ ${#temporals.format(recruitment.r_end_date,'yyyy-MM-dd')}|">
                 </td>
@@ -76,7 +84,7 @@
         <!-- 테이블 하단 영역 -->
         <div class="table-bottom">
             <div class="left">
-                <a href="#" class="btn-gray">선택삭제</a>
+                <a href="#" class="btn-gray" id="btnDelete">선택삭제</a>
             </div>
 
             <div class="center pagination">
@@ -106,7 +114,7 @@
                 </div>
 
                 <form id="Form" class="modal__body"
-                      th:action="@{/kmarket/admin/cs/recruit/register}"
+                      th:action="@{/admin/cs/recruit/register}"
                       method="post">
 
                     <!-- CSRF -->
@@ -191,12 +199,41 @@
             document.querySelectorAll('tbody input[type="checkbox"]')
                 .forEach(cb => cb.checked = e.target.checked);
         });
-        // 상태 색상 (모집중=초록, 종료=회색)
-        document.querySelectorAll('td.status').forEach(el => {
-            const t = el.textContent.trim();
-            if (t === '모집중') el.classList.add('status--open');
-            else if (t === '종료') el.classList.add('status--closed');
-        });
 
+
+        //선택삭제ㅔ
+        document.getElementById('btnDelete')?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const checked = Array.from(document.querySelectorAll('tbody input[type="checkbox"]:checked'));
+            if (checked.length === 0) {
+                alert('삭제할 항목을 선택하세요.');
+                return;
+            }
+
+            if (!confirm(`${checked.length}개의 항목을 삭제하시겠습니까?`)) return;
+
+            // 번호 목록 추출
+            const ids = checked.map(cb => cb.closest('tr').querySelector('td:nth-child(2)').textContent.trim());
+
+            // CSRF 토큰 추출
+            const token = document.querySelector('input[name="_csrf"]').value;
+            const param = document.querySelector('input[name="_csrf_parameterName"]')?.value || '_csrf';
+
+            const res = await fetch('/admin/cs/recruit/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    [ 'X-CSRF-TOKEN' ]: token
+                },
+                body: JSON.stringify(ids)
+            });
+
+            if (res.ok) {
+                alert('삭제되었습니다.');
+                location.reload();
+            } else {
+                alert('삭제 중 오류가 발생했습니다.');
+            }
+        });
     </script>
 </th:block>

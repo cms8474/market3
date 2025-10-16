@@ -37,7 +37,8 @@
         }
 
         .btn-delete { background:#ccc; color:#000; }
-        .btn-list   { background:#5a9bf5; color:#fff; }
+        .btn-edit   { background:#5a9bf5; color:#fff; }
+        .btn-list   { background:#888; color:#fff;}
 
         .btn-delete:hover { background:#bbb; }
         .btn-list:hover   { background:#4a8ae5; }

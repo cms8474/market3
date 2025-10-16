@@ -44,4 +44,15 @@ public class RecruitmentDTO {
         if (dateStr == null || dateStr.isBlank()) return null;
         return LocalDate.parse(dateStr);
     }
+
+    public String getComputedStatus() {
+        LocalDate today = LocalDate.now();
+        LocalDate start = parseDate(r_start_date);
+        LocalDate end = parseDate(r_end_date);
+
+        if (start == null || end == null) return "미정";
+        if (today.isBefore(start)) return "모집예정";
+        else if (!today.isAfter(end)) return "모집중";
+        else return "종료";
+    }
 }

@@ -44,4 +44,12 @@ class AdminCsControllerTest {
         Assertions.assertNotNull(entity);
         Assertions.assertEquals("정규직", entity.getR_type());
     }
+
+    @Test
+    void noticeWrite() {
+    }
+
+    @Test
+    void noticeWritePost() {
+    }
 }
