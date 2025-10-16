@@ -1,6 +1,7 @@
 package kr.co.team3.mapper;
 
 import kr.co.team3.dto.my.ProductOrderDTO;
+import kr.co.team3.mapper.my.ProductOrderMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
