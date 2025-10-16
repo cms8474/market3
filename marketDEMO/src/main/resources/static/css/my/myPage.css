@@ -115,7 +115,7 @@
     background-color: rgba(0, 0, 0, 0.5); /* 배경을 반투명하게 */
 }
 
-.modal-window {margin: 20% auto;}
+.modal-window {margin: 10% auto;}
 
 .modal-titleBar {
     display: flex;
@@ -175,8 +175,11 @@
     font-size: x-large;
     border-top: solid 2px;
 }
+.payInfo tfoot tr:first-child th, .payInfo tfoot tr:first-child td {
+    padding-top: 30px;
+}
 .payInfo tfoot th, .payInfo tfoot td {
-    padding: 30px;
+    padding: 10px 30px;
 }
 
 .orderInfo {
@@ -191,6 +194,9 @@
 .orderInfo th {
     color: white;
     text-align: center;
+}
+.orderInfo td {
+    border-bottom: solid 1px #a6a6a6;
 }
 .orderInfo td:nth-child(1) {text-align: center;}
 .orderInfo td:nth-child(2) {text-align: center; width: fit-content}

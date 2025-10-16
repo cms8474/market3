@@ -22,6 +22,9 @@ public class ProductOrderService {
         }).toList();
     }
     public List<ProductOrderDTO> getRecent5(String u_id){
+        if (u_id == null || u_id.isEmpty()) {
+            throw new IllegalArgumentException("User ID cannot be null or empty");
+        }
         List<ProductOrderDTO> dtoList = productOrderMapper.selectRecent5WithU_id(u_id);
         return dtoList.stream().map(dto -> {
             String timestamp = dto.getPo_orderdate();
