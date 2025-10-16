@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.product_mapper.MemberMapper">
+
+    <!-- 회원가입 - 모든 필드 포함 -->
+    <insert id="insertMember" parameterType="kr.co.team3.product_entity.MemberEntity">
+        INSERT INTO U_USER (
+            U_ID, U_PW, U_NAME, U_BIRTH, U_GENDER, U_MAIL, U_PHONE, 
+            U_POSTAL, U_BASE_ADDR, U_DETAIL_ADDR, U_TYPE, U_POINT, U_RANK, U_STATUS
+        ) VALUES (
+            #{uId}, #{uPw}, #{uName}, #{uBirth}, #{uGender}, #{uMail}, #{uPhone}, 
+            #{uPostal}, #{uBaseAddr}, #{uDetailAddr}, #{uType}, #{uPoint}, #{uRank}, #{uStatus}
+        )
+    </insert>
+
+    <!-- 아이디 중복 확인 -->
+    <select id="countById" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM U_USER WHERE U_ID = #{uId}
+    </select>
+
+    <!-- 이메일 중복 확인 -->
+    <select id="countByMail" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM U_USER WHERE U_MAIL = #{uMail}
+    </select>
+
+    <!-- 로그인 -->
+    <select id="findByuIdAnduPw" parameterType="map" resultType="kr.co.team3.product_entity.MemberEntity">
+        SELECT * FROM U_USER WHERE U_ID = #{uId} AND U_PW = #{uPw}
+    </select>
+
+    <!-- 이메일로 회원 찾기 -->
+    <select id="findByuMail" parameterType="String" resultType="kr.co.team3.product_entity.MemberEntity">
+        SELECT * FROM U_USER WHERE U_MAIL = #{uMail}
+    </select>
+
+    <!-- 아이디로 회원 찾기 -->
+    <select id="findByuId" parameterType="String" resultType="kr.co.team3.product_entity.MemberEntity">
+        SELECT * FROM U_USER WHERE U_ID = #{uId}
+    </select>
+
+    <!-- 판매자 정보 등록 -->
+    <insert id="insertSellerInfo" parameterType="kr.co.team3.product_entity.SellerInfoEntity">
+        INSERT INTO SELLER_INFO (
+            S_U_ID, S_COMPANY_NAME, S_SELLER_NO, S_SALES_REG_NUM, 
+            S_TEL, S_FAX, S_STATE, S_SELLER_TYPE
+        ) VALUES (
+            #{sUId}, #{sCompanyName}, #{sSellerNo}, #{sSalesRegNum}, 
+            #{sTel}, #{sFax}, #{sState}, #{sSellerType}
+        )
+    </insert>
+
+    <!-- 약관 내용 조회 -->
+    <select id="getTermsContent" parameterType="String" resultType="String">
+        SELECT T_BODY FROM M_TERMS WHERE T_NAME = #{termName}
+    </select>
+
+</mapper>

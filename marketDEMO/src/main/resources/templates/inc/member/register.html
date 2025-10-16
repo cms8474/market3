@@ -40,11 +40,15 @@
         .form-group input[type="text"],
         .form-group input[type="password"],
         .form-group input[type="email"],
-        .form-group input[type="date"] {
-            flex: 1;
+        .form-group input[type="date"],
+        .form-group select {
+            width: 60%;
+            max-width: 300px;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
         }
 
         .form-group .hint {
@@ -55,7 +59,7 @@
 
         .form-group .btn {
             margin-left: 8px;
-            padding: 8px 12px;
+            padding: 7px 10px;
             border: none;
             border-radius: 4px;
             background: #1976d2;
@@ -66,11 +70,12 @@
 
         .gender-options {
             display: flex;
-            gap: 20px;
+            gap: 10px;
             align-items: center;
         }
 
         .address-group input {
+            width: 100%;
             margin-bottom: 6px;
         }
 
@@ -91,29 +96,106 @@
             background: #b71c1c;
         }
 
-        .form-group input[type="text"],
-        .form-group input[type="password"],
-        .form-group input[type="email"],
-        .form-group input[type="date"] {
-            width: 60%;          /* ✅ 기존 flex:1 대신 고정 너비 */
-            max-width: 300px;    /* ✅ 최대 크기 제한 */
-            padding: 8px;        /* 조금 더 얇게 */
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
+        /* 추가된 스타일 */
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-left: 10px;
         }
 
-        .form-group .btn {
-            margin-left: 8px;
-            padding: 7px 10px;
+        .success-message {
+            color: green;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .duplicate-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .duplicate-check input {
+            flex: 1;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: auto;
+            max-width: none;
+        }
+
+        .terms-checkbox label {
+            width: auto;
+            font-weight: normal;
             font-size: 13px;
         }
 
-        .address-group input {
-            width: 100%;   /* 주소 입력만 가로 전체 */
-            margin-bottom: 6px;
+        .terms-checkbox a {
+            color: #1976d2;
+            text-decoration: underline;
         }
 
+        /* 이메일 인증 관련 스타일 */
+        .email-verification {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .email-verification input {
+            width: 100px;
+        }
+
+        .email-verification button {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        /* 약관 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -124,62 +206,104 @@
 <main>
     <div class="register-container">
         <h2>일반 회원가입</h2>
-        <form>
+        
+        <!-- 에러/성공 메시지 표시 -->
+        <div th:if="${error}" style="color: red; margin-bottom: 15px; padding: 10px; background-color: #ffe6e6; border-radius: 4px;">
+            <span th:text="${error}"></span>
+        </div>
+        <div th:if="${param.success}" style="color: green; margin-bottom: 15px; padding: 10px; background-color: #e6ffe6; border-radius: 4px;">
+            회원가입이 완료되었습니다. 로그인해주세요.
+        </div>
+        
+        <form id="joinForm" th:action="@{/member/join}" method="post">
             <div class="form-group">
-                <label for="userid">아이디</label>
-                <input type="text" id="userid" name="userid" placeholder="아이디 입력">
+                <label for="uId">아이디</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="text" id="uId" name="uId" placeholder="아이디 입력" required style="flex: 1;">
+                    <button type="button" id="checkIdBtn" style="padding: 8px 12px; background: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer;">중복체크</button>
+                </div>
                 <span class="hint">영문, 숫자 4~12자 설정</span>
+                <div id="idMessage" class="error-message" style="margin-left: 10px; font-size: 12px; margin-top: 5px;"></div>
             </div>
 
             <div class="form-group">
-                <label for="password">비밀번호</label>
-                <input type="password" id="password" name="password" placeholder="비밀번호 입력">
+                <label for="uPw">비밀번호</label>
+                <input type="password" id="uPw" name="uPw" placeholder="비밀번호 입력" required>
                 <span class="hint">영문, 숫자, 특수문자 8~12자 설정</span>
+                <div id="pwMessage" class="error-message" style="margin-left: 10px; font-size: 12px;"></div>
             </div>
 
             <div class="form-group">
-                <label for="passwordConfirm">비밀번호 확인</label>
-                <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="비밀번호 재입력">
+                <label for="uPwConfirm">비밀번호 확인</label>
+                <input type="password" id="uPwConfirm" placeholder="비밀번호 확인" required>
+                <div id="pwConfirmMessage" class="error-message" style="margin-left: 10px; font-size: 12px;"></div>
             </div>
 
             <div class="form-group">
-                <label for="name">이름</label>
-                <input type="text" id="name" name="name" placeholder="이름 입력">
+                <label for="uName">이름</label>
+                <input type="text" id="uName" name="uName" placeholder="이름 입력" required>
             </div>
 
             <div class="form-group">
-                <label for="birth">생년월일</label>
-                <input type="date" id="birth" name="birth">
+                <label for="uBirth">생년월일</label>
+                <input type="date" id="uBirth" name="uBirth" required>
             </div>
 
             <div class="form-group">
                 <label>성별</label>
                 <div class="gender-options">
-                    <label><input type="radio" name="gender" value="M"> 남</label>
-                    <label><input type="radio" name="gender" value="F"> 여</label>
+                    <label><input type="radio" name="uGender" value="남" required> 남</label>
+                    <label><input type="radio" name="uGender" value="여" required> 여</label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="email">EMAIL</label>
-                <input type="email" id="email" name="email" placeholder="이메일 입력">
-                <button type="button" class="btn">이메일 인증</button>
+                <label for="uMail">이메일</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="email" id="uMail" name="uMail" placeholder="이메일 입력" required style="flex: 1;">
+                    <button type="button" id="sendEmailBtn" style="padding: 8px 12px; background: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer;">인증번호 발송</button>
+                </div>
+                <div id="emailCheckResult" style="margin-left: 10px; font-size: 12px; margin-top: 5px;"></div>
+            </div>
+            <div class="form-group">
+                <label for="emailCode">이메일 인증번호</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="text" id="emailCode" placeholder="6자리 인증번호 입력" maxlength="6" style="flex: 1;">
+                    <button type="button" id="verifyEmailBtn" style="padding: 8px 12px; background: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer;">인증확인</button>
+                </div>
+                <div id="emailCodeResult" style="margin-left: 10px; font-size: 12px; margin-top: 5px;"></div>
             </div>
 
             <div class="form-group">
-                <label for="phone">휴대폰</label>
-                <input type="text" id="phone" name="phone" placeholder="휴대폰 입력">
-                <button type="button" class="btn">휴대폰 인증</button>
+                <label for="uPhone">휴대폰</label>
+                <input type="text" id="uPhone" name="uPhone" placeholder="010-0000-0000" required>
+                <div id="phoneMessage" class="error-message"></div>
             </div>
 
-            <div class="form-group address-group">
-                <label for="postcode">주소</label>
-                <div style="flex:1;">
-                    <input type="text" id="postcode" name="postcode" placeholder="우편번호 입력">
-                    <button type="button" class="btn">우편번호 검색</button>
-                    <input type="text" id="address1" name="address1" placeholder="기본주소 입력" style="width:100%;">
-                    <input type="text" id="address2" name="address2" placeholder="상세주소 입력" style="width:100%;">
+            <!-- 주소 -->
+            <div class="form-group">
+                <label for="uPostal">우편번호</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="text" id="uPostal" name="uPostal" placeholder="우편번호" required style="flex: 1;">
+                    <button type="button" id="searchPostalBtn" style="padding: 8px 12px; background: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer;">우편번호 검색</button>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="uBaseAddr">기본주소</label>
+                <input type="text" id="uBaseAddr" name="uBaseAddr" placeholder="기본주소 입력" required>
+            </div>
+            <div class="form-group">
+                <label for="uDetailAddr">상세주소</label>
+                <input type="text" id="uDetailAddr" name="uDetailAddr" placeholder="상세주소 입력" required>
+            </div>
+
+            <!-- 약관 동의 -->
+            <div class="terms-checkbox">
+                <input type="checkbox" id="agreeTerms" required>
+                <label for="agreeTerms">
+                    <a href="#" id="termsLink">이용약관</a> 및 
+                    <a href="#" id="privacyLink">개인정보처리방침</a>에 동의합니다
+                </label>
             </div>
 
             <button type="submit" class="submit-btn">회원가입</button>
@@ -187,8 +311,274 @@
     </div>
 </main>
 
+<!-- 약관 모달 -->
+<div id="termsModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>이용약관</h3>
+        <div id="termsContent"></div>
+    </div>
+</div>
+
+<div id="privacyModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>개인정보처리방침</h3>
+        <div id="privacyContent"></div>
+    </div>
+</div>
+
 <!-- ✅ 공통 푸터 -->
 <th:block th:replace="~{inc/_footer :: _footer}"/>
+
+<script>
+    // 비밀번호 유효성 검사
+    function validatePassword(password) {
+        const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/;
+        return regex.test(password);
+    }
+
+    // 비밀번호 입력 시 검증
+    document.getElementById('uPw').addEventListener('input', function() {
+        const password = this.value;
+        const messageDiv = document.getElementById('pwMessage');
+        
+        if (password && !validatePassword(password)) {
+            messageDiv.textContent = '영문, 숫자, 특수문자를 포함하여 8~12자로 입력해주세요.';
+            messageDiv.className = 'error-message';
+        } else {
+            messageDiv.textContent = '';
+        }
+    });
+
+    // 아이디 중복확인
+    document.getElementById('checkIdBtn').addEventListener('click', function() {
+        const uId = document.getElementById('uId').value;
+        const resultDiv = document.getElementById('idMessage');
+        
+        if (uId.length < 4) {
+            resultDiv.innerHTML = '<span style="color: red;">아이디는 4자 이상이어야 합니다.</span>';
+            document.getElementById('uId').setAttribute('data-validated', 'false');
+            return;
+        }
+        
+        fetch(`/member/checkId/${uId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    resultDiv.innerHTML = '<span style="color: red;">이미 사용 중인 아이디입니다.</span>';
+                    document.getElementById('uId').setAttribute('data-validated', 'false');
+                } else {
+                    resultDiv.innerHTML = '<span style="color: green;">사용 가능한 아이디입니다.</span>';
+                    document.getElementById('uId').setAttribute('data-validated', 'true');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resultDiv.innerHTML = '<span style="color: red;">아이디 확인 중 오류가 발생했습니다.</span>';
+                document.getElementById('uId').setAttribute('data-validated', 'false');
+            });
+    });
+
+    // 아이디 입력 시 중복 확인 결과 초기화
+    document.getElementById('uId').addEventListener('input', function() {
+        const resultDiv = document.getElementById('idMessage');
+        resultDiv.innerHTML = '';
+        this.removeAttribute('data-validated');
+    });
+
+
+    // 이메일 형식 검증 함수
+    function isValidEmail(email) {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
+    // 이메일 인증번호 발송
+    document.getElementById('sendEmailBtn').addEventListener('click', function() {
+        const uMail = document.getElementById('uMail').value;
+        const resultDiv = document.getElementById('emailCheckResult');
+        
+        if (!uMail) {
+            resultDiv.innerHTML = '<span style="color: red;">이메일을 입력해주세요.</span>';
+            return;
+        }
+        
+        // 이메일 형식 검증
+        if (!isValidEmail(uMail)) {
+            resultDiv.innerHTML = '<span style="color: red;">이메일 형식이 올바르지 않습니다.</span>';
+            return;
+        }
+        
+        // 이메일 형식이 올바른 경우에만 서버로 요청
+        fetch('/member/sendEmailCode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email: uMail})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                resultDiv.innerHTML = '<span style="color: green;">인증번호가 발송되었습니다.</span>';
+                document.getElementById('uMail').setAttribute('data-email-sent', 'true');
+            } else {
+                resultDiv.innerHTML = '<span style="color: red;">' + data.message + '</span>';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            resultDiv.innerHTML = '<span style="color: red;">인증번호 발송 중 오류가 발생했습니다.</span>';
+        });
+    });
+
+    // 이메일 인증번호 확인
+    document.getElementById('verifyEmailBtn').addEventListener('click', function() {
+        const uMail = document.getElementById('uMail').value;
+        const code = document.getElementById('emailCode').value;
+        
+        if (!uMail) {
+            document.getElementById('emailCodeResult').innerHTML = '<span style="color: red;">이메일을 먼저 입력해주세요.</span>';
+            return;
+        }
+        
+        if (!code) {
+            document.getElementById('emailCodeResult').innerHTML = '<span style="color: red;">인증번호를 입력해주세요.</span>';
+            return;
+        }
+        
+        if (code.length !== 6) {
+            document.getElementById('emailCodeResult').innerHTML = '<span style="color: red;">6자리 인증번호를 입력해주세요.</span>';
+            return;
+        }
+        
+        fetch('/member/verifyEmailCode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email: uMail, code: code})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('emailCodeResult').innerHTML = '<span style="color: green;">이메일 인증이 완료되었습니다.</span>';
+                document.getElementById('uMail').setAttribute('data-email-verified', 'true');
+            } else {
+                document.getElementById('emailCodeResult').innerHTML = '<span style="color: red;">인증번호가 일치하지 않습니다.</span>';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('emailCodeResult').innerHTML = '<span style="color: red;">이메일 인증 중 오류가 발생했습니다.</span>';
+        });
+    });
+
+    // 비밀번호 확인
+    document.getElementById('uPwConfirm').addEventListener('input', function() {
+        const uPw = document.getElementById('uPw').value;
+        const uPwConfirm = this.value;
+        
+        if (uPwConfirm && uPw !== uPwConfirm) {
+            document.getElementById('pwConfirmMessage').textContent = '비밀번호가 일치하지 않습니다.';
+            document.getElementById('pwConfirmMessage').className = 'error-message';
+        } else {
+            document.getElementById('pwConfirmMessage').textContent = '';
+        }
+    });
+
+    // 휴대폰 번호 유효성 검사
+    function validatePhoneNumber(phone) {
+        const regex = /^010-\d{4}-\d{4}$/;
+        return regex.test(phone);
+    }
+
+    document.getElementById('uPhone').addEventListener('input', function() {
+        const phone = this.value;
+        const messageDiv = document.getElementById('phoneMessage');
+        
+        if (phone && !validatePhoneNumber(phone)) {
+            messageDiv.textContent = '휴대폰 번호를 올바른 형식으로 입력해주세요. (예: 010-0000-0000)';
+            messageDiv.className = 'error-message';
+        } else {
+            messageDiv.textContent = '';
+        }
+    });
+
+    // 약관 모달
+    document.getElementById('termsLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        fetch('/member/getTerms/구매회원 약관')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('termsContent').innerHTML = data.replace(/\n/g, '<br>');
+                document.getElementById('termsModal').style.display = 'block';
+            });
+    });
+
+    document.getElementById('privacyLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        fetch('/member/getTerms/개인정보 처리방침')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('privacyContent').innerHTML = data.replace(/\n/g, '<br>');
+                document.getElementById('privacyModal').style.display = 'block';
+            });
+    });
+
+    // 모달 닫기
+    document.querySelectorAll('.close').forEach(closeBtn => {
+        closeBtn.addEventListener('click', function() {
+            this.closest('.modal').style.display = 'none';
+        });
+    });
+
+    // 폼 제출 전 검증
+    document.getElementById('joinForm').addEventListener('submit', function(e) {
+        const uPw = document.getElementById('uPw').value;
+        const uPwConfirm = document.getElementById('uPwConfirm').value;
+        const uPhone = document.getElementById('uPhone').value;
+        const uId = document.getElementById('uId');
+        
+        // 아이디 중복확인 검증
+        if (uId.getAttribute('data-validated') !== 'true') {
+            e.preventDefault();
+            alert('아이디 중복확인을 해주세요.');
+            return;
+        }
+        
+        if (!validatePassword(uPw)) {
+            e.preventDefault();
+            alert('비밀번호는 영문, 숫자, 특수문자를 포함하여 8~12자로 입력해주세요.');
+            return;
+        }
+        
+        if (uPw !== uPwConfirm) {
+            e.preventDefault();
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+        
+        if (!validatePhoneNumber(uPhone)) {
+            e.preventDefault();
+            alert('휴대폰 번호를 올바른 형식으로 입력해주세요. (예: 010-0000-0000)');
+            return;
+        }
+        
+        if (!document.getElementById('agreeTerms').checked) {
+            e.preventDefault();
+            alert('약관에 동의해주세요.');
+            return;
+        }
+    });
+
+    // 우편번호 검색 (다음 주소 API 연동 예정)
+    document.getElementById('searchPostalBtn').addEventListener('click', function() {
+        // TODO: 다음 주소 API 연동
+        alert('우편번호 검색 기능은 추후 구현 예정입니다.');
+    });
+</script>
 
 </body>
 </html>
