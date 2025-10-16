@@ -17,13 +17,14 @@ class ReviewServiceTest {
     @Test
     void writeReview() {
         ReviewDTO reviewDTO = ReviewDTO.builder()
-                .pr_po_no("user01_0001")
-                .pr_p_pid("seller01_100001_85870138")
-                .pr_u_id("user01")
-                .pr_star(4)
-                .pr_body("괜찮네요.")
+                .prPoNo("user01_0001")
+                .prPPid("seller01_100001_85870138")
+                .prUId("user01")
+                .prStar(4)
+                .prBody("괜찮네요.")
                 .build();
 
         reviewMapper.insertReview(reviewDTO);
+        reviewMapper.deleteReview("user01_seller01_100001_85870138_01");
     }
 }

@@ -13,13 +13,17 @@
         PR_IMAGES1,
         PR_IMAGES2,
         PR_IMAGES3)
-        VALUES (#{reviewDTO.pr_po_no},
-        #{reviewDTO.pr_p_pid},
-        #{reviewDTO.pr_u_id},
-        #{reviewDTO.pr_star},
-        #{reviewDTO.pr_body},
-        #{reviewDTO.pr_images1,jdbcType=VARCHAR},
-        #{reviewDTO.pr_images2,jdbcType=VARCHAR},
-        #{reviewDTO.pr_images3,jdbcType=VARCHAR})
+        VALUES (#{reviewDTO.prPoNo},
+        #{reviewDTO.prPPid},
+        #{reviewDTO.prUId},
+        #{reviewDTO.prStar},
+        #{reviewDTO.prBody},
+        #{reviewDTO.prImages1,jdbcType=VARCHAR},
+        #{reviewDTO.prImages2,jdbcType=VARCHAR},
+        #{reviewDTO.prImages3,jdbcType=VARCHAR})
     </insert>
+    <delete id="deleteReview">
+        DELETE FROM PRODUCT_REVIEW
+        WHERE pr_no = #{prNo}
+    </delete>
 </mapper>

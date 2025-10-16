@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ReviewMapper {
     public void insertReview(@Param("reviewDTO") ReviewDTO reviewDTO);
+    public void deleteReview(@Param("prNo") String prNo);
 }

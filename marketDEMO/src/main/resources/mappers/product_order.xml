@@ -11,17 +11,17 @@
         oi_tracking_num,
         oi_etc,
         oi_del_status,
-        t.P_PID,
+        t.p_pid,
         p_name,
         p_price,
         p_discount,
         p_point,
-        t.P_STOCK_QUANTITY,
-        t.P_DELIVERY_PRICE
+        t.p_stock_quantity,
+        t.p_delivery_price
         FROM PRODUCT_ORDER po
         JOIN order_items oi on po.po_no = oi.oi_po_no
         JOIN seller_info si ON oi.oi_s_u_id = si.s_u_id
-        JOIN PRODUCT_ITEM t ON oi.OI_P_PID = t.P_PID
+        JOIN PRODUCT_ITEM t ON oi.oi_p_pid = t.p_pid
         WHERE po_u_id = #{u_id}
         ORDER BY po_orderdate DESC
         OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
