@@ -18,8 +18,8 @@
         #{reviewDTO.pr_u_id},
         #{reviewDTO.pr_star},
         #{reviewDTO.pr_body},
-        #{reviewDTO.pr_images1},
-        #{reviewDTO.pr_images2},
-        #{reviewDTO.pr_images3})
+        #{reviewDTO.pr_images1,jdbcType=VARCHAR},
+        #{reviewDTO.pr_images2,jdbcType=VARCHAR},
+        #{reviewDTO.pr_images3,jdbcType=VARCHAR})
     </insert>
 </mapper>
