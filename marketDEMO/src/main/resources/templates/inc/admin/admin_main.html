@@ -27,27 +27,27 @@
         <table class="stats-table">
             <thead>
             <tr>
-                <th>입금대기</th>
-                <th>배송준비</th>
-                <th>취소요청</th>
-                <th>교환요청</th>
-                <th>반품요청</th>
+                <th>입금완료</th>
+                <th>배송(진행중)</th>
+                <th>취소</th>
+                <th>교환</th>
+                <th>반품</th>
             </tr>
             </thead>
             <tbody>
 
             <!-- 상단 굵은 숫자 라인 -->
             <tr class="row-strong">
-                <td><span class="num" th:text="${S.waiting}">0</span></td>
-                <td><span class="num" th:text="${S.ready}">0</span></td>
-                <td><span class="num" th:text="${S.cancel}">0</span></td>
-                <td><span class="num" th:text="${S.exchange}">0</span></td>
-                <td><span class="num" th:text="${S.returnA}">0</span></td>
+                <td><span class="num" th:text="${S.depositDone}">0</span></td>
+                <td><span class="num" th:text="${S.shippingCnt}">0</span></td>
+                <td><span class="num" th:text="${S.canceledCnt}">0</span></td>
+                <td><span class="num" th:text="${S.exchangeCnt}">0</span></td>
+                <td><span class="num" th:text="${S.returnCnt}">0</span></td>
             </tr>
 
             <tr class="sep"><td colspan="5"></td></tr>
 
-            <!-- 지표 라벨 라인 (그대로) -->
+            <!-- 지표 라벨 라인 -->
             <tr class="row-labels">
                 <td>주문건수</td>
                 <td>주문금액</td>
@@ -56,37 +56,34 @@
                 <td>문의 게시물</td>
             </tr>
             <tr class="row-strong">
-                <td><span class="num" th:text="${TOT.orderCount}">0</span></td>
-                <td><span class="num money" th:text="${#numbers.formatInteger(TOT.orderAmount, 3, 'COMMA')}">0</span></td>
-                <td><span class="num" th:text="${TOT.registerCount}">0</span></td>
-                <td><span class="num" th:text="${TOT.visitor}">0</span></td>
-                <td><span class="num" th:text="${TOT.qna}">0</span></td>
+                <td><span class="num" th:text="${TOT.orderCnt}">0</span></td>
+                <td><span class="num money" th:text="${#numbers.formatInteger(TOT.orderAmt, 3, 'COMMA')}">0</span></td>
+                <td><span class="num" th:text="${TOT.signupCnt}">0</span></td>
+                <td><span class="num" th:text="${TOT.visitCnt}">0</span></td>
+                <td><span class="num" th:text="${TOT.boardCnt}">0</span></td>
             </tr>
-
-
-
 
             <!-- 오늘/어제 breakdown -->
             <tr class="row-sub">
                 <td>
-                    <div><span class="muted">오늘</span> <span th:text="${TD.orderCount}">0</span></div>
-                    <div><span class="muted">어제</span> <span th:text="${YD.orderCount}">0</span></div>
+                    <div><span class="muted">오늘</span> <span th:text="${TD.orderCnt}">0</span></div>
+                    <div><span class="muted">어제</span> <span th:text="${YD.orderCnt}">0</span></div>
                 </td>
                 <td>
-                    <div><span class="muted">오늘</span> <span th:text="${#numbers.formatInteger(TD.orderAmount, 3, 'COMMA')}">0</span></div>
-                    <div><span class="muted">어제</span> <span th:text="${#numbers.formatInteger(YD.orderAmount, 3, 'COMMA')}">0</span></div>
+                    <div><span class="muted">오늘</span> <span th:text="${#numbers.formatInteger(TD.orderAmt, 3, 'COMMA')}">0</span></div>
+                    <div><span class="muted">어제</span> <span th:text="${#numbers.formatInteger(YD.orderAmt, 3, 'COMMA')}">0</span></div>
                 </td>
                 <td>
-                    <div><span class="muted">오늘</span> <span th:text="${TD.registerCount}">0</span></div>
-                    <div><span class="muted">어제</span> <span th:text="${YD.registerCount}">0</span></div>
+                    <div><span class="muted">오늘</span> <span th:text="${TD.signupCnt}">0</span></div>
+                    <div><span class="muted">어제</span> <span th:text="${YD.signupCnt}">0</span></div>
                 </td>
                 <td>
-                    <div><span class="muted">오늘</span> <span th:text="${TD.visitor}">0</span></div>
-                    <div><span class="muted">어제</span> <span th:text="${YD.visitor}">0</span></div>
+                    <div><span class="muted">오늘</span> <span th:text="${TD.visitCnt}">0</span></div>
+                    <div><span class="muted">어제</span> <span th:text="${YD.visitCnt}">0</span></div>
                 </td>
                 <td>
-                    <div><span class="muted">오늘</span> <span th:text="${TD.qna}">0</span></div>
-                    <div><span class="muted">어제</span> <span th:text="${YD.qna}">0</span></div>
+                    <div><span class="muted">오늘</span> <span th:text="${TD.boardCnt}">0</span></div>
+                    <div><span class="muted">어제</span> <span th:text="${YD.boardCnt}">0</span></div>
                 </td>
             </tr>
 
@@ -127,6 +124,8 @@
     </section>
 
     <!--------------------------------- 스크립트단 ---------------------------------->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- 페이지 전용 스크립트(차트/아코디언) -->
     <script th:inline="javascript">

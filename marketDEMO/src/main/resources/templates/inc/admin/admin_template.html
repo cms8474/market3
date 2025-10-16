@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko" th:fragment="layout(content)">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8" />
     <title>관리자 레이아웃</title>
 
@@ -9,6 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/admin_sidebar.css}" />
     <link rel="stylesheet" th:href="@{/css/admin_main.css}" />
     <link rel="stylesheet" th:href="@{/css/config/admin_config_banner.css}" />
+
 
     <th:block th:if="${activeMenu=='config-basic'}">
         <link rel="stylesheet" th:href="@{/css/config/admin_config_basic.css}">
@@ -23,7 +24,7 @@
         <link rel="stylesheet" th:href="@{/css/config/admin_config_category.css}">
     </th:block>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
 
@@ -32,10 +33,9 @@
 <div class="admin-body">
     <th:block th:insert="~{inc/admin/admin_sidebar :: admin_sidebar}"></th:block>
     <main class="admin-content">
+        <th:block th:replace="~{__${contentFragment}__}">
 
-
-
-        <th:block th:insert="${content}"></th:block>
+        </th:block>
     </main>
 </div>
 

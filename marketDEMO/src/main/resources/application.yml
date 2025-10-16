@@ -5,6 +5,11 @@ server:
 
 mybatis:
   mapper-locations: classpath*:mappers/**/*.xml
+  type-aliases-package: kr.co.team3.product_entity
+  configuration:
+    map-underscore-to-camel-case: true
+    jdbc-type-for-null: NULL
+    default-statement-timeout: 5
 
 spring:
   main:
@@ -27,15 +32,6 @@ spring:
   devtools:
     livereload:
       enabled: true
-  jpa:
-    hibernate:
-      ddl-auto: none
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    properties:
-      hibernate:
-        format_sql: false
-        show_sql: false
   servlet:
     multipart:
       location: upload
@@ -79,4 +75,14 @@ spring:
           token-uri: https://kauth.kakao.com/oauth/token
           user-info-uri: https://kapi.kakao.com/v2/user/me
           user-name-attribute: id
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: c5092ms@gmail.com
+    password: kgwfthgqwlqgmwsg
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

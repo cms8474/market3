@@ -60,6 +60,7 @@
         }
 
         .btn-blue {
+            text-decoration: none;
             background: #5a9bf5;
             color: #fff;
             border: none;

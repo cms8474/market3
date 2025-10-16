@@ -6,55 +6,67 @@ import kr.co.team3.admin_repository.VersionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-@RequiredArgsConstructor
+@Transactional
 public class VersionService {
     private final VersionRepository versionRepository;
 
-    private Version ensure() {
-        Version v = versionRepository.findTopByOrderByIdDesc();
-        if (v == null) {
-            v = versionRepository.save(Version.builder().title("").subTitle("").build());
-        }
-        return v;
+    public VersionService(VersionRepository versionRepository) {
+        this.versionRepository = versionRepository;
     }
-    private String n(String s){ return s == null ? "" : s; }
-
     // 제일 위에꺼 조회
     public Version getLatestVersion() {
-        return versionRepository.findTopByOrderByIdDesc();
+        return versionRepository.findTopByOrderByIdDesc().orElse(null);
+    }
+    private Version baseOrEmpty() {
+        return Optional.ofNullable(getLatestVersion()).orElse(Version.builder().build());
     }
 
-    @Transactional
-    public void updateSite(String title, String subTitle) {
-        var v = ensure();
-        v.setTitle(n(title));
-        v.setSubTitle(n(subTitle));
+    // 사이트 타이틀/서브타이틀만 변경하여 "새 버전" INSERT
+    public void updateSite(String siteTitle, String siteSubtitle) {
+        Version next = baseOrEmpty().copy();
+        next.setTitle(siteTitle);
+        next.setSubTitle(siteSubtitle);
+        next.setId(null);          // ★ 새 레코드 INSERT
+        versionRepository.save(next);
     }
-    @Transactional
-    public void updateCompany(String company, String ceo, String sellerRegNo,
-                              String onlineSalesRegNo, String addr) {
-        var v = ensure();
-        v.setCompany(n(company));
-        v.setCeo(n(ceo));
-        v.setSellerRegNo(n(sellerRegNo));
-        v.setOnlineSalesRegNo(n(onlineSalesRegNo));
-        v.setAddr(n(addr));
-    }
-
-    @Transactional
-    public void updateSupport(String tel, String actTime, String email, String managerPhone) {
-        var v = ensure();
-        v.setTel(n(tel));
-        v.setActTime(n(actTime));
-        v.setEmail(n(email));
-        v.setManagerPhone(n(managerPhone));
+    public void updateLogoFavicon(String header, String footer, String fav) {
+        Version next = baseOrEmpty().copy();
+        if (header != null) next.setHeaderLogo(header);
+        if (footer != null) next.setFooterLogo(footer);
+        if (fav != null)    next.setFavicon(fav);
+        next.setId(null);
+        versionRepository.save(next);
     }
 
-    @Transactional
-    public void updateCopyright(String copylight) {
-        var v = ensure();
-        v.setCopylight(n(copylight));
+    public void updateCompany(String companyName, String ceoName, String bizRegNo,
+                              String mailOrderNo, String fullAddr) {
+        Version next = baseOrEmpty().copy();
+        next.setCompany(companyName);
+        next.setCeo(ceoName);
+        next.setSellerRegNo(bizRegNo);
+        next.setOnlineSalesRegNo(mailOrderNo);
+        next.setAddr(fullAddr);
+        next.setId(null);
+        versionRepository.save(next);
+    }
+
+    public void updateSupport(String csTel, String csHours, String csEmail, String disputeTel) {
+        Version next = baseOrEmpty().copy();
+        next.setTel(csTel);
+        next.setActTime(csHours);
+        next.setEmail(csEmail);
+        next.setManagerPhone(disputeTel);
+        next.setId(null);
+        versionRepository.save(next);
+    }
+    public void updateCopyright(String copyright) {
+        Version next = baseOrEmpty().copy();
+        next.setCopylight(copyright);
+        next.setId(null);
+        versionRepository.save(next);
     }
 
 
