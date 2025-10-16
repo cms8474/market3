@@ -6,7 +6,7 @@
 <th:block th:with="contentFrag=${contentFragment} != null
                                 ? ~{__${contentFragment}__}
                                 : ~{inc/admin/admin_main :: content}">
-    <th:block th:replace="~{inc/admin/admin_template :: layout(${contentFrag})}"></th:block>
+    <th:block th:replace="~{inc/admin/admin_templatee :: layout(${contentFrag})}"></th:block>
     <!-- 유진님 코드 <th:block th:replace="~{inc/admin/admin_template :: layout(~{inc/admin/admin_main :: content})}"></th:block>-->
 </th:block>
 </body>

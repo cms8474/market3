@@ -105,7 +105,7 @@ public class AdminController {
 
         // 6) 레이아웃 템플릿 본문 프래그먼트 지정
         model.addAttribute("contentFragment", "inc/admin/admin_main :: content");
-        return "inc/admin/admin_template";
+        return "inc/admin/admin_templatee";
     }
 
 

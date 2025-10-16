@@ -33,7 +33,7 @@
 <div class="admin-body">
     <th:block th:insert="~{inc/admin/admin_sidebar :: admin_sidebar}"></th:block>
     <main class="admin-content">
-        <th:block th:replace="${content}">
+        <th:block th:replace="~{__${contentFragment}__}">
 
         </th:block>
 
