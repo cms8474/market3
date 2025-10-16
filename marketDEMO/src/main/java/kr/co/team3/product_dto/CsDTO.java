@@ -56,8 +56,7 @@ public class CsDTO {
                 .build();
     }
 
-    // === 계산용 파생 게터 (저장 X, 화면 편의) ===
-    /** ex) faq11_admin01_0001 → faq11 */
+    // === 계산용 게터 ===
     public String getTypeCode() {
         if (boardId == null) return "";
         String full = boardId.trim().toLowerCase();
@@ -65,7 +64,6 @@ public class CsDTO {
         return (idx > 0) ? full.substring(0, idx) : full;
     }
 
-    /** ex) faq11 → faq10 (마지막 숫자를 0으로 치환) */
     public String getLv1Code() {
         String code = getTypeCode();
         if (code.isEmpty()) return "";

@@ -20,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -44,37 +46,101 @@ public class AdminCsController {
                 ? csService.searchByPrefix("noti", catePrefix, q, pageable)
                 : csService.getListByPrefix("noti", pageable);
 
+
+        Map<String, String> codeNameMap = boardTypeService.getCodeNameMap("noti");
+
         model.addAttribute("page", page);
         model.addAttribute("q", q);
         model.addAttribute("cate", catePrefix);
+        model.addAttribute("codeNameMap", codeNameMap);
+
         return "admin/cs/notice/noticeList";
     }
 
-
-
-
-    @GetMapping("/notice/modify")
-    public String noticeModify() {
-        log.info("go cs/noticeModify");
-        return "admin/cs/notice/noticeModify";
-    }
-
+    /*공지사항들록*/
     @GetMapping("/notice/write")
-    public String noticeWrite() {
-        log.info("go cs/noticeWrite");
+    public String noticeWrite(Model model) {
+        Map<String, String> typeMap = boardTypeService.getCodeNameMap("noti");
+        model.addAttribute("dto", new CsDTO());
+        model.addAttribute("typeMap", typeMap);
         return "admin/cs/notice/noticeWrite";
     }
 
-    @GetMapping("/notice/view")
-    public String noticeView() {
-        log.info("go cs/noticeView");
-        return "admin/cs/notice/noticeView";
+    @PostMapping("/notice/write")
+    public String noticeWritePost(@ModelAttribute("dto") CsDTO dto, Principal principal) {
+        log.info("POST /admin/cs/notice/write dto={}", dto);
+
+        dto.setBoardWriter(principal != null ? principal.getName() : "admin01");
+        log.info(" 작성자(boardWriter): {}", dto.getBoardWriter());
+
+        dto.setBoardView(0);
+        dto.setBoardRegDate(LocalDateTime.now());
+
+        String id = csService.saveByType(dto);
+        return "redirect:/admin/cs/notice/view?id=" + id;
     }
 
 
-    // 원하는 위치(파일 상단)에 간단한 뷰 전용 레코드/클래스 추가
-    record FaqRow(kr.co.team3.product_dto.CsDTO cs, String cate1Name, String cate2Name,
-                  String cate1Code, String cate2Code) {}
+
+    /*공지사항 수정*/
+
+    @GetMapping("/notice/modify")
+    public String noticeModify(@RequestParam("id") String id, Model model) {
+        var dto = csService.getDetail(id);
+        if (dto == null) {
+            return "redirect:/admin/cs/notice/list";
+        }
+
+        Map<String, String> typeMap = boardTypeService.getCodeNameMap("noti");
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("typeMap", typeMap);
+        return "admin/cs/notice/noticeModify";
+    }
+
+    @PostMapping("/notice/modify")
+    public String noticeModifyPost(@ModelAttribute("dto") CsDTO dto, Principal principal) {
+        log.info("POST /admin/cs/notice/modify id={} title={}", dto.getBoardId(), dto.getBoardTitle());
+
+        // 작성자 확인 (안 바꿔도 됨)
+        dto.setBoardWriter(principal != null ? principal.getName() : "admin01");
+        dto.setBoardRegDate(LocalDateTime.now());
+
+        csService.update(dto);
+        return "redirect:/admin/cs/notice/view?id=" + dto.getBoardId();
+    }
+
+
+    /*공지사항 상세*/
+    @GetMapping("/notice/view")
+    public String noticeView(@RequestParam("id") String id, Model model) {
+        var dto = csService.getDetail(id);
+        if (dto == null) {
+            return "redirect:/admin/cs/notice/list";
+        }
+        Map<String, String> codeNameMap = boardTypeService.getCodeNameMap("noti");
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("codeNameMap", codeNameMap);
+        return "admin/cs/notice/noticeView";
+    }
+
+    @GetMapping("/notice/view/{id}")
+    public String noticeViewPath(@PathVariable String id, Model model) {
+        return noticeView(id, model);
+    }
+
+
+    /* 공지사항 삭제 */
+    @GetMapping("/notice/delete")
+    public String noticeDelete(@RequestParam("id") String id) {
+        log.info("삭제 요청: {}", id);
+
+        csService.delete(id);
+        log.info("삭제 완료 - {}", id);
+        return "redirect:/admin/cs/notice/list?deleted=true";
+    }
+
 
 
     /*------------------ FAQ ------------------*/
@@ -91,7 +157,7 @@ public class AdminCsController {
                 ? csService.searchByPrefix("faq", catePrefix, q, pageable)
                 : csService.getListByPrefix("faq", pageable);
 
-        Map<String, String> codeNameMap = boardTypeService.getCodeNameMap("faq"); // 키는 소문자/trim 정규화된 버전
+        Map<String, String> codeNameMap = boardTypeService.getCodeNameMap("faq");
 
         model.addAttribute("page", page);
         model.addAttribute("q", q);
@@ -105,54 +171,203 @@ public class AdminCsController {
     }
 
 
-
-
-
     @GetMapping("/faq/modify")
-    public String faqModify() {
-        log.info("go cs/faqModify");
+    public String faqModify(@RequestParam("id") String id, Model model) {
+        var dto = csService.getDetail(id);
+        if (dto == null) {
+            return "redirect:/admin/cs/faq/list";
+        }
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("lv1List", boardTypeService.getLv1("faq"));
+        model.addAttribute("lv2Tree", boardTypeService.getLv2Tree("faq"));
         return "admin/cs/faq/faqModify";
     }
 
+    @PostMapping("/faq/modify")
+    public String faqModifyPost(@ModelAttribute("dto") CsDTO dto, Principal principal) {
+        log.info("POST /admin/cs/faq/modify id={} title={}", dto.getBoardId(), dto.getBoardTitle());
+
+        // 작성자 확인 (안 바꿔도 됨)
+        dto.setBoardWriter(principal != null ? principal.getName() : "admin01");
+        dto.setBoardRegDate(LocalDateTime.now());
+
+        csService.update(dto);
+        return "redirect:/admin/cs/faq/view?id=" + dto.getBoardId();
+    }
+
+
+
+
+
     @GetMapping("/faq/write")
-    public String faqWrite() {
-        log.info("go cs/faqWrite");
+    public String faqWrite(Model model) {
+        model.addAttribute("dto", new CsDTO());
+        model.addAttribute("lv1List", boardTypeService.getLv1("faq"));
+        model.addAttribute("lv2Tree", boardTypeService.getLv2Tree("faq"));
         return "admin/cs/faq/faqWrite";
+    }
+    @PostMapping("/faq/write")
+    public String faqWritePost(@ModelAttribute("dto") CsDTO dto, Principal principal) {
+        dto.setBoardWriter(principal != null ? principal.getName() : "admin01");
+        dto.setBoardView(0);
+        dto.setBoardRegDate(LocalDateTime.now());
+
+        String id = csService.saveByType(dto);
+        return "redirect:/admin/cs/faq/view?id=" + id;
     }
 
     @GetMapping("/faq/view")
-    public String faqView() {
-        log.info("go cs/faqView");
+    public String faqView(@RequestParam("id") String id, Model model) {
+        var dto = csService.getDetail(id);
+        if (dto == null) {
+            return "redirect:/admin/cs/faq/list";
+        }
+
+        // 1차, 2차 유형명 매핑
+        Map<String, String> codeNameMap = boardTypeService.getCodeNameMap("faq");
+        String lv1Name = "-";
+        String lv2Name = "-";
+
+        if (dto.getBoardType() != null) {
+            String lv1Code = dto.getBoardType().substring(0, 4) + "0"; // 예: faq21 -> faq20
+            lv1Name = codeNameMap.getOrDefault(lv1Code, "-");
+            lv2Name = codeNameMap.getOrDefault(dto.getBoardType(), "-");
+        }
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("lv1Name", lv1Name);
+        model.addAttribute("lv2Name", lv2Name);
+
         return "admin/cs/faq/faqView";
     }
 
 
+
+    @GetMapping("/faq/view/{id}")
+    public String faqViewPath(@PathVariable String id, Model model) {
+        return faqView(id, model); // 위 메서드 재사용
+    }
+
+
+    /*  삭제 */
+    @GetMapping("/faq/delete")
+    public String faqDelete(@RequestParam("id") String id) {
+        log.info("삭제 요청: {}", id);
+
+        csService.delete(id);
+        log.info("삭제 완료 - {}", id);
+        return "redirect:/admin/cs/faq/list?deleted=true";
+    }
+
     /*------------------ QnA ------------------*/
+
     @GetMapping("/qna/list")
     public String qnaList(@RequestParam(required = false) String q,
-                          @RequestParam(name = "cate", required = false) String catePrefix, // ex) qna03
+                          @RequestParam(name = "cate", required = false) String catePrefix,
                           @PageableDefault(size = 10, sort = "boardRegDate") Pageable pageable,
                           Model model) {
+
         Page<CsDTO> page = (q != null || catePrefix != null)
                 ? csService.searchByPrefix("qna", catePrefix, q, pageable)
                 : csService.getListByPrefix("qna", pageable);
 
+        Map<String, String> codeNameMap = boardTypeService.getCodeNameMap("qna");
+
+
         model.addAttribute("page", page);
         model.addAttribute("q", q);
         model.addAttribute("cate", catePrefix);
+        model.addAttribute("codeNameMap", codeNameMap);
+
+        model.addAttribute("lv1List", boardTypeService.getLv1("qna"));
+        model.addAttribute("lv2Tree", boardTypeService.getLv2Tree("qna"));
+
         return "admin/cs/qna/qnaList";
     }
 
     @GetMapping("/qna/view")
-    public String qnaView() {
-        log.info("go cs/qnaView");
+    public String qnaView(@RequestParam("id") String id, Model model) {
+        var dto = csService.getDetail(id);
+        if (dto == null) {
+            return "redirect:/admin/cs/qna/list";
+        }
+
+        // 1차, 2차 유형명 매핑
+        Map<String, String> codeNameMap = boardTypeService.getCodeNameMap("qna");
+        String lv1Name = "-";
+        String lv2Name = "-";
+
+        if (dto.getBoardType() != null) {
+            String lv1Code = dto.getBoardType().substring(0, 4) + "0"; // 예: faq21 -> faq20
+            lv1Name = codeNameMap.getOrDefault(lv1Code, "-");
+            lv2Name = codeNameMap.getOrDefault(dto.getBoardType(), "-");
+        }
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("lv1Name", lv1Name);
+        model.addAttribute("lv2Name", lv2Name);
+
         return "admin/cs/qna/qnaView";
     }
 
-    @GetMapping("/qna/answer")
-    public String qnaAnswer() {
-        log.info("go cs/qnaAnswer");
-        return "admin/cs/qna/qnaAnswer";
+
+
+    @GetMapping("/qna/view/{id}")
+    public String qnaViewPath(@PathVariable String id, Model model) {
+        return qnaView(id, model); // 위 메서드 재사용
+    }
+
+
+    @GetMapping("/qna/reply")
+    public String qnaReply(@RequestParam("id") String id, Model model) {
+        CsDTO dto = csService.getDetail(id);
+        if (dto == null) {
+            return "redirect:/admin/cs/qna/list";
+        }
+
+        // 코드 → 이름 매핑
+        Map<String, String> codeNameMap = boardTypeService.getCodeNameMap("qna");
+        String lv1Name = "-";
+        String lv2Name = "-";
+
+        String lv1Code = dto.getLv1Code();   // 예: qna20
+        String lv2Code = dto.getBoardType(); // 예: qna21
+
+        if (lv1Code != null && !lv1Code.isBlank()) {
+            lv1Name = codeNameMap.getOrDefault(lv1Code, "-");
+        }
+        if (lv2Code != null && !lv2Code.isBlank()) {
+            lv2Name = codeNameMap.getOrDefault(lv2Code, "-");
+        }
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("lv1Name", lv1Name);
+        model.addAttribute("lv2Name", lv2Name);
+
+        return "admin/cs/qna/qnaReply";
+    }
+
+    @PostMapping("/qna/reply")
+    public String qnaReplyPost(@ModelAttribute("dto") CsDTO dto, Principal principal) {
+        log.info("답변 등록 요청: id={}, answer={}", dto.getBoardId(), dto.getBoardAnswer());
+
+        // 작성자 확인 (안 바꿔도 됨)
+        dto.setBoardWriter(principal != null ? principal.getName() : "admin01");
+        dto.setBoardRegDate(LocalDateTime.now());
+
+        csService.updateAnswer(dto);
+        return "redirect:/admin/cs/qna/view?id=" + dto.getBoardId();
+    }
+
+    /*  삭제 */
+    @GetMapping("/qna/delete")
+    public String qnaDelete(@RequestParam("id") String id) {
+        log.info("삭제 요청: {}", id);
+
+        csService.delete(id);
+        log.info("삭제 완료 - {}", id);
+        return "redirect:/admin/cs/qna/list?deleted=true";
     }
 
 

@@ -48,11 +48,12 @@ public class CsEntity {
     @Column(name = "B_REG_DATE")
     private LocalDateTime boardRegDate; // 등록일시
 
-    /* =========================
-       계산용 파생 속성 (저장 안 함)
-       ========================= */
 
-    /** ex) faq11_admin01_0001 → faq11  */
+
+
+    /* ===== 계산용 ===== */
+
+    /** faq11_admin01_0001 → faq11  */
     @Transient
     public String getTypeCode() {
         if (boardId == null) return "";
@@ -61,7 +62,7 @@ public class CsEntity {
         return (idx > 0) ? full.substring(0, idx) : full;
     }
 
-    /** ex) faq11 → faq10, faq2 → faq20 (마지막 숫자를 0으로) */
+    /** faq11 → faq10 마지막 숫자를 0으로) */
     @Transient
     public String getLv1Code() {
         String code = getTypeCode();
@@ -70,6 +71,6 @@ public class CsEntity {
         if (Character.isDigit(last)) {
             return code.substring(0, code.length() - 1) + "0";
         }
-        return code; // 숫자로 끝나지 않으면 원본 유지
+        return code;
     }
 }

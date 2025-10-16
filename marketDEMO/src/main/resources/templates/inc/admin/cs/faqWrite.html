@@ -7,22 +7,32 @@
                 <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>자주묻는질문</b></div>
             </div>
 
-            <form th:action="@{/cs/faq/write}" method="post">
+            <form th:action="@{/admin/cs/faq/write}" method="post" th:object="${dto}">
+
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+
                 <table class="view">
                     <tr>
                         <th>유형</th>
                         <td>
                             <div class="select-row">
-                                <!-- 1차 선택 -->
-                                <select name="type1" id="type1" class="sel" required>
+                                <!-- 1차 -->
+                                <select id="type1" class="sel">
                                     <option value="">1차 선택</option>
-
+                                    <option th:each="c : ${lv1List}"
+                                            th:value="${c.type}"
+                                            th:text="${c.name}">
+                                    </option>
                                 </select>
 
-                                <!-- 2차 선택(필요시 서버/JS로 채움; 일단 플레이스홀더) -->
-                                <select name="type2" id="type2" class="sel">
+                                <!-- 2차 (JS로 채움) -->
+                                <select id="type2" class="sel" disabled>
                                     <option value="">2차 선택</option>
                                 </select>
+
+                                <!-- 최종 코드: DTO.boardType 으로 바인딩 -->
+                                <input id="boardType" type="hidden" th:field="*{boardType}" />
                             </div>
                         </td>
                     </tr>
@@ -30,23 +40,86 @@
                     <tr>
                         <th>제목</th>
                         <td>
-                            <input type="text" class="inp" name="title" placeholder="제목을 입력합니다." maxlength="200" required>
+                            <input class="inp" type="text" th:field="*{boardTitle}" maxlength="200" required>
                         </td>
                     </tr>
 
                     <tr>
                         <th>내용</th>
                         <td class="answer">
-                            <textarea class="txtarea" name="content" placeholder="내용을 입력합니다." required></textarea>
+                            <textarea class="txtarea" th:field="*{boardContent}" placeholder="내용을 입력합니다." required></textarea>
                         </td>
                     </tr>
                 </table>
 
                 <div class="btn-area">
-                    <a href="/cs/faq/list" class="btn btn-cancel">취소하기</a>
+                    <a th:href="@{/admin/cs/faq/list}" class="btn btn-cancel">취소하기</a>
                     <button type="submit" class="btn btn-submit">등록하기</button>
                 </div>
             </form>
         </div>
         <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+
+    <script th:inline="javascript">
+        // 서버에서 내려준 2차 트리(JSON 직렬화)
+        const LV2_MAP = /*[[${lv2Tree}]]*/ {};
+        const $lv1 = document.getElementById('type1');
+        const $lv2 = document.getElementById('type2');
+        const $boardType = document.getElementById('boardType');
+
+        // dto.boardType에서 초기 선택값(1차/2차) 추출
+        const initialBoardType = /*[[${dto.boardType}]]*/ '';
+        const initialLv1 = (function(bt){
+            if (!bt || bt.length < 4) return '';
+            // ex) faq21 -> 'faq20' 이 1차 기준
+            const head4 = bt.substring(0,4);
+            return head4 + '0';
+        })(initialBoardType);
+
+        function fillLv2Options(lv1Code, selectedLv2) {
+            const list = (lv1Code && LV2_MAP && LV2_MAP[lv1Code]) ? LV2_MAP[lv1Code] : [];
+            $lv2.innerHTML = '<option value="">2차 선택</option>';
+            if (!list || list.length === 0) {
+                $lv2.disabled = true;
+            } else {
+                list.forEach(it => {
+                    const opt = document.createElement('option');
+                    opt.value = it.type;
+                    opt.textContent = it.name;
+                    if (selectedLv2 && selectedLv2 === it.type) opt.selected = true;
+                    $lv2.appendChild(opt);
+                });
+                $lv2.disabled = false;
+            }
+        }
+
+        function syncBoardType() {
+            if ($lv2.value) {
+                $boardType.value = $lv2.value;    // 2차가 있으면 2차 코드
+            } else {
+                $boardType.value = $lv1.value || ''; // 없으면 1차 코드(또는 공백)
+            }
+        }
+
+        $lv1.addEventListener('change', () => {
+            fillLv2Options($lv1.value, '');
+            syncBoardType();
+        });
+
+        $lv2.addEventListener('change', syncBoardType);
+
+        // 초기값 세팅
+        if (initialLv1) {
+            // 1차 초기 선택
+            for (const opt of $lv1.options) {
+                if (opt.value === initialLv1) { opt.selected = true; break; }
+            }
+            // 2차 옵션 구성 후 선택
+            fillLv2Options(initialLv1, initialBoardType);
+        } else {
+            fillLv2Options('', '');
+        }
+        // 최종 hidden 동기화
+        syncBoardType();
+    </script>
 </th:block>
