@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.LocalDate;
 
 @Controller
-@RequestMapping("/kmarket/admin")
+@RequestMapping("/admin")
 public class AdminController {
     private final DashboardService service;
 
