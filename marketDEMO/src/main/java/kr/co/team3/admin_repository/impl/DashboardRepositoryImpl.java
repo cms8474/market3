@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -65,15 +66,14 @@ public class DashboardRepositoryImpl implements DashboardRepository {
               NVL(oj.order_cnt,    0) AS order_cnt,
               NVL(oj.order_amt,    0) AS order_amt,
               uu.signup_cnt        AS signup_cnt,
-              0                    AS visit_cnt,   -- 필요하면 VL CTE 추가해서 바꿔쓰기
+              0                    AS visit_cnt,   -- 필요 시 VL CTE로 교체
               bd.board_cnt         AS board_cnt
             FROM OJOIN oj, UU uu, BD bd
             """;
 
-        public Object[] loadDashboardRaw(LocalDate from, LocalDate to) {
-            Query q = em.createNativeQuery(sql);
-            q.setParameter("fromDate", Timestamp.valueOf(from.atStartOfDay()));
-            q.setParameter("toDate",   Timestamp.valueOf(to.plusDays(1).atStartOfDay().minusSeconds(1)));
-            return (Object[]) q.getSingleResult();
-        }
+        Query q = em.createNativeQuery(sql);
+        q.setParameter("fromDate", Timestamp.valueOf(from.atStartOfDay()));
+        q.setParameter("toDate",   Timestamp.valueOf(to.plusDays(1).atStartOfDay().minusSeconds(1)));
+        return (Object[]) q.getSingleResult();
+    }
 }
