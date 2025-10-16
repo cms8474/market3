@@ -48,6 +48,5 @@
         WHERE po_u_id = #{u_id}
         AND po_no = #{po_no}
         ORDER BY po_orderdate DESC
-        OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
     </select>
 </mapper>

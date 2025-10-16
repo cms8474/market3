@@ -84,6 +84,7 @@ public class AdminCsController {
 
     /*공지사항 수정*/
 
+
     @GetMapping("/notice/modify")
     public String noticeModify(@RequestParam("id") String id, Model model) {
         var dto = csService.getDetail(id);
