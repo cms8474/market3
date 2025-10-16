@@ -18,7 +18,14 @@ class MyPageControllerTest {
 
     @Test
     void home() {
-        List<ProductOrderDTO> dtoList = productOrderService.selectRecent5WithUID("user01");
+        List<ProductOrderDTO> dtoList = productOrderService.getRecent5("user01");
+        Assert.notNull(dtoList, "불러오기 실패");
+        System.out.println(dtoList);
+    }
+
+    @Test
+    void orderDetail() {
+        List<ProductOrderDTO> dtoList = productOrderService.get1Order("user01", "user01_0002");
         Assert.notNull(dtoList, "불러오기 실패");
         System.out.println(dtoList);
     }

@@ -12,6 +12,32 @@ body {
     /*border: 1px solid #ccc;*/
 }
 
+/* 환영 메시지 스타일 */
+.welcome-message {
+    color: #1976d2 !important;
+    font-weight: 600;
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+/* 로그인 상태별 메뉴 스타일 */
+.top-menu > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.top-menu a {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.top-menu a:hover {
+    color: #1976d2;
+    text-decoration: underline;
+}
+
 
 /* 푸터 */
     .footer {

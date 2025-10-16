@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("kmarket/admin")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminCouponController {
 
