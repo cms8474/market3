@@ -47,21 +47,22 @@
             <table class="delivInfo">
                 <tr>
                     <td>이름</td>
-                    <td>홍길동</td>
+                    <td class="recName">홍길동</td>
                 </tr>
                 <tr>
                     <td>연락처</td>
-                    <td>010-1234-1001</td>
+                    <td class="recPhone">010-1234-1001</td>
                 </tr>
                 <tr>
                     <td>주소</td>
-                    <td>[210**] 부산광역시 부산진구 대연동 121 10층 1004호</td>
+                    <td class="recAddress">[210**] 부산광역시 부산진구 대연동 121 10층 1004호</td>
                 </tr>
                 <tr>
                     <td>배송요청사항</td>
-                    <td>없음</td>
+                    <td class="delivAsk">없음</td>
                 </tr>
             </table>
+
         </div>
     </div>
     <!--■■■■■모달 창 스크립트■■■■■-->
@@ -81,6 +82,13 @@
             // 주문정보 요소
             const orderInfo = document.getElementsByClassName('orderInfo')[0]
                 .getElementsByTagName("tbody")[0];
+
+            // 배송정보 요소
+            const delivInfo = document.getElementsByClassName('delivInfo')[0];
+            const recName = delivInfo.getElementsByClassName('recName')[0];
+            const recPhone = delivInfo.getElementsByClassName('recPhone')[0];
+            const recAddress = delivInfo.getElementsByClassName('recAddress')[0];
+            const delivAsk = delivInfo.getElementsByClassName('delivAsk')[0];
 
             document.addEventListener('click', function (e) {
                 if (e.target.className === 'orderNum') {
@@ -110,6 +118,7 @@
                             formattedPrice = new Intl.NumberFormat().format(data[0].po_sum_price - data[0].po_discount + data[0].po_delivery_price - data[0].po_pri_discount);
                             payPriceTd.innerText = formattedPrice + '원';
 
+                            // 주문정보 입력
                             for (const item of data) {
                                 // 가격 포맷팅: 쉼표 추가
                                 let formattedPrice = new Intl.NumberFormat().format(item.oi_tot_price);
@@ -130,6 +139,27 @@
 
                                 orderInfo.insertAdjacentHTML('beforeend', itemTableRow);
                             }
+
+                            // 배송정보 입력
+                            recName.innerText = data[0].po_recipient;
+                            recPhone.innerText = data[0].po_re_phone;
+                            recAddress.innerText = '['+data[0].po_postal+'] '+data[0].po_base_addr+' '+data[0].po_detail_addr;
+                            delivAsk.innerText = data[0].po_request_note;
+
+                            // 포인트 혜택 입력
+                            if(data[0].po_get_point > 0){
+                                const earnedPointTable = `<div class="pointInfo-wrapper">
+                                                                <h3>포인트 혜택</h3>
+                                                                <table class="pointInfo">
+                                                                    <tr>
+                                                                        <th>적립 포인트</th>
+                                                                        <th>${data[0].po_get_point}원</th>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>`;
+                                delivInfo.insertAdjacentHTML('afterend', earnedPointTable);
+                            }
+
                         })
                         .catch(err => {
                             console.log(err);
@@ -141,10 +171,13 @@
 
             closeModalButton.onclick = function () {
                 const orderItems = Array.from(document.getElementsByClassName('orderItem'));
+                const pointInfoWrapper = document.getElementsByClassName('pointInfo-wrapper')[0];
 
                 orderItems.forEach(function(orderItem) {
                     orderItem.remove();
                 });
+                pointInfoWrapper.remove();
+
                 modal.style.display = "none";
             }
         });

@@ -222,6 +222,17 @@
 }
 .delivInfo td:nth-child(2) {padding-left: 20px;}
 
+.pointInfo {
+    width: 100%;
+    border-top: solid 2px;
+}
+.pointInfo th {
+    padding: 30px 30px;
+    font-size: larger;
+}
+.pointInfo th:first-child {text-align: left;}
+.pointInfo th:nth-child(2) {text-align: right;}
+
 
 /* 판매자정보 스타일 */
 #sellerInfo .modal-window {max-width: 800px;}
