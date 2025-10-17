@@ -16,8 +16,8 @@ public class ProductOrderService {
     public List<ProductOrderDTO> get1Order(String u_id, String po_no){
         List<ProductOrderDTO> dtoList = productOrderMapper.selectWithU_idAndPo_no(u_id,po_no);
         return dtoList.stream().map(dto -> {
-            String timestamp = dto.getPo_orderdate();
-            dto.setPo_orderdate(timestamp.substring(0,10));
+            String timestamp = dto.getPoOrderdate();
+            dto.setPoOrderdate(timestamp.substring(0,10));
             return dto;
         }).toList();
     }
@@ -27,8 +27,8 @@ public class ProductOrderService {
         }
         List<ProductOrderDTO> dtoList = productOrderMapper.selectRecent5WithU_id(u_id);
         return dtoList.stream().map(dto -> {
-            String timestamp = dto.getPo_orderdate();
-            dto.setPo_orderdate(timestamp.substring(0,10));
+            String timestamp = dto.getPoOrderdate();
+            dto.setPoOrderdate(timestamp.substring(0,10));
             return dto;
         }).toList();
     }

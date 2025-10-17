@@ -19,4 +19,8 @@ public class ReviewService {
     public void writeReview(ReviewDTO reviewDTO) {
         reviewMapper.insertReview(reviewDTO);
     }
+
+    public void deleteReview(String prNo) {
+        reviewMapper.deleteReview(prNo);
+    }
 }
