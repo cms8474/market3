@@ -113,9 +113,11 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); /* 배경을 반투명하게 */
+    align-items: center;
+    justify-content: center;
 }
 
-.modal-window {margin: 20% auto;}
+.modal-window {width: 70%;}
 
 .modal-titleBar {
     display: flex;
@@ -141,11 +143,11 @@
     background-color: white;
     padding: 3%;
     max-height: 770px;
-    overflow: scroll;
 }
 
 /* 주문상세 스타일 */
 #orderDetails .modal-window {max-width: 1100px;}
+#orderDetails .modal-content{overflow: scroll;}
 
 .payInfo {
     width: 100%;
@@ -175,8 +177,11 @@
     font-size: x-large;
     border-top: solid 2px;
 }
+.payInfo tfoot tr:first-child th, .payInfo tfoot tr:first-child td {
+    padding-top: 30px;
+}
 .payInfo tfoot th, .payInfo tfoot td {
-    padding: 30px;
+    padding: 10px 30px;
 }
 
 .orderInfo {
@@ -191,6 +196,9 @@
 .orderInfo th {
     color: white;
     text-align: center;
+}
+.orderInfo td {
+    border-bottom: solid 1px #a6a6a6;
 }
 .orderInfo td:nth-child(1) {text-align: center;}
 .orderInfo td:nth-child(2) {text-align: center; width: fit-content}
@@ -213,6 +221,17 @@
     text-align: center;
 }
 .delivInfo td:nth-child(2) {padding-left: 20px;}
+
+.pointInfo {
+    width: 100%;
+    border-top: solid 2px;
+}
+.pointInfo th {
+    padding: 30px 30px;
+    font-size: larger;
+}
+.pointInfo th:first-child {text-align: left;}
+.pointInfo th:nth-child(2) {text-align: right;}
 
 
 /* 판매자정보 스타일 */

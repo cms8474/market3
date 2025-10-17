@@ -23,7 +23,7 @@ public class SecurityConfig {
         http
             // 인가 설정
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/member/join", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/member/join", "/member/joinSeller", "/member/sendEmailCode", "/member/verifyEmailCode", "/member/checkId/**", "/member/checkEmail/**", "/member/getTerms/**", "/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/member/login").anonymous() // 로그인하지 않은 사용자만 접근 가능
                 .requestMatchers("/my/**").authenticated() // 로그인한 사용자만 접근 가능
                 .requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")
@@ -63,7 +63,7 @@ public class SecurityConfig {
             )
             
             // CSRF 설정
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**", "/member/sendEmailCode", "/member/verifyEmailCode", "/member/checkId/**", "/member/checkEmail/**", "/member/getTerms/**"));
 
         return http.build();
     }
@@ -71,6 +71,8 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new PasswordEncoder() {
+            private final BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+            
             @Override
             public String encode(CharSequence rawPassword) {
                 return rawPassword.toString(); // 평문 그대로 반환
@@ -78,8 +80,16 @@ public class SecurityConfig {
 
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                // 평문 비밀번호 직접 비교
-                return rawPassword.toString().equals(encodedPassword);
+                // BCrypt 암호화된 비밀번호인지 확인 ($2a$, $2b$, $2y$ 등으로 시작)
+                if (encodedPassword.startsWith("$2a$") || 
+                    encodedPassword.startsWith("$2b$") || 
+                    encodedPassword.startsWith("$2y$")) {
+                    // BCrypt로 검증
+                    return bcryptEncoder.matches(rawPassword, encodedPassword);
+                } else {
+                    // 평문 비밀번호 직접 비교
+                    return rawPassword.toString().equals(encodedPassword);
+                }
             }
         };
     }

@@ -7,24 +7,46 @@
                 <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>자주묻는질문</b></div>
             </div>
 
-            <!-- 검색 -->
-            <div class="search-row">
-                <select id="typeLv1" aria-label="1차 유형">
+            <!-- 검색/필터 -->
+            <form method="get" th:action="@{/admin/cs/faq/list}" class="search-row">
+                <!-- 1차 목록 -->
+                <select id="typeLv1" name="cate1" aria-label="1차 유형"
+                        th:with="selLv1=${cate != null ? #strings.substring(cate,0,4)+'0' : ''}">
                     <option value="">1차 선택</option>
+                    <option th:each="c : ${lv1List}"
+                            th:value="${c.type}"
+                            th:text="${c.name}"
+                            th:selected="${selLv1 == c.type}"></option>
                 </select>
-                <select id="typeLv2" aria-label="2차 유형" disabled>
-                    <option value="">2차 선택</option>
-                </select>
-                <input type="text" id="keyword" placeholder="검색어입력" />
-                <button class="btn" type="button" id="btnSearch">검색</button>
-            </div>
 
+                <!-- 2차: 선택된 1차에 해당하는 목록만 -->
+                <select id="typeLv2" name="cate2" aria-label="2차 유형"
+                        th:with="baseLv1=${param.cate1 != null ? param.cate1 : (cate != null ? #strings.substring(cate,0,4)+'0' : '')}"
+                        th:disabled="${#lists.isEmpty(lv2Tree[baseLv1])}">
+                    <option value="">2차 선택</option>
+                    <option th:each="c2 : ${lv2Tree[baseLv1]}"
+                            th:value="${c2.type}"
+                            th:text="${c2.name}"
+                            th:selected="${cate == c2.type}"></option>
+                </select>
+
+                <!-- 최종 cate: 2차가 있으면 2차, 아니면 1차 -->
+                <input type="hidden" name="cate"
+                       th:value="${(param.cate2 != null and !#strings.isEmpty(param.cate2)) ? param.cate2
+                        : (param.cate1 != null and !#strings.isEmpty(param.cate1)) ? param.cate1
+                        : cate}" />
+
+                <input type="text" name="q" placeholder="검색어입력" th:value="${q}" />
+                <button class="btn" type="submit">검색</button>
+            </form>
 
             <!-- 목록 -->
             <table>
                 <thead>
                 <tr>
-                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                    <th class="col-check">
+                        <input type="checkbox" id="chkAll" />
+                    </th>
                     <th class="col-no">번호</th>
                     <th class="col-type">1차유형</th>
                     <th class="col-type">2차유형</th>
@@ -35,15 +57,28 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="cs : ${dtoList}">
-                    <td class="col-check"><input type="checkbox"></td>
-                    <td class="col-no">[[${cs.ano}]]</td>
-                    <td>[[${cs.cate1}]]</td>
-                    <td>[[${cs.cate2}]]</td>
-                    <td class="title">[[${cs.title}]]</td>
-                    <td class="col-views">[[${cs.view_cnt}]]</td>
-                    <td class="col-date">[[${cs.wdate}]]</td>
-                    <td class="actions"><a href="#">삭제</a> <a href="#">수정</a></td>
+
+                <tr th:each="cs, stat : ${page.content}">
+                    <td class="col-check"><input type="checkbox" /></td>
+                    <td class="col-no" th:text="${page.totalElements - (page.number * page.size) - stat.index}">1</td>
+
+                    <td th:text="${codeNameMap.get(cs.lv1Code) != null ? codeNameMap.get(cs.lv1Code) : '-'}">1차유형</td>
+                    <td th:text="${codeNameMap.get(cs.typeCode) != null ? codeNameMap.get(cs.typeCode) : '-'}">2차유형</td>
+
+                    <td class="title">
+                        <a th:href="@{/admin/cs/faq/view/{id}(id=${cs.boardId})}"
+                           th:text="${cs.boardTitle}">제목</a>
+                    </td>
+                    <td class="col-views" th:text="${cs.boardView}">0</td>
+                    <td class="col-date" th:text="${#temporals.format(cs.boardRegDate, 'yyyy-MM-dd')}">2025-10-15</td>
+                    <td class="actions">
+                        <a th:href="@{/admin/cs/faq/delete(id=${cs.boardId})}"
+                           class="btn-delete"
+                           onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>                        <a th:href="@{/admin/cs/faq/modify(id=${cs.boardId})}" class="btn-small">수정</a>
+                    </td>
+                </tr>
+                <tr th:if="${page.content.size() == 0}">
+                    <td colspan="8" style="text-align:center;">등록된 FAQ가 없습니다.</td>
                 </tr>
                 </tbody>
 
@@ -53,25 +88,31 @@
 
             <!-- 테이블 하단 영역 -->
             <div class="table-bottom">
-                <div class="left">
-                    <a href="#" class="btn-gray">선택삭제</a>
-                </div>
+                <div class="left"><a href="#" class="btn-gray">선택삭제</a></div>
 
                 <div class="center pagination">
-                    <a href="#">이전</a>
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">다음</a>
+                    <a th:if="${!page.first}" th:href="@{|?page=${page.number - 1}&q=${q}&cate=${cate}|}">이전</a>
+                    <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                       th:href="@{|?page=${i}&q=${q}&cate=${cate}|}"
+                       th:text="${i + 1}"
+                       th:classappend="${i == page.number} ? 'active'">1</a>
+                    <a th:if="${!page.last}" th:href="@{|?page=${page.number + 1}&q=${q}&cate=${cate}|}">다음</a>
                 </div>
 
                 <div class="right">
-                    <button class="btn-blue">작성하기</button>
+                    <a th:href="@{/admin/cs/faq/write}" class="btn-blue">작성하기</a>
                 </div>
             </div>
         </div>
 
-    <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+
+    <!-- 메인컨텐츠 종료  -->
+
+    <script>
+        // 전체선택
+        const chkAll = document.getElementById('chkAll');
+        chkAll?.addEventListener('change', (e) => {
+            document.querySelectorAll('tbody input[type="checkbox"]').forEach(cb => cb.checked = e.target.checked);
+        });
+    </script>
 </th:block>

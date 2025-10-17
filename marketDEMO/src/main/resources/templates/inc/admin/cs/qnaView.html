@@ -7,36 +7,43 @@
                 <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>문의하기</b></div>
             </div>
 
-            <table class="view">
+            <table class="view" th:object="${dto}">
                 <tr>
                     <th>유형</th>
-                    <td>회원 - 가입</td> <!-- 1차+2차 합쳐서 -->
+                    <td th:text="${lv1Name + ' - ' + lv2Name}">회원 - 가입</td>
                 </tr>
                 <tr>
                     <th>제목</th>
-                    <td>개인회원과 법인회원에 차이가 있나요?</td>
+                    <td  th:text="${dto.boardTitle}"></td>
                 </tr>
                 <tr>
                     <th>내용</th>
-                    <td>
-                        개인적인 사정으로 아이디를 3개나 썼었는데 사용할 수 있나요?<br>
-                        <!-- 실제 내용 -->
+                    <td th:utext="${#strings.replace(#strings.escapeXml(dto.boardContent) ?: '', '\n', '<br/>')}">
                     </td>
                 </tr>
 
                 <tr>
                     <th>답변</th>
                     <td class="answer">
-                        국내 No1 오픈마켓 Kmarket입니다.<br>
-                        한 계정당 1개의 계정만 사용 가능합니다. 도움이 되셨나요?
+                        <!-- 답변이 있을 때 -->
+                        <p th:if="${dto.boardAnswer != null and !#strings.isEmpty(dto.boardAnswer)}"
+                           th:text="${dto.boardAnswer}"></p>
+
+                        <!-- 답변이 없을 때 -->
+                        <p th:unless="${dto.boardAnswer != null and !#strings.isEmpty(dto.boardAnswer)}"
+                           style="color: #999;">아직 답변이 등록되지 않았습니다.</p>
                     </td>
                 </tr>
+
 
             </table>
             <!-- 테이블 하단 영역 -->
             <div class="btn-area">
-                <a href="#" class="btn-delete">삭제</a>
-                <a href="#" class="btn-list">목록</a>
+                <a th:href="@{/admin/cs/qna/delete(id=${dto.boardId})}"
+                                     class="btn-delete"
+                                     onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                <a th:href="@{/admin/cs/qna/reply(id=${dto.boardId})}" class="btn-edit">답변하기</a>
+                <a th:href="@{/admin/cs/qna/list}" class="btn-list">목록</a>
             </div>
 
         </div>

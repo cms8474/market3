@@ -1,4 +1,4 @@
-package kr.co.team3.mapper;
+package kr.co.team3.mapper.my;
 
 import kr.co.team3.dto.my.ProductOrderDTO;
 import org.apache.ibatis.annotations.Mapper;
