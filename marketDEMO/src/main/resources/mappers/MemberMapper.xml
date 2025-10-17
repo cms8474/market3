@@ -55,4 +55,47 @@
         SELECT T_BODY FROM M_TERMS WHERE T_NAME = #{termName}
     </select>
 
+
+
+    <sql id="searchWhere">
+        <where>
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                <choose>
+                    <when test="pageRequestDTO.searchType == 'title'">
+                        AND U.TITLE LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'content'">
+                        AND A.CONTENT LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'writer'">
+                        AND U.NICK LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+
+    <!-- 관리자 멤버 조회 -->
+    <select id="selectAll" parameterType="kr.co.team3.product_entity.MemberEntity">
+        SELECT
+        *
+        FROM U_USER U
+        <include refid="searchWhere"/>
+        ORDER BY A.ANO DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+
+
+    <select id="selectCountTotal" resultType="int">
+        SELECT COUNT(*) FROM U_USER A
+        <include refid="searchWhere"/>
+    </select>
+
+
+
+
+
+
 </mapper>

@@ -1,8 +1,13 @@
 package kr.co.team3.product_mapper;
 
+import kr.co.team3.admin_dto.PageRequestDTO;
+import kr.co.team3.product_dto.MemberDTO;
 import kr.co.team3.product_entity.MemberEntity;
 import kr.co.team3.product_entity.SellerInfoEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -25,4 +30,13 @@ public interface MemberMapper {
     
     // 약관 조회
     String getTermsContent(String termName);
+
+
+
+    /*---------------------------------------*/
+    /*-----------------설유진-----------------*/
+
+    public List<MemberDTO> selectAll(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
+    public int selectCountTotal(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
+
 }
