@@ -136,27 +136,7 @@ public class AdminController {
         return service.stats(from, to);
     }
 
-    @ResponseBody
-    @GetMapping("/dashboard")
-    public DashboardDTO getDashboard(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
-    ) {
-        return service.stats(from, to);
-    }
 
-    @ResponseBody
-    @GetMapping("/dashboard/today")
-    public DashboardDTO today() {
-        LocalDate d = LocalDate.now();
-        return service.stats(d, d);
-    }
 
-    @ResponseBody
-    @GetMapping("/dashboard/last7d")
-    public DashboardDTO last7d() {
-        LocalDate to = LocalDate.now();
-        LocalDate from = to.minusDays(6);
-        return service.stats(from, to);
-    }
+
 }
