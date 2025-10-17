@@ -1,7 +1,12 @@
 package kr.co.team3.controller.my;
 
+import kr.co.team3.dto.my.PointDTO;
 import kr.co.team3.dto.my.ProductOrderDTO;
+import kr.co.team3.dto.my.ReviewDTO;
+import kr.co.team3.mapper.my.PointMapper;
+import kr.co.team3.service.my.PointService;
 import kr.co.team3.service.my.ProductOrderService;
+import kr.co.team3.service.my.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,6 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeController {
     private final ProductOrderService productOrderService;
+    private final PointService pointService;
+    private final ReviewService reviewService;
 
     @GetMapping("/my/home")
     public String home(Model model){
@@ -32,13 +39,24 @@ public class HomeController {
         }
         List<ProductOrderDTO> orderDTOList = productOrderService.getRecent5(loginId);
         model.addAttribute("orderDTOList", orderDTOList);
+        List<PointDTO> pointDTOList = pointService.getPointListRecent5(loginId);
+        model.addAttribute("pointDTOList", pointDTOList);
+        List<ReviewDTO> reviewDTOList = reviewService.getReviewsRecent5(loginId);
+        model.addAttribute("reviewDTOList", reviewDTOList);
+
+        // 나의쇼핑정보 (주문 수, 쿠폰 수, 포인트, 문의 수)
+        int userPoints = pointService.getOwnPoints(loginId);
+        model.addAttribute("userPoints", userPoints);
+        int userOrderCount = productOrderService.getCountOrder(loginId);
+        model.addAttribute("userOrderCount", userOrderCount);
+
         return "my/home";
     }
 
     @GetMapping("/my/modal/orderDetail/{u_id}/{po_no}")
     @ResponseBody
     public ResponseEntity<List<ProductOrderDTO>> orderDetail(@PathVariable("u_id") String u_id, @PathVariable("po_no") String po_no){
-        List<ProductOrderDTO> orderDTOList = productOrderService.get1Order(u_id, po_no);
+        List<ProductOrderDTO> orderDTOList = productOrderService.getOrder1(u_id, po_no);
         return ResponseEntity.ok(orderDTOList);
     }
 

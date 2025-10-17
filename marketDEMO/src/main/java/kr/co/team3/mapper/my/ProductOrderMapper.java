@@ -11,4 +11,5 @@ public interface ProductOrderMapper {
     public List<ProductOrderDTO> selectRecent5WithU_id(@Param("u_id") String u_id);
     public List<ProductOrderDTO> selectWithU_idAndPo_no(@Param("u_id") String u_id,
                                                                 @Param("po_no") String po_no);
+    public int selectCountOrder(@Param("uId") String uId);
 }

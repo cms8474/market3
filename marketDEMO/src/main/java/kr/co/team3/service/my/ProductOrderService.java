@@ -13,7 +13,7 @@ public class ProductOrderService {
     private final ProductOrderMapper productOrderMapper;
 
     public void insert(){}
-    public List<ProductOrderDTO> get1Order(String u_id, String po_no){
+    public List<ProductOrderDTO> getOrder1(String u_id, String po_no){
         List<ProductOrderDTO> dtoList = productOrderMapper.selectWithU_idAndPo_no(u_id,po_no);
         return dtoList.stream().map(dto -> {
             String timestamp = dto.getPoOrderdate();
@@ -31,6 +31,12 @@ public class ProductOrderService {
             dto.setPoOrderdate(timestamp.substring(0,10));
             return dto;
         }).toList();
+    }
+    public int getCountOrder(String u_id){
+        if (u_id == null || u_id.isEmpty()) {
+            return 0;
+        }
+        return productOrderMapper.selectCountOrder(u_id);
     }
     public void selectAll(){}
     public void modify(){}
