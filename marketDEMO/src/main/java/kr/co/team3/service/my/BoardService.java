@@ -6,6 +6,7 @@ import kr.co.team3.repository.my.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +17,14 @@ import java.util.stream.Collectors;
 public class BoardService {
     private final BoardRepository boardRepository;
 
-    public List<BoardDTO> getBoardsWithUidAndBtType(String uId, String bBtType) {
-        Pageable pageable = PageRequest.of(0, 5);
-        List<Board> boardList = boardRepository.findByBUIdAndBBtTypeContainingOrderByBRegDateDesc(uId, bBtType, pageable);
-        return boardList.stream().map(Board::ToDTO).collect(Collectors.toList());
+    public List<BoardDTO> getBoardsWithUidAndBtTypeRecent5(String uId, String bBtType) {
+        Pageable pageable = PageRequest.of(0, 5, Sort.Direction.DESC, "bRegDate");
+        List<Board> boardList = boardRepository.findBybUIdAndBoardTypeBtTypeContaining(uId, bBtType, pageable);
+        List<BoardDTO> dtoList = boardList.stream().map(Board::ToDTO).toList();
+        return dtoList.stream().map(dto -> {
+            String formatted = dto.getBRegDate().substring(0, 10);
+            dto.setBRegDate(formatted);
+            return dto;
+        }).toList();
     }
 }

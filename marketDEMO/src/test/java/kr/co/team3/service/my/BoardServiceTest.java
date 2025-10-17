@@ -9,24 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class BoardServiceTest {
 
     @Autowired
-    BoardRepository boardRepository;
+    private BoardRepository boardRepository;
 
     @Test
     @Transactional
     void getBoardsWithUidAndBtType() {
-        Pageable pageable = PageRequest.of(0, 5);
+        Pageable pageable = PageRequest.of(0, 5, Sort.Direction.DESC, "bRegDate");
         String uId = "user01";
         String bBtType = "qna";
-        List<Board> boardList = boardRepository.findByBUIdAndBBtTypeContainingOrderByBRegDateDesc(uId, bBtType, pageable);
+        List<Board> boardList = boardRepository.findBybUIdAndBoardTypeBtTypeContaining(uId, bBtType, pageable);
+//        List<Board> boardList = boardRepository.findBybUId(uId);
         Assertions.assertNotNull(boardList);
         System.out.println(boardList);
     }
