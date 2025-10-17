@@ -396,8 +396,14 @@
 
     // 이메일 인증번호 발송
     document.getElementById('sendEmailBtn').addEventListener('click', function() {
+        const sendBtn = document.getElementById('sendEmailBtn');
         const uMail = document.getElementById('uMail').value;
         const resultDiv = document.getElementById('emailCheckResult');
+        
+        // 이미 발송 중인 경우 중복 클릭 방지
+        if (sendBtn.disabled) {
+            return;
+        }
         
         if (!uMail) {
             resultDiv.innerHTML = '<span style="color: red;">이메일을 입력해주세요.</span>';
@@ -410,6 +416,12 @@
             return;
         }
         
+        // 로딩 상태 설정
+        sendBtn.disabled = true;
+        sendBtn.textContent = '발송중...';
+        sendBtn.style.backgroundColor = '#6c757d';
+        resultDiv.innerHTML = '<span style="color: #17a2b8;">인증번호를 전송중입니다.</span>';
+        
         // 이메일 형식이 올바른 경우에만 서버로 요청
         fetch('/member/sendEmailCode', {
             method: 'POST',
@@ -420,6 +432,11 @@
         })
         .then(response => response.json())
         .then(data => {
+            // 버튼 상태 복원
+            sendBtn.disabled = false;
+            sendBtn.textContent = '인증번호 발송';
+            sendBtn.style.backgroundColor = '#17a2b8';
+            
             if (data.success) {
                 resultDiv.innerHTML = '<span style="color: green;">인증번호가 발송되었습니다.</span>';
                 document.getElementById('uMail').setAttribute('data-email-sent', 'true');
@@ -429,6 +446,10 @@
         })
         .catch(error => {
             console.error('Error:', error);
+            // 버튼 상태 복원
+            sendBtn.disabled = false;
+            sendBtn.textContent = '인증번호 발송';
+            sendBtn.style.backgroundColor = '#17a2b8';
             resultDiv.innerHTML = '<span style="color: red;">인증번호 발송 중 오류가 발생했습니다.</span>';
         });
     });
@@ -540,11 +561,19 @@
         const uPwConfirm = document.getElementById('uPwConfirm').value;
         const uPhone = document.getElementById('uPhone').value;
         const uId = document.getElementById('uId');
+        const uMail = document.getElementById('uMail');
         
         // 아이디 중복확인 검증
         if (uId.getAttribute('data-validated') !== 'true') {
             e.preventDefault();
             alert('아이디 중복확인을 해주세요.');
+            return;
+        }
+        
+        // 이메일 인증 검증
+        if (uMail.getAttribute('data-email-verified') !== 'true') {
+            e.preventDefault();
+            alert('이메일 인증을 해주세요.');
             return;
         }
         
