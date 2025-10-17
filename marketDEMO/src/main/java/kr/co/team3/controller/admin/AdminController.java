@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Controller
-@RequestMapping("/kmarket/admin")
+@RequestMapping("/admin")
 public class AdminController {
     private final DashboardService service;
     //private final NoticeService noticeService;
@@ -105,7 +105,7 @@ public class AdminController {
 
         // 6) 레이아웃 템플릿 본문 프래그먼트 지정
         model.addAttribute("contentFragment", "inc/admin/admin_main :: content");
-        return "inc/admin/admin_template";
+        return "inc/admin/admin_templatee";
     }
 
 
