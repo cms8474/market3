@@ -4,8 +4,11 @@ import kr.co.team3.dto.my.ReviewDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface ReviewMapper {
     public void insertReview(@Param("reviewDTO") ReviewDTO reviewDTO);
     public void deleteReview(@Param("prNo") String prNo);
+    public List<ReviewDTO> selectRecent5(@Param("uId") String uId);
 }

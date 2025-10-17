@@ -23,4 +23,13 @@ public class ReviewService {
     public void deleteReview(String prNo) {
         reviewMapper.deleteReview(prNo);
     }
+
+    public List<ReviewDTO> getReviewsRecent5(String uId) {
+        List<ReviewDTO> dtoList = reviewMapper.selectRecent5(uId);
+        return dtoList.stream().map(dto -> {
+            String formatted = dto.getPrRegDate().substring(0,11);
+            dto.setPrRegDate(formatted);
+            return dto;
+        }).toList();
+    }
 }

@@ -65,6 +65,46 @@
     background-color: #6179F1;
 }
 
+/* 상품평 스타일 */
+.productReviews {
+    table-layout: fixed;
+}
+.productReviews tr th:nth-child(1) {width: 50px;}
+.productReviews tr td:nth-child(1) {width: 50px;}
+.productReviews tr th:nth-child(2) {width: 290px;}
+.productReviews tr td:nth-child(2) {width: 290px;}
+.productReviews tr th:nth-child(3) {}
+.productReviews tr td:nth-child(3) {
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.productReviews tr th:nth-child(4) {width: 100px;}
+.productReviews tr td:nth-child(4) {width: 100px;}
+.productReviews tr th:nth-child(5) {width: 100px;}
+.productReviews tr td:nth-child(5) {width: 100px;}
+
+/* 문의내역 스타일 */
+.inquiryDetails {
+    table-layout: fixed;
+}
+.inquiryDetails tr th:nth-child(1) {width: 50px;}
+.inquiryDetails tr td:nth-child(1) {width: 50px;}
+.inquiryDetails tr th:nth-child(2) {width: 110px;}
+.inquiryDetails tr td:nth-child(2) {width: 110px;}
+.inquiryDetails tr th:nth-child(3) {width: 110px;}
+.inquiryDetails tr td:nth-child(3) {width: 110px;}
+.inquiryDetails tr th:nth-child(4) {}
+.inquiryDetails tr td:nth-child(4) {
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.inquiryDetails tr th:nth-child(5) {width: 100px;}
+.inquiryDetails tr td:nth-child(5) {width: 100px;}
+.inquiryDetails tr th:nth-child(6) {width: 100px;}
+.inquiryDetails tr td:nth-child(6) {width: 100px;}
+
 /* 나의 설정 스타일 */
 .mySettings a {text-decoration: revert; color: revert;}
 .mySettings{

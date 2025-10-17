@@ -49,4 +49,8 @@
         AND po_no = #{po_no}
         ORDER BY po_orderdate DESC
     </select>
+    <select id="selectCountOrder" resultType="int">
+        SELECT COUNT(*) FROM PRODUCT_ORDER
+        WHERE PO_U_ID = #{uId}
+    </select>
 </mapper>
