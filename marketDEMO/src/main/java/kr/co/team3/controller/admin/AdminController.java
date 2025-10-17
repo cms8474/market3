@@ -56,7 +56,7 @@ public class AdminController {
         S.put("canceledCnt", canceledCnt);
         S.put("exchangeCnt", exchangeCnt);
         S.put("returnCnt",   returnCnt);
-        
+
         // 전에 해놨던거 이름 안맞아서 임의로 넣어둠 (
         S.put("waiting",  depositDone);
         S.put("ready",    shippingCnt);
