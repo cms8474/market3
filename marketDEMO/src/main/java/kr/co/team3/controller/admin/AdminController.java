@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Controller
-@RequestMapping("/kmarket/admin")
+@RequestMapping("/admin")
 public class AdminController {
     private final DashboardService service;
     //private final NoticeService noticeService;
@@ -135,6 +135,5 @@ public class AdminController {
         LocalDate from = to.minusDays(6);
         return service.stats(from, to);
     }
-
 
 }
