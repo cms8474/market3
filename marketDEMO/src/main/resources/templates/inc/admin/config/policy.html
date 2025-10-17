@@ -69,8 +69,7 @@
                 <div class="card-body">
                     <div class="row">
                         <label class="label" for="financeTos">약관내용</label>
-                        <textarea id="financeTos" name="save-finance-Tos" class="textarea"
-
+                        <textarea id="financeTos" name="financeTos" class="textarea"
                                   th:text="${financeTos}"></textarea>
                     </div>
                 </div>
@@ -110,7 +109,7 @@
         <!-- 개인정보처리방침 -->
         <form class="config-form" th:action="@{/admin/config/policy}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-            <input type="hidden" name="action" value="privacy-tos"/>
+            <input type="hidden" name="action" value="save-privacy-tos"/>
 
             <section class="card">
                 <div class="card-head">
@@ -122,7 +121,6 @@
                     <div class="row">
                         <label class="label" for="privacyTos">약관내용</label>
                         <textarea id="privacyTos" name="privacyTos" class="textarea"
-
                                   th:text="${privacyTos}"></textarea>
                     </div>
                 </div>
