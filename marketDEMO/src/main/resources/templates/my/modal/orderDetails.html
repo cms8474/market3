@@ -95,77 +95,77 @@
                     e.preventDefault();
 
                     const u_id = "[[${#authentication.principal.username}]]";
-                    console.log(u_id);
+                    // console.log(u_id);
                     const po_no = e.target.getAttribute('order');
-                    console.log(po_no);
+                    // console.log(po_no);
 
                     fetch(`/my/modal/orderDetail/${u_id}/${po_no}`)
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
+                            // console.log(data);
                             document.getElementsByClassName('orderDate')[0].innerText
-                            = data[0].po_orderdate;
+                            = data[0].poOrderdate;
 
                             // 결제정보 입력
-                            let formattedPrice = new Intl.NumberFormat().format(data[0].po_sum_price - data[0].po_discount + data[0].po_delivery_price);
+                            let formattedPrice = new Intl.NumberFormat().format(data[0].poSumPrice - data[0].poDiscount + data[0].poDeliveryPrice);
                             orderPriceTd.innerText = formattedPrice + '원';
-                            formattedPrice = new Intl.NumberFormat().format(data[0].po_sum_price - data[0].po_discount);
+                            formattedPrice = new Intl.NumberFormat().format(data[0].poSumPrice - data[0].poDiscount);
                             prodPriceTd.innerText = formattedPrice + '원';
-                            formattedPrice = new Intl.NumberFormat().format(data[0].po_delivery_price);
+                            formattedPrice = new Intl.NumberFormat().format(data[0].poDeliveryPrice);
                             delivPriceTd.innerText = formattedPrice + '원';
-                            formattedPrice = new Intl.NumberFormat().format(data[0].po_pri_discount);
+                            formattedPrice = new Intl.NumberFormat().format(data[0].poPriDiscount);
                             pointUsageTd.innerText = formattedPrice + '원';
-                            formattedPrice = new Intl.NumberFormat().format(data[0].po_sum_price - data[0].po_discount + data[0].po_delivery_price - data[0].po_pri_discount);
+                            formattedPrice = new Intl.NumberFormat().format(data[0].poSumPrice - data[0].poDiscount + data[0].poDeliveryPrice - data[0].poPriDiscount);
                             payPriceTd.innerText = formattedPrice + '원';
 
                             // 주문정보 입력
                             for (const item of data) {
                                 // 가격 포맷팅: 쉼표 추가
-                                let formattedPrice = new Intl.NumberFormat().format(item.oi_tot_price);
+                                let formattedPrice = new Intl.NumberFormat().format(item.oiTotPrice);
 
                                 const itemTableRow = `<tr class="orderItem">
-                                                            <td>${item.po_orderdate}</td>
+                                                            <td>${item.poOrderdate}</td>
                                                             <td><img src="/images/로고.png"/></td>
                                                             <td>
-                                                                주문번호 : <span class="orderNum">${item.po_no}</span><br>
-                                                                <span class="sellerName">${item.s_company_name}</span><br>
-                                                                <span class="productName">${item.p_name}</span><br>
-                                                                수량 : <span class="prodQuantity">${item.oi_prod_qty}</span>개<br>
+                                                                주문번호 : <span class="orderNum">${item.poNo}</span><br>
+                                                                <span class="sellerName">${item.scompanyName}</span><br>
+                                                                <span class="productName">${item.pname}</span><br>
+                                                                수량 : <span class="prodQuantity">${item.oiProdQty}</span>개<br>
                                                                 <b class="unitPrice">${formattedPrice}원</b>
                                                             </td>
-                                                            <td>${item.oi_del_status}</td>
+                                                            <td>${item.oiDelStatus}</td>
                                                         </tr>`;
-                                console.log(item);
+                                // console.log(item);
 
                                 orderInfo.insertAdjacentHTML('beforeend', itemTableRow);
                             }
 
                             // 배송정보 입력
-                            recName.innerText = data[0].po_recipient;
-                            recPhone.innerText = data[0].po_re_phone;
-                            recAddress.innerText = '['+data[0].po_postal+'] '+data[0].po_base_addr+' '+data[0].po_detail_addr;
-                            delivAsk.innerText = data[0].po_request_note;
+                            recName.innerText = data[0].poRecipient;
+                            recPhone.innerText = data[0].poRePhone;
+                            recAddress.innerText = '['+data[0].poPostal+'] '+data[0].poBaseAddr+' '+data[0].poDetailAddr;
+                            delivAsk.innerText = data[0].poRequestNote;
 
                             // 포인트 혜택 입력
-                            if(data[0].po_get_point > 0){
+                            if(data[0].poGetPoint > 0){
                                 const earnedPointTable = `<div class="pointInfo-wrapper">
                                                                 <h3>포인트 혜택</h3>
                                                                 <table class="pointInfo">
                                                                     <tr>
                                                                         <th>적립 포인트</th>
-                                                                        <th>${data[0].po_get_point}원</th>
+                                                                        <th>${data[0].poGetPoint}원</th>
                                                                     </tr>
                                                                 </table>
                                                             </div>`;
                                 delivInfo.insertAdjacentHTML('afterend', earnedPointTable);
                             }
 
+                            modal.style.display = "flex";
                         })
                         .catch(err => {
                             console.log(err);
                         });
 
-                    modal.style.display = "flex";
                 }
             });
 
@@ -176,7 +176,9 @@
                 orderItems.forEach(function(orderItem) {
                     orderItem.remove();
                 });
-                pointInfoWrapper.remove();
+                if(pointInfoWrapper != null) {
+                    pointInfoWrapper.remove();
+                }
 
                 modal.style.display = "none";
             }

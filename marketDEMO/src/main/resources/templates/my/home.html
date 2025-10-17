@@ -67,16 +67,16 @@
                         <th>확인/신청</th>
                     </tr>
                     <tr th:each="order : ${orderDTOList}" th:object="${order}">
-                        <td>[[*{po_orderdate}]]</td>
+                        <td>[[*{poOrderdate}]]</td>
                         <td><img src="/images/로고.png"/></td>
                         <td>
-                            <a href="#" class="orderNum" th:attr="order=*{po_no}">주문번호 : [[*{po_no}]]</a><br>
-                            <a href="#" class="tradeName">[[*{s_company_name}]]</a><br>
-                            <a href="#">[[*{p_name}]]</a><br>
-                            수량 : [[*{oi_prod_qty}]]개<br>
-                            <b><span th:text="${#numbers.formatInteger(order.oi_tot_price, 3, 'COMMA')} + '원'">tot_price</span></b>
+                            <a href="#" class="orderNum" th:attr="order=*{poNo}">주문번호 : [[*{poNo}]]</a><br>
+                            <a href="#" class="tradeName">[[*{sCompanyName}]]</a><br>
+                            <a href="#">[[*{pName}]]</a><br>
+                            수량 : [[*{oiProdQty}]]개<br>
+                            <b><span th:text="${#numbers.formatInteger(order.oiTotPrice, 3, 'COMMA')} + '원'">totPrice</span></b>
                         </td>
-                        <td>[[*{oi_del_status}]]</td>
+                        <td>[[*{oiDelStatus}]]</td>
                         <td>
                             <button name="buyConfirm" class="blueButton">구매확정</button><br>
                             <button name="productReview" class="blueButton">상품평쓰기</button><br>
