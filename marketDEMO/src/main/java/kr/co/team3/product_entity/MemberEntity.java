@@ -2,11 +2,11 @@ package kr.co.team3.product_entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
-@Table(name = "U_USER") // ✅ DBeaver에 실제 있는 테이블명 그대로
+@Table(name = "U_USER")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,8 +25,7 @@ public class MemberEntity {
     private String uName;
 
     @Column(name = "U_BIRTH")
-    @Temporal(TemporalType.DATE)
-    private Date uBirth;
+    private LocalDate uBirth;
 
     @Column(name = "U_GENDER")
     private String uGender;

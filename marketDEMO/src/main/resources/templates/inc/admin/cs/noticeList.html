@@ -38,7 +38,7 @@
                 <tr th:each="cs, stat : ${page.content}">
                     <td><input type="checkbox" /></td>
                     <td th:text="${page.totalElements - (page.number * page.size) - stat.index}">1</td>
-                    <td th:text="${#strings.substring(cs.boardId, 0, 6)}">noti01</td>
+                    <td th:text="${codeNameMap[cs.boardType]} ?: '-'">유형</td>
                     <td class="title">
                         <a th:href="@{/admin/cs/notice/view/{id}(id=${cs.boardId})}"
                            th:text="${cs.boardTitle}">제목</a>
@@ -46,8 +46,12 @@
                     <td th:text="${cs.boardView}">0</td>
                     <td th:text="${#temporals.format(cs.boardRegDate, 'yyyy-MM-dd')}">2025-10-15</td>
                     <td class="actions">
-                        <a href="#" class="btn-small">수정</a>
-                        <a href="#" class="btn-small">삭제</a>
+                        <a th:href="@{/admin/cs/notice/delete(id=${cs.boardId})}"
+                           class="btn-delete"
+                           onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                        <a th:href="@{/admin/cs/notice/modify(id=${cs.boardId})}" class="btn-small">수정</a>
+
+
                     </td>
                 </tr>
                 <tr th:if="${page.content.size() == 0}">
@@ -78,7 +82,7 @@
                 </div>
 
                 <div class="right">
-                    <button class="btn-blue">작성하기</button>
+                    <a th:href="@{/admin/cs/notice/write}" class="btn-blue">등록하기</a>
                 </div>
             </div>
         </div>

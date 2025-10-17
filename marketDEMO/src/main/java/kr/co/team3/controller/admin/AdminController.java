@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -21,7 +22,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Controller
-@RequestMapping("/kmarket/admin")
+@RequestMapping("/admin")
 public class AdminController {
     private final DashboardService service;
     //private final NoticeService noticeService;
@@ -56,7 +57,7 @@ public class AdminController {
         S.put("canceledCnt", canceledCnt);
         S.put("exchangeCnt", exchangeCnt);
         S.put("returnCnt",   returnCnt);
-        
+
         // 전에 해놨던거 이름 안맞아서 임의로 넣어둠 (
         S.put("waiting",  depositDone);
         S.put("ready",    shippingCnt);
@@ -108,7 +109,6 @@ public class AdminController {
         return "inc/admin/admin_templatee";
     }
 
-
     @ResponseBody
     @GetMapping("/dashboard")
     public DashboardDTO getDashboard(
@@ -135,6 +135,4 @@ public class AdminController {
         LocalDate from = to.minusDays(6);
         return service.stats(from, to);
     }
-
-
 }

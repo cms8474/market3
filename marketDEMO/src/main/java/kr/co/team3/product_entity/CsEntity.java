@@ -47,4 +47,30 @@ public class CsEntity {
 
     @Column(name = "B_REG_DATE")
     private LocalDateTime boardRegDate; // 등록일시
+
+
+
+
+    /* ===== 계산용 ===== */
+
+    /** faq11_admin01_0001 → faq11  */
+    @Transient
+    public String getTypeCode() {
+        if (boardId == null) return "";
+        String full = boardId.trim().toLowerCase();
+        int idx = full.indexOf('_');
+        return (idx > 0) ? full.substring(0, idx) : full;
+    }
+
+    /** faq11 → faq10 마지막 숫자를 0으로) */
+    @Transient
+    public String getLv1Code() {
+        String code = getTypeCode();
+        if (code.isEmpty()) return "";
+        char last = code.charAt(code.length() - 1);
+        if (Character.isDigit(last)) {
+            return code.substring(0, code.length() - 1) + "0";
+        }
+        return code;
+    }
 }

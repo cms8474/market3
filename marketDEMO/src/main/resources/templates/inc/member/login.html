@@ -208,6 +208,12 @@
                     <label for="uPw">비밀번호</label>
                     <input type="password" id="uPw" name="uPw" placeholder="비밀번호 입력" required>
 
+                    <!-- 성공 메시지 표시 영역 -->
+                    <div th:if="${param.success}" class="success-message" style="color: green; margin-bottom: 10px; padding: 10px; background-color: #e6ffe6; border-radius: 4px;">
+                        <span th:if="${param.test}">회원가입이 완료되었습니다. (테스트 모드)</span>
+                        <span th:unless="${param.test}">회원가입이 완료되었습니다. 로그인해주세요.</span>
+                    </div>
+                    
                     <!-- 에러 메시지 표시 영역 -->
                     <div th:if="${param.error}" class="error-message" style="color: red; margin-bottom: 10px;">
                         <span>아이디 또는 비밀번호가 올바르지 않습니다.</span>

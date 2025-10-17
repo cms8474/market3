@@ -55,4 +55,19 @@ public class CsDTO {
                 .boardRegDate(boardRegDate)
                 .build();
     }
+
+    // === 계산용 게터 ===
+    public String getTypeCode() {
+        if (boardId == null) return "";
+        String full = boardId.trim().toLowerCase();
+        int idx = full.indexOf('_');
+        return (idx > 0) ? full.substring(0, idx) : full;
+    }
+
+    public String getLv1Code() {
+        String code = getTypeCode();
+        if (code.isEmpty()) return "";
+        char last = code.charAt(code.length() - 1);
+        return Character.isDigit(last) ? code.substring(0, code.length() - 1) + "0" : code;
+    }
 }

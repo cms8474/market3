@@ -1,26 +1,35 @@
-package kr.co.team3.controller;
+package kr.co.team3.controller.my;
 
 import kr.co.team3.dto.my.ProductOrderDTO;
 import kr.co.team3.service.my.ProductOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class MyPageController {
+public class HomeController {
     private final ProductOrderService productOrderService;
 
     @GetMapping("/my/home")
     public String home(Model model){
-        String loginId = "user01"; // 추후 로그인 세션이랑 연동
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loginId = null;
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                loginId =  ((UserDetails) principal).getUsername(); // 아이디 반환
+            }
+        }
         List<ProductOrderDTO> orderDTOList = productOrderService.getRecent5(loginId);
         model.addAttribute("orderDTOList", orderDTOList);
         return "my/home";
@@ -32,6 +41,8 @@ public class MyPageController {
         List<ProductOrderDTO> orderDTOList = productOrderService.get1Order(u_id, po_no);
         return ResponseEntity.ok(orderDTOList);
     }
+
+
 
     @GetMapping("/my/order")
     public String order(){

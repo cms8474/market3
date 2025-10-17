@@ -2,7 +2,7 @@
     <div class="modal-window">
         <div class="modal-titleBar">
             <h2>주문상세</h2>
-            <p>20xx-12-13</p>
+            <p class="orderDate">20xx-12-13</p>
             <span id="closeODModal" class="close">&times</span>
         </div>
         <div class="modal-content">
@@ -10,22 +10,26 @@
             <table class="payInfo">
                 <tbody>
                 <tr>
-                    <th>총 금액</th>
-                    <td class="totalPrice">64000원</td>
+                    <th>주문금액</th>
+                    <td class="orderPrice">64000원</td>
                 </tr>
                 <tr>
-                    <th>할인금액</th>
-                    <td class="discountPrice">4000원</td>
+                    <th>상품금액</th>
+                    <td class="prodPrice">4000원</td>
                 </tr>
                 <tr>
-                    <th>포인트</th>
-                    <td class="point">100원</td>
+                    <th>배송비</th>
+                    <td class="delivPrice">4000원</td>
                 </tr>
                 </tbody>
                 <tfoot>
                 <tr>
+                    <th>포인트 사용</th>
+                    <td class="pointUsage">100원</td>
+                </tr>
+                <tr>
                     <th>결제금액</th>
-                    <td class="payPrice">59900원</td>
+                    <td><b class="payPrice">59900원</b></td>
                 </tr>
                 </tfoot>
             </table>
@@ -43,21 +47,22 @@
             <table class="delivInfo">
                 <tr>
                     <td>이름</td>
-                    <td>홍길동</td>
+                    <td class="recName">홍길동</td>
                 </tr>
                 <tr>
                     <td>연락처</td>
-                    <td>010-1234-1001</td>
+                    <td class="recPhone">010-1234-1001</td>
                 </tr>
                 <tr>
                     <td>주소</td>
-                    <td>[210**] 부산광역시 부산진구 대연동 121 10층 1004호</td>
+                    <td class="recAddress">[210**] 부산광역시 부산진구 대연동 121 10층 1004호</td>
                 </tr>
                 <tr>
                     <td>배송요청사항</td>
-                    <td>없음</td>
+                    <td class="delivAsk">없음</td>
                 </tr>
             </table>
+
         </div>
     </div>
     <!--■■■■■모달 창 스크립트■■■■■-->
@@ -66,28 +71,57 @@
             const modal = document.getElementById("orderDetails");
             const closeModalButton = document.getElementById("closeODModal");
 
-            // 주문 상세 요소
+            // 결제정보 요소
+            const payInfo = document.getElementsByClassName('payInfo')[0];
+            const orderPriceTd = payInfo.getElementsByClassName('orderPrice')[0];
+            const prodPriceTd = payInfo.getElementsByClassName('prodPrice')[0];
+            const delivPriceTd = payInfo.getElementsByClassName('delivPrice')[0];
+            const pointUsageTd = payInfo.getElementsByClassName('pointUsage')[0];
+            const payPriceTd = payInfo.getElementsByClassName('payPrice')[0];
+
+            // 주문정보 요소
             const orderInfo = document.getElementsByClassName('orderInfo')[0]
                 .getElementsByTagName("tbody")[0];
+
+            // 배송정보 요소
+            const delivInfo = document.getElementsByClassName('delivInfo')[0];
+            const recName = delivInfo.getElementsByClassName('recName')[0];
+            const recPhone = delivInfo.getElementsByClassName('recPhone')[0];
+            const recAddress = delivInfo.getElementsByClassName('recAddress')[0];
+            const delivAsk = delivInfo.getElementsByClassName('delivAsk')[0];
 
             document.addEventListener('click', function (e) {
                 if (e.target.className === 'orderNum') {
                     e.preventDefault();
 
-                    let u_id = "user01"; // 추후 로그인 연동
-                    let po_no = e.target.getAttribute('order');
+                    const u_id = "[[${#authentication.principal.username}]]";
+                    console.log(u_id);
+                    const po_no = e.target.getAttribute('order');
                     console.log(po_no);
-
-                    let totalPrice = 0;
 
                     fetch(`/my/modal/orderDetail/${u_id}/${po_no}`)
                         .then(response => response.json())
                         .then(data => {
                             console.log(data);
+                            document.getElementsByClassName('orderDate')[0].innerText
+                            = data[0].po_orderdate;
 
+                            // 결제정보 입력
+                            let formattedPrice = new Intl.NumberFormat().format(data[0].po_sum_price - data[0].po_discount + data[0].po_delivery_price);
+                            orderPriceTd.innerText = formattedPrice + '원';
+                            formattedPrice = new Intl.NumberFormat().format(data[0].po_sum_price - data[0].po_discount);
+                            prodPriceTd.innerText = formattedPrice + '원';
+                            formattedPrice = new Intl.NumberFormat().format(data[0].po_delivery_price);
+                            delivPriceTd.innerText = formattedPrice + '원';
+                            formattedPrice = new Intl.NumberFormat().format(data[0].po_pri_discount);
+                            pointUsageTd.innerText = formattedPrice + '원';
+                            formattedPrice = new Intl.NumberFormat().format(data[0].po_sum_price - data[0].po_discount + data[0].po_delivery_price - data[0].po_pri_discount);
+                            payPriceTd.innerText = formattedPrice + '원';
+
+                            // 주문정보 입력
                             for (const item of data) {
                                 // 가격 포맷팅: 쉼표 추가
-                                const formattedPrice = new Intl.NumberFormat().format(item.p_price);
+                                let formattedPrice = new Intl.NumberFormat().format(item.oi_tot_price);
 
                                 const itemTableRow = `<tr class="orderItem">
                                                             <td>${item.po_orderdate}</td>
@@ -104,24 +138,46 @@
                                 console.log(item);
 
                                 orderInfo.insertAdjacentHTML('beforeend', itemTableRow);
-                                totalPrice = totalPrice + item.oi_tot_price;
                             }
+
+                            // 배송정보 입력
+                            recName.innerText = data[0].po_recipient;
+                            recPhone.innerText = data[0].po_re_phone;
+                            recAddress.innerText = '['+data[0].po_postal+'] '+data[0].po_base_addr+' '+data[0].po_detail_addr;
+                            delivAsk.innerText = data[0].po_request_note;
+
+                            // 포인트 혜택 입력
+                            if(data[0].po_get_point > 0){
+                                const earnedPointTable = `<div class="pointInfo-wrapper">
+                                                                <h3>포인트 혜택</h3>
+                                                                <table class="pointInfo">
+                                                                    <tr>
+                                                                        <th>적립 포인트</th>
+                                                                        <th>${data[0].po_get_point}원</th>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>`;
+                                delivInfo.insertAdjacentHTML('afterend', earnedPointTable);
+                            }
+
                         })
                         .catch(err => {
                             console.log(err);
                         });
 
-
-                    modal.style.display = "block";
+                    modal.style.display = "flex";
                 }
             });
 
             closeModalButton.onclick = function () {
                 const orderItems = Array.from(document.getElementsByClassName('orderItem'));
+                const pointInfoWrapper = document.getElementsByClassName('pointInfo-wrapper')[0];
 
                 orderItems.forEach(function(orderItem) {
                     orderItem.remove();
                 });
+                pointInfoWrapper.remove();
+
                 modal.style.display = "none";
             }
         });

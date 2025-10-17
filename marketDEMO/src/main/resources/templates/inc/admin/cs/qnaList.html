@@ -3,8 +3,8 @@
         <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
         <div class="page">
             <div class="topbar">
-                <h4>자주묻는질문 목록</h4>
-                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>자주묻는질문</b></div>
+                <h4>문의하기 목록</h4>
+                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>문의하기</b></div>
             </div>
 
             <!-- 검색 -->
@@ -35,31 +35,27 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr th:each="cs, stat : ${page.content}">
                     <td class="col-check"><input type="checkbox"></td>
-                    <td class="col-no">120</td>
-                    <td>회원</td>
-                    <td>가입</td>
+                    <td class="col-no" th:text="${page.totalElements - (page.number * page.size) - stat.index}"></td>
+
+                    <td th:text="${codeNameMap.get(cs.lv1Code) != null ? codeNameMap.get(cs.lv1Code) : '-'}">1차유형</td>
+                    <td th:text="${codeNameMap.get(cs.typeCode) != null ? codeNameMap.get(cs.typeCode) : '-'}">2차유형</td>
+
                     <td class="title">
-                        <a href="#">개인회원과 법인회원에 차이가 있나요?</a>
+                        <a th:href="@{/admin/cs/qna/view/{id}(id=${cs.boardId})}"
+                           th:text="${cs.boardTitle}">제목</a>
                     </td>
-                    <td class="col-writer">chh**</td>
-                    <td class="col-date">00.00.00</td>
-                    <td class="col-state state-pending">검토중</td>
+                    <td class="col-writer" th:text="${cs.boardWriter}">-</td>
+                    <td class="col-date" th:text="${#temporals.format(cs.boardRegDate, 'yyyy-MM-dd')}">2025-10-15</td>
+                    <td class="col-state"
+                        th:text="${cs.boardState != null ? cs.boardState : '검토중'}"
+                        th:classappend="${cs.boardState == '검토중'} ? ' state-pending' :
+                    (${cs.boardState == '답변완료'} ? ' state-done' : '')">
+                    </td>
                 </tr>
 
-                <tr>
-                    <td class="col-check"><input type="checkbox"></td>
-                    <td class="col-no">118</td>
-                    <td>회원</td>
-                    <td>가입</td>
-                    <td class="title">
-                        <a href="#">개인회원과 법인회원에 차이가 있나요?</a>
-                    </td>
-                    <td class="col-writer">chh**</td>
-                    <td class="col-date">00.00.00</td>
-                    <td class="col-state state-done">답변완료</td>
-                </tr>
+
                 </tbody>
 
             </table>

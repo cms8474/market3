@@ -33,7 +33,14 @@ public class RecruitmentService {
         return saved.toDTO();
     }
 
-    public void delete(int r_no){}
+
+    public void delete(int r_no){
+        recruitmentRepository.deleteById(r_no);
+    }
+
+    public void deleteAllById(List<Integer> ids) {
+        recruitmentRepository.deleteAllById(ids);
+    }
 
 
 }
