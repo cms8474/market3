@@ -1,118 +1,214 @@
 <th:block th:fragment="content">
     <link rel="stylesheet" href="/css/admin/faq-list.css">
-        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
-        <div class="page">
-            <div class="topbar">
-                <h4>자주묻는질문 목록</h4>
-                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>자주묻는질문</b></div>
+    <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+    <div class="page">
+        <div class="topbar">
+            <h4>자주묻는질문 목록</h4>
+            <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>자주묻는질문</b></div>
+        </div>
+
+        <!-- 검색/필터 -->
+        <form method="get" th:action="@{/admin/cs/faq/list}" class="search-row" id="searchForm">
+            <!-- 1차 -->
+            <select id="type1" class="sel" aria-label="1차 유형">
+                <option value="">1차 선택</option>
+                <option th:each="c : ${lv1List}"
+                        th:value="${c.type}"
+                        th:text="${c.name}">
+                </option>
+            </select>
+
+            <!-- 2차 (JS로 채움) -->
+            <select id="type2" class="sel" aria-label="2차 유형" disabled>
+                <option value="">2차 선택</option>
+            </select>
+
+            <!-- ⭐ 최종 cate: 2차가 있으면 2차, 없으면 1차 -->
+            <input type="hidden" name="cate" id="cateHidden" th:value="${cate}" />
+
+            <input type="text" name="q" placeholder="검색어입력" th:value="${q}" />
+            <button class="btn" type="submit">검색</button>
+        </form>
+
+
+        <!-- 목록 -->
+        <table>
+            <thead>
+            <tr>
+                <th class="col-check">
+                    <input type="checkbox" id="chkAll" />
+                </th>
+                <th class="col-no">번호</th>
+                <th class="col-type">1차유형</th>
+                <th class="col-type">2차유형</th>
+                <th>제목</th>
+                <th class="col-views">조회</th>
+                <th class="col-date">날짜</th>
+                <th class="col-actions">관리</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="cs, stat : ${page.content}">
+                <td>
+                    <input type="checkbox" class="rowChk" th:value="${cs.boardId}" />
+                </td>
+                <td class="col-no" th:text="${page.totalElements - (page.number * page.size) - stat.index}">1</td>
+
+                <td th:text="${codeNameMap.get(cs.lv1Code) != null ? codeNameMap.get(cs.lv1Code) : '-'}">1차유형</td>
+                <td th:text="${codeNameMap.get(cs.typeCode) != null ? codeNameMap.get(cs.typeCode) : '-'}">2차유형</td>
+
+                <td class="title">
+                    <a th:href="@{/admin/cs/faq/view/{id}(id=${cs.boardId})}"
+                       th:text="${cs.boardTitle}">제목</a>
+                </td>
+                <td class="col-views" th:text="${cs.boardView}">0</td>
+                <td class="col-date" th:text="${#temporals.format(cs.boardRegDate, 'yyyy-MM-dd')}">2025-10-15</td>
+                <td class="actions">
+                    <a th:href="@{/admin/cs/faq/delete(id=${cs.boardId})}"
+                       class="btn-delete"
+                       onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>                        <a th:href="@{/admin/cs/faq/modify(id=${cs.boardId})}" class="btn-small">수정</a>
+                </td>
+            </tr>
+            <tr th:if="${page.content.size() == 0}">
+                <td colspan="8" style="text-align:center;">등록된 FAQ가 없습니다.</td>
+            </tr>
+            </tbody>
+
+        </table>
+
+
+
+        <!-- 테이블 하단 영역 -->
+        <div class="table-bottom">
+            <div class="left">
+                <a href="#" id="btnDeleteSelected" class="btn-gray">선택삭제</a>
             </div>
 
-            <!-- 검색/필터 -->
-            <form method="get" th:action="@{/admin/cs/faq/list}" class="search-row">
-                <!-- 1차 목록 -->
-                <select id="typeLv1" name="cate1" aria-label="1차 유형"
-                        th:with="selLv1=${cate != null ? #strings.substring(cate,0,4)+'0' : ''}">
-                    <option value="">1차 선택</option>
-                    <option th:each="c : ${lv1List}"
-                            th:value="${c.type}"
-                            th:text="${c.name}"
-                            th:selected="${selLv1 == c.type}"></option>
-                </select>
+            <div class="center pagination">
+                <a th:if="${!page.first}" th:href="@{|?page=${page.number - 1}&q=${q}&cate=${cate}|}">이전</a>
+                <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                   th:href="@{|?page=${i}&q=${q}&cate=${cate}|}"
+                   th:text="${i + 1}"
+                   th:classappend="${i == page.number} ? 'active'">1</a>
+                <a th:if="${!page.last}" th:href="@{|?page=${page.number + 1}&q=${q}&cate=${cate}|}">다음</a>
+            </div>
 
-                <!-- 2차: 선택된 1차에 해당하는 목록만 -->
-                <select id="typeLv2" name="cate2" aria-label="2차 유형"
-                        th:with="baseLv1=${param.cate1 != null ? param.cate1 : (cate != null ? #strings.substring(cate,0,4)+'0' : '')}"
-                        th:disabled="${#lists.isEmpty(lv2Tree[baseLv1])}">
-                    <option value="">2차 선택</option>
-                    <option th:each="c2 : ${lv2Tree[baseLv1]}"
-                            th:value="${c2.type}"
-                            th:text="${c2.name}"
-                            th:selected="${cate == c2.type}"></option>
-                </select>
-
-                <!-- 최종 cate: 2차가 있으면 2차, 아니면 1차 -->
-                <input type="hidden" name="cate"
-                       th:value="${(param.cate2 != null and !#strings.isEmpty(param.cate2)) ? param.cate2
-                        : (param.cate1 != null and !#strings.isEmpty(param.cate1)) ? param.cate1
-                        : cate}" />
-
-                <input type="text" name="q" placeholder="검색어입력" th:value="${q}" />
-                <button class="btn" type="submit">검색</button>
-            </form>
-
-            <!-- 목록 -->
-            <table>
-                <thead>
-                <tr>
-                    <th class="col-check">
-                        <input type="checkbox" id="chkAll" />
-                    </th>
-                    <th class="col-no">번호</th>
-                    <th class="col-type">1차유형</th>
-                    <th class="col-type">2차유형</th>
-                    <th>제목</th>
-                    <th class="col-views">조회</th>
-                    <th class="col-date">날짜</th>
-                    <th class="col-actions">관리</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr th:each="cs, stat : ${page.content}">
-                    <td class="col-check"><input type="checkbox" /></td>
-                    <td class="col-no" th:text="${page.totalElements - (page.number * page.size) - stat.index}">1</td>
-
-                    <td th:text="${codeNameMap.get(cs.lv1Code) != null ? codeNameMap.get(cs.lv1Code) : '-'}">1차유형</td>
-                    <td th:text="${codeNameMap.get(cs.typeCode) != null ? codeNameMap.get(cs.typeCode) : '-'}">2차유형</td>
-
-                    <td class="title">
-                        <a th:href="@{/admin/cs/faq/view/{id}(id=${cs.boardId})}"
-                           th:text="${cs.boardTitle}">제목</a>
-                    </td>
-                    <td class="col-views" th:text="${cs.boardView}">0</td>
-                    <td class="col-date" th:text="${#temporals.format(cs.boardRegDate, 'yyyy-MM-dd')}">2025-10-15</td>
-                    <td class="actions">
-                        <a th:href="@{/admin/cs/faq/delete(id=${cs.boardId})}"
-                           class="btn-delete"
-                           onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>                        <a th:href="@{/admin/cs/faq/modify(id=${cs.boardId})}" class="btn-small">수정</a>
-                    </td>
-                </tr>
-                <tr th:if="${page.content.size() == 0}">
-                    <td colspan="8" style="text-align:center;">등록된 FAQ가 없습니다.</td>
-                </tr>
-                </tbody>
-
-            </table>
-
-
-
-            <!-- 테이블 하단 영역 -->
-            <div class="table-bottom">
-                <div class="left"><a href="#" class="btn-gray">선택삭제</a></div>
-
-                <div class="center pagination">
-                    <a th:if="${!page.first}" th:href="@{|?page=${page.number - 1}&q=${q}&cate=${cate}|}">이전</a>
-                    <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-                       th:href="@{|?page=${i}&q=${q}&cate=${cate}|}"
-                       th:text="${i + 1}"
-                       th:classappend="${i == page.number} ? 'active'">1</a>
-                    <a th:if="${!page.last}" th:href="@{|?page=${page.number + 1}&q=${q}&cate=${cate}|}">다음</a>
-                </div>
-
-                <div class="right">
-                    <a th:href="@{/admin/cs/faq/write}" class="btn-blue">작성하기</a>
-                </div>
+            <div class="right">
+                <a th:href="@{/admin/cs/faq/write}" class="btn-blue">작성하기</a>
             </div>
         </div>
+    </div>
 
 
     <!-- 메인컨텐츠 종료  -->
 
     <script>
-        // 전체선택
+        // 전체 선택
         const chkAll = document.getElementById('chkAll');
         chkAll?.addEventListener('change', (e) => {
-            document.querySelectorAll('tbody input[type="checkbox"]').forEach(cb => cb.checked = e.target.checked);
+            document.querySelectorAll('tbody input[type="checkbox"]')
+                .forEach(cb => cb.checked = e.target.checked);
+        });
+
+        // 선택삭제
+        const btnDel = document.getElementById('btnDeleteSelected');
+        btnDel?.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const ids = Array.from(document.querySelectorAll('tbody .rowChk:checked'))
+                .map(cb => cb.value);
+
+            if (ids.length === 0) {
+                alert('삭제할 항목을 선택하세요.');
+                return;
+            }
+            if (!confirm(`${ids.length}건을 삭제하시겠습니까?`)) return;
+
+            // CSRF
+            const token = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
+            const header = document.querySelector('meta[name="_csrf_header"]')?.getAttribute('content');
+
+            try {
+                const res = await fetch('/admin/cs/notice/delete-batch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(token && header ? { [header]: token } : {})
+                    },
+                    body: JSON.stringify(ids)
+                });
+
+                if (!res.ok) {
+                    const msg = await res.text();
+                    alert('삭제 중 오류가 발생했습니다.\n' + msg);
+                    return;
+                }
+                // 성공 시 새로고침
+                location.reload();
+            } catch (err) {
+                alert('네트워크 오류가 발생했습니다.');
+                console.error(err);
+            }
         });
     </script>
+
+    <script th:inline="javascript">
+        // 서버에서 내려준 2차 트리
+        const LV2_MAP = /*[[${lv2Tree}]]*/ {};
+
+        const $lv1  = document.getElementById('type1');
+        const $lv2  = document.getElementById('type2');
+        const $cate = document.getElementById('cateHidden');
+        const $form = document.getElementById('searchForm');
+
+        // 초기 cate (예: faq23)
+        const initialCate = /*[[${cate}]]*/ '';
+        const initialLv1  = initialCate && initialCate.length >= 4
+            ? (initialCate.substring(0,4) + '0') : '';
+
+        function fillLv2Options(lv1Code, selectedLv2) {
+            const list = (lv1Code && LV2_MAP && LV2_MAP[lv1Code]) ? LV2_MAP[lv1Code] : [];
+            $lv2.innerHTML = '<option value="">2차 선택</option>';
+
+            if (!list || list.length === 0) {
+                $lv2.disabled = true;
+                return;
+            }
+            list.forEach(it => {
+                const opt = document.createElement('option');
+                opt.value = it.type;
+                opt.textContent = it.name;
+                if (selectedLv2 && selectedLv2 === it.type) opt.selected = true;
+                $lv2.appendChild(opt);
+            });
+            $lv2.disabled = false;
+        }
+
+        function syncCateHidden() {
+            // 2차 선택이 있으면 2차, 아니면 1차
+            $cate.value = $lv2.value || $lv1.value || '';
+        }
+
+        $lv1.addEventListener('change', () => {
+            fillLv2Options($lv1.value, '');
+            syncCateHidden();
+        });
+        $lv2.addEventListener('change', syncCateHidden);
+
+        // 초기 값 복원
+        if (initialLv1) {
+            for (const opt of $lv1.options) {
+                if (opt.value === initialLv1) { opt.selected = true; break; }
+            }
+            fillLv2Options(initialLv1, (initialCate && initialCate !== initialLv1) ? initialCate : '');
+        } else {
+            fillLv2Options('', '');
+        }
+        syncCateHidden();
+
+        // 폼 제출 전 최종 동기화
+        $form.addEventListener('submit', syncCateHidden);
+    </script>
+
 </th:block>

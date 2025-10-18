@@ -1,106 +1,150 @@
 <th:block th:fragment="content">
     <link rel="stylesheet" href="/css/admin/notice-list.css">
-        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
-        <div class="page">
-            <div class="topbar">
-                <h4>공지사항 목록</h4>
-                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>공지사항</b></div>
-            </div>
-
-            <!-- 검색 -->
-            <form method="get" th:action="@{/admin/cs/notice/list}" class="search-row">
-                <select name="cate" id="searchType">
-                    <option value="">유형선택</option>
-                    <option value="noti01" th:selected="${cate == 'noti01'}">고객서비스</option>
-                    <option value="noti02" th:selected="${cate == 'noti02'}">안전거래</option>
-                    <option value="noti03" th:selected="${cate == 'noti03'}">이벤트당첨</option>
-                    <option value="noti04" th:selected="${cate == 'noti04'}">위해상품</option>
-                </select>
-                <input type="text" name="q" placeholder="검색어입력" th:value="${q}" />
-                <button class="btn" type="submit">검색</button>
-            </form>
-
-
-            <!-- 목록 -->
-            <table>
-                <thead>
-                <tr>
-                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
-                    <th class="col-no">번호</th>
-                    <th class="col-type">유형</th>
-                    <th>제목</th>
-                    <th class="col-views">조회</th>
-                    <th class="col-date">날짜</th>
-                    <th class="col-actions">관리</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="cs, stat : ${page.content}">
-                    <td><input type="checkbox" /></td>
-                    <td th:text="${page.totalElements - (page.number * page.size) - stat.index}">1</td>
-                    <td th:text="${codeNameMap[cs.boardType]} ?: '-'">유형</td>
-                    <td class="title">
-                        <a th:href="@{/admin/cs/notice/view/{id}(id=${cs.boardId})}"
-                           th:text="${cs.boardTitle}">제목</a>
-                    </td>
-                    <td th:text="${cs.boardView}">0</td>
-                    <td th:text="${#temporals.format(cs.boardRegDate, 'yyyy-MM-dd')}">2025-10-15</td>
-                    <td class="actions">
-                        <a th:href="@{/admin/cs/notice/delete(id=${cs.boardId})}"
-                           class="btn-delete"
-                           onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
-                        <a th:href="@{/admin/cs/notice/modify(id=${cs.boardId})}" class="btn-small">수정</a>
-
-
-                    </td>
-                </tr>
-                <tr th:if="${page.content.size() == 0}">
-                    <td colspan="7" style="text-align:center;">등록된 공지사항이 없습니다.</td>
-                </tr>
-                </tbody>
-
-            </table>
-
-
-            <!-- 테이블 하단 영역 -->
-            <div class="table-bottom">
-                <div class="left">
-                    <a href="#" class="btn-gray">선택삭제</a>
-                </div>
-
-                <div class="center pagination">
-                    <a th:if="${!page.first}"
-                       th:href="@{|?page=${page.number - 1}&q=${q}&cate=${cate}|}">이전</a>
-
-                    <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-                       th:href="@{|?page=${i}&q=${q}&cate=${cate}|}"
-                       th:text="${i + 1}"
-                       th:classappend="${i == page.number} ? 'active'">1</a>
-
-                    <a th:if="${!page.last}"
-                       th:href="@{|?page=${page.number + 1}&q=${q}&cate=${cate}|}">다음</a>
-                </div>
-
-                <div class="right">
-                    <a th:href="@{/admin/cs/notice/write}" class="btn-blue">등록하기</a>
-                </div>
-            </div>
+    <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+    <div class="page">
+        <div class="topbar">
+            <h4>공지사항 목록</h4>
+            <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>공지사항</b></div>
         </div>
 
-        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
-        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
-        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        <!-- 검색 -->
+        <form method="get" th:action="@{/admin/cs/notice/list}" class="search-row">
+            <select name="cate" id="searchType">
+                <option value="">유형선택</option>
+                <option value="noti01" th:selected="${cate == 'noti01'}">고객서비스</option>
+                <option value="noti02" th:selected="${cate == 'noti02'}">안전거래</option>
+                <option value="noti03" th:selected="${cate == 'noti03'}">이벤트당첨</option>
+                <option value="noti04" th:selected="${cate == 'noti04'}">위해상품</option>
+            </select>
+            <input type="text" name="q" placeholder="검색어입력" th:value="${q}" />
+            <button class="btn" type="submit">검색</button>
+        </form>
 
-<script>
-    // 전체 선택
-    const chkAll = document.getElementById('chkAll');
-    chkAll?.addEventListener('change', (e) => {
-        document.querySelectorAll('tbody input[type="checkbox"]')
-            .forEach(cb => cb.checked = e.target.checked);
-    });
+
+        <!-- 목록 -->
+        <table>
+            <thead>
+            <tr>
+                <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                <th class="col-no">번호</th>
+                <th class="col-type">유형</th>
+                <th>제목</th>
+                <th class="col-views">조회</th>
+                <th class="col-date">날짜</th>
+                <th class="col-actions">관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cs, stat : ${page.content}">
+                <td>
+                    <input type="checkbox" class="rowChk" th:value="${cs.boardId}" />
+                </td>
+
+                <td th:text="${page.totalElements - (page.number * page.size) - stat.index}">1</td>
+                <td th:text="${codeNameMap[cs.boardType]} ?: '-'">유형</td>
+                <td class="title">
+                    <a th:href="@{/admin/cs/notice/view/{id}(id=${cs.boardId})}"
+                       th:text="${cs.boardTitle}">제목</a>
+                </td>
+                <td th:text="${cs.boardView}">0</td>
+                <td th:text="${#temporals.format(cs.boardRegDate, 'yyyy-MM-dd')}">2025-10-15</td>
+                <td class="actions">
+                    <a th:href="@{/admin/cs/notice/delete(id=${cs.boardId})}"
+                       class="btn-delete"
+                       onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                    <a th:href="@{/admin/cs/notice/modify(id=${cs.boardId})}" class="btn-small">수정</a>
 
 
+                </td>
+            </tr>
+            <tr th:if="${page.content.size() == 0}">
+                <td colspan="7" style="text-align:center;">등록된 공지사항이 없습니다.</td>
+            </tr>
+            </tbody>
 
-</script>
+        </table>
+
+
+        <!-- 테이블 하단 영역 -->
+        <div class="table-bottom">
+            <div class="left">
+                <a href="#" id="btnDeleteSelected" class="btn-gray">선택삭제</a>
+            </div>
+
+            <div class="center pagination">
+                <a th:if="${!page.first}"
+                   th:href="@{|?page=${page.number - 1}&q=${q}&cate=${cate}|}">이전</a>
+
+                <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                   th:href="@{|?page=${i}&q=${q}&cate=${cate}|}"
+                   th:text="${i + 1}"
+                   th:classappend="${i == page.number} ? 'active'">1</a>
+
+                <a th:if="${!page.last}"
+                   th:href="@{|?page=${page.number + 1}&q=${q}&cate=${cate}|}">다음</a>
+            </div>
+
+            <div class="right">
+                <a th:href="@{/admin/cs/notice/write}" class="btn-blue">등록하기</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+    <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+    <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+
+
+    <script>
+        // 전체 선택
+        const chkAll = document.getElementById('chkAll');
+        chkAll?.addEventListener('change', (e) => {
+            document.querySelectorAll('tbody input[type="checkbox"]')
+                .forEach(cb => cb.checked = e.target.checked);
+        });
+
+        // 선택삭제
+        const btnDel = document.getElementById('btnDeleteSelected');
+        btnDel?.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const ids = Array.from(document.querySelectorAll('tbody .rowChk:checked'))
+                .map(cb => cb.value);
+
+            if (ids.length === 0) {
+                alert('삭제할 항목을 선택하세요.');
+                return;
+            }
+            if (!confirm(`${ids.length}건을 삭제하시겠습니까?`)) return;
+
+            // CSRF
+            const token = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
+            const header = document.querySelector('meta[name="_csrf_header"]')?.getAttribute('content');
+
+            try {
+                const res = await fetch('/admin/cs/notice/delete-batch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(token && header ? { [header]: token } : {})
+                    },
+                    body: JSON.stringify(ids)
+                });
+
+                if (!res.ok) {
+                    const msg = await res.text();
+                    alert('삭제 중 오류가 발생했습니다.\n' + msg);
+                    return;
+                }
+                // 성공 시 새로고침
+                location.reload();
+            } catch (err) {
+                alert('네트워크 오류가 발생했습니다.');
+                console.error(err);
+            }
+        });
+    </script>
+
+
 
 </th:block>

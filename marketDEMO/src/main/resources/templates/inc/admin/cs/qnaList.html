@@ -1,108 +1,219 @@
 <th:block th:fragment="content">
     <link rel="stylesheet" href="/css/admin/ask-list.css">
-        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
-        <div class="page">
-            <div class="topbar">
-                <h4>문의하기 목록</h4>
-                <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>문의하기</b></div>
-            </div>
-
-            <!-- 검색 -->
-            <div class="search-row">
-                <select id="typeLv1" aria-label="1차 유형">
-                    <option value="">1차 선택</option>
-                </select>
-                <select id="typeLv2" aria-label="2차 유형" disabled>
-                    <option value="">2차 선택</option>
-                </select>
-                <input type="text" id="keyword" placeholder="검색어입력" />
-                <button class="btn" type="button" id="btnSearch">검색</button>
-            </div>
-
-
-            <!-- 목록 -->
-            <table>
-                <thead>
-                <tr>
-                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
-                    <th class="col-no">번호</th>
-                    <th class="col-type">1차유형</th>
-                    <th class="col-type">2차유형</th>
-                    <th>제목</th>
-                    <th class="col-views">작성자</th>
-                    <th class="col-date">작성일</th>
-                    <th class="col-actions">상태</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="cs, stat : ${page.content}">
-                    <td class="col-check"><input type="checkbox"></td>
-                    <td class="col-no" th:text="${page.totalElements - (page.number * page.size) - stat.index}"></td>
-
-                    <td th:text="${codeNameMap.get(cs.lv1Code) != null ? codeNameMap.get(cs.lv1Code) : '-'}">1차유형</td>
-                    <td th:text="${codeNameMap.get(cs.typeCode) != null ? codeNameMap.get(cs.typeCode) : '-'}">2차유형</td>
-
-                    <td class="title">
-                        <a th:href="@{/admin/cs/qna/view/{id}(id=${cs.boardId})}"
-                           th:text="${cs.boardTitle}">제목</a>
-                    </td>
-                    <td class="col-writer" th:text="${cs.boardWriter}">-</td>
-                    <td class="col-date" th:text="${#temporals.format(cs.boardRegDate, 'yyyy-MM-dd')}">2025-10-15</td>
-                    <td class="col-state"
-                        th:text="${cs.boardState != null ? cs.boardState : '검토중'}"
-                        th:classappend="${cs.boardState == '검토중'} ? ' state-pending' :
-                    (${cs.boardState == '답변완료'} ? ' state-done' : '')">
-                    </td>
-                </tr>
-
-
-                </tbody>
-
-            </table>
-
-
-            <!-- 테이블 하단 영역 -->
-            <div class="table-bottom">
-                <div class="left">
-                    <a href="#" class="btn-gray">선택삭제</a>
-                </div>
-
-                <div class="center pagination">
-                    <a href="#">이전</a>
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">다음</a>
-                </div>
-                <div class="right"></div>
-
-            </div>
+    <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+    <div class="page">
+        <div class="topbar">
+            <h4>문의하기 목록</h4>
+            <div class="breadcrumb">HOME &gt; 고객센터 &gt; <b>문의하기</b></div>
         </div>
 
-        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        <!-- 검색 -->
+        <form method="get" th:action="@{/admin/cs/qna/list}" class="search-row" id="searchForm">
+            <!-- 1차 -->
+            <select id="type1" class="sel" aria-label="1차 유형">
+                <option value="">1차 선택</option>
+                <option th:each="c : ${lv1List}"
+                        th:value="${c.type}"
+                        th:text="${c.name}">
+                </option>
+            </select>
 
-<script>
-    // 전체 선택
-    const chkAll = document.getElementById('chkAll');
-    chkAll?.addEventListener('change', (e) => {
-        document.querySelectorAll('tbody input[type="checkbox"]')
-            .forEach(cb => cb.checked = e.target.checked);
-    });
+            <!-- 2차 (JS로 채움) -->
+            <select id="type2" class="sel" aria-label="2차 유형" disabled>
+                <option value="">2차 선택</option>
+            </select>
 
-    // FAQ/문의 상태 색상 처리
-    document.querySelectorAll('td.col-state').forEach((el) => {
-        const text = el.textContent.trim();
+            <!-- ⭐ 최종 cate: 2차가 있으면 2차, 없으면 1차 -->
+            <input type="hidden" name="cate" id="cateHidden" th:value="${cate}" />
 
-        if (text === "검토중") {
-            el.classList.add("state--pending");
-        } else if (text === "답변완료") {
-            el.classList.add("state--answered");
+            <input type="text" name="q" placeholder="검색어입력" th:value="${q}" />
+            <button class="btn" type="submit">검색</button>
+        </form>
+
+
+        <!-- 목록 -->
+        <table>
+            <thead>
+            <tr>
+                <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                <th class="col-no">번호</th>
+                <th class="col-type">1차유형</th>
+                <th class="col-type">2차유형</th>
+                <th>제목</th>
+                <th class="col-views">작성자</th>
+                <th class="col-date">작성일</th>
+                <th class="col-actions">상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cs, stat : ${page.content}">
+                <td>
+                    <input type="checkbox" class="rowChk" th:value="${cs.boardId}" />
+                </td>
+                <td class="col-no" th:text="${page.totalElements - (page.number * page.size) - stat.index}"></td>
+
+                <td th:text="${codeNameMap.get(cs.lv1Code) != null ? codeNameMap.get(cs.lv1Code) : '-'}">1차유형</td>
+                <td th:text="${codeNameMap.get(cs.typeCode) != null ? codeNameMap.get(cs.typeCode) : '-'}">2차유형</td>
+
+                <td class="title">
+                    <a th:href="@{/admin/cs/qna/view/{id}(id=${cs.boardId})}"
+                       th:text="${cs.boardTitle}">제목</a>
+                </td>
+                <td class="col-writer" th:text="${cs.boardWriter}">-</td>
+                <td class="col-date" th:text="${#temporals.format(cs.boardRegDate, 'yyyy-MM-dd')}">2025-10-15</td>
+                <td class="col-state"
+                    th:text="${cs.boardState != null ? cs.boardState : '검토중'}"
+                    th:classappend="${cs.boardState == '검토중'} ? ' state-pending' :
+                    (${cs.boardState == '답변완료'} ? ' state-done' : '')">
+                </td>
+            </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+        <!-- 테이블 하단 영역 -->
+        <div class="table-bottom">
+            <div class="left">
+                <a href="#" id="btnDeleteSelected" class="btn-gray">선택삭제</a>
+            </div>
+
+            <div class="center pagination">
+                <a href="#">이전</a>
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">다음</a>
+            </div>
+            <div class="right"></div>
+
+        </div>
+    </div>
+
+    <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+
+    <script>
+        // 전체 선택
+        const chkAll = document.getElementById('chkAll');
+        chkAll?.addEventListener('change', (e) => {
+            document.querySelectorAll('tbody input[type="checkbox"]')
+                .forEach(cb => cb.checked = e.target.checked);
+        });
+
+        // 선택삭제
+        const btnDel = document.getElementById('btnDeleteSelected');
+        btnDel?.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const ids = Array.from(document.querySelectorAll('tbody .rowChk:checked'))
+                .map(cb => cb.value);
+
+            if (ids.length === 0) {
+                alert('삭제할 항목을 선택하세요.');
+                return;
+            }
+            if (!confirm(`${ids.length}건을 삭제하시겠습니까?`)) return;
+
+            // CSRF
+            const token = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
+            const header = document.querySelector('meta[name="_csrf_header"]')?.getAttribute('content');
+
+            try {
+                const res = await fetch('/admin/cs/notice/delete-batch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(token && header ? { [header]: token } : {})
+                    },
+                    body: JSON.stringify(ids)
+                });
+
+                if (!res.ok) {
+                    const msg = await res.text();
+                    alert('삭제 중 오류가 발생했습니다.\n' + msg);
+                    return;
+                }
+                // 성공 시 새로고침
+                location.reload();
+            } catch (err) {
+                alert('네트워크 오류가 발생했습니다.');
+                console.error(err);
+            }
+        });
+        // FAQ/문의 상태 색상 처리
+        document.querySelectorAll('td.col-state').forEach((el) => {
+            const text = el.textContent.trim();
+
+            if (text === "검토중") {
+                el.classList.add("state--pending");
+            } else if (text === "답변완료") {
+                el.classList.add("state--answered");
+            }
+        });
+
+
+
+    </script>
+    <script th:inline="javascript">
+        // 서버에서 내려준 2차 트리
+        const LV2_MAP = /*[[${lv2Tree}]]*/ {};
+
+        const $lv1  = document.getElementById('type1');
+        const $lv2  = document.getElementById('type2');
+        const $cate = document.getElementById('cateHidden');
+        const $form = document.getElementById('searchForm');
+
+        // 초기 cate (예: faq23)
+        const initialCate = /*[[${cate}]]*/ '';
+        const initialLv1  = initialCate && initialCate.length >= 4
+            ? (initialCate.substring(0,4) + '0') : '';
+
+        function fillLv2Options(lv1Code, selectedLv2) {
+            const list = (lv1Code && LV2_MAP && LV2_MAP[lv1Code]) ? LV2_MAP[lv1Code] : [];
+            $lv2.innerHTML = '<option value="">2차 선택</option>';
+
+            if (!list || list.length === 0) {
+                $lv2.disabled = true;
+                return;
+            }
+            list.forEach(it => {
+                const opt = document.createElement('option');
+                opt.value = it.type;
+                opt.textContent = it.name;
+                if (selectedLv2 && selectedLv2 === it.type) opt.selected = true;
+                $lv2.appendChild(opt);
+            });
+            $lv2.disabled = false;
         }
-    });
 
+        function syncCateHidden() {
+            // 2차 선택이 있으면 2차, 아니면 1차
+            $cate.value = $lv2.value || $lv1.value || '';
+        }
 
+        $lv1.addEventListener('change', () => {
+            fillLv2Options($lv1.value, '');
+            syncCateHidden();
+        });
+        $lv2.addEventListener('change', syncCateHidden);
 
-</script>
+        // 초기 값 복원
+        if (initialLv1) {
+            for (const opt of $lv1.options) {
+                if (opt.value === initialLv1) { opt.selected = true; break; }
+            }
+            fillLv2Options(initialLv1, (initialCate && initialCate !== initialLv1) ? initialCate : '');
+        } else {
+            fillLv2Options('', '');
+        }
+        syncCateHidden();
+
+        // 폼 제출 전 최종 동기화
+        $form.addEventListener('submit', syncCateHidden);
+    </script>
+
 </th:block>
