@@ -30,7 +30,6 @@ public class AdminMemberService {
 
         List<MemberDTO> dtoList = memberMapper.selectMemberList(pageRequestDTO);
 
-        // ✅ 리스트 null 방탄
         if (dtoList == null) {
             log.info(">>> selectMemberList returned NULL; using empty list");
             dtoList = Collections.emptyList();
@@ -47,7 +46,6 @@ public class AdminMemberService {
         int total = memberMapper.selectCountTotal(pageRequestDTO);
         log.info(">>> total count={}", total);
 
-        // ✅ 빌더 대신 생성자 직접 호출 (제너릭 타입 자동 추론)
         return new PageResponseDTO<>(pageRequestDTO, dtoList, total);
     }
 

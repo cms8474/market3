@@ -242,6 +242,7 @@
                             <input id="u_detail_addr" name="u_detail_addr" type="text" placeholder="상세주소" />
                         </div>
 
+
                         <!-- 가입일 (읽기 전용) -->
                         <label class="form-label" for="u_create_day">가입일</label>
                         <div class="form-field">
@@ -269,6 +270,9 @@
         <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
         <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
     </div>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script th:src="@{/js/postcode.js}"></script>
+
     <script th:src="@{/js/modal.js}"></script>
 
     <script>
@@ -309,6 +313,33 @@
             if (!res.ok || !text.startsWith("OK")) throw new Error(text || "FAIL");
             return text;
         };
+    </script>
+    <script>
+        // 주소 검색 버튼
+        (function(){
+            const btn = document.getElementById('btnFindZip');
+            if (!btn) return;
+
+            btn.addEventListener('click', function() {
+                if (typeof daum === 'undefined' || !daum.Postcode) {
+                    alert('주소 검색 스크립트를 불러오지 못했습니다. 새로고침 후 다시 시도해주세요.');
+                    return;
+                }
+
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        const addr = (data.userSelectedType === 'R') ? data.roadAddress : data.jibunAddress;
+                        const zonecodeEl = document.getElementById('u_postal');
+                        const baseEl     = document.getElementById('u_base_addr');
+                        const detailEl   = document.getElementById('u_detail_addr');
+
+                        if (zonecodeEl) zonecodeEl.value = data.zonecode || '';
+                        if (baseEl)     baseEl.value     = addr || '';
+                        if (detailEl)   detailEl.focus();
+                    }
+                }).open();
+            });
+        })();
     </script>
 
     <script>
