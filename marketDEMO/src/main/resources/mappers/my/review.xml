@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.team3.mapper.my.ReviewMapper">
+    <insert id="insertReview">
+        INSERT INTO PRODUCT_REVIEW
+        (PR_PO_NO,
+        PR_P_PID,
+        PR_U_ID,
+        PR_STAR,
+        PR_BODY,
+        PR_IMAGES1,
+        PR_IMAGES2,
+        PR_IMAGES3)
+        VALUES (#{reviewDTO.prPoNo},
+        #{reviewDTO.prPPid},
+        #{reviewDTO.prUId},
+        #{reviewDTO.prStar},
+        #{reviewDTO.prBody},
+        #{reviewDTO.prImages1,jdbcType=VARCHAR},
+        #{reviewDTO.prImages2,jdbcType=VARCHAR},
+        #{reviewDTO.prImages3,jdbcType=VARCHAR})
+    </insert>
+    <delete id="deleteReview">
+        DELETE FROM PRODUCT_REVIEW
+        WHERE pr_no = #{prNo}
+    </delete>
+    <select id="selectRecent5" resultType="kr.co.team3.dto.my.ReviewDTO">
+        SELECT *
+        FROM PRODUCT_REVIEW pr
+        JOIN PRODUCT_ITEM t ON pr.PR_P_PID = t.P_PID
+        WHERE PR_U_ID = #{uId}
+        ORDER BY PR_REG_DATE DESC
+        OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+    </select>
+</mapper>

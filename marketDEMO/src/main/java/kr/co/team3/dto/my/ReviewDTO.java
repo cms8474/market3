@@ -39,4 +39,8 @@ public class ReviewDTO {
 
     @Column(name = "pr_images3")
     private String prImages3;
+
+    // 추가 컬럼
+    @Column(name = "p_name")
+    private String pName;
 }
