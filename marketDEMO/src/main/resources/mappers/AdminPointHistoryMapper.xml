@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.admin_mapper.AdminPointHistoryMapper">
+
+    <!-- 결과 매핑: 컬럼 -> DTO 프로퍼티 -->
+    <resultMap id="PointHistoryListMap" type="kr.co.team3.admin_dto.PointHistoryListDTO">
+        <result column="UH_NO"           property="uh_no"/>
+        <result column="U_ID"            property="u_id"/>
+        <result column="U_NAME"          property="u_name"/>
+        <result column="UH_CHANGE_POINT" property="uh_change_point"/>
+        <result column="UH_NOW_POINT"    property="uh_now_point"/>
+        <result column="UH_TEXT"         property="uh_text"/>
+        <!-- 날짜 매핑 (LocalDate/LocalDateTime 사용 시 아래 B안을 같이 보세요) -->
+        <result column="UH_CHANGE_DATE"  property="uh_change_date"/>
+    </resultMap>
+
+    <sql id="searchWhere">
+        <where>
+            <if test="searchType != null and keyword != null and keyword != ''">
+                <choose>
+                    <when test="searchType == 'u_id'">
+                        AND u.U_ID LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'u_name'">
+                        AND u.U_NAME LIKE '%' || #{keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectPointHistoryList"
+            parameterType="kr.co.team3.admin_dto.PageRequestDTO"
+            resultMap="PointHistoryListMap">
+        SELECT
+        ph.UH_NO                                               AS UH_NO,
+        u.U_ID                                                 AS U_ID,
+        u.U_NAME                                               AS U_NAME,
+        ph.UH_CHANGE_POINT                                     AS UH_CHANGE_POINT,
+        up.UP_NOW_POINT                                        AS UH_NOW_POINT,
+        ph.UH_TEXT                                             AS UH_TEXT,
+        COALESCE(
+        TO_DATE(TO_CHAR(ph.UH_CHANGE_DATE), 'YYYYMMDD'),
+        CAST(ph.UH_DDAY AS DATE)
+        )                                                      AS UH_CHANGE_DATE
+        FROM POINT_HISTORY ph
+        JOIN U_USER u      ON ph.UH_U_ID  = u.U_ID
+        LEFT JOIN USER_POINT up ON up.UP_U_ID = u.U_ID
+        <include refid="searchWhere"/>
+        ORDER BY UH_CHANGE_DATE DESC
+        OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+    </select>
+
+    <select id="selectCountTotal"
+            parameterType="kr.co.team3.admin_dto.PageRequestDTO"
+            resultType="int">
+        SELECT COUNT(*)
+        FROM POINT_HISTORY ph
+        JOIN U_USER u      ON ph.UH_U_ID  = u.U_ID
+        LEFT JOIN USER_POINT up ON up.UP_U_ID = u.U_ID
+        <include refid="searchWhere"/>
+    </select>
+
+
+    <!-- 포인트 내역 삭제 -->
+    <delete id="deletePointHistory" parameterType="string">
+        DELETE FROM POINT_HISTORY
+        WHERE UH_NO = #{uhNo}
+    </delete>
+
+    <!-- 여러 건 삭제 (체크박스로 다중 선택) -->
+    <delete id="deletePointHistoryList" parameterType="list">
+        DELETE FROM POINT_HISTORY
+        WHERE UH_NO IN
+        <foreach collection="list" item="uhNo" open="(" separator="," close=")">
+            #{uhNo}
+        </foreach>
+    </delete>
+
+
+</mapper>
