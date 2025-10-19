@@ -47,16 +47,26 @@
                     <td class="col-no" th:text="${pageResponseDTO.startNo - stat.index}">1</td>
                     <td th:text="${m.u_id}">userid</td>
                     <td th:text="${m.u_name}">이름</td>
-                    <td th:text="${m.u_gender}">M</td>
-                    <td>
-                        <select class="grade-select" disabled>
-                            <option value="VIP"    th:selected="${m.u_rank}=='VIP'">VIP</option>
-                            <option value="GOLD"   th:selected="${m.u_rank}=='GOLD'">GOLD</option>
-                            <option value="SILVER" th:selected="${m.u_rank}=='SILVER'">SILVER</option>
-                            <option value="VVIP"   th:selected="${m.u_rank}=='VVIP'">VVIP</option>
-                            <option value="FAMILY" th:selected="${m.u_rank}=='FAMILY'">FAMILY</option>
+                    <td th:text="${m.u_gender}"></td>
+                    <td th:if="${m.u_status != '비활성'}">
+                        <select class="grade-select"
+                                disabled
+                                th:attr="data-uid=${m.u_id}">
+                            <option value="vvip"   th:selected="${#strings.trim(m.u_rank) == 'vvip'}">VVIP</option>
+                            <option value="vip"    th:selected="${#strings.trim(m.u_rank) == 'vip'}">VIP</option>
+                            <option value="gold"   th:selected="${#strings.trim(m.u_rank) == 'gold'}">GOLD</option>
+                            <option value="silver" th:selected="${#strings.trim(m.u_rank) == 'silver'}">SILVER</option>
+                            <!-- m.u_rank 가 null/공백이면 FAMILY가 선택되도록 -->
+                            <option value="family"
+                                    th:selected="${#strings.isEmpty(#strings.trim(m.u_rank)) or #strings.trim(m.u_rank) == 'family'}">
+                                FAMILY
+                            </option>
                         </select>
                     </td>
+
+
+                    <td th:if="${m.u_status == '비활성'}"></td>
+
                     <td th:text="${#numbers.formatInteger(m.u_point, 0, 'COMMA')}">0</td>
                     <td th:text="${m.u_mail}">email</td>
                     <td th:text="${m.u_phone}">010-0000-0000</td>
@@ -67,11 +77,43 @@
                         <span th:case="*"     class="status status--other" th:text="${m.u_status}">기타</span>
                     </td>
 
-                    <td class="actions">
-                        <a href="#" class="btn-edit" th:data-uid="${m.u_id}">수정</a>
-                        <a href="#" class="btn-toggle" th:data-uid="${m.u_id}"
-                           th:text="${m.u_status}=='중지' ? '승인' : '중지'">중지</a>
+                    <td class="actions" th:switch="${m.u_status}">
+                        <!-- 정상 -->
+                        <th:block th:case="'정상'">
+                            <a href="#" class="btn-edit" th:data-uid="${m.u_id}">수정</a>
+                            <a href="#" class="btn-toggle" th:data-uid="${m.u_id}">중지</a>
+                        </th:block>
+
+                        <!-- 중지 -->
+                        <th:block th:case="'중지'">
+                            <a href="#" class="btn-edit" th:data-uid="${m.u_id}">수정</a>
+                            <a href="#" class="btn-toggle" th:data-uid="${m.u_id}">재개</a>
+                        </th:block>
+
+                        <!-- 휴면 -->
+                        <th:block th:case="'휴면'">
+                            <a href="#" class="btn-edit" th:data-uid="${m.u_id}">수정</a>
+                            <a href="#" class="btn-toggle" th:data-uid="${m.u_id}">재개</a>
+                        </th:block>
+
+                        <!-- 탈퇴 -->
+                        <th:block th:case="'탈퇴'">
+                            <a href="#" class="btn-edit" th:data-uid="${m.u_id}">수정</a>
+                            <a href="#" class="btn-disabled" th:data-uid="${m.u_id}">비활성</a>
+                        </th:block>
+
+                        <!-- 비활성 -->
+                        <th:block th:case="'비활성'">
+                            <span class="text-disabled">비활성됨</span>
+                        </th:block>
+
+                        <!-- 혹시 모르는 기타 상태 -->
+                        <th:block th:case="*">
+                            <a href="#" class="btn-edit" th:data-uid="${m.u_id}">수정</a>
+                            <a href="#" class="btn-toggle" th:data-uid="${m.u_id}">상태확인</a>
+                        </th:block>
                     </td>
+
                 </tr>
             </th:block>
 
@@ -85,7 +127,7 @@
         <!-- 테이블 하단 영역 -->
         <div class="table-bottom">
             <div class="left">
-                <a href="#" class="btn-gray">선택수정</a>
+                <button type="button" class="btn-gray" id="btnBulkRank">선택수정</button>
             </div>
 
             <!--  <div class="center pagination">
@@ -115,7 +157,6 @@
             </div>
 
             <div class="right">
-                <button class="btn-blue">회원수정</button>
             </div>
         </div>
         <!-- 회원수정 모달 -->
@@ -129,92 +170,90 @@
                 </div>
 
                 <form id="Form" class="modal__body">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+
                     <div class="form-grid">
 
                         <!-- 아이디  -->
-                        <label class="form-label" for="userid">아이디</label>
+                        <label class="form-label" for="u_id">아이디</label>
                         <div class="form-field">
-                            <input id="userid" name="userid" type="text" value="" readonly />
+                            <input id="u_id" name="u_id" type="text" value="" readonly />
                         </div>
 
                         <!-- 이름 -->
-                        <label class="form-label" for="name">이름</label>
+                        <label class="form-label" for="u_name">이름</label>
                         <div class="form-field">
-                            <input id="name" name="name" type="text" placeholder="이름 입력" />
+                            <input id="u_name" name="u_name" type="text" placeholder="이름 입력" />
                         </div>
 
                         <!-- 성별 -->
                         <label class="form-label">성별</label>
                         <div class="form-field radio">
-                            <label><input type="radio" name="gender" value="M" checked> 남</label>
-                            <label><input type="radio" name="gender" value="F"> 여</label>
+                            <label><input type="radio" name="u_gender" value="남" checked> 남</label>
+                            <label><input type="radio" name="u_gender" value="여"> 여</label>
                         </div>
 
 
-                        <!-- 등급 (수정 불가 표시 + 안내문) -->
-                        <label class="form-label" for="grade">등급</label>
+                        <!-- 등급 -->
+                        <label class="form-label" for="u_rank">등급</label>
                         <div class="form-field">
-                            <input id="grade" name="grade" type="text" value="FAMILY" readonly />
+                            <input id="u_rank" name="u_rank" type="text" value="FAMILY" readonly />
                             <p class="hint">등급 수정은 회원 목록에서 선택수정 가능</p>
                         </div>
 
                         <!-- 상태 -->
-                        <label class="form-label" for="status">상태</label>
+                        <label class="form-label" for="u_status">상태</label>
                         <div class="form-field">
-                            <input id="status" name="status" type="text" value="정상" readonly />
+                            <input id="u_status" name="u_status" type="text" value="정상" readonly />
                         </div>
 
 
                         <!-- EMAIL -->
-                        <label class="form-label" for="email">EMAIL</label>
+                        <label class="form-label" for="u_mail">EMAIL</label>
                         <div class="form-field">
-                            <input id="email" name="email" type="email" placeholder="example@domain.com" />
+                            <input id="u_mail" name="u_mail" type="email" placeholder="example@domain.com" />
                         </div>
 
                         <!-- 휴대폰 -->
-                        <label class="form-label" for="mobile">휴대폰</label>
+                        <label class="form-label" for="u_phone">휴대폰</label>
                         <div class="form-field">
-                            <input id="mobile" name="mobile" type="text" inputmode="numeric" placeholder="010-0000-0000" />
+                            <input id="u_phone" name="u_phone" type="text" inputmode="numeric" placeholder="010-0000-0000" />
                         </div>
 
                         <!-- 우편번호 -->
-                        <label class="form-label" for="zip">우편번호</label>
+                        <label class="form-label" for="u_postal">우편번호</label>
                         <div class="form-field">
                             <div class="addr-row">
-                                <input id="zip" name="zip" type="text" placeholder="우편번호" readonly />
+                                <input id="u_postal" name="u_postal" type="text" placeholder="우편번호" readonly />
                                 <button type="button" class="btn-outline" id="btnFindZip">검색</button>
                             </div>
                         </div>
 
                         <!-- 기본주소 -->
-                        <label class="form-label" for="addr1">기본주소</label>
+                        <label class="form-label" for="u_base_addr">기본주소</label>
                         <div class="form-field">
-                            <input id="addr1" name="addr1" type="text" placeholder="기본주소" />
+                            <input id="u_base_addr" name="u_base_addr" type="text" placeholder="기본주소" />
                         </div>
 
                         <!-- 상세주소 -->
-                        <label class="form-label" for="addr2">상세주소</label>
+                        <label class="form-label" for="u_detail_addr">상세주소</label>
                         <div class="form-field">
-                            <input id="addr2" name="addr2" type="text" placeholder="상세주소" />
+                            <input id="u_detail_addr" name="u_detail_addr" type="text" placeholder="상세주소" />
                         </div>
 
                         <!-- 가입일 (읽기 전용) -->
-                        <label class="form-label" for="joinAt">가입일</label>
+                        <label class="form-label" for="u_create_day">가입일</label>
                         <div class="form-field">
-                            <input id="joinAt" name="joinAt" type="text" value="" readonly />
+                            <input id="u_create_day" name="u_create_day" type="text" value="" readonly />
                         </div>
 
                         <!-- 최근로그인일자 (읽기 전용) -->
-                        <label class="form-label" for="lastLoginAt">최근로그인일자</label>
+                        <label class="form-label" for="u_last_login_at">최근로그인일자</label>
                         <div class="form-field">
-                            <input id="lastLoginAt" name="lastLoginAt" type="text" value="" readonly />
+                            <input id="u_last_login_at" name="u_last_login_at" type="text" value="" readonly />
                         </div>
 
-                        <!-- 기타 -->
-                        <label class="form-label" for="memo">기타</label>
-                        <div class="form-field">
-                            <textarea id="memo" name="memo" placeholder="회원에 대한 기타정보입력"></textarea>
-                        </div>
 
 
                     </div>
@@ -231,25 +270,259 @@
         <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
     </div>
     <script th:src="@{/js/modal.js}"></script>
+
     <script>
-        // 전체 선택
-        const chkAll = document.getElementById('chkAll');
-        chkAll?.addEventListener('change', (e) => {
-            document.querySelectorAll('tbody input[type="checkbox"]')
-                .forEach(cb => cb.checked = e.target.checked);
-        });
+        // 전역 CSRF 메타 읽기
+        window.CSRF_TOKEN  = document.querySelector('meta[name="_csrf"]')?.content;
+        window.CSRF_HEADER = document.querySelector('meta[name="_csrf_header"]')?.content;
 
+        // x-www-form-urlencoded (필요시 사용)
+        window.postFormWithCsrf = async function (url, formObj) {
+            const headers = {
+                "Content-Type": "application/x-www-form-urlencoded",
+                ...(window.CSRF_TOKEN && window.CSRF_HEADER ? { [window.CSRF_HEADER]: window.CSRF_TOKEN } : {}),
+            };
+            const res = await fetch(url, {
+                method: "POST",
+                headers,
+                body: new URLSearchParams(formObj),
+                credentials: "same-origin",
+            });
+            const text = await res.text();
+            if (!res.ok || !text.startsWith("OK")) throw new Error(text || "FAIL");
+            return text;
+        };
 
+        // JSON 전송 (선택수정에서 사용)
+        window.postJsonWithCsrf = async function (url, data) {
+            const headers = {
+                "Content-Type": "application/json",
+                ...(window.CSRF_TOKEN && window.CSRF_HEADER ? { [window.CSRF_HEADER]: window.CSRF_TOKEN } : {}),
+            };
+            const res = await fetch(url, {
+                method: "POST",
+                headers,
+                body: JSON.stringify(data),
+                credentials: "same-origin",
+            });
+            const text = await res.text();
+            if (!res.ok || !text.startsWith("OK")) throw new Error(text || "FAIL");
+            return text;
+        };
+    </script>
+
+    <script>
         document.querySelectorAll(".status").forEach(td => {
             const text = td.innerText.trim();
             if (text === "정상") {
                 td.style.color = "#19c37d";  // 초록
             } else if (text === "중지") {
                 td.style.color = "#ff4d4f";  // 빨강
-            } else if (text === "휴면" || text === "탈퇴") {
+            } else if (text === "휴면" || text === "탈퇴" || text === "비활성") {
                 td.style.color = "#999";     // 회색
             }
         });
+
+
+    </script>
+    <script>
+        /* 수정 버튼 → 상세조회 → 모달 채우기 */
+        document.querySelectorAll(".btn-edit").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const uid = btn.dataset.uid;
+                if (!uid) return;
+
+                try {
+                    const res = await fetch(`/admin/detail?u_id=${encodeURIComponent(uid)}`);
+                    if (!res.ok) throw new Error("조회 실패");
+                    const u = await res.json();
+
+                    // 입력 채우기 (DTO 필드명과 동일)
+                    document.getElementById("u_id").value            = u.u_id ?? "";
+                    document.getElementById("u_name").value          = u.u_name ?? "";
+                    // 라디오 선택
+                    const g = (u.u_gender ?? 'M');
+                    const gEl = document.querySelector(`input[name="u_gender"][value="${g}"]`);
+                    if (gEl) gEl.checked = true;
+
+                    document.getElementById("u_rank").value          = u.u_rank ?? "";
+                    document.getElementById("u_status").value        = u.u_status ?? "";
+                    document.getElementById("u_mail").value          = u.u_mail ?? "";
+                    document.getElementById("u_phone").value         = u.u_phone ?? "";
+                    document.getElementById("u_postal").value        = u.u_postal ?? "";
+                    document.getElementById("u_base_addr").value     = u.u_base_addr ?? "";
+                    document.getElementById("u_detail_addr").value   = u.u_detail_addr ?? "";
+                    document.getElementById("u_create_day").value    = u.u_create_day ?? "";
+                    document.getElementById("u_last_login_at").value = u.u_last_login_at ?? "";
+
+                    openModal();
+                } catch (err) {
+                    console.error(err);
+                    alert("회원 정보를 불러오지 못했습니다.");
+                }
+            });
+        });
+
+        /* 수정 폼 제출 (DTO 필드명 그대로 전송) */
+        document.getElementById("Form")?.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const payload = new URLSearchParams(new FormData(e.currentTarget));
+
+            try {
+                const res = await fetch("/admin/update", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: payload
+                });
+                const text = await res.text();
+                if (res.ok && text === "OK") {
+                    alert("회원 정보가 수정되었습니다.");
+                    closeModal();
+                    location.reload();
+                } else {
+                    alert("수정에 실패했습니다.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("수정 중 오류가 발생했습니다.");
+            }
+        });
+    </script>
+    <script>
+        // ===== CSRF (메타태그 방식일 때 자동 감지) =====
+        const CSRF_TOKEN  = document.querySelector('meta[name="_csrf"]')?.content;
+        const CSRF_HEADER = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+        async function postWithCsrf(url, bodyObj) {
+            const res = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    ...(CSRF_TOKEN && CSRF_HEADER ? { [CSRF_HEADER]: CSRF_TOKEN } : {}),
+                },
+                body: new URLSearchParams(bodyObj),
+                credentials: "same-origin",
+            });
+            const text = await res.text();
+            if (!res.ok || text !== "OK") throw new Error(text || "FAIL");
+            return text;
+        }
+
+        // ===== 상태 토글(중지/재개) 버튼 이벤트 =====
+        document.querySelectorAll(".btn-toggle").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const uid = btn.dataset.uid;
+                if (!uid) return;
+
+                // 버튼 라벨로 분기: '중지' → stop, 그 외(재개) → resume
+                const label = btn.textContent.trim();
+                const url = (label === "중지")
+                    ? "/admin/member/status/stop"
+                    : "/admin/member/status/resume";
+
+                try {
+                    await postWithCsrf(url, { u_id: uid });
+                    alert(`상태가 '${label}' 처리되었습니다.`);
+                    location.reload();
+                } catch (err) {
+                    console.error(err);
+                    alert(`상태 변경 실패: ${err.message}`);
+                }
+            });
+        });
+
+        // ===== 비활성(개인정보 파기) 버튼 이벤트 (탈퇴 상태 행에서만 노출) =====
+        document.querySelectorAll(".btn-disabled").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const uid = btn.dataset.uid;
+                if (!uid) return;
+
+                if (!confirm("개인정보를 파기하고 '비활성' 처리할까요? 되돌릴 수 없습니다.")) return;
+
+                try {
+                    await postWithCsrf("/admin/member/status/deactivate", { u_id: uid });
+                    alert("비활성 처리되었습니다.");
+                    location.reload();
+                } catch (err) {
+                    console.error(err);
+                    alert(`비활성 실패: ${err.message}`);
+                }
+            });
+        });
+    </script>
+    <script>
+
+
+        // ✔ 체크 → 해당 등급 셀렉트 활성/비활성
+        document.querySelectorAll('tbody input[type="checkbox"][name="uids"]').forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                const row = e.target.closest('tr');
+                const sel = row?.querySelector('.grade-select');
+                if (!sel) return; // 비활성 상태 행은 셀렉트가 없음
+
+                const enable = e.target.checked;
+                // 프로퍼티 & 속성 모두 토글(브라우저/스타일 꼬임 방지)
+                sel.disabled = !enable;
+                if (enable) sel.removeAttribute('disabled');
+                else sel.setAttribute('disabled', 'disabled');
+            });
+        });
+
+        // ✔ 전체 선택 → 모든 셀렉트 활성/비활성
+        const chkAll = document.getElementById('chkAll');
+        chkAll?.addEventListener('change', (e) => {
+            const enableAll = e.target.checked;
+            document.querySelectorAll('tbody input[type="checkbox"][name="uids"]').forEach(cb => {
+                cb.checked = enableAll;
+
+                const row = cb.closest('tr');
+                const sel = row?.querySelector('.grade-select');
+                if (!sel) return;
+
+                sel.disabled = !enableAll;
+                if (enableAll) sel.removeAttribute('disabled');
+                else sel.setAttribute('disabled', 'disabled');
+            });
+        });
+
+
+        const bulkBtn = document.getElementById('btnBulkRank');
+        if (bulkBtn) {
+            bulkBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                console.log("[선택수정 클릭됨]");
+
+                const updates = [];
+                document
+                    .querySelectorAll('tbody input[type="checkbox"][name="uids"]:checked')
+                    .forEach(cb => {
+                        const row = cb.closest('tr');
+                        const sel = row?.querySelector('.grade-select');
+                        if (!sel) return;
+                        updates.push({ u_id: cb.value, u_rank: sel.value });
+                    });
+
+                console.log("[업데이트 대상]", updates);
+                if (updates.length === 0) {
+                    alert("선택된 회원이 없습니다.");
+                    return;
+                }
+
+                if (!confirm(`선택된 ${updates.length}명의 등급을 수정할까요?`)) return;
+
+                try {
+                    const msg = await postJsonWithCsrf('/admin/member/bulk/rank', updates);
+                    alert(`수정 완료 (${msg})`);
+                    location.reload();
+                } catch (err) {
+                    console.error(err);
+                    alert(`수정 실패: ${err.message}`);
+                }
+            });
+        }
 
 
     </script>
