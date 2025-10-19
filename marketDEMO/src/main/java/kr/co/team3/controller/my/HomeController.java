@@ -1,13 +1,17 @@
 package kr.co.team3.controller.my;
 
+import kr.co.team3.dto.my.BoardDTO;
 import kr.co.team3.dto.my.PointDTO;
 import kr.co.team3.dto.my.ProductOrderDTO;
 import kr.co.team3.dto.my.ReviewDTO;
 import kr.co.team3.mapper.my.PointMapper;
+import kr.co.team3.repository.my.BoardRepository;
+import kr.co.team3.service.my.BoardService;
 import kr.co.team3.service.my.PointService;
 import kr.co.team3.service.my.ProductOrderService;
 import kr.co.team3.service.my.ReviewService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,10 +26,12 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class HomeController {
     private final ProductOrderService productOrderService;
     private final PointService pointService;
     private final ReviewService reviewService;
+    private final BoardService boardService;
 
     @GetMapping("/my/home")
     public String home(Model model){
@@ -43,6 +49,9 @@ public class HomeController {
         model.addAttribute("pointDTOList", pointDTOList);
         List<ReviewDTO> reviewDTOList = reviewService.getReviewsRecent5(loginId);
         model.addAttribute("reviewDTOList", reviewDTOList);
+        List<BoardDTO> qnaDTOList = boardService.getBoardsWithUidAndBtTypeRecent5(loginId, "qna");
+        model.addAttribute("qnaDTOList", qnaDTOList);
+//        log.info(qnaDTOList.toString());
 
         // 나의쇼핑정보 (주문 수, 쿠폰 수, 포인트, 문의 수)
         int userPoints = pointService.getOwnPoints(loginId);
