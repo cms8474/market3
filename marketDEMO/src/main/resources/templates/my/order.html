@@ -58,7 +58,7 @@
     <!-- □□□□□ 사이드바 공간 □□□□□ -->
     <section class="main-content" style="margin-left: 10px;">
         <div class="ad-banner" style="width: 100%; height: 86px; text-align: center;">
-            <img src="/images/광고.png" style="width: 810px; height: 100%;">
+            <img src="/images/adv.png" style="width: 810px; height: 100%;">
         </div>
         <article>
             <h3>전체주문내역</h3>
@@ -99,7 +99,25 @@
                         수량 : [[*{oiProdQty}]]개<br>
                         <b><span th:text="${#numbers.formatInteger(order.oiTotPrice, 3, 'COMMA')} + '원'">totPrice</span></b>
                     </td>
-                    <td>[[*{oiDelStatus}]]</td>
+                    <td>배송완료</td>
+                    <td>
+                        <button name="buyConfirm" class="blueButton">구매확정</button><br>
+                        <button name="productReview" class="blueButton">상품평쓰기</button><br>
+                        <button name="returnRequest">반품신청</button><br>
+                        <button name="exchangeRequest">교환신청</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2022-12-13</td>
+                    <td><img src="/images/logo.png"/></td>
+                    <td>
+                        <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
+                        <a href="#" class="tradeName">(주) 상호명</a><br>
+                        <a href="#">상품명</a><br>
+                        수량 : 1개<br>
+                        <b>3,4000원</b>
+                    </td>
+                    <td>배송완료</td>
                     <td>
                         <button name="buyConfirm" class="blueButton">구매확정</button><br>
                         <button name="productReview" class="blueButton">상품평쓰기</button><br>
