@@ -119,23 +119,24 @@
             </div>
 
             <!-- 장바구니 테이블 -->
-            <table class="cart-table" th:if="${!cartItems.empty}">
+            <table class="cart-table">
                 <thead>
                 <tr>
                     <th><input type="checkbox" id="allCheck"></th>
                     <th>상품명</th>
-                    <th>옵션</th>
                     <th>수량</th>
                     <th>판매가</th>
+                    <th>할인</th>
+                    <th>포인트</th>
+                    <th>배송비</th>
                     <th>합계</th>
-                    <th>삭제</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="cartItem : ${cartItems}">
                     <td><input type="checkbox" name="cartItem" th:value="${cartItem.ciPPid}"></td>
                     <td class="cart-info">
-                        <img th:src="@{/images/로고.png}" alt="상품">
+                        <img th:src="@{/images/logo.png}" alt="상품">
                         <div>
                             <strong th:text="${productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pName : cartItem.ciPPid}">상품명</strong>
                             <p class="desc" th:text="${productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pDesc : '상품 설명'}">상품 설명</p>
@@ -160,7 +161,7 @@
                 </tr>
                 </tbody>
             </table>
-            
+
             <!-- 장바구니가 비어있을 때 -->
             <div th:if="${cartItems.empty}" style="text-align: center; padding: 40px; color: #999;">
                 <p>장바구니가 비어있습니다.</p>
@@ -168,7 +169,7 @@
             </div>
 
             <!-- 하단 영역 -->
-            <div class="cart-bottom" th:if="${!cartItems.empty}">
+            <div class="cart-bottom">
 
                 <!-- 선택삭제 -->
                 <div class="cart-left">

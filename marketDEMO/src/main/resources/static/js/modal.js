@@ -6,12 +6,14 @@ const form = document.getElementById('Form');
 function openModal() {
     if (!modal) return;
     modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
 }
 
 function closeModal() {
     if (!modal) return;
     modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
     form?.reset();
 }

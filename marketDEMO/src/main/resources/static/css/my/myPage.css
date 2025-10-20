@@ -588,3 +588,16 @@
     padding: 4px 8px;
     cursor: pointer;
 }
+
+.Pagenation {
+    margin: 30px;
+    font-size: larger;
+}
+.Pagenation .current {
+    text-decoration: underline;
+}
+.Pagenation a:hover {
+    text-decoration: underline;
+}
+
+/* 강민철 2025-10-20 1457 */

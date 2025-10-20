@@ -3,258 +3,368 @@
     <link rel="stylesheet" href="/css/admin/modal.css">
 
     <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
-        <div class="page">
-            <div class="topbar">
-                <h4>쿠폰목록</h4>
-                <div class="breadcrumb">HOME &gt; 쿠폰관리 &gt; <b>쿠폰목록</b></div>
-            </div>
+    <div class="page">
+        <div class="topbar">
+            <h4>쿠폰목록</h4>
+            <div class="breadcrumb">HOME &gt; 쿠폰관리 &gt; <b>쿠폰목록</b></div>
+        </div>
 
-            <!-- 검색 -->
-            <div class="search-row">
-                <select name="searchType" id="searchType">
-                    <option value="#">쿠폰번호</option>
-                    <option value="#">쿠폰명</option>
-                    <option value="#">발급자</option>
-                </select>
-                <input type="text" name="keyword" placeholder="검색어입력" />
-                <button class="btn" type="button">검색</button>
-            </div>
+        <!-- 검색 -->
+        <form class="search-row" th:action="@{/admin/coupon/list}" method="get">
+            <select name="searchType" id="searchType">
+                <option th:value="cId"    th:selected="${req.searchType}=='cId'">쿠폰번호</option>
+                <option th:value="name"   th:selected="${req.searchType}=='name'">쿠폰명</option>
+                <option th:value="issuer" th:selected="${req.searchType}=='issuer'">발급자</option>
+            </select>
+            <input type="text" name="keyword" placeholder="검색어입력" th:value="${req.keyword}"/>
+            <!-- 페이지 크기 유지 (선택) -->
+            <input type="hidden" name="size" th:value="${req.size}" />
+            <button class="btn" type="submit">검색</button>
+        </form>
 
+        <!-- 목록 -->
+        <table>
+            <thead>
+            <tr>
+                <th>쿠폰번호</th>
+                <th>쿠폰종류</th>
+                <th>쿠폰명</th>
+                <th>혜택</th>
+                <th>사용기한</th>
+                <th>발급자</th>
+                <th>발급수</th>
+                <th>사용수</th>
+                <th>상태</th>
+                <th>발급일</th>
+                <th>관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 단일 each, 여기서 상태 문자열을 st로 한 번 정리 -->
+            <tr th:each="c : ${page.dtoList}"
+                th:with="st=${c.status != null ? #strings.trim(c.status) : ''}">
 
-            <!-- 목록 -->
-            <table>
-                <thead>
-                <tr>
-                    <th>쿠폰번호</th>
-                    <th>쿠폰종류</th>
-                    <th>쿠폰명</th>
-                    <th>혜택</th>
-                    <th>사용기한</th>
-                    <th>발급자</th>
-                    <th>발급수</th>
-                    <th>사용수</th>
-                    <th>상태</th>
-                    <th>발급일</th>
-                    <th>관리</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="coupon-link">
-                        <a href="#">10121211341</a>
-                    </td>
-                    <td>개별발급 쿠폰</td>
-                    <td>10월 감사 쿠폰 2,000원</td>
-                    <td>2,000원 할인</td>
-                    <td>0000-00-00 ~ 0000-00-00</td>
-                    <td>(주)다나와</td>
-                    <td >102</td>
-                    <td >43</td>
-                    <td class="coupon-status">발급중</td>
-                    <td class="center">0000-00-00</td>
-                    <td><a href="#" class="btn-mini">종료</a></td>
-                </tr>
-
-                </tbody>
-
-            </table>
+                <td class="coupon-link">
+                    <a class="coupon-detail"
+                       th:href="@{/admin/coupon/list(searchType='cId', keyword=${c.cId})}"
+                       th:attr="data-coupon-id=${c.cId}"
+                       th:text="${c.cId}">C_ID</a>
+                </td>
 
 
-            <!-- 테이블 하단 영역 -->
-            <div class="table-bottom">
-                <div class="center">
-                    <div class="pagination">
-                        <a href="#">이전</a>
-                        <a href="#" class="current">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#">다음</a>
-                    </div>
+                <td th:text="${c.ctType}">개별발급</td>
+                <td th:text="${c.cName}">쿠폰명</td>
+                <td th:text="${c.benefit}">혜택</td>
+
+                <td>
+                    <span th:text="${c.startDay != null ? #temporals.format(c.startDay,'yyyy-MM-dd') : '-'}"></span>
+                    <span class="tilde">~</span>
+                    <span th:text="${c.endDay   != null ? #temporals.format(c.endDay  ,'yyyy-MM-dd') : '-'}"></span>
+                </td>
+
+                <td th:text="${c.issuerName != null ? c.issuerName : c.issuerUid}">(주)발급사</td>
+                <td th:text="${c.amount}">0</td>
+                <td th:text="${c.used}">0</td>
+
+                <!-- 상태 셀: 클래스도 같이 부여 -->
+                <td class="coupon-status"
+                    th:text="${st}"
+                    th:classappend="${#strings.equalsIgnoreCase(st,'발급가능')} ? ' coupon-status--active'
+                        : (${#strings.equalsIgnoreCase(st,'종료')} ? ' coupon-status--closed' : '')">
+                    상태
+                </td>
+
+                <!-- 발급일 = 시작일 -->
+                <td class="center"
+                    th:text="${c.startDay != null ? #temporals.format(c.startDay,'yyyy-MM-dd') : '-'}">-</td>
+
+                <!-- 관리: 발급가능이면 '종료' 버튼, 종료면 '종료됨' -->
+                <td>
+                    <a href="#"
+                       class="btn-mini"
+                       th:if="${#strings.equalsIgnoreCase(st,'발급가능')}"
+                       th:attr="data-coupon-id=${c.cId}">종료</a>
+
+                    <span class="text-gray"
+                          th:if="${#strings.equalsIgnoreCase(st,'종료')}">종료됨</span>
+                </td>
+            </tr>
+
+            <!-- 빈 목록 -->
+            <tr th:if="${#lists.isEmpty(page.dtoList)}">
+                <td colspan="11" class="empty">데이터가 없습니다.</td>
+            </tr>
+            </tbody>
+
+        </table>
+
+        <!-- 테이블 하단 영역 -->
+        <div class="table-bottom">
+            <div class="center">
+                <div class="pagination">
+                    <!-- 이전 -->
+                    <a th:if="${page.prev}"
+                       th:href="@{/admin/coupon/list(pg=${page.start-1}, size=${page.size}, searchType=${page.searchType}, keyword=${page.keyword})}">이전</a>
+                    <a th:unless="${page.prev}" class="disabled">이전</a>
+
+                    <!-- 숫자 -->
+                    <a th:each="p : ${#numbers.sequence(page.start, page.end)}"
+                       th:href="@{/admin/coupon/list(pg=${p}, size=${page.size}, searchType=${page.searchType}, keyword=${page.keyword})}"
+                       th:text="${p}"
+                       th:classappend="${p==page.pg} ? ' current' : ''">1</a>
+
+                    <!-- 다음 -->
+                    <a th:if="${page.next}"
+                       th:href="@{/admin/coupon/list(pg=${page.end+1}, size=${page.size}, searchType=${page.searchType}, keyword=${page.keyword})}">다음</a>
+                    <a th:unless="${page.next}" class="disabled">다음</a>
                 </div>
-                <div class="right">
-                    <a href="#" class="btn-blue">쿠폰등록</a>
-                </div>
             </div>
+            <div class="right">
+                <!-- 모달 열기 버튼 -->
+                <a href="#" class="btn-blue">쿠폰등록</a>
+            </div>
+        </div>
 
+        <!-- 쿠폰 모달 (등록) -->
+        <!-- 쿠폰 모달 (등록) -->
+        <div id="Modal" class="modal" aria-hidden="true">
+            <div class="modal__backdrop" data-close="true"></div>
 
+            <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="ModalTitle">
+                <div class="modal__header">
+                    <h5 id="ModalTitle">쿠폰등록</h5>
+                    <button type="button" class="modal__close" title="닫기" data-close="true">&times;</button>
+                </div>
 
-            <!-- 쿠폰 모달 -->
-            <div id="Modal" class="modal" aria-hidden="true">
-                    <div class="modal__backdrop" data-close="true"></div>
-
-                    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="ModalTitle">
-                        <div class="modal__header">
-                            <h5 id="ModalTitle">쿠폰등록</h5>
-                            <button type="button" class="modal__close" title="닫기" data-close="true">&times;</button>
+                <form id="Form" class="modal__body" method="post" th:action="@{/admin/coupon/register}">
+                    <div class="form-grid">
+                        <!-- 발급처(issuerUid) -->
+                        <label class="form-label" for="issuerUid">발급처</label>
+                        <div class="form-field">
+                            <input id="issuerUid" name="issuerUid" type="text" placeholder="발급처 ID 또는 상호" required />
                         </div>
 
-                        <form id="Form" class="modal__body">
-                            <div class="form-grid">
-                                <!-- 발급처 -->
-                                <label class="form-label" for="issuer">발급처</label>
-                                <div class="form-field">
-                                    <input id="issuer" name="issuer" type="text" value="(주)다있어" readonly />
-                                </div>
+                        <!-- 쿠폰종류(ctType) -->
+                        <label class="form-label" for="ctype">쿠폰종류</label>
+                        <div class="form-field">
+                            <select id="ctype" name="ctType" required>
+                                <option value="" hidden>종류선택</option>
+                                <option value="개별상품할인">개별발급 쿠폰</option>
+                                <option value="배송비무료">배송비무료 쿠폰</option>
+                                <option value="주문상품할인">주문상품할인 쿠폰</option>
+                            </select>
+                        </div>
 
-                                <!-- 쿠폰종류 -->
-                                <label class="form-label" for="ctype">쿠폰종류</label>
-                                <div class="form-field">
-                                    <select id="ctype" name="couponType" required>
-                                        <option value="" hidden>종류선택</option>
-                                        <option value="개별발급">개별발급 쿠폰</option>
-                                        <option value="배송비">배송비무료 쿠폰</option>
-                                        <option value="일반">주문상품할인 쿠폰</option>
-                                    </select>
-                                </div>
+                        <!-- 쿠폰명(cName) -->
+                        <label class="form-label" for="cname">쿠폰명</label>
+                        <div class="form-field">
+                            <input id="cname" name="cName" type="text" placeholder="예: 10월 감사쿠폰 2,000원" required />
+                        </div>
 
-                                <!-- 쿠폰명 -->
-                                <label class="form-label" for="cname">쿠폰명</label>
-                                <div class="form-field">
-                                    <input id="cname" name="couponName" type="text" placeholder="쿠폰명 입력" required />
-                                </div>
+                        <!-- 혜택(benefit) -->
+                        <label class="form-label">혜택</label>
+                        <div class="form-field radio">
+                            <div class="benefit-grid">
+                                <!-- 금액 할인 -->
+                                <label><input type="radio" name="benefit" value="1,000원 할인"> 1,000원 할인</label>
+                                <label><input type="radio" name="benefit" value="2,000원 할인"> 2,000원 할인</label>
+                                <label><input type="radio" name="benefit" value="3,000원 할인"> 3,000원 할인</label>
+                                <label><input type="radio" name="benefit" value="4,000원 할인"> 4,000원 할인</label>
+                                <label><input type="radio" name="benefit" value="5,000원 할인"> 5,000원 할인</label>
 
-                                <!-- 혜택 -->
-                                <label class="form-label">혜택</label>
-                                <div class="form-field radio">
-                                    <div class="benefit-grid">
-                                        <!-- 금액 할인 -->
-                                        <label><input type="radio" name="benefitKind" value="amount"> 1,000원 할인</label>
-                                        <label><input type="radio" name="benefitKind" value="amount"> 2,000원 할인</label>
-                                        <label><input type="radio" name="benefitKind" value="amount"> 3,000원 할인</label>
-                                        <label><input type="radio" name="benefitKind" value="amount"> 4,000원 할인</label>
-                                        <label><input type="radio" name="benefitKind" value="amount"> 5,000원 할인</label>
-                                        <!-- 퍼센트 할인 -->
-                                        <label><input type="radio" name="benefitKind" value="percent"> 10% 할인</label>
-                                        <label><input type="radio" name="benefitKind" value="percent"> 20% 할인</label>
-                                        <label><input type="radio" name="benefitKind" value="percent"> 30% 할인</label>
-                                        <label><input type="radio" name="benefitKind" value="percent"> 40% 할인</label>
-                                        <label><input type="radio" name="benefitKind" value="percent"> 50% 할인</label>
-                                        <!-- 배송비 무료 -->
-                                        <label class="full"><input type="radio" name="benefitKind" value="shipping"> 배송비 무료</label>
-                                    </div>
-                                </div>
+                                <!-- 퍼센트 할인 -->
+                                <label><input type="radio" name="benefit" value="10% 할인"> 10% 할인</label>
+                                <label><input type="radio" name="benefit" value="20% 할인"> 20% 할인</label>
+                                <label><input type="radio" name="benefit" value="30% 할인"> 30% 할인</label>
+                                <label><input type="radio" name="benefit" value="40% 할인"> 40% 할인</label>
+                                <label><input type="radio" name="benefit" value="50% 할인"> 50% 할인</label>
 
-                                <!-- 사용기간 -->
-                                <label class="form-label">사용기간</label>
-                                <div class="form-field">
-                                    <div class="range-row">
-                                        <input id="dateStart" name="dateStart" type="date" />
-                                        <span class="tilde">~</span>
-                                        <input id="dateEnd" name="dateEnd" type="date" />
-                                    </div>
-                                    <div class="or-row">
-                                        <span>또는 발급일로부터</span>
-                                        <input id="validDays" name="validDays" type="number" min="1" placeholder="일수" style="width:110px;">
-                                        <span>일내</span>
-                                    </div>
-                                </div>
-
-                                <!-- 유의사항 -->
-                                <label class="form-label" for="memo">유의사항</label>
-                                <div class="form-field">
-                                    <textarea id="memo" name="memo" placeholder="유의사항 입력"></textarea>
-                                </div>
-
-
-
-
+                                <!-- 배송비 무료 -->
+                                <label class="full"><input type="radio" name="benefit" value="배송비 무료"> 배송비 무료</label>
                             </div>
+                        </div>
 
-                            <div class="modal__footer">
-                                <button type="button" class="btn-gray" data-close="true">취소</button>
-                                <button type="submit" class="btn-green">등록하기</button>
-                            </div>
-                        </form>
+
+                        <!-- 사용기간(startDay ~ endDay) -->
+                        <label class="form-label">사용기간</label>
+                        <div class="form-field range-row">
+                            <input id="dateStart" name="startDay" type="date" required />
+                            <span class="tilde">~</span>
+                            <input id="dateEnd" name="endDay" type="date" required />
+                        </div>
                     </div>
 
+                    <div class="modal__footer">
+                        <button type="button" class="btn-gray" data-close="true">취소</button>
+                        <button type="submit" class="btn-green">등록하기</button>
+                    </div>
+                </form>
             </div>
+        </div>
 
-            <!-- 상세 모달 -->
-            <div id="DetailModal" class="modal" aria-hidden="true">
-                <div class="modal__backdrop" data-close="true"></div>
+        <!-- 상세 모달 (예시는 그대로 유지) -->
+        <div id="DetailModal" class="modal" aria-hidden="true">
+            <div class="modal__backdrop" data-close="true"></div>
 
-                <div class="modal__dialog order-detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
-                    <!-- 헤더  -->
-                    <div class="modal__header">
-                        <h5 id="detailTitle">쿠폰정보</h5>
-                        <div class="coupon-no" aria-label="쿠폰정보">
-                            <span id="od-couponNo">—3434</span></div>
-                        <button type="button" class="modal__close" data-close="true" aria-label="닫기">×</button>
-                    </div>
-
-                    <div class="modal__body">
-                        <section class="od-section">
-                            <table class="od-info-table">
-                                <tbody>
-                                <tr>
-                                    <th>쿠폰번호</th>
-                                    <td id="coupon-no">10121211341</td>
-                                </tr>
-                                <tr>
-                                    <th>쿠폰종류</th>
-                                    <td>종류1341</td>
-                                </tr>
-
-                                <tr>
-                                    <th>발급처</th>
-                                    <td>(주)디아요</td>
-                                </tr>
-
-                                <tr>
-                                    <th>쿠폰명</th>
-                                    <td>10월 한달 감사 쿠폰 이벤트</td>
-                                </tr>
-                                <tr>
-                                    <th>혜택</th>
-                                    <td>2,000 원 할인</td>
-                                </tr>
-                                <tr>
-                                    <th>사용기간</th>
-                                    <td>0000-00-00 ~ 0000-00-00</td>
-                                </tr>
-                                <tr>
-                                    <th>유의사항</th>
-                                    <td>
-                                        상품 특정 할인 쿠폰<br>
-                                        - 상품 구매시에만 사용 가능<br>
-                                        - 현재 적립금/포인트결합 쿠폰과 중복 사용 가능<br><br>
-                                        사용자<br>
-                                        - (주)디아요
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </section>
-
-                    </div>
+            <div class="modal__dialog order-detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+                <div class="modal__header">
+                    <h5 id="detailTitle">쿠폰정보</h5>
+                    <div class="coupon-no" aria-label="쿠폰정보">
+                        <span id="od-couponNo">—</span></div>
+                    <button type="button" class="modal__close" data-close="true" aria-label="닫기">×</button>
                 </div>
 
+                <div class="modal__body">
+                    <section class="od-section">
+                        <table class="od-info-table">
+                            <tbody>
+                            <tr><th>쿠폰번호</th><td id="coupon-no">-</td></tr>
+                            <tr><th>쿠폰종류</th><td id="coupon-type">-</td></tr>
+                            <tr><th>발급처</th><td id="coupon-issuer">-</td></tr>
+                            <tr><th>쿠폰명</th><td id="coupon-name">-</td></tr>
+                            <tr><th>혜택</th><td id="coupon-benefit">-</td></tr>
+                            <tr><th>사용기간</th><td id="coupon-range">- ~ -</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
             </div>
-            <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        </div>
+        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+    </div>
 
+    <script th:src="@{/js/modal.js}"></script>
+    <script>
+        // 상태 칠하기 (백업: 서버에서 classappend도 이미 설정)
+        document.querySelectorAll('td.coupon-status').forEach(el=>{
+            const t = el.textContent.trim();
+            if (t === '발급가능') el.classList.add('coupon-status--active');
+            else if (t === '종료') el.classList.add('coupon-status--closed');
+        });
 
- <script th:src="@{/js/modal.js}"></script>
-<script>
-    document.querySelectorAll('td.coupon-status').forEach(el=>{
-        const t = el.textContent.trim();
-        if (t === '발급중') el.classList.add('coupon-status--active');
-        else if (t === '종료') el.classList.add('coupon-status--closed');
-    });
+    </script>
+    <script>
+        const csrfToken  = document.querySelector('meta[name="_csrf"]')?.content;
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
 
-    document.querySelectorAll(".btn-mini").forEach(btn => {
-        btn.addEventListener("click", function(e){
+        // 종료 버튼 AJAX
+        document.addEventListener("click", async (e) => {
+            const btn = e.target.closest(".btn-mini");
+            if (!btn) return;
+
             e.preventDefault();
-            if (confirm("정말 종료하시겠습니까? 종료하면 발급이 중단됩니다.")) {
-                // 실제 종료 처리해야함
-                alert("쿠폰이 종료되었습니다.");
+            const couponId = btn.dataset.couponId || btn.getAttribute("data-coupon-id");
+            if (!couponId) return;
+
+            if (!confirm("정말 종료하시겠습니까? 종료하면 발급이 중단됩니다.")) return;
+
+            // 버튼 비활성화
+            btn.classList.add('is-loading');
+            btn.setAttribute('disabled', 'disabled');
+
+            try {
+                const resp = await fetch(`/admin/coupon/close?cId=${encodeURIComponent(couponId)}`, {
+                    method: 'POST',
+                    headers: csrfToken && csrfHeader ? { [csrfHeader]: csrfToken } : {}
+                });
+
+                const data = await resp.json().catch(() => ({}));
+
+                if (resp.ok && data.ok) {
+                    // 같은 행(row) 찾기
+                    const row = btn.closest('tr');
+
+                    // 상태 셀 업데이트
+                    const statusTd = row.querySelector('td.coupon-status');
+                    if (statusTd) {
+                        statusTd.textContent = '종료';
+                        statusTd.classList.remove('coupon-status--active');
+                        statusTd.classList.add('coupon-status--closed');
+                    }
+
+                    // 관리 셀: 버튼 → "종료됨"
+                    const mgmtTd = btn.parentElement;
+                    mgmtTd.innerHTML = '<span class="text-gray">종료됨</span>';
+
+                    alert("쿠폰이 종료되었습니다.");
+                } else {
+                    alert(data.msg || "종료 처리 중 오류가 발생했습니다.");
+                    btn.classList.remove('is-loading');
+                    btn.removeAttribute('disabled');
+                }
+            } catch (err) {
+                console.error(err);
+                alert("네트워크 오류가 발생했습니다.");
+                btn.classList.remove('is-loading');
+                btn.removeAttribute('disabled');
             }
         });
-    });
+    </script>
+    <script>
+        // 날짜 포맷터
+        function fmtDate(iso) {
+            return iso ? String(iso) : '-';
+        }
+        function openModalById(id){
+            const m = document.getElementById(id);
+            if (m) m.setAttribute('aria-hidden', 'false');
+        }
+        // null/undefined 대응 유틸
+        function pick(...args) {
+            for (const v of args) {
+                if (v !== undefined && v !== null && String(v).trim() !== '') return v;
+            }
+            return '-';
+        }
+
+        // 쿠폰번호 클릭 → 상세 조회
+        document.addEventListener('click', async (e) => {
+            const a = e.target.closest('a.coupon-detail, td.coupon-link a');
+            if (!a) return;
+
+            e.preventDefault();
+            const cId = a.dataset.couponId || a.getAttribute('data-coupon-id') || a.textContent.trim();
+            if (!cId) return;
+
+            try {
+                const resp = await fetch(`/admin/coupon/detail?cId=${encodeURIComponent(cId)}`);
+                // JSON 파싱 실패 방지
+                let json = {};
+                try { json = await resp.json(); } catch (_) { json = {}; }
+
+                if (!resp.ok || !json.ok || !json.data) {
+                    alert((json && json.msg) ? json.msg : '상세 조회 중 오류가 발생했습니다.');
+                    return;
+                }
+
+                const d = json.data;
+
+                // 서버가 cId/cName 대신 cid/cname 으로 내려와도 대응
+                const cid   = pick(d.cId, d.cid);
+                const cname = pick(d.cName, d.cname);
+
+                // 모달 필드 채우기 (아이디 존재하는지 체크)
+                const el = (id) => document.getElementById(id);
+
+                el('od-couponNo') && (el('od-couponNo').textContent = cid);
+                el('coupon-no')   && (el('coupon-no').textContent   = cid);
+                el('coupon-name') && (el('coupon-name').textContent = cname);
+                el('coupon-type') && (el('coupon-type').textContent = pick(d.ctType));
+                el('coupon-benefit') && (el('coupon-benefit').textContent = pick(d.benefit));
+                el('coupon-range') && (el('coupon-range').textContent = `${fmtDate(d.startDay)} ~ ${fmtDate(d.endDay)}`);
+
+                // (선택) 발급처 행을 사용 중이라면
+                if (el('coupon-issuer')) {
+                    el('coupon-issuer').textContent = pick(d.issuerName, d.issuerUid);
+                }
+
+                openModalById('DetailModal');
+            } catch (err) {
+                console.error(err);
+                alert('네트워크 오류가 발생했습니다.');
+            }
+        });
+    </script>
 
 
-
-</script>
 </th:block>
-
