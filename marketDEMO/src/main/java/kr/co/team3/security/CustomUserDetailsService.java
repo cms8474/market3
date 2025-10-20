@@ -39,4 +39,11 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .map(MemberEntity::getUName)
                 .orElse("사용자");
     }
+    
+    // 관리자 권한 확인 메서드 추가
+    public boolean isAdmin(String username) {
+        return memberService.getMember(username)
+                .map(member -> "관리자".equals(member.getUType()))
+                .orElse(false);
+    }
 }
