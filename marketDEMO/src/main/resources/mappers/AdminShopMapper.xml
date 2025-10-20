@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.admin_mapper.AdminShopMapper">
+
+    <!--shop 조회-->
+    <resultMap id="MemberShopMap" type="kr.co.team3.product_dto.MemberDTO">
+        <id     column="U_ID"           property="u_id"/>
+        <result column="S_COMPANY_NAME"  property="s_company_name"/>
+        <result column="U_NAME"          property="u_name"/>
+        <result column="S_SELLER_NO"     property="s_seller_no"/>
+        <result column="S_SALES_REG_NUM" property="s_sales_reg_num"/>
+        <result column="S_TEL"           property="s_tel"/>
+        <result column="S_STATE"        property="s_state"/>
+
+    </resultMap>
+
+    <sql id="searchWhere">
+        <where>
+            uu.U_TYPE = '판매자'
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                <choose>
+                    <when test="pageRequestDTO.searchType == 's_company_name'">
+                        AND si.S_COMPANY_NAME LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'u_name'">
+                        AND uu.U_NAME LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 's_seller_no'">
+                        AND si.S_SELLER_NO LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 's_tel'">
+                        AND si.S_TEL LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectShopTotal" resultType="int">
+        SELECT COUNT(*)
+        FROM SELLER_INFO si
+        JOIN U_USER uu ON si.S_U_ID = uu.U_ID
+        <include refid="searchWhere"/>
+    </select>
+
+    <select id="selectShopList" resultMap="MemberShopMap">
+        SELECT
+        uu.U_ID,
+        si.S_COMPANY_NAME,
+        uu.U_NAME,
+        si.S_SELLER_NO,
+        si.S_SALES_REG_NUM,
+        si.S_TEL,
+        si.S_STATE
+        FROM SELLER_INFO si
+        JOIN U_USER uu ON si.S_U_ID = uu.U_ID
+        <include refid="searchWhere"/>
+        ORDER BY uu.U_CREATE_DAY DESC, uu.U_ID DESC
+    </select>
+
+
+
+
+    <!--상점 등록-->
+    <insert id="insertUserForSeller" parameterType="kr.co.team3.product_dto.MemberDTO">
+        INSERT INTO U_USER (
+            U_ID, U_PW, U_NAME,
+            U_POSTAL, U_BASE_ADDR, U_DETAIL_ADDR,
+            U_TYPE,U_RANK,U_STATUS
+        ) VALUES (
+                     #{u_id}, #{u_pw}, #{u_name},
+                     #{u_postal}, #{u_base_addr}, #{u_detail_addr},
+                     '판매자','SELLER','정상'
+                 )
+    </insert>
+
+    <insert id="insertSellerInfo" parameterType="kr.co.team3.product_dto.MemberDTO">
+        INSERT INTO SELLER_INFO (
+            S_U_ID, S_COMPANY_NAME, S_SELLER_NO, S_SALES_REG_NUM,
+            S_TEL, S_FAX, S_STATE, S_SELLER_TYPE
+        ) VALUES (
+                     #{u_id}, #{s_company_name}, #{s_seller_no}, #{s_sales_reg_num},
+                     #{s_tel}, #{s_fax},'운영준비', '개인사업자'
+                 )
+    </insert>
+
+
+    <!--  중복 체크 쿼리 -->
+    <select id="existsUserId" parameterType="string" resultType="int">
+        SELECT COUNT(1) FROM U_USER WHERE U_ID = #{u_id}
+    </select>
+
+    <select id="existsSellerNo" parameterType="string" resultType="int">
+        SELECT COUNT(1) FROM SELLER_INFO WHERE S_SELLER_NO = #{s_seller_no}
+    </select>
+
+    <select id="existsSalesRegNum" parameterType="string" resultType="int">
+        SELECT COUNT(1) FROM SELLER_INFO WHERE S_SALES_REG_NUM = #{s_sales_reg_num}
+    </select>
+
+    <!-- 삭제-->
+    <delete id="deleteSellerInfos" parameterType="list">
+        DELETE FROM SELLER_INFO
+        WHERE S_U_ID IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteUsers" parameterType="list">
+        DELETE FROM U_USER
+        WHERE U_ID IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 운영 상태 업데이트 -->
+
+    <!-- 운영준비 → 운영 -->
+    <update id="approveSeller" parameterType="map">
+        UPDATE SELLER_INFO
+        SET S_STATE = '운영중'
+        WHERE S_U_ID = #{u_id}
+          AND S_STATE = '운영준비'
+    </update>
+
+    <!-- 운영 → 운영중지 -->
+    <update id="stopSeller" parameterType="map">
+        UPDATE SELLER_INFO
+        SET S_STATE = '운영중지'
+        WHERE S_U_ID = #{u_id}
+          AND S_STATE = '운영중'
+    </update>
+
+    <!-- 운영중지 → 운영 -->
+    <update id="resumeSeller" parameterType="map">
+        UPDATE SELLER_INFO
+        SET S_STATE = '운영중'
+        WHERE S_U_ID = #{u_id}
+          AND S_STATE = '운영중지'
+    </update>
+
+
+
+</mapper>
