@@ -198,7 +198,7 @@
             <div class="faq-icons">
                 <div class="faq-item" th:each="faq : ${faqList}">
                     <a th:href="@{'/cs/faq/view'(no=${faq.boardNo})}">
-                        <img src="/images/logo.png" alt="FAQ 아이콘">
+                        <img th:src="@{/images/logo.png}" alt="FAQ 아이콘">
                         <p th:text="${faq.boardType1}">회원</p>
                     </a>
                 </div>

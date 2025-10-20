@@ -27,8 +27,14 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 반드시 locations 끝에 슬래시 / 가 있어야 디렉터리로 인식합니다.
+        String fileLocation = java.nio.file.Paths.get(uploadDir).toAbsolutePath().toUri().toString();
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:" + (uploadDir.endsWith("/") ? uploadDir : uploadDir + "/"));
+                .addResourceLocations(
+                        "classpath:/static/images/", // JAR 안의 /static/images
+                        fileLocation                  // 외부 폴더
+                )
+                .setCachePeriod(3600)
+                .resourceChain(true)
+                .addResolver(new org.springframework.web.servlet.resource.PathResourceResolver());
     }
 }
