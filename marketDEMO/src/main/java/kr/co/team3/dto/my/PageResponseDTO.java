@@ -12,7 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 public class PageResponseDTO {
 
-    private List<ProductOrderDTO> dtoList;
+    private List<ProductOrderDTO> poDtoList;
+    private List<PointDTO> pointDTOList;
+    private List<CouponDTO> couponDTOList;
+    private List<ReviewDTO> reviewDTOList;
+    private List<BoardDTO> boardDTOList;
 
     private String cate;
     private int pg;
@@ -28,12 +32,22 @@ public class PageResponseDTO {
     private String endDate;
 
     @Builder
-    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<ProductOrderDTO> dtoList, int total){
+    public PageResponseDTO(PageRequestDTO pageRequestDTO,
+                           List<ProductOrderDTO> poDtoList,
+                           List<PointDTO> pointDTOList,
+                           List<CouponDTO> couponDTOList,
+                           List<ReviewDTO> reviewDTOList,
+                           List<BoardDTO> boardDTOList,
+                           int total){
         this.cate = pageRequestDTO.getCate();
         this.pg = pageRequestDTO.getPg();
         this.size = pageRequestDTO.getSize();
         this.total = total;
-        this.dtoList = dtoList;
+        this.poDtoList = poDtoList;
+        this.pointDTOList = pointDTOList;
+        this.couponDTOList = couponDTOList;
+        this.reviewDTOList = reviewDTOList;
+        this.boardDTOList = boardDTOList;
 
         this.startNo = total - ((pg - 1) * size);
         this.end = (int) Math.ceil(this.pg / 10.0) * 10;

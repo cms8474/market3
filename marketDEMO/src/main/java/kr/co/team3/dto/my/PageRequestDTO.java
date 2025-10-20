@@ -27,10 +27,14 @@ public class PageRequestDTO {
     @Builder.Default
     private String cate = "free";
 
-    private String unit;
-    private String recentMonths;
-    private String startDate;
-    private String endDate;
+    @Builder.Default
+    private String unit = null;
+    @Builder.Default
+    private String recentMonths = null;
+    @Builder.Default
+    private String startDate = null;
+    @Builder.Default
+    private String endDate = null;
 
     private int offset;
 

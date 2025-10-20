@@ -89,7 +89,7 @@
                     <th>상태</th>
                     <th>확인/신청</th>
                 </tr>
-                <tr th:each="order : ${pageResponseDTO.dtoList}" th:object="${order}">
+                <tr th:each="order : ${pageResponseDTO.poDtoList}" th:object="${order}">
                     <td>[[*{poOrderdate}]]</td>
                     <td><img src="/images/로고.png"/></td>
                     <td>

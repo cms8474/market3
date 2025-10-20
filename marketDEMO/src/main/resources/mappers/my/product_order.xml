@@ -104,6 +104,6 @@
     </select>
     <select id="selectCountOrder" resultType="int">
         SELECT COUNT(*) FROM PRODUCT_ORDER
-        WHERE PO_U_ID = #{uId}
+        <include refid="searchWhere"/>
     </select>
 </mapper>

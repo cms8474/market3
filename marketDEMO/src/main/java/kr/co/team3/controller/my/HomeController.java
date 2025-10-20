@@ -1,9 +1,6 @@
 package kr.co.team3.controller.my;
 
-import kr.co.team3.dto.my.BoardDTO;
-import kr.co.team3.dto.my.PointDTO;
-import kr.co.team3.dto.my.ProductOrderDTO;
-import kr.co.team3.dto.my.ReviewDTO;
+import kr.co.team3.dto.my.*;
 import kr.co.team3.mapper.my.PointMapper;
 import kr.co.team3.repository.my.BoardRepository;
 import kr.co.team3.service.my.*;
@@ -54,9 +51,10 @@ public class HomeController {
 //        log.info(qnaDTOList.toString());
 
         // 나의쇼핑정보 (주문 수, 쿠폰 수, 포인트, 문의 수)
+        PageRequestDTO  pageRequestDTO = PageRequestDTO.builder().build();
         int userPoints = pointService.getOwnPoints(loginId);
         model.addAttribute("userPoints", userPoints);
-        int userOrderCount = productOrderService.getCountOrder(loginId);
+        int userOrderCount = productOrderService.getCountOrder(loginId, pageRequestDTO);
         model.addAttribute("userOrderCount", userOrderCount);
         int userQnaCount = boardService.getNumberOfBoardsWithUidAndBtType(loginId, "qna");
         model.addAttribute("userQnaCount", userQnaCount);

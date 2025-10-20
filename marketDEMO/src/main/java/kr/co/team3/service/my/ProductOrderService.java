@@ -36,11 +36,11 @@ public class ProductOrderService {
             return dto;
         }).toList();
     }
-    public int getCountOrder(String u_id){
+    public int getCountOrder(String u_id, PageRequestDTO pageRequestDTO){
         if (u_id == null || u_id.isEmpty()) {
             return 0;
         }
-        return productOrderMapper.selectCountOrder(u_id);
+        return productOrderMapper.selectCountOrder(u_id, pageRequestDTO);
     }
     public PageResponseDTO selectAll(String uId, PageRequestDTO pageRequestDTO){
         List<ProductOrderDTO> dtoList = productOrderMapper.selectAll(uId, pageRequestDTO);
@@ -49,11 +49,11 @@ public class ProductOrderService {
             dto.setPoOrderdate(formatted.substring(0,10));
         });
 
-        int total = productOrderMapper.selectCountOrder(uId);
+        int total = productOrderMapper.selectCountOrder(uId, pageRequestDTO);
 
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)
-                .dtoList(dtoList)
+                .poDtoList(dtoList)
                 .total(total)
                 .build();
     }

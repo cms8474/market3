@@ -33,7 +33,7 @@ class ProductOrderServiceTest {
         String uId = "user01";
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
                 .pg(1)
-                .recentMonths("2025-09")
+//                .recentMonths("2025-09")
                 .build();
         List<ProductOrderDTO> dtoList = productOrderMapper.selectAll(uId, pageRequestDTO);
         dtoList.forEach(dto -> {

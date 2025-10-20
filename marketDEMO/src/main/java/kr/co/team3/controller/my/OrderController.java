@@ -4,6 +4,7 @@ import kr.co.team3.dto.my.PageRequestDTO;
 import kr.co.team3.dto.my.PageResponseDTO;
 import kr.co.team3.service.my.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
     private final ProductOrderService productOrderService;
     private final PointService pointService;
@@ -32,18 +34,22 @@ public class OrderController {
             }
         }
 
+        PageResponseDTO pageResponseDTO = productOrderService.selectAll(loginId, pageRequestDTO);
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
+
         // 나의쇼핑정보 (주문 수, 쿠폰 수, 포인트, 문의 수)
+        pageResponseDTO.setUnit(null);
+        pageResponseDTO.setRecentMonths(null);
+        pageResponseDTO.setStartDate(null);
+        pageResponseDTO.setEndDate(null);
         int userPoints = pointService.getOwnPoints(loginId);
         model.addAttribute("userPoints", userPoints);
-        int userOrderCount = productOrderService.getCountOrder(loginId);
+        int userOrderCount = productOrderService.getCountOrder(loginId, pageRequestDTO);
         model.addAttribute("userOrderCount", userOrderCount);
         int userQnaCount = boardService.getNumberOfBoardsWithUidAndBtType(loginId, "qna");
         model.addAttribute("userQnaCount", userQnaCount);
         int userCouponCount = couponService.getNumberofCouponsWithUcUIdAndStatus(loginId, "사용가능");
         model.addAttribute("userCouponCount", userCouponCount);
-
-        PageResponseDTO pageResponseDTO = productOrderService.selectAll(loginId, pageRequestDTO);
-        model.addAttribute("pageResponseDTO", pageResponseDTO);
         return "my/order";
     }
 }

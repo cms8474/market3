@@ -3,6 +3,34 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.team3.mapper.my.ReviewMapper">
+    <!--조회용 where 절-->
+    <sql id="searchWhere">
+        <where>
+            PR_U_ID = #{uId}
+            <if test="pageRequestDTO.unit != null and pageRequestDTO.unit != ''">
+                <choose>
+                    <when test="pageRequestDTO.unit == '1w'">
+                        AND PR_REG_DATE >= SYSDATE - INTERVAL '7' DAY
+                    </when>
+                    <when test="pageRequestDTO.unit == '15d'">
+                        AND PR_REG_DATE >= SYSDATE - INTERVAL '15' DAY
+                    </when>
+                    <when test="pageRequestDTO.unit == '1m'">
+                        AND PR_REG_DATE >= SYSDATE - INTERVAL '1' MONTH
+                    </when>
+                </choose>
+            </if>
+            <if test="pageRequestDTO.recentMonths != null and pageRequestDTO.recentMonths != ''">
+                AND TO_CHAR(PR_REG_DATE, 'YYYY-MM') = #{pageRequestDTO.recentMonths}
+            </if>
+            <if test="pageRequestDTO.startDate != null and pageRequestDTO.startDate != ''
+                      and pageRequestDTO.endDate != null and pageRequestDTO.endDate != ''">
+                AND PR_REG_DATE BETWEEN TO_DATE(#{pageRequestDTO.startDate}, 'YYYY-MM-DD')
+                AND TO_DATE(#{pageRequestDTO.endDate}, 'YYYY-MM-DD')
+            </if>
+        </where>
+    </sql>
+
     <insert id="insertReview">
         INSERT INTO PRODUCT_REVIEW
         (PR_PO_NO,
@@ -33,5 +61,19 @@
         WHERE PR_U_ID = #{uId}
         ORDER BY PR_REG_DATE DESC
         OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+    </select>
+
+    <select id="selectAll" resultType="kr.co.team3.dto.my.ReviewDTO">
+        SELECT *
+        FROM PRODUCT_REVIEW pr
+        JOIN PRODUCT_ITEM t ON pr.PR_P_PID = t.P_PID
+        <include refid="searchWhere"/>
+        ORDER BY PR_REG_DATE DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCountReview" resultType="int">
+        SELECT COUNT(*) FROM PRODUCT_REVIEW
+        WHERE PR_U_ID = #{uId}
     </select>
 </mapper>
