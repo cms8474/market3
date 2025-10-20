@@ -44,24 +44,30 @@ public class AdminCouponController {
     /** 등록 */
     @PostMapping("/coupon/register")
     public String register(@ModelAttribute CouponDTO dto, RedirectAttributes ra) {
-        // 필수값 체크 (발급처, 종류, 이름, 혜택, 기간)
+        // 1) 혜택 분류 로직
+        String b = dto.getBenefit();
+        if (b != null) {
+            if (b.contains("배송")) {             // 배송비 무료
+                dto.setBenefitDelivery("무료");
+            } else {                              // 금액 또는 %
+                dto.setBenefitMoney(b);
+            }
+        }
+
+        // 2) 필수값 검증
         if (isBlank(dto.getIssuerUid()) ||
                 isBlank(dto.getCtType()) ||
-                isBlank(dto.getCName())  ||
-                isBlank(dto.getBenefit())||
+                isBlank(dto.getCName()) ||
                 dto.getStartDay() == null ||
                 dto.getEndDay() == null) {
             ra.addFlashAttribute("error", "필수 항목을 모두 입력하세요.");
             return "redirect:/admin/coupon/list";
         }
-        // 기간 유효성
-        if (dto.getEndDay().isBefore(dto.getStartDay())) {
-            ra.addFlashAttribute("error", "사용기간이 올바르지 않습니다. (종료일이 시작일보다 빠름)");
-            return "redirect:/admin/coupon/list";
-        }
 
-        if (isBlank(dto.getIssuerName())) {
-            dto.setIssuerName(dto.getIssuerUid());
+        // 3) 날짜 유효성
+        if (dto.getEndDay().isBefore(dto.getStartDay())) {
+            ra.addFlashAttribute("error", "사용기간이 올바르지 않습니다.");
+            return "redirect:/admin/coupon/list";
         }
 
         adminCouponService.registerCoupon(dto);
@@ -139,6 +145,23 @@ public class AdminCouponController {
             return ResponseEntity.status(404).body(Map.of("ok", false, "msg", "발급내역을 찾을 수 없습니다."));
         }
         return ResponseEntity.ok(Map.of("ok", true, "data", dto));
+    }
+
+
+    // 발급 단건 중단
+    @PostMapping("/coupon/issued/stop")
+    @ResponseBody
+    public ResponseEntity<?> stopIssue(@RequestParam String poNo) {
+        if (poNo == null || poNo.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("ok", false, "msg", "발급번호가 없습니다."));
+        }
+
+        int n = couponIssueService.stopIssue(poNo);
+        if (n > 0) {
+            return ResponseEntity.ok(Map.of("ok", true, "poNo", poNo));
+        } else {
+            return ResponseEntity.status(500).body(Map.of("ok", false, "msg", "발급 중단 처리 실패"));
+        }
     }
 
 
