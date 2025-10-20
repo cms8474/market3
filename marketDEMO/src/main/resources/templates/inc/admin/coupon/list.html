@@ -68,12 +68,22 @@
                 <td class="center"
                     th:text="${c.startDay != null ? #temporals.format(c.startDay, 'yyyy-MM-dd') : '-'}">-
                 </td>
+            <tr th:each="c : ${page.dtoList}"
+                th:with="st=${c.status != null ? #strings.trim(c.status) : ''}">
+                ...
                 <td>
-                    <!-- 상태가 발급중일 때만 종료 버튼 보여주기 (예시) -->
-                    <a href="#" class="btn-mini"
-                       th:if="${c.status}=='발급중'"
+                    <!-- 발급가능이면 종료 버튼 -->
+                    <a href="#"
+                       class="btn-mini"
+                       th:if="${#strings.equalsIgnoreCase(st, '발급가능')}"
                        th:attr="data-coupon-id=${c.cId}">종료</a>
+
+                    <!-- 종료면 '종료됨' -->
+                    <span class="text-gray"
+                          th:if="${#strings.equalsIgnoreCase(st, '종료')}">종료됨</span>
                 </td>
+            </tr>
+
             </tr>
 
             <!-- 빈 목록 처리 -->
@@ -126,8 +136,8 @@
                         <!-- 발급처 -->
                         <label class="form-label" for="issuer">발급처</label>
                         <div class="form-field">
-                            <input id="issuer" name="issuer" type="text"
-                                   th:value="${#strings.defaultString(#httpServletRequest.remoteUser, '(주)다있어')}" readonly />
+                            <input id="issuer" name="issuer" type="text" placeholder="발급처 입력" />
+
                         </div>
 
                         <!-- 쿠폰종류 -->
