@@ -52,7 +52,7 @@
         <!-- □□□□□ 사이드바 공간 □□□□□ -->
         <section class="main-content" style="margin-left: 10px;">
             <div class="ad-banner" style="width: 100%; height: 86px; text-align: center;">
-                <img src="/images/광고.png" style="width: 810px; height: 100%;">
+                <img src="/images/adv.png" style="width: 810px; height: 100%;">
             </div>
             <section>
                 <div style="display: flex; align-items: center;">
@@ -68,7 +68,7 @@
                     </tr>
                     <tr th:each="order : ${orderDTOList}" th:object="${order}">
                         <td>[[*{po_orderdate}]]</td>
-                        <td><img src="/images/로고.png"/></td>
+                        <td><img src="/images/logo.png"/></td>
                         <td>
                             <a href="#" class="orderNum" th:attr="order=*{po_no}">주문번호 : [[*{po_no}]]</a><br>
                             <a href="#" class="tradeName">[[*{s_company_name}]]</a><br>

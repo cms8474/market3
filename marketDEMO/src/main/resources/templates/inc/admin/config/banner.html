@@ -108,7 +108,12 @@
                     </div>
 
                     <div class="card-foot between">
-                        <button type="button" class="btn ghost" id="btnDelete">선택삭제</button>
+                        <button type="button" class="btn ghost" id="btnDelete"
+                                th:data-url="@{/admin/config/banner/delete}"
+                                th:data-csrf-token="${_csrf.token}"
+                                th:data-csrf-header="${_csrf.headerName}">
+                            선택삭제
+                        </button>
                         <a class="btn primary" href="#bannerModal" id="btnNew">배너등록</a>
                     </div>
                 </form>
@@ -142,6 +147,56 @@
                 document.querySelectorAll('input[name="ids"]').forEach(c=> c.checked = all.checked);
             });
         }
+
+        // 삭제
+        const DELETE_URL = /*[[@{/admin/config/banner/delete}]]*/ '/admin/config/banner/delete';
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('btnDelete');
+            if (!btn) return;
+
+            // CSRF (Spring Security)
+            const deleteUrl = btn.dataset.url;
+            const token = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
+            const header = document.querySelector('meta[name="_csrf_header"]')?.getAttribute('content');
+
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
+
+                // 체크된 PK 모으기 (checkbox name="ids", value=배너 PK)
+                const ids = Array.from(document.querySelectorAll('input[name="ids"]:checked'))
+                    .map(cb => Number(cb.value))
+                    .filter(v => !Number.isNaN(v));
+
+                if (ids.length === 0) {
+                    alert('삭제할 배너를 선택하세요.');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(DELETE_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            [header]: token
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify(ids)
+                    });
+
+                    if (!res.ok) {
+                        console.error(await res.text());
+                        alert('삭제중 오류가 발생했습니다');
+                        return;
+                    }
+                    const data = await res.json().catch(() => ({}));
+                    alert(`삭제 완료 (${data.count ?? ids.length}건)`);
+                    location.reload();
+                } catch (err) {
+                    console.error(err);
+                    alert('삭제중 오류가 발생했습니다');
+                }
+            });
+        });
     </script>
     <div id="bannerModal" class="bn-modal" role="dialog" aria-modal="true" aria-labelledby="bnModalTitle">
         <div class="bn-modal__panel">
@@ -179,11 +234,11 @@
                     <label class="bn-label" for="bPos">배너위치</label>
                     <select id="bPos" name="position" class="bn-input" required>
                         <option value="">선택</option>
-                        <option value="MAIN_TOP">메인상단</option>
-                        <option value="MAIN_SLIDER">메인슬라이더</option>
-                        <option value="PRODUCT">상품상세</option>
-                        <option value="LOGIN">로그인</option>
-                        <option value="MY">마이페이지</option>
+                        <option value="MAIN_TOP"    th:selected="${tab=='MAIN_TOP'}">메인상단</option>
+                        <option value="MAIN_SLIDER" th:selected="${tab=='MAIN_SLIDER'}">메인슬라이더</option>
+                        <option value="PRODUCT"     th:selected="${tab=='PRODUCT'}">상품상세</option>
+                        <option value="LOGIN"       th:selected="${tab=='LOGIN'}">로그인</option>
+                        <option value="MY"          th:selected="${tab=='MY'}">마이페이지</option>
                     </select>
                 </div>
 
