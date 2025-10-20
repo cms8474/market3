@@ -100,21 +100,21 @@
                 </tr>
             </table>
             <div class="Pagenation" style="text-align: center;">
-                <a th:if="${pageResponseDTO.prev}" th:href="@{/my/order(pg=${pageResponseDTO.start - 1},
+                <a th:if="${pageResponseDTO.prev}" th:href="@{/my/point(pg=${pageResponseDTO.start - 1},
                 unit=${pageResponseDTO.unit}?${pageResponseDTO.unit}:null,
                 recentMonths=${pageResponseDTO.recentMonths}?${pageResponseDTO.recentMonths}:null,
                 startDate=${pageResponseDTO.startDate}?${pageResponseDTO.startDate}:null,
                 endDate=${pageResponseDTO.endDate}?${pageResponseDTO.endDate}:null)}">이전</a>
                 &nbsp;&nbsp;
                 <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
-                    <a th:href="@{/my/order(pg=${num},
+                    <a th:href="@{/my/point(pg=${num},
                     unit=${pageResponseDTO.unit}?${pageResponseDTO.unit}:null,
                     recentMonths=${pageResponseDTO.recentMonths}?${pageResponseDTO.recentMonths}:null,
                     startDate=${pageResponseDTO.startDate}?${pageResponseDTO.startDate}:null,
                     endDate=${pageResponseDTO.endDate}?${pageResponseDTO.endDate}:null)}" th:class="${num == pageResponseDTO.pg ? 'current' : 'num'}">[[${num}]]</a>
                 </th:block>
                 &nbsp;&nbsp;
-                <a th:if="${pageResponseDTO.next}" th:href="@{/my/order(pg=${pageResponseDTO.end + 1},
+                <a th:if="${pageResponseDTO.next}" th:href="@{/my/point(pg=${pageResponseDTO.end + 1},
                     recentMonths=${pageResponseDTO.recentMonths}?${pageResponseDTO.recentMonths}:null,
                     startDate=${pageResponseDTO.startDate}?${pageResponseDTO.startDate}:null,
                     endDate=${pageResponseDTO.endDate}?${pageResponseDTO.endDate}:null)}">다음</a>
@@ -130,5 +130,5 @@
 
 
 <!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
-
+<!-- 강민철 2025-10-20 1757 -->
 

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-// 강민철 2025-10-20 1710
+// 강민철 2025-10-20 1757
 
 @Controller
 @RequiredArgsConstructor
@@ -36,15 +36,13 @@ public class OrderController {
 
         PageResponseDTO pageResponseDTO = productOrderService.selectAll(loginId, pageRequestDTO);
         model.addAttribute("pageResponseDTO", pageResponseDTO);
+        log.info("Order Page : {}", pageResponseDTO);
 
         // 나의쇼핑정보 (주문 수, 쿠폰 수, 포인트, 문의 수)
-        pageResponseDTO.setUnit(null);
-        pageResponseDTO.setRecentMonths(null);
-        pageResponseDTO.setStartDate(null);
-        pageResponseDTO.setEndDate(null);
+        PageRequestDTO countPageRequestDTO = PageRequestDTO.builder().build();
         int userPoints = pointService.getOwnPoints(loginId);
         model.addAttribute("userPoints", userPoints);
-        int userOrderCount = productOrderService.getCountOrder(loginId, pageRequestDTO);
+        int userOrderCount = productOrderService.getCountOrder(loginId, countPageRequestDTO);
         model.addAttribute("userOrderCount", userOrderCount);
         int userQnaCount = boardService.getNumberOfBoardsWithUidAndBtType(loginId, "qna");
         model.addAttribute("userQnaCount", userQnaCount);

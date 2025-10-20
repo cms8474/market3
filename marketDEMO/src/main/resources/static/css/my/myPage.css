@@ -23,7 +23,7 @@
 
 /* ------------------ 마이페이지 메인 스타일 ------------------------ */
 .myPageTable {
-    width: 100%;
+    width: -webkit-fill-available;
     border-collapse: collapse;
     border-top: solid 2px;
 }
@@ -600,4 +600,4 @@
     text-decoration: underline;
 }
 
-/* 강민철 2025-10-20 1457 */
+/* 강민철 2025-10-20 1757 */
