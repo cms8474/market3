@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// 강민철 2025-10-20 1457
+
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -26,5 +28,9 @@ public class BoardService {
             dto.setBRegDate(formatted);
             return dto;
         }).toList();
+    }
+
+    public int getNumberOfBoardsWithUidAndBtType(String uId, String bBtType) {
+        return boardRepository.countBybUIdAndBoardTypeBtTypeContaining(uId, bBtType);
     }
 }
