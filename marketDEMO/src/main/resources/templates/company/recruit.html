@@ -37,53 +37,38 @@
                 <th>상태</th>
                 <th>모집기간</th>
             </tr>
-            <tr>
-                <td>4</td>
-                <td>광고사업</td>
-                <td>경력 4 ~ 15년</td>
-                <td>정규직</td>
-                <td>광고 플랫폼 기획</td>
-                <td>모집중</td>
-                <td>0000-00-00 ~ 0000-00-00</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>IT</td>
-                <td>경력 2 ~ 15년</td>
-                <td>정규직</td>
-                <td>IT 인재 상시 영입(경력)</td>
-                <td>모집중</td>
-                <td>0000-00-00 ~ 0000-00-00</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>운영</td>
-                <td>무관</td>
-                <td>계약직</td>
-                <td>단기 아르바이트 모집</td>
-                <td>종료</td>
-                <td>0000-00-00 ~ 0000-00-00</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>경영</td>
-                <td>신입</td>
-                <td>계약직</td>
-                <td>경영지원 직원 채용 공고</td>
-                <td>종료</td>
-                <td>0000-00-00 ~ 0000-00-00</td>
+            <tr th:each="r : ${recruitList}">
+                <td th:text="${r.rNo}"></td>
+                <td th:text="${r.rDept}"></td>
+                <td th:text="${r.rCareer}"></td>
+                <td th:text="${r.rType}"></td>
+                <td th:text="${r.rTitle}"></td>
+                <td th:text="${r.rStatus}"
+                    th:classappend="${r.rStatus eq '마감'} ? 'status closed' : 'status open'">
+                </td>
+
+
+                <td th:text="${#temporals.format(r.rStartDate, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(r.rEndDate, 'yyyy-MM-dd')}"></td>
             </tr>
         </table>
 
-        <div class="Pagenation" style="text-align: center;">
-            <a href="#">이전</a>&nbsp;&nbsp;
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>&nbsp;&nbsp;
-            <a href="#">다음</a>
+        <div class="Pagenation" style="text-align:center;">
+
+            <a th:if="${currentPage > 1}"
+               th:href="@{/company/recruit(page=${currentPage - 1})}">이전</a>
+
+            <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+    <a th:href="@{/company/recruit(page=${i})}"
+       th:text="${i}"
+       th:classappend="${i == currentPage} ? 'active' : ''"
+       style="margin:0 4px; text-decoration:none;"></a>
+</span>
+
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{/company/recruit(page=${currentPage + 1})}">다음</a>
+
         </div>
+
     </section>
 
 </main>
