@@ -325,8 +325,8 @@
                         <img th:if="${product.imageBase64 != null}" 
                              th:src="${product.imageBase64}" 
                              th:alt="${product.pName}">
-                        <img th:unless="${product.imageBase64 != null}" 
-                             src="/images/로고.png" 
+                        <img th:unless="${product.imageBase64 != null}"
+                             th:src="@{/images/logo.png}"
                              th:alt="${product.pName}">
                     </div>
                     <div class="pv-info">
@@ -402,8 +402,8 @@
                     <img th:if="${product.imageBase64 != null}" 
                          th:src="${product.imageBase64}" 
                          th:alt="${product.pName} + ' 상세 정보'">
-                    <img th:unless="${product.imageBase64 != null}" 
-                         src="/images/로고.png" 
+                    <img th:unless="${product.imageBase64 != null}"
+                         th:src="@{/images/logo.png}"
                          th:alt="${product.pName} + ' 상세 정보'">
                 </div>
                 <div th:if="${product.pDesc != null}" style="margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 8px;">
