@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.admin_mapper.OrderDetailMapper">
+
+    <!-- 주문 헤더(결제/주문자/배송) -->
+    <select id="selectOrderDetailHeader" parameterType="string"
+            resultType="kr.co.team3.admin_dto.OrderDetailDTO">
+        SELECT
+            po.PO_NO               AS poNo,
+            po.PO_PAY_TYPE         AS payType,
+            po.PO_STATE            AS state,
+            po.PO_SUM_PRICE        AS sumPrice,
+            po.PO_DISCOUNT         AS discount,
+            po.PO_DELIVERY_PRICE   AS deliveryPrice,
+            po.PO_TOT_PRICE        AS totalPrice,
+            po.PO_ORDERDATE        AS orderDate,
+            po.PO_U_ID             AS userId,
+            uu.U_NAME              AS userName,
+            uu.U_PHONE             AS userPhone,
+            po.PO_RECIPIENT        AS recipient,
+            po.PO_RE_PHONE         AS rePhone,
+            po.PO_BASE_ADDR        AS baseAddr,
+            po.PO_DETAIL_ADDR      AS detailAddr
+        FROM PRODUCT_ORDER po
+                 JOIN U_USER uu ON uu.U_ID = po.PO_U_ID
+        WHERE po.PO_NO = #{poNo}
+    </select>
+
+    <!-- 주문 상품 목록 -->
+    <select id="selectOrderDetailItems" parameterType="string"
+            resultType="kr.co.team3.admin_dto.OrderDetailDTO$OrderItemDTO">
+        SELECT
+            oi.OI_P_PID         AS productPid,
+            pi.P_NAME           AS productName,
+            oi.OI_S_U_ID        AS sellerId,
+            si.S_COMPANY_NAME   AS sellerName,
+            pi.P_PRICE          AS price,
+            pi.P_DISCOUNT       AS discount,
+            oi.OI_PROD_QTY      AS quantity,
+            pi.P_DELIVERY_PRICE AS deliveryFee,
+            oi.OI_TOT_PRICE     AS itemTotalPrice
+        FROM ORDER_ITEMS oi
+                 JOIN PRODUCT_ITEM pi  ON pi.P_PID = oi.OI_P_PID
+                 LEFT JOIN SELLER_INFO si ON si.S_U_ID = oi.OI_S_U_ID
+        WHERE oi.OI_PO_NO = #{poNo}
+        ORDER BY oi.OI_P_PID
+    </select>
+
+    <!-- 배송입력 모달 프리필(주문번호/수령인/연락처/주소) -->
+    <select id="selectShipPrefill" parameterType="string"
+            resultType="kr.co.team3.admin_dto.OrderDetailDTO">
+        SELECT
+            PO_NO          AS poNo,
+            PO_RECIPIENT   AS recipient,
+            PO_RE_PHONE    AS rePhone,
+            PO_BASE_ADDR   AS baseAddr,
+            PO_DETAIL_ADDR AS detailAddr
+        FROM PRODUCT_ORDER
+        WHERE PO_NO = #{poNo}
+    </select>
+
+
+
+    <!-- [핵심] 주문번호 단위로 ORDER_ITEMS 전부 송장/택배사/메모 업데이트 + 배송중 -->
+    <update id="updateShipmentForOrder"
+            parameterType="kr.co.team3.admin_dto.OrderDetailDTO">
+        UPDATE ORDER_ITEMS
+        SET OI_TRACKING_COMPANY = #{courier},
+            OI_TRACKING_NUM     = #{trackingNum},
+            OI_ETC              = #{etc},
+            OI_DEL_STATUS       = '배송중'
+        WHERE OI_PO_NO = #{poNo}
+    </update>
+
+    <!-- (선택) 특정 아이템만 업데이트하고 싶을 때: poNo + productPid 조건 -->
+    <update id="updateShipmentForOneItem"
+            parameterType="kr.co.team3.admin_dto.OrderDetailDTO$OrderItemDTO">
+        UPDATE ORDER_ITEMS
+        SET OI_TRACKING_COMPANY = #{courier},
+            OI_TRACKING_NUM     = #{trackingNum},
+            OI_ETC              = #{etc},
+            OI_DEL_STATUS       = '배송중'
+        WHERE OI_PO_NO = #{poNo}
+          AND OI_P_PID = #{productPid}
+    </update>
+
+    <!-- 주문 마스터 상태를 배송중으로 변경(결제완료일 때만) -->
+    <update id="updateOrderStateToShipping" parameterType="string">
+        UPDATE PRODUCT_ORDER
+        SET PO_STATE = '배송중'
+        WHERE PO_NO = #{poNo}
+          AND PO_STATE = '결제완료'
+    </update>
+
+</mapper>

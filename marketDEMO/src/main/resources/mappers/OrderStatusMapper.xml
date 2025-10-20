@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.admin_mapper.OrderStatusMapper">
+
+    <!-- 공통 WHERE: searchType, keyword -->
+    <sql id="searchWhere">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                <choose>
+                    <!-- 주문번호로 검색 -->
+                    <when test="searchType == 'po_no'">
+                        AND po.PO_NO LIKE '%' || #{keyword} || '%'
+                    </when>
+
+                    <!-- 주문자 아이디로 검색 -->
+                    <when test="searchType == 'u_id'">
+                        AND po.PO_U_ID LIKE '%' || #{keyword} || '%'
+                    </when>
+
+                    <!-- 주문자명으로 검색 -->
+                    <when test="searchType == 'u_name'">
+                        AND uu.U_NAME LIKE '%' || #{keyword} || '%'
+                    </when>
+
+                    <!-- 기본값: 주문자 아이디로 검색 -->
+                    <otherwise>
+                        AND po.PO_U_ID LIKE '%' || #{keyword} || '%'
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 결과 매핑 -->
+    <!-- 결과 매핑 -->
+    <resultMap id="OrderStatusMap" type="kr.co.team3.admin_dto.OrderStatusDTO">
+        <result column="PO_NO"          property="poNo"/>
+        <result column="PO_U_ID"        property="poUId"/>
+        <result column="U_NAME"         property="uName"/>
+        <result column="PO_ITEM_COUNT"  property="itemCount"/>
+        <result column="PO_SUM_PRICE"   property="sumPrice"/>
+        <result column="PO_PAY_TYPE"    property="payType"/>
+        <result column="PO_STATE"       property="state"/>
+        <result column="PO_ORDERDATE"   property="orderDate"/>
+        <!-- NEW: 송장 입력 여부(0/1) -->
+        <result column="SHIP_INPUT_DONE" property="shipInputDone"/>
+    </resultMap>
+
+    <!-- 목록: 최신 주문일 우선 -->
+    <select id="selectOrderStatusList"
+            parameterType="kr.co.team3.admin_dto.PageRequestDTO"
+            resultMap="OrderStatusMap">
+        SELECT * FROM (
+        SELECT inner_.*, ROWNUM AS rn
+        FROM (
+        SELECT
+        po.PO_NO,
+        po.PO_U_ID,
+        uu.U_NAME,
+        po.PO_ITEM_COUNT,
+        po.PO_SUM_PRICE,
+        po.PO_PAY_TYPE,
+        po.PO_STATE,
+        CAST(po.PO_ORDERDATE AS TIMESTAMP) AS PO_ORDERDATE,
+
+        /* 배송 상태 표시용 */
+        CASE
+        WHEN EXISTS (
+        SELECT 1 FROM ORDER_ITEMS oi
+        WHERE oi.OI_PO_NO = po.PO_NO
+        AND (oi.OI_DEL_STATUS = '배송중' OR oi.OI_DEL_STATUS = '배송완료')
+        ) THEN '입력완료'
+        WHEN EXISTS (
+        SELECT 1 FROM ORDER_ITEMS oi
+        WHERE oi.OI_PO_NO = po.PO_NO
+        AND oi.OI_DEL_STATUS = '주문취소'
+        ) THEN '주문취소'
+        ELSE NULL
+        END AS SHIP_STATUS
+
+        FROM PRODUCT_ORDER po
+        JOIN U_USER uu ON uu.U_ID = po.PO_U_ID
+        <include refid="searchWhere"/>
+        ORDER BY po.PO_ORDERDATE DESC, po.PO_NO DESC
+        ) inner_
+        WHERE ROWNUM &lt;= #{offset} + #{size}
+        )
+        WHERE rn &gt; #{offset}
+    </select>
+
+    <!-- 총 건수 -->
+    <select id="countOrderStatus"
+            parameterType="kr.co.team3.admin_dto.PageRequestDTO"
+            resultType="int">
+        SELECT COUNT(*)
+        FROM PRODUCT_ORDER po
+        JOIN U_USER uu ON uu.U_ID = po.PO_U_ID
+        <include refid="searchWhere"/>
+    </select>
+
+</mapper>
