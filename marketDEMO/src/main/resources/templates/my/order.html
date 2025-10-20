@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/my/myPage.css">
+    <script src="/js/periodFilter.js"></script>
     <style>
         .sidebar nav a:nth-child(1) {
             text-decoration: underline;
@@ -39,10 +40,10 @@
                     <th>문의</th>
                 </tr>
                 <tr>
-                    <td style="border-right: solid 1px #d9d9d9;">2</td>
-                    <td style="border-right: solid 1px #d9d9d9;">1</td>
-                    <td style="border-right: solid 1px #d9d9d9;">1,000</td>
-                    <td>1</td>
+                    <td style="border-right: solid 1px #d9d9d9;">[[${userOrderCount}]]</td>
+                    <td style="border-right: solid 1px #d9d9d9;">[[${userCouponCount}]]</td>
+                    <td style="border-right: solid 1px #d9d9d9;"><span th:text="${#numbers.formatInteger(userPoints, 3, 'COMMA')}"></span></td>
+                    <td>[[${userQnaCount}]]</td>
                 </tr>
             </table>
         </div>
@@ -61,7 +62,7 @@
         </div>
         <article>
             <h3>전체주문내역</h3>
-            <form action="#" method="get" class="search-period">
+            <form th:action="@{/my/order}" method="get" class="search-period">
                 <span>기간별조회</span>
 
                 <!-- 단위 버튼 (radio) -->
@@ -71,12 +72,7 @@
 
                 <!-- 최근 5개월 -->
                 <select name="recentMonths">
-                    <option value="">-- 최근 개월수 선택 --</option>
-                    <option value="1">최근 1개월</option>
-                    <option value="2">최근 2개월</option>
-                    <option value="3">최근 3개월</option>
-                    <option value="4">최근 4개월</option>
-                    <option value="5">최근 5개월</option>
+                    <option value="">-- 최근 5개월 중 선택 --</option>
                 </select>
 
                 <!-- 시작일 ~ 종료일 -->
@@ -93,35 +89,17 @@
                     <th>상태</th>
                     <th>확인/신청</th>
                 </tr>
-                <tr>
-                    <td>2022-12-13</td>
+                <tr th:each="order : ${pageResponseDTO.dtoList}" th:object="${order}">
+                    <td>[[*{poOrderdate}]]</td>
                     <td><img src="/images/로고.png"/></td>
                     <td>
-                        <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
-                        <a href="#" class="tradeName">(주) 상호명</a><br>
-                        <a href="#">상품명</a><br>
-                        수량 : 1개<br>
-                        <b>3,4000원</b>
+                        <a href="#" class="orderNum" th:attr="order=*{poNo}">주문번호 : [[*{poNo}]]</a><br>
+                        <a href="#" class="tradeName">[[*{sCompanyName}]]</a><br>
+                        <a href="#">[[*{pName}]]</a><br>
+                        수량 : [[*{oiProdQty}]]개<br>
+                        <b><span th:text="${#numbers.formatInteger(order.oiTotPrice, 3, 'COMMA')} + '원'">totPrice</span></b>
                     </td>
-                    <td>배송완료</td>
-                    <td>
-                        <button name="buyConfirm" class="blueButton">구매확정</button><br>
-                        <button name="productReview" class="blueButton">상품평쓰기</button><br>
-                        <button name="returnRequest">반품신청</button><br>
-                        <button name="exchangeRequest">교환신청</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2022-12-13</td>
-                    <td><img src="/images/로고.png"/></td>
-                    <td>
-                        <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
-                        <a href="#" class="tradeName">(주) 상호명</a><br>
-                        <a href="#">상품명</a><br>
-                        수량 : 1개<br>
-                        <b>3,4000원</b>
-                    </td>
-                    <td>배송완료</td>
+                    <td>[[*{oiDelStatus}]]</td>
                     <td>
                         <button name="buyConfirm" class="blueButton">구매확정</button><br>
                         <button name="productReview" class="blueButton">상품평쓰기</button><br>
@@ -131,13 +109,24 @@
                 </tr>
             </table>
             <div class="Pagenation" style="text-align: center;">
-                <a href="#">이전</a>&nbsp;&nbsp;
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>&nbsp;&nbsp;
-                <a href="#">다음</a>
+                <a th:if="${pageResponseDTO.prev}" th:href="@{/my/order(pg=${pageResponseDTO.start - 1},
+                unit=${pageResponseDTO.unit}?${pageResponseDTO.unit}:null,
+                recentMonths=${pageResponseDTO.recentMonths}?${pageResponseDTO.recentMonths}:null,
+                startDate=${pageResponseDTO.startDate}?${pageResponseDTO.startDate}:null,
+                endDate=${pageResponseDTO.endDate}?${pageResponseDTO.endDate}:null)}">이전</a>
+                &nbsp;&nbsp;
+                <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                    <a th:href="@{/my/order(pg=${num},
+                    unit=${pageResponseDTO.unit}?${pageResponseDTO.unit}:null,
+                    recentMonths=${pageResponseDTO.recentMonths}?${pageResponseDTO.recentMonths}:null,
+                    startDate=${pageResponseDTO.startDate}?${pageResponseDTO.startDate}:null,
+                    endDate=${pageResponseDTO.endDate}?${pageResponseDTO.endDate}:null)}" th:class="${num == pageResponseDTO.pg ? 'current' : 'num'}">[[${num}]]</a>
+                </th:block>
+                &nbsp;&nbsp;
+                <a th:if="${pageResponseDTO.next}" th:href="@{/my/order(pg=${pageResponseDTO.end + 1},
+                    recentMonths=${pageResponseDTO.recentMonths}?${pageResponseDTO.recentMonths}:null,
+                    startDate=${pageResponseDTO.startDate}?${pageResponseDTO.startDate}:null,
+                    endDate=${pageResponseDTO.endDate}?${pageResponseDTO.endDate}:null)}">다음</a>
             </div>
         </article>
     </section>
@@ -171,5 +160,7 @@
 
 
 <!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
+
+<!--강민철 2025-10-20 1457-->
 
 

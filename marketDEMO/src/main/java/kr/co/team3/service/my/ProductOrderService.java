@@ -1,11 +1,15 @@
 package kr.co.team3.service.my;
 
+import kr.co.team3.dto.my.PageRequestDTO;
+import kr.co.team3.dto.my.PageResponseDTO;
 import kr.co.team3.dto.my.ProductOrderDTO;
 import kr.co.team3.mapper.my.ProductOrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+// 강민철 2025-10-20 1457
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +42,21 @@ public class ProductOrderService {
         }
         return productOrderMapper.selectCountOrder(u_id);
     }
-    public void selectAll(){}
+    public PageResponseDTO selectAll(String uId, PageRequestDTO pageRequestDTO){
+        List<ProductOrderDTO> dtoList = productOrderMapper.selectAll(uId, pageRequestDTO);
+        dtoList.forEach(dto -> {
+            String formatted =  dto.getPoOrderdate().substring(0, 10);
+            dto.setPoOrderdate(formatted.substring(0,10));
+        });
+
+        int total = productOrderMapper.selectCountOrder(uId);
+
+        return PageResponseDTO.builder()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total(total)
+                .build();
+    }
     public void modify(){}
     public void delete(){}
 }

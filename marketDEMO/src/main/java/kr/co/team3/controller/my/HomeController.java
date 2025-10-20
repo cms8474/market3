@@ -6,10 +6,7 @@ import kr.co.team3.dto.my.ProductOrderDTO;
 import kr.co.team3.dto.my.ReviewDTO;
 import kr.co.team3.mapper.my.PointMapper;
 import kr.co.team3.repository.my.BoardRepository;
-import kr.co.team3.service.my.BoardService;
-import kr.co.team3.service.my.PointService;
-import kr.co.team3.service.my.ProductOrderService;
-import kr.co.team3.service.my.ReviewService;
+import kr.co.team3.service.my.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+// 강민철 2025-10-20 1457
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -32,6 +31,7 @@ public class HomeController {
     private final PointService pointService;
     private final ReviewService reviewService;
     private final BoardService boardService;
+    private final CouponService couponService;
 
     @GetMapping("/my/home")
     public String home(Model model){
@@ -58,6 +58,10 @@ public class HomeController {
         model.addAttribute("userPoints", userPoints);
         int userOrderCount = productOrderService.getCountOrder(loginId);
         model.addAttribute("userOrderCount", userOrderCount);
+        int userQnaCount = boardService.getNumberOfBoardsWithUidAndBtType(loginId, "qna");
+        model.addAttribute("userQnaCount", userQnaCount);
+        int userCouponCount = couponService.getNumberofCouponsWithUcUIdAndStatus(loginId, "사용가능");
+        model.addAttribute("userCouponCount", userCouponCount);
 
         return "my/home";
     }
@@ -71,25 +75,13 @@ public class HomeController {
 
 
 
-    @GetMapping("/my/order")
-    public String order(){
-        return "my/order";
-    }
-
-    @GetMapping("/my/point")
-    public String point(){
-        return "my/point";
-    }
 
     @GetMapping("/my/coupon")
     public String coupon(){
         return "my/coupon";
     }
 
-    @GetMapping("/my/review")
-    public String review(){
-        return "my/review";
-    }
+
 
     @GetMapping("/my/qna")
     public String qna(){
