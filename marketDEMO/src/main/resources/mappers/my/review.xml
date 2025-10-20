@@ -26,4 +26,12 @@
         DELETE FROM PRODUCT_REVIEW
         WHERE pr_no = #{prNo}
     </delete>
+    <select id="selectRecent5" resultType="kr.co.team3.dto.my.ReviewDTO">
+        SELECT *
+        FROM PRODUCT_REVIEW pr
+        JOIN PRODUCT_ITEM t ON pr.PR_P_PID = t.P_PID
+        WHERE PR_U_ID = #{uId}
+        ORDER BY PR_REG_DATE DESC
+        OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+    </select>
 </mapper>

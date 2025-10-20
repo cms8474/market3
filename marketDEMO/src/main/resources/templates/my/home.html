@@ -34,9 +34,9 @@
                         <th>문의</th>
                     </tr>
                     <tr>
-                        <td style="border-right: solid 1px #d9d9d9;">2</td>
+                        <td style="border-right: solid 1px #d9d9d9;">[[${userOrderCount}]]</td>
                         <td style="border-right: solid 1px #d9d9d9;">1</td>
-                        <td style="border-right: solid 1px #d9d9d9;">1,000</td>
+                        <td style="border-right: solid 1px #d9d9d9;"><span th:text="${#numbers.formatInteger(userPoints, 3, 'COMMA')}"></span></td>
                         <td>1</td>
                     </tr>
                 </table>
@@ -87,7 +87,7 @@
                 </table>
                 <div style="display: flex; align-items: center;">
                     <h3 style="margin-right: auto;">포인트적립내역</h3>
-                    <a href="#" style="margin-right: 20px;">더보기 ></a>
+                    <a th:href="@{/my/point}" style="margin-right: 20px;">더보기 ></a>
                 </div>
                 <table class="pointList myPageTable">
                     <tr>
@@ -98,26 +98,18 @@
                         <th>비고</th>
                         <th>유효기간</th>
                     </tr>
-                    <tr>
-                        <td>2022-12-13</td>
-                        <td>적립</td>
-                        <td>2022121001</td>
-                        <td>340</td>
-                        <td>상품 구매확정</td>
-                        <td>2024-12-10</td>
-                    </tr>
-                    <tr>
-                        <td>2022-12-13</td>
-                        <td>적립</td>
-                        <td>2022121001</td>
-                        <td>340</td>
-                        <td>상품 구매확정</td>
-                        <td>2024-12-10</td>
+                    <tr th:each="point : ${pointDTOList}" th:object="${point}">
+                        <td>[[*{poOrderdate}]]</td>
+                        <td>[[*{uhText}]]</td>
+                        <td>[[*{uhPoNo}]]</td>
+                        <td>[[*{uhChangePoint}]]</td>
+                        <td>[[*{poState}]]</td>
+                        <td>[[*{uhDday}]]</td>
                     </tr>
                 </table>
                 <div style="display: flex; align-items: center;">
                     <h3 style="margin-right: auto;">상품평</h3>
-                    <a href="#" style="margin-right: 20px;">더보기 ></a>
+                    <a th:href="@{/my/review}" style="margin-right: 20px;">더보기 ></a>
                 </div>
                 <table class="productReviews myPageTable">
                     <tr>
@@ -127,31 +119,17 @@
                         <th>평점</th>
                         <th>작성일</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>상품번호 / 상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td>★★★★☆</td>
-                        <td>2022-12-10</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>상품번호 / 상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td>★★★★☆</td>
-                        <td>2022-12-16</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>상품번호 / 상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td>★★★★☆</td>
-                        <td>2022-12-16</td>
+                    <tr th:each="review, iterStat : ${reviewDTOList}" th:object="${review}">
+                        <td>[[${iterStat.count}]]</td>
+                        <td>[[*{pName}]]</td>
+                        <td>[[*{prBody}]]</td>
+                        <td>[[*{prStar}]]</td>
+                        <td>[[*{prRegDate}]]</td>
                     </tr>
                 </table>
                 <div style="display: flex; align-items: center;">
                     <h3 style="margin-right: auto;">문의내역</h3>
-                    <a href="#" style="margin-right: 20px;">더보기 ></a>
+                    <a th:href="@{/my/qna}" style="margin-right: 20px;">더보기 ></a>
                 </div>
                 <table class="inquiryDetails myPageTable">
                     <tr>
@@ -162,29 +140,13 @@
                         <th>작성일</th>
                         <th>상태</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>고객센터</td>
-                        <td>주문 / 결제</td>
-                        <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-                        <td>2022-12-12</td>
-                        <td>검토 중</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>고객센터</td>
-                        <td>주문 / 결제</td>
-                        <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-                        <td>2022-12-12</td>
-                        <td>답변완료</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>판매자 게시판</td>
-                        <td>배송</td>
-                        <td>배송기간이 보통 얼마나 걸리나요?</td>
-                        <td>2022-12-12</td>
-                        <td>답변완료</td>
+                    <tr th:each="qna, inerStat : ${qnaDTOList}" th:object="${qna}">
+                        <td>[[${inerStat.count}]]</td>
+                        <td>[[*{bListener}]]</td>
+                        <td>[[*{boardTypeDTO.btName}]]</td>
+                        <td>[[*{bTitle}]]</td>
+                        <td>[[*{bRegDate}]]</td>
+                        <td>[[*{bState}]]</td>
                     </tr>
                 </table>
                 <div style="display: flex; align-items: center;">
@@ -194,7 +156,7 @@
                     <article class="card">
                         <header class="card__head">
                             <h3 class="card__title">기본배송지설정</h3>
-                            <a href="#" class="card__action">변경</a>
+                            <a th:href="@{/my/info}" class="card__action">변경</a>
                         </header>
                         <div class="card__body">
                             <p>부산광역시부 산… 120</p>
@@ -205,7 +167,7 @@
                     <article class="card">
                         <header class="card__head">
                             <h3 class="card__title">Email 설정</h3>
-                            <a href="#" class="card__action">변경</a>
+                            <a th:href="@{/my/info}" class="card__action">변경</a>
                         </header>
                         <div class="card__body">
                             <p>abc123@naver.com</p>
@@ -216,7 +178,7 @@
                     <article class="card">
                         <header class="card__head">
                             <h3 class="card__title">휴대폰 설정</h3>
-                            <a href="#" class="card__action">변경</a>
+                            <a th:href="@{/my/info}" class="card__action">변경</a>
                         </header>
                         <div class="card__body">
                             <p>010 - 1234 - 1001</p>

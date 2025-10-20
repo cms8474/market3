@@ -27,6 +27,15 @@
         .policy-nav button:nth-child(4) img {border: solid 3px #0070c0;}
         .policy-nav button:nth-child(4) span {color: #0070c0; font-weight: bold;}
 
+        .print-button {
+            background: none;
+            border: none;
+        }
+        .print-button img {
+            width: 80px;
+            height: 80px;
+        }
+
         .policy-content {
             border-bottom: solid 1px #bfbfbf;
         }
@@ -84,11 +93,8 @@
                     <h2>위치정보 이용약관</h2>
                 </div>
                 <div style="margin-right: 10px;">
-                    <button style="background: none;border: none;">
-                        <img src="#" style="width: 80px;
-                            height: 80px;
-                            border: solid 1px;
-                        " title="약관 출력"><br>
+                    <button class="print-button">
+                        <img th:src="@{/images/policy/policy_print.png}" title="약관 출력"><br>
                     </button>
                 </div>
             </div>
