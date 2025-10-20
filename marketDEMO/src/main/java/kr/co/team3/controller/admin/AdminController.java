@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -56,7 +57,7 @@ public class AdminController {
         S.put("canceledCnt", canceledCnt);
         S.put("exchangeCnt", exchangeCnt);
         S.put("returnCnt",   returnCnt);
-        
+
         // 전에 해놨던거 이름 안맞아서 임의로 넣어둠 (
         S.put("waiting",  depositDone);
         S.put("ready",    shippingCnt);
@@ -107,7 +108,6 @@ public class AdminController {
         model.addAttribute("contentFragment", "inc/admin/admin_main :: content");
         return "inc/admin/admin_templatee";
     }
-
 
     @ResponseBody
     @GetMapping("/dashboard")

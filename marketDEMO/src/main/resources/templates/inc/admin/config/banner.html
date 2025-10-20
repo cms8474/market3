@@ -52,30 +52,28 @@
 
                             <tbody>
                             <!-- DB (널방어) 넣고 바꾸기 -->
-                            <tr th:each="n : ${#numbers.sequence(1,4)}">
-                                <td><input type="checkbox" name="ids" th:value="${n}"></td>
-                                <td th:text="${n}">1</td>
+                            <tr th:each="b, iStat : ${banners}">
+                                <td><input type="checkbox" name="ids" th:value="${b.aNo}"></td>
+                                <td th:text="${iStat.index + 1}">1</td>
                                 <td>
                                     <div class="thumb">
-                                        <img src="/images/로고.png">
+                                        <img th:if="${b.aFile}" th:src="@{'/images/' + ${b.aFile}}" alt="thumb">
                                     </div>
                                 </td>
                                 <td class="ban-info">
-                                    <div class="name">배너명</div>
+                                    <div class="name" th:text="${b.aName}">배너명</div>
                                     <div class="meta">
-                                        크기 : 1200 × 80<br/>
-                                        배경색 : #ffffff<br/>
-                                        배너링크
+                                        크기 : <span th:text="${b.aSize}">1200 × 80</span><br/>
+                                        배경색 : <span th:text="${b.aBackColor}">#ffffff</span><br/>
+                                        <a th:if="${b.aLink}" th:href="${b.aLink}" target="_blank">배너링크</a>
                                     </div>
                                 </td>
-                                <td>MAIN1</td>
-                                <td>2023/01/01</td>
-                                <td>2023/01/07</td>
-                                <td>13:30</td>
-                                <td>15:00</td>
+                                <td th:text="${b.aLocation}">MAIN_TOP</td>
+                                <td th:text="${b.aStartDate!=null ? #temporals.format(b.aStartDate,'yyyy/MM/dd') : ''}">2023/01/01</td>
+                                <td th:text="${b.aEndDate!=null ? #temporals.format(b.aEndDate,'yyyy/MM/dd') : ''}">2023/01/07</td>
+                                <td th:text="${b.aStartTime!=null ? #temporals.format(b.aStartTime,'HH:mm') : ''}">13:30</td>
+                                <td th:text="${b.aEndTime!=null ? #temporals.format(b.aEndTime,'HH:mm') : ''}">15:00</td>
                                 <td class="ctrl">
-                                    <a href="#" class="link">[ 활성 ]</a><br/>
-                                    <a href="#" class="link">[ 비활성 ]</a><br/>
                                 </td>
                             </tr>
                             </tbody>
