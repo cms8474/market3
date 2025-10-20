@@ -20,15 +20,47 @@
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById("buyConfirm");
             const closeModalButton = document.getElementById("closeBCModal");
-            const confirmCancelButton = document.getElementById("confirmCancel")
+            const confirmCancelButton = document.getElementById("confirmCancel");
+            const buyConfirmButton = document.getElementsByClassName("BCConfirmButton")[0];
+            let orderNum = 0;
 
             document.addEventListener('click', function (e) {
                 if(e.target.name === 'buyConfirm') {
                     e.preventDefault();
+                    orderNum = e.target.getAttribute('order');
+                    openModalButton = e.target;
 
                     modal.style.display = "flex";
                 }
             });
+            console.log(openModalButton);
+            console.log(openModalButton.closest('br'));
+
+            buyConfirmButton.onclick = function () {
+                fetch('[[@{/my/modal/confirm/}]]' + orderNum)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        if(!data){
+                            alert('구매 확정 진행 중 오류가 발생했습니다.');
+                        } else {
+                            alert('구매 확정 되었습니다.');
+                            buyConfirmButton.closest('br').remove();
+                            buyConfirmButton.remove();
+                            const buyConfirmTds = document.querySelectorAll('[state=[[${orderNum}]]]');
+                            console.log(buyConfirmTds);
+                            for (const td of buyConfirmTds) {
+                                td.innerText = '구매확정';
+                                td.color = blue;
+                                td.fontWeight = bold;
+                            }
+                            modal.style.display = "none";
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
 
             closeModalButton.onclick = function () {
                 modal.style.display = "none";

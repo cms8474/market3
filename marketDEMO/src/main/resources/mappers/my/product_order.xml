@@ -106,4 +106,8 @@
         SELECT COUNT(*) FROM PRODUCT_ORDER
         <include refid="searchWhere"/>
     </select>
+    <update id="updatePoState">
+        UPDATE PRODUCT_ORDER SET PO_STATE = '구매확정'
+        WHERE PO_U_ID = #{uId} AND PO_NO = #{poNo}
+    </update>
 </mapper>

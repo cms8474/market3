@@ -43,4 +43,13 @@ class ProductOrderServiceTest {
         Assertions.assertNotNull(dtoList);
         System.out.println(dtoList);
     }
+
+    @Test
+    void modifyPoState() {
+        String uId = "user01";
+        String poNo = "user01_0002";
+        int check =  productOrderMapper.updatePoState(uId,poNo);
+        Assertions.assertEquals(1,check);
+        System.out.println(check);
+    }
 }

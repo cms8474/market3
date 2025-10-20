@@ -16,4 +16,5 @@ public interface ProductOrderMapper {
                                                                 @Param("po_no") String po_no);
     public int selectCountOrder(@Param("u_id") String uId, @Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
     public List<ProductOrderDTO> selectAll(@Param("u_id") String u_id, @Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
+    public int updatePoState(@Param("uId") String uId, @Param("poNo") String poNo);
 }

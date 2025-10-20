@@ -99,9 +99,11 @@
                         수량 : [[*{oiProdQty}]]개<br>
                         <b><span th:text="${#numbers.formatInteger(order.oiTotPrice, 3, 'COMMA')} + '원'">totPrice</span></b>
                     </td>
-                    <td>[[*{oiDelStatus}]]</td>
+                    <td th:if="*{poState} != '구매확정'" th:attr="state=*{poNo}">[[*{oiDelStatus}]]</td>
+                    <td th:if="*{poState} == '구매확정'" style="color: blue; font-weight: bold;">[[*{poState}]]</td>
                     <td>
-                        <button name="buyConfirm" class="blueButton">구매확정</button><br>
+                        <button name="buyConfirm" class="blueButton" th:attr="order=*{poNo}"
+                        th:if="*{poState} != '구매확정'">구매확정</button><br th:if="*{poState} != '구매확정'">
                         <button name="productReview" class="blueButton">상품평쓰기</button><br>
                         <button name="returnRequest">반품신청</button><br>
                         <button name="exchangeRequest">교환신청</button>
