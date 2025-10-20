@@ -13,4 +13,12 @@ public interface AdminCouponMapper {
 
     List<CouponDTO> selectCouponList(@Param("req") PageRequestDTO req);
     int countCouponList(@Param("req") PageRequestDTO req);
+
+    int insertCoupon(CouponDTO dto);
+
+
+    int closeCoupon(String cId);
+
+    CouponDTO selectCouponDetail(String cId);
+
 }
