@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 강민철 2025-10-20 1457 -->
+<mapper namespace="kr.co.team3.mapper.my.ProductOrderMapper">
+    <sql id="searchWhere">
+        <where>
+            po_u_id = #{u_id}
+            <if test="pageRequestDTO.unit != null and pageRequestDTO.unit != ''">
+                <choose>
+                    <when test="pageRequestDTO.unit == '1w'">
+                        AND po_orderdate >= SYSDATE - INTERVAL '7' DAY
+                    </when>
+                    <when test="pageRequestDTO.unit == '15d'">
+                        AND po_orderdate >= SYSDATE - INTERVAL '15' DAY
+                    </when>
+                    <when test="pageRequestDTO.unit == '1m'">
+                        AND po_orderdate >= SYSDATE - INTERVAL '1' MONTH
+                    </when>
+                </choose>
+            </if>
+            <if test="pageRequestDTO.recentMonths != null and pageRequestDTO.recentMonths != ''">
+                AND TO_CHAR(po_orderdate, 'YYYY-MM') = #{pageRequestDTO.recentMonths}
+            </if>
+            <if test="pageRequestDTO.startDate != null and pageRequestDTO.startDate != ''
+                      and pageRequestDTO.endDate != null and pageRequestDTO.endDate != ''">
+                AND po_orderdate BETWEEN TO_DATE(#{pageRequestDTO.startDate}, 'YYYY-MM-DD')
+                AND TO_DATE(#{pageRequestDTO.endDate}, 'YYYY-MM-DD')
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectRecent5WithU_id" resultType="kr.co.team3.dto.my.ProductOrderDTO">
+        SELECT po.*, si.*,
+        oi_prod_qty,
+        oi_tot_price,
+        oi_tracking_company,
+        oi_tracking_num,
+        oi_etc,
+        oi_del_status,
+        t.p_pid,
+        p_name,
+        p_price,
+        p_discount,
+        p_point,
+        t.p_stock_quantity,
+        t.p_delivery_price
+        FROM PRODUCT_ORDER po
+        JOIN order_items oi on po.po_no = oi.oi_po_no
+        JOIN seller_info si ON oi.oi_s_u_id = si.s_u_id
+        JOIN PRODUCT_ITEM t ON oi.oi_p_pid = t.p_pid
+        WHERE po_u_id = #{u_id}
+        ORDER BY po_orderdate DESC
+        OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+    </select>
+
+    <select id="selectAll" resultType="kr.co.team3.dto.my.ProductOrderDTO">
+        SELECT po.*, si.*,
+        oi_prod_qty,
+        oi_tot_price,
+        oi_tracking_company,
+        oi_tracking_num,
+        oi_etc,
+        oi_del_status,
+        t.p_pid,
+        p_name,
+        p_price,
+        p_discount,
+        p_point,
+        t.p_stock_quantity,
+        t.p_delivery_price
+        FROM PRODUCT_ORDER po
+        JOIN order_items oi on po.po_no = oi.oi_po_no
+        JOIN seller_info si ON oi.oi_s_u_id = si.s_u_id
+        JOIN PRODUCT_ITEM t ON oi.oi_p_pid = t.p_pid
+        <include refid="searchWhere"/>
+        ORDER BY po_orderdate DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectWithU_idAndPo_no" resultType="kr.co.team3.dto.my.ProductOrderDTO">
+        SELECT po.*, si.*,
+        oi_prod_qty,
+        oi_tot_price,
+        oi_tracking_company,
+        oi_tracking_num,
+        oi_etc,
+        oi_del_status,
+        t.P_PID,
+        p_name,
+        p_price,
+        p_discount,
+        p_point,
+        t.P_STOCK_QUANTITY,
+        t.P_DELIVERY_PRICE
+        FROM PRODUCT_ORDER po
+        JOIN order_items oi on po.po_no = oi.oi_po_no
+        JOIN seller_info si ON oi.oi_s_u_id = si.s_u_id
+        JOIN PRODUCT_ITEM t ON oi.OI_P_PID = t.P_PID
+        WHERE po_u_id = #{u_id}
+        AND po_no = #{po_no}
+        ORDER BY po_orderdate DESC
+    </select>
+    <select id="selectCountOrder" resultType="int">
+        SELECT COUNT(*) FROM PRODUCT_ORDER
+        <include refid="searchWhere"/>
+    </select>
+</mapper>

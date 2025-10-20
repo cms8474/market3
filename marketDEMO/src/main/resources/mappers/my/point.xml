@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.team3.mapper.my.PointMapper">
+    <!-- 포인트 내역 조회용 where절 -->
+    <sql id="searchWhere">
+        <where>
+            ph.UH_U_ID = #{uId}
+            <if test="pageRequestDTO.unit != null and pageRequestDTO.unit != ''">
+                <choose>
+                    <when test="pageRequestDTO.unit == '1w'">
+                        AND po_orderdate >= SYSDATE - INTERVAL '7' DAY
+                    </when>
+                    <when test="pageRequestDTO.unit == '15d'">
+                        AND po_orderdate >= SYSDATE - INTERVAL '15' DAY
+                    </when>
+                    <when test="pageRequestDTO.unit == '1m'">
+                        AND po_orderdate >= SYSDATE - INTERVAL '1' MONTH
+                    </when>
+                </choose>
+            </if>
+            <if test="pageRequestDTO.recentMonths != null and pageRequestDTO.recentMonths != ''">
+                AND TO_CHAR(po_orderdate, 'YYYY-MM') = #{pageRequestDTO.recentMonths}
+            </if>
+            <if test="pageRequestDTO.startDate != null and pageRequestDTO.startDate != ''
+                      and pageRequestDTO.endDate != null and pageRequestDTO.endDate != ''">
+                AND po_orderdate BETWEEN TO_DATE(#{pageRequestDTO.startDate}, 'YYYY-MM-DD')
+                AND TO_DATE(#{pageRequestDTO.endDate}, 'YYYY-MM-DD')
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectRecent5History" resultType="kr.co.team3.dto.my.PointDTO">
+        SELECT po.PO_ORDERDATE, po.PO_STATE, ph.*
+        FROM POINT_HISTORY ph
+        JOIN PRODUCT_ORDER po ON ph.UH_PO_NO = po.PO_NO
+        WHERE ph.UH_U_ID = #{uId}
+        ORDER BY po.PO_ORDERDATE DESC
+        OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+    </select>
+    <select id="selectPoints" resultType="int">
+        SELECT U_POINT FROM U_USER
+        WHERE U_ID = #{uId}
+    </select>
+    <select id="selectAll" resultType="kr.co.team3.dto.my.PointDTO">
+        SELECT po.PO_ORDERDATE, po.PO_STATE, ph.*
+        FROM POINT_HISTORY ph
+        JOIN PRODUCT_ORDER po ON ph.UH_PO_NO = po.PO_NO
+        <include refid="searchWhere"/>
+        ORDER BY po.PO_ORDERDATE DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCountHistory" resultType="int">
+        SELECT COUNT(*) FROM POINT_HISTORY
+        <include refid="searchWhere"/>
+    </select>
+</mapper>

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>상품상세 전체페이지</title>
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/product.css">
@@ -151,6 +153,130 @@
             object-fit: contain;
         }
 
+        /* 리뷰 섹션 스타일 개선 */
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .review-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            background: #fff;
+        }
+        
+        .review-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .stars {
+            color: #fbbf24;
+            font-size: 16px;
+        }
+        
+        .pv-stars {
+            color: #fbbf24;
+            font-size: 14px;
+        }
+        
+        .review-date {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .review-body {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        
+        .review-images {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .review-thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .review-no-image {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+        }
+        
+        .no-image-text {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+        
+        .review-content {
+            flex: 1;
+        }
+        
+        .review-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: #374151;
+        }
+        
+        .review-text {
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+        
+        .pagination a, .pagination span {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #374151;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .pagination a:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+        }
+        
+        .pagination .active {
+            background: #3b82f6;
+            color: #fff;
+            border-color: #3b82f6;
+        }
+        
+        .pagination .disabled {
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
     </style>
 </head>
 <body>
@@ -195,36 +321,73 @@
                     <h2 class="page-title">상품상세보기</h2>
                 </div>
                 <div class="pv-top">
-                    <div class="pv-gallery"><img src="/images/logo.png" alt="상품 대표 이미지"></div>
+                    <div class="pv-gallery">
+                        <img th:if="${product.imageBase64 != null}" 
+                             th:src="${product.imageBase64}" 
+                             th:alt="${product.pName}">
+                        <img th:unless="${product.imageBase64 != null}" 
+                             src="/images/로고.png" 
+                             th:alt="${product.pName}">
+                    </div>
                     <div class="pv-info">
                         <div class="pv-top-line">
-                            <span class="pv-sku">상품번호 : <strong>10010118412</strong></span>
-                            <span class="pv-seller-name">(주)상호명</span>
-                            <span class="pv-stars">★★★★☆</span>
-                            <a href="#" class="pv-info-link">상품정보보기</a>
+                            <span class="pv-sku">상품번호 : <strong th:text="${product.pPid}">10010118412</strong></span>
+                            <span class="pv-seller-name" th:text="${product.pSellerId}">(주)상호명</span>
+                            <span class="pv-stars" th:if="${averageRating > 0}">
+                                <span th:each="i : ${#numbers.sequence(1, 5)}">
+                                    <span th:if="${i <= fullStars}">⭐</span>
+                                    <span th:if="${i == fullStars + 1 and hasHalfStar}">✨</span>
+                                </span>
+                                <span class="rating-text" style="margin-left: 8px; color: #666; font-size: 14px;">
+                                    (<span th:text="${#numbers.formatDecimal(averageRating, 1, 1)}">4.5</span>점), 리뷰 <span th:text="${reviewPage.totalElements}">1</span>개
+                                </span>
+                            </span>
+                            <span class="pv-stars" th:unless="${averageRating > 0}" 
+                                  style="color: #9ca3af; font-size: 12px;">아직 등록된 리뷰가 없습니다.</span>
                         </div>
-                        <h2 class="pv-title">상품명</h2>
+                        <h2 class="pv-title" th:text="${product.pName}">상품명</h2>
                         <div class="pv-price">
-                            <div><span class="origin">30,000원</span><span class="discount">10%</span><button class="btn-coupon">쿠폰받기</button></div>
-                            <div class="sale">27,000원</div>
+                            <div>
+                                <span class="origin" th:text="${#numbers.formatInteger(product.pPrice, 0, 'COMMA')} + '원'">30,000원</span>
+                                <span class="discount" th:if="${product.pDiscount > 0}" 
+                                      th:text="${product.pDiscount} + '%'">10%</span>
+                            </div>
+                            <div class="sale" th:text="${#numbers.formatInteger(product.pPrice * (100 - product.pDiscount) / 100, 0, 'COMMA')} + '원'">27,000원</div>
                         </div>
-                        <div class="pv-delivery"><span class="badge free">무료배송</span><span class="eta">모레 (금) 7/8 도착예정</span></div>
+                        <div class="pv-delivery"><span class="badge free">무료배송</span></div>
                         <div class="pv-origin">원산지 - 상세설명 참고</div>
-                        <div class="pv-option">
-                            <select id="optionSelect" class="pv-select"><option>선택하기</option><option>옵션 A</option><option>옵션 B</option></select>
+                        
+                        <!-- 동적 옵션 섹션 -->
+                        <div th:each="optionGroup : ${groupedOptions}" class="pv-option-group" style="margin-bottom: 15px;">
+                            <div class="pv-option-label" style="margin-bottom: 8px; font-weight: 600; color: #333;">
+                                <span th:text="${optionGroup.key}">옵션명</span>
+                            </div>
+                            <div class="pv-option-select">
+                                <select class="pv-select" th:id="${optionGroup.key}" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; min-width: 220px;">
+                                    <option value="">선택하기</option>
+                                    <option th:each="option : ${optionGroup.value}" 
+                                            th:value="${option.popNo}" 
+                                            th:text="${option.popSelection} + (${option.popAddPrice} > 0 ? ' (+' + ${#numbers.formatInteger(option.popAddPrice, 0, 'COMMA')} + '원)' : '')">
+                                        옵션값
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                         <div class="pv-selected">
                             <div class="pv-selected-item">
-                                <span class="item-name">선택한 상품명</span>
+                                <span class="item-name">구매 수량</span>
                                 <div class="qty-control">
                                     <button type="button" class="btn-qty" data-action="minus">-</button>
-                                    <input id="qtyInput" type="text" value="2" inputmode="numeric" />
+                                    <input id="qtyInput" type="text" value="1" inputmode="numeric" />
                                     <button type="button" class="btn-qty" data-action="plus">+</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="pv-total">총 상품금액 <strong class="total-price">54,000원</strong></div>
-                        <div class="pv-actions"><button type="button" class="btn cart">장바구니</button><button type="button" class="btn buy">구매하기</button></div>
+                        <div class="pv-total">총 상품금액 <strong class="total-price" id="totalPrice">기본가격</strong></div>
+                        <div class="pv-actions">
+                            <button type="button" class="btn cart" onclick="addToCart()">장바구니</button>
+                            <button type="button" class="btn buy">구매하기</button>
+                        </div>
                         <div class="pv-banner">550 × 64 배너 광고</div>
                     </div>
                 </div>
@@ -236,7 +399,16 @@
                     <h2 class="page-title">상품정보</h2>
                 </div>
                 <div class="pv-detail-img">
-                    <img src="/images/logo.png" alt="상품 상세 정보 이미지">
+                    <img th:if="${product.imageBase64 != null}" 
+                         th:src="${product.imageBase64}" 
+                         th:alt="${product.pName} + ' 상세 정보'">
+                    <img th:unless="${product.imageBase64 != null}" 
+                         src="/images/로고.png" 
+                         th:alt="${product.pName} + ' 상세 정보'">
+                </div>
+                <div th:if="${product.pDesc != null}" style="margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                    <h3>상품 설명</h3>
+                    <p th:text="${product.pDesc}" style="line-height: 1.6; color: #333;"></p>
                 </div>
             </section>
 
@@ -252,20 +424,24 @@
                     </div>
                     <table class="product-notice-table">
                         <tbody>
-                        <tr><th>상품번호</th><td>10010118412</td></tr>
-                        <tr><th>상품상태</th><td>새상품</td></tr>
-                        <tr><th>부가세면세여부</th><td>과세상품</td></tr>
-                        <tr><th>영수증발행여부</th><td>발행가능 (신용카드전표, 온라인현금영수증 中)</td></tr>
-                        <tr><th>사업자구분</th><td>통신판매업자</td></tr>
-                        <tr><th>브랜드</th><td>블루포스</td></tr>
-                        <tr><th>원산지</th><td>국내생산</td></tr>
-                        <tr><th>제조자/수입국</th><td>상세정보 직접입력</td></tr>
-                        <tr><th>제조국</th><td>상세정보 직접입력</td></tr>
-                        <tr><th>취급시 주의사항</th><td>상세정보 직접입력</td></tr>
-                        <tr><th>제조연월</th><td>상세정보 직접입력</td></tr>
-                        <tr><th>품질보증기준</th><td>상세정보 직접입력</td></tr>
-                        <tr><th>A/S 책임자</th><td>상세정보 직접입력</td></tr>
-                        <tr><th>전화번호</th><td>상세정보 직접입력</td></tr>
+                        <tr><th>상품번호</th><td th:text="${product.pPid}">10010118412</td></tr>
+                        <tr><th>상품상태</th><td th:text="${productDetail?.pdState ?: '새상품'}">새상품</td></tr>
+                        <tr><th>부가세면세여부</th><td th:text="${productDetail?.pdTax ?: '과세상품'}">과세상품</td></tr>
+                        <tr><th>영수증발행여부</th><td th:text="${productDetail?.pdReceipt ?: '발행가능 (신용카드전표, 온라인현금영수증 中)'}">발행가능 (신용카드전표, 온라인현금영수증 中)</td></tr>
+                        <tr><th>사업자구분</th><td th:text="${productDetail?.pdSSellerType ?: '통신판매업자'}">통신판매업자</td></tr>
+                        <tr><th>브랜드</th><td th:text="${productDetail?.pdBrand ?: '블루포스'}">블루포스</td></tr>
+                        <tr><th>원산지</th><td th:text="${productDetail?.pdOrigin ?: '국내생산'}">국내생산</td></tr>
+                        <tr><th>제조자/수입국</th><td th:text="${productDetail?.pdMaker ?: product.pSellerId}">상세정보 직접입력</td></tr>
+                        <tr><th>제조국</th><td th:text="${productDetail?.pdManufCountry ?: '상세정보 직접입력'}">상세정보 직접입력</td></tr>
+                        <tr><th>취급시 주의사항</th><td th:text="${productDetail?.pdCare ?: '상세정보 직접입력'}">상세정보 직접입력</td></tr>
+                        <tr><th>제조연월</th><td th:text="${productDetail?.pdManufDate ?: '상세정보 직접입력'}">상세정보 직접입력</td></tr>
+                        <tr><th>품질보증기준</th><td th:text="${productDetail?.pdWarrantyInfo ?: '상세정보 직접입력'}">상세정보 직접입력</td></tr>
+                        <tr><th>A/S 책임자</th><td th:text="${productDetail?.pdAs ?: product.pSellerId}">상세정보 직접입력</td></tr>
+                        <tr><th>전화번호</th><td th:text="${productDetail?.pdPhone ?: '상세정보 직접입력'}">상세정보 직접입력</td></tr>
+                        <tr th:if="${product.pRegdate != null}"><th>등록일</th><td th:text="${#temporals.format(product.pRegdate, 'yyyy-MM-dd')}">등록일</td></tr>
+                        <tr th:if="${product.pStockQuantity != null}"><th>재고</th><td th:text="${product.pStockQuantity} + '개'">재고</td></tr>
+                        <tr th:if="${product.pDeliveryPrice != null}"><th>배송비</th><td th:text="${#numbers.formatInteger(product.pDeliveryPrice, 0, 'COMMA')} + '원'">배송비</td></tr>
+                        <tr th:if="${product.pPoint != null}"><th>적립포인트</th><td th:text="${product.pPoint} + 'P'">적립포인트</td></tr>
                         </tbody>
                     </table>
                     <p class="refund-info-text">
@@ -278,38 +454,59 @@
             <!-- view3: 리뷰 -->
             <section id="review" style="margin-top:40px;">
                 <div class="title-bar"><h2 class="page-title">상품리뷰</h2></div>
-                <ul class="review-list">
-                    <li class="review-item">
-                        <div class="review-top"><span class="stars">★★★★★</span><span class="review-date">seo****** 2025-01-01</span></div>
-                        <div class="review-body">
-                            <img src="/images/logo.png" class="review-thumb">
-                            <div><h4 class="review-title">상품명</h4><p class="review-text">가격대비 정말 만족스러워요.</p></div>
+                <ul class="review-list" th:if="${!reviews.empty}">
+                    <li class="review-item" th:each="review : ${reviews}">
+                        <div class="review-top">
+                            <span class="stars">
+                                <span th:each="i : ${#numbers.sequence(1, review.prStar.intValue())}">
+                                    <span>⭐</span>
+                                </span>
+                            </span>
+                            <span class="review-date" th:text="${#temporals.format(review.prRegDate, 'yyyy-MM-dd')}">2025-01-01</span>
                         </div>
-                    </li>
-                    <li class="review-item">
-                        <div class="review-top"><span class="stars">★★★★☆</span><span class="review-date">kim****** 2025-01-02</span></div>
                         <div class="review-body">
-                            <img src="/images/logo.png" class="review-thumb">
-                            <div><h4 class="review-title">상품명</h4><p class="review-text">옷감이 살짝 얇긴 한데 여름에 입기엔 좋아요.</p></div>
-                        </div>
-                    </li>
-                    <li class="review-item">
-                        <div class="review-top"><span class="stars">★★★☆☆</span><span class="review-date">lee****** 2025-01-03</span></div>
-                        <div class="review-body">
-                            <img src="/images/logo.png" class="review-thumb">
-                            <div><h4 class="review-title">상품명</h4><p class="review-text">디자인은 좋은데 사이즈가 커요.</p></div>
+                            <!-- 리뷰 이미지 처리 -->
+                            <div class="review-images" th:if="${review.prImages1 != null and review.prImages1 != ''}">
+                                <img th:src="${review.prImages1}" class="review-thumb" th:onclick="'showImage(\'' + ${review.prImages1} + '\')'">
+                                <img th:if="${review.prImages2 != null and review.prImages2 != ''}" 
+                                     th:src="${review.prImages2}" class="review-thumb" th:onclick="'showImage(\'' + ${review.prImages2} + '\')'">
+                                <img th:if="${review.prImages3 != null and review.prImages3 != ''}" 
+                                     th:src="${review.prImages3}" class="review-thumb" th:onclick="'showImage(\'' + ${review.prImages3} + '\')'">
+                            </div>
+                            <div class="review-no-image" th:unless="${review.prImages1 != null and review.prImages1 != ''}">
+                                <span class="no-image-text">사진없음</span>
+                            </div>
+                            <div class="review-content">
+                                <h4 class="review-title" th:text="${product.pName}">상품명</h4>
+                                <p class="review-text" th:text="${review.prBody}">리뷰 내용</p>
+                            </div>
                         </div>
                     </li>
                 </ul>
+                <div class="no-reviews" th:if="${reviews.empty}" style="text-align: center; padding: 40px; color: #999;">
+                    <p>아직 등록된 리뷰가 없습니다.</p>
+                </div>
                 <!-- 페이지네이션 -->
-                <div class="pagination">
-                    <a href="#">이전</a>
-                    <a href="#">1</a>
-                    <a href="#" class="active">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">다음</a>
+                <div class="pagination" th:if="${reviewPage.totalPages > 1}">
+                    <!-- 이전 버튼 -->
+                    <a th:if="${currentPage > 0}" 
+                       th:href="@{/product/view(pPid=${product.pPid}, page=${currentPage - 1})}">이전</a>
+                    <span th:unless="${currentPage > 0}" class="disabled">이전</span>
+                    
+                    <!-- 페이지 번호들 -->
+                    <th:block th:each="pageNum : ${#numbers.sequence(0, reviewPage.totalPages - 1)}">
+                        <a th:if="${pageNum != currentPage}" 
+                           th:href="@{/product/view(pPid=${product.pPid}, page=${pageNum})}"
+                           th:text="${pageNum + 1}">1</a>
+                        <span th:if="${pageNum == currentPage}" 
+                              class="active" 
+                              th:text="${pageNum + 1}">1</span>
+                    </th:block>
+                    
+                    <!-- 다음 버튼 -->
+                    <a th:if="${currentPage < reviewPage.totalPages - 1}" 
+                       th:href="@{/product/view(pPid=${product.pPid}, page=${currentPage + 1})}">다음</a>
+                    <span th:unless="${currentPage < reviewPage.totalPages - 1}" class="disabled">다음</span>
                 </div>
             </section>
 
@@ -320,21 +517,204 @@
 <!-- ✅ footer -->
 <th:block th:replace="~{inc/_footer :: _footer}"/>
 
-<!-- JS: 수량 변경 -->
-<script>
+<!-- JS: 수량 변경 및 옵션 가격 계산 -->
+<script th:inline="javascript">
     (function(){
         const qtyInput = document.getElementById('qtyInput');
-        const totalEl  = document.querySelector('.total-price');
+        const totalEl = document.getElementById('totalPrice');
         if(!qtyInput || !totalEl) return;
-        const unit = 27000;
-        const fmt  = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        function clamp(n){ n = Number(String(n).replace(/[^0-9]/g,'')) || 1; return Math.max(1, Math.min(999, n)); }
-        function update(){ const q = clamp(qtyInput.value); qtyInput.value=q; totalEl.textContent=fmt(unit*q)+'원'; }
-        document.querySelectorAll('.btn-qty').forEach(btn=>{
-            btn.addEventListener('click', ()=>{ qtyInput.value = clamp(qtyInput.value) + (btn.dataset.action==='plus'?1:-1); update(); });
+        
+        // 서버에서 받은 상품 정보
+        var originalPrice = /*[[${product.pPrice}]]*/ 기본가격;
+        var discount = /*[[${product.pDiscount}]]*/ 할인률;
+        var deliveryPrice = /*[[${product.pDeliveryPrice}]]*/ 배송비;
+        
+        // 디버깅용 콘솔 로그
+        console.log('상품 정보:', {
+            originalPrice: originalPrice,
+            discount: discount,
+            deliveryPrice: deliveryPrice
         });
-        qtyInput.addEventListener('input', update); update();
+        
+        // 기본 상품 가격 계산 (할인 적용)
+        const basePrice = Math.floor(originalPrice * (100 - discount) / 100);
+        console.log('기본 가격 (할인 적용):', basePrice);
+        
+        // 옵션별 추가 가격 저장
+        const optionPrices = new Map();
+        
+        // 옵션 선택 이벤트 리스너 등록
+        document.querySelectorAll('.pv-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const optionNo = this.value;
+                const optionName = this.id;
+                
+                // 이전 선택된 옵션의 가격 제거
+                if (optionPrices.has(optionName)) {
+                    optionPrices.delete(optionName);
+                }
+                
+                // 새로 선택된 옵션의 가격 추가
+                if (optionNo) {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const addPriceText = selectedOption.textContent;
+                    console.log('선택된 옵션 텍스트:', addPriceText);
+                    
+                    // "(+30,000원)" 형태의 추가 가격 파싱
+                    const addPriceMatch = addPriceText.match(/\(\+([^)]+)\)/);
+                    if (addPriceMatch) {
+                        const addPrice = parseInt(addPriceMatch[1].replace(/[^\d]/g, '')) || 0;
+                        console.log('추출된 추가 가격:', addPrice);
+                        optionPrices.set(optionName, addPrice);
+                    } else {
+                        console.log('추가 가격 없음');
+                        optionPrices.set(optionName, 0);
+                    }
+                }
+                
+                updateTotalPrice();
+            });
+        });
+        
+        function updateTotalPrice() {
+            const qty = clamp(qtyInput.value);
+            qtyInput.value = qty;
+            
+            // 옵션 추가 가격 합계
+            let totalOptionPrice = 0;
+            optionPrices.forEach(price => {
+                totalOptionPrice += price;
+            });
+            
+            // 총 가격 계산: (기본가격 + 옵션가격) * 수량 (배송비 제외)
+            const totalPrice = (basePrice + totalOptionPrice) * qty;
+            
+            console.log('가격 계산:', {
+                basePrice: basePrice,
+                totalOptionPrice: totalOptionPrice,
+                qty: qty,
+                totalPrice: totalPrice
+            });
+            
+            totalEl.textContent = formatNumber(totalPrice) + '원';
+        }
+        
+        function clamp(n) { 
+            n = Number(String(n).replace(/[^0-9]/g,'')) || 1; 
+            return Math.max(1, Math.min(999, n)); 
+        }
+        
+        function formatNumber(n) {
+            return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        // 수량 변경 이벤트
+        document.querySelectorAll('.btn-qty').forEach(btn => {
+            btn.addEventListener('click', () => {
+                qtyInput.value = clamp(qtyInput.value) + (btn.dataset.action === 'plus' ? 1 : -1);
+                updateTotalPrice();
+            });
+        });
+        
+        qtyInput.addEventListener('input', updateTotalPrice);
+        
+        // 초기 가격 설정 (페이지 로드 시)
+        setTimeout(() => {
+            updateTotalPrice();
+        }, 100);
     })();
+    
+    // 장바구니 추가 기능
+    function addToCart() {
+        const qty = document.getElementById('qtyInput').value;
+        const totalPrice = document.getElementById('totalPrice').textContent;
+        
+        // 총 가격에서 숫자만 추출
+        const priceNumber = parseInt(totalPrice.replace(/[^\d]/g, '')) || 0;
+        
+        // 선택된 옵션들 수집
+        const selectedOptions = [];
+        document.querySelectorAll('.pv-select').forEach(select => {
+            if (select.value) {
+                selectedOptions.push(select.value);
+            }
+        });
+        
+        // 옵션을 최대 2개까지 전달 (ciOp01, ciOp02)
+        const ciOp01 = selectedOptions.length > 0 ? selectedOptions[0] : '';
+        const ciOp02 = selectedOptions.length > 1 ? selectedOptions[1] : '';
+        
+        // 폼 생성하여 POST 요청
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/product/cart/add';
+        
+        // CSRF 토큰 추가 (널 체크)
+        const csrfMeta = document.querySelector('meta[name="_csrf"]');
+        if (csrfMeta && csrfMeta.content) {
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_csrf';
+            csrfInput.value = csrfMeta.content;
+            form.appendChild(csrfInput);
+        }
+        
+        // 상품 정보 추가
+        const fields = [
+            { name: 'pPid', value: /*[[${product.pPid}]]*/ '' },
+            { name: 'ciOp01', value: ciOp01 },
+            { name: 'ciOp02', value: ciOp02 },
+            { name: 'ciAmount', value: qty },
+            { name: 'ciTotPrice', value: priceNumber }
+        ];
+        
+        fields.forEach(field => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = field.name;
+            input.value = field.value;
+            form.appendChild(input);
+        });
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+    
+    // 이미지 확대 기능
+    function showImage(imageSrc) {
+        // 모달 창 생성
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            cursor: pointer;
+        `;
+        
+        const img = document.createElement('img');
+        img.src = imageSrc;
+        img.style.cssText = `
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+        `;
+        
+        modal.appendChild(img);
+        document.body.appendChild(modal);
+        
+        // 클릭 시 모달 닫기
+        modal.addEventListener('click', () => {
+            document.body.removeChild(modal);
+        });
+    }
 </script>
 
 </body>

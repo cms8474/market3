@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.team3.admin_mapper.SalesSummaryMapper">
+
+    <sql id="OrderByClause">
+        ORDER BY
+        <choose>
+            <when test="pageRequestDTO.sort == 'order_sum'"> orderTotal </when>
+            <when test="pageRequestDTO.sort == 'sales_sum'"> salesTotal </when>
+            <otherwise> salesTotal </otherwise>
+        </choose>
+        <choose>
+            <when test="pageRequestDTO.dir == 'asc'"> ASC </when>
+            <otherwise> DESC </otherwise>
+        </choose>
+    </sql>
+
+    <!-- 메인 집계 쿼리  -->
+    <sql id="BaseSelect">
+        SELECT
+            si.S_U_ID                                      AS sellerUid,
+            si.S_COMPANY_NAME                              AS companyName,
+            si.S_SALES_REG_NUM                             AS bizRegNum,
+
+            /* 총 주문 건수: 판매자 기준 DISTINCT 주문번호 */
+            COUNT(DISTINCT po.PO_NO) AS totalOrders,
+
+        
+            /* 주문상태별 건수  */
+            COUNT(DISTINCT CASE WHEN po.PO_STATE = '결제완료' THEN po.PO_NO END) AS paidCount,
+            COUNT(DISTINCT CASE WHEN po.PO_STATE = '배송중'   THEN po.PO_NO END) AS shippingCount,
+            COUNT(DISTINCT CASE WHEN po.PO_STATE = '배송완료' THEN po.PO_NO END) AS deliveredCount,
+            COUNT(DISTINCT CASE WHEN po.PO_STATE = '구매확정' THEN po.PO_NO END) AS confirmedCount,
+
+            /* 주문합계: 아이템 금액 합 (기간 내) */
+            COALESCE(SUM(oi.OI_TOT_PRICE), 0)              AS orderTotal,
+
+            /* 매출합계: 구매확정 아이템 금액 합 (기간 내) */
+            COALESCE(SUM(CASE WHEN oi.OI_DEL_STATUS = '구매확정'
+                                  THEN oi.OI_TOT_PRICE END), 0) AS salesTotal
+
+        FROM MARKET_DEV.SELLER_INFO      si
+                 JOIN MARKET_DEV.U_USER           uu ON uu.U_ID = si.S_U_ID
+                 LEFT JOIN MARKET_DEV.ORDER_ITEMS oi
+                           ON oi.OI_S_U_ID = si.S_U_ID
+                 LEFT JOIN MARKET_DEV.PRODUCT_ORDER po
+                           ON po.PO_NO = oi.OI_PO_NO
+                               AND ( #{startAt} IS NULL OR #{endAt} IS NULL
+                                   OR (po.PO_ORDERDATE &gt;= #{startAt} AND po.PO_ORDERDATE &lt; #{endAt}) )
+
+        GROUP BY si.S_U_ID, si.S_COMPANY_NAME, si.S_SALES_REG_NUM
+    </sql>
+
+    <!-- 목록조회 -->
+    <select id="selectSalesSummaryList" resultType="kr.co.team3.admin_dto.SalesSummaryDTO">
+        SELECT * FROM (
+        SELECT inner_.*, ROWNUM AS rn
+        FROM (
+        <include refid="BaseSelect"/>
+        <include refid="OrderByClause"/>
+        ) inner_
+        WHERE ROWNUM &lt;= #{offset} + #{limit}
+        )
+        WHERE rn &gt; #{offset}
+    </select>
+
+    <select id="countSalesSummary" resultType="int">
+        SELECT COUNT(*) FROM (
+                                 SELECT si.S_U_ID
+                                 FROM MARKET_DEV.SELLER_INFO si
+                                          JOIN MARKET_DEV.U_USER uu ON uu.U_ID = si.S_U_ID
+                                          LEFT JOIN MARKET_DEV.ORDER_ITEMS oi
+                                                    ON oi.OI_S_U_ID = si.S_U_ID
+                                          LEFT JOIN MARKET_DEV.PRODUCT_ORDER po
+                                                    ON po.PO_NO = oi.OI_PO_NO
+                                                        AND ( #{startAt} IS NULL OR #{endAt} IS NULL
+                                                            OR (po.PO_ORDERDATE &gt;= #{startAt} AND po.PO_ORDERDATE &lt; #{endAt}) )
+                                 GROUP BY si.S_U_ID
+                             )
+    </select>
+
+</mapper>

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -142,6 +143,21 @@ public class AdminCsController {
         return "redirect:/admin/cs/notice/list?deleted=true";
     }
 
+    // 선택삭제
+    @PostMapping("/notice/delete-batch")
+    @ResponseBody
+    public ResponseEntity<?> deleteNotices(@RequestBody List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return ResponseEntity.badRequest().body("ids가 비어있습니다.");
+        }
+        try {
+            csService.deleteAllByIds(ids);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("선택삭제 중 예외", e);
+            return ResponseEntity.status(500).body("삭제 실패: " + e.getMessage());
+        }
+    }
 
 
     /*------------------ FAQ ------------------*/
@@ -160,6 +176,7 @@ public class AdminCsController {
 
         Map<String, String> codeNameMap = boardTypeService.getCodeNameMap("faq");
 
+
         model.addAttribute("page", page);
         model.addAttribute("q", q);
         model.addAttribute("cate", catePrefix);
@@ -172,6 +189,25 @@ public class AdminCsController {
     }
 
 
+    /*작성*/
+    @GetMapping("/faq/write")
+    public String faqWrite(Model model) {
+        model.addAttribute("dto", new CsDTO());
+        model.addAttribute("lv1List", boardTypeService.getLv1("faq"));
+        model.addAttribute("lv2Tree", boardTypeService.getLv2Tree("faq"));
+        return "admin/cs/faq/faqWrite";
+    }
+    @PostMapping("/faq/write")
+    public String faqWritePost(@ModelAttribute("dto") CsDTO dto, Principal principal) {
+        dto.setBoardWriter(principal != null ? principal.getName() : "admin01");
+        dto.setBoardView(0);
+        dto.setBoardRegDate(LocalDateTime.now());
+
+        String id = csService.saveByType(dto);
+        return "redirect:/admin/cs/faq/view?id=" + id;
+    }
+
+    /*수정*/
     @GetMapping("/faq/modify")
     public String faqModify(@RequestParam("id") String id, Model model) {
         var dto = csService.getDetail(id);
@@ -198,25 +234,7 @@ public class AdminCsController {
     }
 
 
-
-
-
-    @GetMapping("/faq/write")
-    public String faqWrite(Model model) {
-        model.addAttribute("dto", new CsDTO());
-        model.addAttribute("lv1List", boardTypeService.getLv1("faq"));
-        model.addAttribute("lv2Tree", boardTypeService.getLv2Tree("faq"));
-        return "admin/cs/faq/faqWrite";
-    }
-    @PostMapping("/faq/write")
-    public String faqWritePost(@ModelAttribute("dto") CsDTO dto, Principal principal) {
-        dto.setBoardWriter(principal != null ? principal.getName() : "admin01");
-        dto.setBoardView(0);
-        dto.setBoardRegDate(LocalDateTime.now());
-
-        String id = csService.saveByType(dto);
-        return "redirect:/admin/cs/faq/view?id=" + id;
-    }
+    /*상세보기*/
 
     @GetMapping("/faq/view")
     public String faqView(@RequestParam("id") String id, Model model) {
@@ -260,6 +278,25 @@ public class AdminCsController {
         log.info("삭제 완료 - {}", id);
         return "redirect:/admin/cs/faq/list?deleted=true";
     }
+
+    // 선택삭제
+    @PostMapping("/faq/delete-batch")
+    @ResponseBody
+    public ResponseEntity<?> deleteFaqs(@RequestBody List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return ResponseEntity.badRequest().body("ids가 비어있습니다.");
+        }
+        try {
+            csService.deleteAllByIds(ids);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("선택삭제 중 예외", e);
+            return ResponseEntity.status(500).body("삭제 실패: " + e.getMessage());
+        }
+    }
+
+
+
 
     /*------------------ QnA ------------------*/
 
@@ -371,6 +408,22 @@ public class AdminCsController {
         return "redirect:/admin/cs/qna/list?deleted=true";
     }
 
+    // 선택삭제
+    @PostMapping("/qna/delete-batch")
+    @ResponseBody
+    public ResponseEntity<?> deleteQnas(@RequestBody List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return ResponseEntity.badRequest().body("ids가 비어있습니다.");
+        }
+        try {
+            csService.deleteAllByIds(ids);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("선택삭제 중 예외", e);
+            return ResponseEntity.status(500).body("삭제 실패: " + e.getMessage());
+        }
+    }
+
 
     /*------------------ Recruit ------------------*/
     @GetMapping("/recruit/list")
@@ -382,6 +435,8 @@ public class AdminCsController {
         model.addAttribute("list", list);
         return "admin/cs/recruit/recruitList";
     }
+
+
 
     @PostMapping("/recruit/register")
     public String recruitRegister(RecruitmentDTO recruitmentDTO) {

@@ -1,26 +1,28 @@
 <th:block th:fragment="content">
     <link rel="stylesheet" href="/css/admin/point-manage.css">
-        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
-        <div class="page">
-            <div class="topbar">
-                <h4>포인트관리</h4>
-                <div class="breadcrumb">HOME &gt; 회원관리 &gt; <b>포인트관리</b></div>
-            </div>
 
-            <!-- 검색 -->
-            <div class="search-row">
-                <select name="searchType" id="searchType">
-                    <option value="#">아이디</option>
-                    <option value="#">이름</option>
-                    <option value="#">이메일</option>
-                    <option value="#">휴대폰</option>
-                </select>
-                <input type="text" name="keyword" placeholder="검색어입력" />
-                <button class="btn" type="button">검색</button>
-            </div>
+    <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
+    <div class="page">
+        <div class="topbar">
+            <h4>포인트관리</h4>
+            <div class="breadcrumb">HOME &gt; 회원관리 &gt; <b>포인트관리</b></div>
+        </div>
 
+        <!-- 검색 -->
+        <form class="search-row" th:action="@{/admin/member/point}" method="get">
+            <select name="searchType" id="searchType">
+                <option value="u_id" th:selected="${pageResponseDTO.searchType}=='u_id'">아이디</option>
+                <option value="u_name" th:selected="${pageResponseDTO.searchType}=='u_name'">이름</option>
+            </select>
+            <input type="text" name="keyword" placeholder="검색어입력"
+                   th:value="${pageResponseDTO.keyword}" />
+            <button class="btn" type="submit">검색</button>
+        </form>
 
-            <!-- 목록 -->
+        <!-- 삭제 포함한 전체 폼 -->
+        <form id="deleteForm" th:action="@{/admin/member/point/delete}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
             <table>
                 <thead>
                 <tr>
@@ -35,62 +37,70 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td class="col-check"><input type="checkbox"></td>
-                    <td class="col-no">5</td>
-                    <td>abc1234</td>
-                    <td>정우성</td>
-                    <td class="num">1,000</td>
-                    <td class="num">15,000</td>
-                    <td>구매적립 포인트 지급</td>
-                    <td class="col-date">0000-00-00 00:00:00</td>
-                </tr>
-                <tr>
-                    <td class="col-check"><input type="checkbox"></td>
-                    <td class="col-no">5</td>
-                    <td>abc1234</td>
-                    <td>정우성</td>
-                    <td class="num">1,000</td>
-                    <td class="num">15,000</td>
-                    <td>구매적립 포인트 지급</td>
-                    <td class="col-date">0000-00-00 00:00:00</td>
-                </tr>
+                <th:block th:each="p, stat : ${pageResponseDTO.dtoList}">
+                    <tr th:if="${p != null}">
+                        <td class="col-check">
+                            <!-- ✅ name="uhNo" 유지 -->
+                            <input type="checkbox" name="uhNo" th:value="${p.uh_no}">
+                        </td>
+                        <td class="col-no" th:text="${pageResponseDTO.startNo - stat.index}">1</td>
+                        <td th:text="${p.u_id}">userid</td>
+                        <td th:text="${p.u_name}">홍길동</td>
+                        <td class="num" th:text="${#numbers.formatInteger(p.uh_change_point, 0, 'COMMA')}">1,000</td>
+                        <td class="num" th:text="${#numbers.formatInteger(p.uh_now_point, 0, 'COMMA')}">15,000</td>
+                        <td th:text="${p.uh_text}">구매적립 포인트 지급</td>
+                        <td class="col-date"
+                            th:text="${#temporals.format(p.uh_change_date, 'yyyy-MM-dd HH:mm')}">0000-00-00 00:00</td>
+                    </tr>
+                </th:block>
 
+                <tr th:if="${#lists.isEmpty(pageResponseDTO.dtoList)}">
+                    <td colspan="8" class="empty">조회된 내역이 없습니다.</td>
+                </tr>
                 </tbody>
-
             </table>
 
-            <!-- 테이블 하단 영역 -->
+            <!-- ✅ 삭제버튼 포함 -->
             <div class="table-bottom">
                 <div class="left">
-                    <a href="#" class="btn-gray">선택삭제</a>
+                    <button type="submit" class="btn-gray">선택삭제</button>
                 </div>
 
                 <div class="center pagination">
-                    <a href="#">이전</a>
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">다음</a>
+                    <a th:if="${pageResponseDTO.prev}"
+                       th:href="@{/admin/member/point(pg=${pageResponseDTO.start - 1}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}"
+                       class="prev">이전</a>
+
+                    <th:block th:each="num : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                        <a th:href="@{/admin/member/point(pg=${num}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}"
+                           th:classappend="${num == pageResponseDTO.pg} ? 'current' : 'num'"
+                           th:text="${num}">1</a>
+                    </th:block>
+
+                    <a th:if="${pageResponseDTO.next}"
+                       th:href="@{/admin/member/point(pg=${pageResponseDTO.end + 1}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}"
+                       class="next">다음</a>
                 </div>
                 <div class="right"></div>
-
             </div>
-        </div>
-        <!-- □□□□□ 메인컨텐츠 종료 □□□□□ -->
+        </form> <!-- ✅ 폼 끝 -->
+    </div>
 
+    <!-- JS -->
+    <script>
+        // 전체 선택
+        const chkAll = document.getElementById('chkAll');
+        chkAll?.addEventListener('change', (e) => {
+            document.querySelectorAll('input[name="uhNo"]').forEach(cb => cb.checked = e.target.checked);
+        });
 
-<script>
-    // 전체 선택
-    const chkAll = document.getElementById('chkAll');
-    chkAll?.addEventListener('change', (e) => {
-        document.querySelectorAll('tbody input[type="checkbox"]')
-            .forEach(cb => cb.checked = e.target.checked);
-    });
-
-
-</script>
-
+        // 선택 안 했을 때 경고
+        document.getElementById('deleteForm')?.addEventListener('submit', (e) => {
+            const checked = document.querySelectorAll('input[name="uhNo"]:checked').length;
+            if (checked === 0) {
+                e.preventDefault();
+                alert('삭제할 항목을 선택하세요.');
+            }
+        });
+    </script>
 </th:block>
