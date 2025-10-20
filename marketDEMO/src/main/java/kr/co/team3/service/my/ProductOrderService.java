@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// 강민철 2025-10-20 1457
+// 강민철 2025-10-20 1710
 
 @Service
 @RequiredArgsConstructor

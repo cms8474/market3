@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-// 강민철 2025-10-20 1457
+// 강민철 2025-10-20 1710
 
 @Controller
 @RequiredArgsConstructor
