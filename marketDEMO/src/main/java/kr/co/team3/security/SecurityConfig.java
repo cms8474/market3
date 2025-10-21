@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers("/admin/**").permitAll()
                 .requestMatchers("/article/**").hasAnyRole("ADMIN", "MANAGER", "MEMBER")
-                .requestMatchers("/product/**").permitAll() // 상품 관련 페이지는 모두 허용
+                .requestMatchers("/images/**", "/css/**", "/js/**", "/webjars/**").permitAll()
                 .anyRequest().permitAll()
             )
             
@@ -63,10 +63,9 @@ public class SecurityConfig {
                 .alwaysRemember(false) // 명시적으로 false 설정
             )
             
-            // CSRF 설정 - 상품 관련 POST 요청만 비활성화
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/product/complete", "/api/**", "/member/sendEmailCode", "/member/verifyEmailCode", "/member/checkId/**", "/member/checkEmail/**", "/member/getTerms/**")
-            );
+            // CSRF 설정
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**", "/member/sendEmailCode", "/member/verifyEmailCode", "/member/checkId/**", "/member/checkEmail/**", "/member/getTerms/**","/admin/product/register",
+                    "/admin/product/categories/**"));
 
         return http.build();
     }
