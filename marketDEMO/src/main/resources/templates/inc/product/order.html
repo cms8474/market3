@@ -517,7 +517,7 @@
                 deliveryFee: parseInt(document.getElementById('deliveryFeeDisplay').textContent.replace(/[^0-9]/g, '')) || 0,
                 additionalDiscount: parseInt(document.getElementById('additionalDiscountDisplay').textContent.replace(/[^0-9]/g, '')) || 0,
                 finalAmount: parseInt(document.getElementById('finalAmountDisplay').textContent.replace(/[^0-9]/g, '')) || 0,
-                earnedPoint: Math.floor((parseInt(document.getElementById('finalAmountDisplay').textContent.replace(/[^0-9]/g, '')) || 0) * 0.01) // 1% 적립
+                earnedPoint: parseInt(document.getElementById('earnedPointDisplay').textContent.replace(/[^0-9]/g, '')) || 0 // 화면에 표시된 적립포인트 그대로 사용
             };
             
             // 폼 생성하여 POST로 전송
@@ -787,7 +787,7 @@
                 <div class="row"><span>배송비</span><span id="deliveryFeeDisplay" th:text="${deliveryFee > 0 ? #numbers.formatInteger(deliveryFee, 0, 'COMMA') + '원' : '무료'}" th:if="${deliveryFee > 0}">3,000원</span><span id="deliveryFeeDisplay" th:text="'무료'" th:if="${deliveryFee <= 0}">무료</span></div>
                 <div class="row"><span>추가할인</span><span id="additionalDiscountDisplay">0원</span></div>
                 <div class="row total"><span>전체주문금액</span><span id="finalAmountDisplay" th:text="${#numbers.formatInteger(finalAmount, 0, 'COMMA')} + '원'">24,650원</span></div>
-                <div class="row"><span>적립 포인트</span><span th:text="${totalPoints}">270</span></div>
+                <div class="row"><span>적립 포인트</span><span id="earnedPointDisplay" th:text="${totalPoints}">270</span></div>
                 <button class="btn-pay">결제하기</button>
             </div>
         </section>

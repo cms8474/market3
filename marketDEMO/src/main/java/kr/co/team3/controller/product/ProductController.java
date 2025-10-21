@@ -18,6 +18,7 @@ import kr.co.team3.entity.my.Coupon;
 import kr.co.team3.admin_dto.CouponDTO;
 import kr.co.team3.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class ProductController {
 
     private final IndexService indexService;
@@ -408,6 +410,18 @@ public class ProductController {
                 .collect(Collectors.toList());
         
         orderRequest.setOrderItems(orderItems);
+        
+        log.info("=== 결제 정보 수신 ===");
+        log.info("결제방법: {}", paymentMethod);
+        log.info("사용쿠폰: {}", usedCouponId);
+        log.info("사용포인트: {}", usedPoint);
+        log.info("상품금액: {}", productAmount);
+        log.info("할인금액: {}", discountAmount);
+        log.info("배송비: {}", deliveryFee);
+        log.info("추가할인: {}", additionalDiscount);
+        log.info("최종금액: {}", finalAmount);
+        log.info("적립포인트: {}", earnedPoint);
+        log.info("==================");
         
         // 주문 처리 실행
         String orderNumber = orderService.processOrder(orderRequest);
