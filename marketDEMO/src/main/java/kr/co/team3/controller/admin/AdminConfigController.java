@@ -37,8 +37,10 @@ public class AdminConfigController {
         model.addAttribute("contentFragment", "inc/admin/config/basic :: content");
         model.addAttribute("pageCss", "/css/admin_config_basic.css");
 
+        // 강민철 2025-10-21 1214 수정
+        // GlobalInfoController에서 뿌림
         // 화면에 뿌릴 최신 레코드
-        model.addAttribute("v", v);
+        // model.addAttribute("v", v);
 
         return "admin";
     }
