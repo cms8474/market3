@@ -1,0 +1,144 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.team3.admin_mapper.ProductStatusMapper">
+
+    <!-- 결과 매핑 -->
+    <resultMap id="ProductStatusMap" type="kr.co.team3.admin_dto.ProductStatusDTO">
+        <result column="P_PID"             property="pid"/>
+        <result column="P_NAME"            property="name"/>
+        <result column="SALE_PRICE"        property="salePrice"/>
+        <result column="P_DISCOUNT"        property="discount"/>
+        <result column="P_POINT"           property="point"/>
+        <result column="P_STOCK_QUANTITY"  property="stockQty"/>
+        <result column="SELLER_NAME"       property="sellerName"/>
+        <result column="P_VIEW_COUNT"      property="viewCount"/>
+        <result column="IMAGE_URL"         property="imageUrl"/>
+    </resultMap>
+
+    <!-- 공통 WHERE (검색) -->
+    <sql id="whereSearch">
+        <where>
+            <if test="req.keyword != null and req.keyword.trim() != ''">
+                <choose>
+                    <!-- 상품명 -->
+                    <when test="req.searchType == 'name'">
+                        LOWER(pi.P_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                    </when>
+
+                    <!-- 상품번호 -->
+                    <when test="req.searchType == 'pid'">
+                        LOWER(pi.P_PID) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                    </when>
+
+                    <!-- 판매자: 회사명 또는 사용자ID/이름 -->
+                    <when test="req.searchType == 'seller'">
+                        (
+                        LOWER(NVL(si.S_COMPANY_NAME, '')) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(NVL(uu.U_ID, ''))       LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(NVL(uu.U_NAME, ''))     LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        )
+                    </when>
+
+                    <!-- 기본: 모두 검색 -->
+                    <otherwise>
+                        (
+                        LOWER(pi.P_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(pi.P_PID) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(NVL(si.S_COMPANY_NAME, '')) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(NVL(uu.U_ID, ''))           LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(NVL(uu.U_NAME, ''))         LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        )
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 과거 include 호환용 별칭 -->
+    <sql id="whereKeyword">
+        <include refid="whereSearch"/>
+    </sql>
+
+    <!-- 목록 페이지 -->
+    <select id="selectProductStatusPage" resultMap="ProductStatusMap">
+        SELECT
+        pi.P_PID,
+        pi.P_NAME,
+        /* 판매가격: 할인율 적용가 (할인율 null -> 0) */
+        ROUND(pi.P_PRICE * (1 - NVL(pi.P_DISCOUNT, 0) / 100)) AS SALE_PRICE,
+        pi.P_DISCOUNT,
+        NVL(pi.P_POINT, 0)            AS P_POINT,
+        NVL(pi.P_STOCK_QUANTITY, 0)   AS P_STOCK_QUANTITY,
+        /* 판매자명: SELLER_INFO.S_COMPANY_NAME 우선, 없으면 U_USER.U_ID */
+        COALESCE(si.S_COMPANY_NAME, uu.U_ID) AS SELLER_NAME,
+        NVL(pi.P_VIEW_COUNT, 0)       AS P_VIEW_COUNT,
+        pi.P_IAMGE_LIST AS IMAGE_URL
+        FROM PRODUCT_ITEM pi
+        LEFT JOIN SELLER_INFO si ON si.S_U_ID = pi.P_SELLER_ID
+        LEFT JOIN U_USER      uu ON uu.U_ID   = pi.P_SELLER_ID
+        <include refid="whereSearch"/>
+        ORDER BY pi.P_REGDATE DESC
+        OFFSET #{req.offset} ROWS FETCH NEXT #{req.size} ROWS ONLY
+    </select>
+
+    <!-- 카운트 -->
+    <select id="countProductStatus" resultType="int">
+        SELECT COUNT(1)
+        FROM PRODUCT_ITEM pi
+        LEFT JOIN SELLER_INFO si ON si.S_U_ID = pi.P_SELLER_ID
+        LEFT JOIN U_USER      uu ON uu.U_ID   = pi.P_SELLER_ID
+        <include refid="whereSearch"/>
+    </select>
+
+
+
+    <!-- 자식들(단건) -->
+    <delete id="deleteCartItems">      DELETE FROM CART_ITEMS      WHERE CI_P_PID = #{pid} </delete>
+    <delete id="deleteCategoryLinks">  DELETE FROM CATEGORY_LINKS  WHERE CL_P_PID = #{pid} </delete>
+    <delete id="deleteOrderItems">     DELETE FROM ORDER_ITEMS     WHERE OI_P_PID = #{pid} </delete>
+    <delete id="deleteProductDetail">  DELETE FROM PRODUCT_DETAIL  WHERE PD_P_PID = #{pid} </delete>
+    <delete id="deleteProductOptions"> DELETE FROM PRODUCT_OPTION  WHERE POP_P_PID = #{pid} </delete>
+    <delete id="deleteProductReview">  DELETE FROM PRODUCT_REVIEW  WHERE PR_P_PID = #{pid} </delete>
+    <delete id="deleteTagsLinks">      DELETE FROM TAGS_LINKS      WHERE TL_P_PID = #{pid} </delete>
+
+    <!-- 부모(단건) -->
+    <delete id="deleteProduct">        DELETE FROM PRODUCT_ITEM    WHERE P_PID    = #{pid} </delete>
+
+    <!-- 자식들(다건) -->
+    <delete id="deleteCartItemsBulk" parameterType="list">
+        DELETE FROM CART_ITEMS WHERE CI_P_PID IN
+        <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>
+    </delete>
+    <delete id="deleteCategoryLinksBulk" parameterType="list">
+        DELETE FROM CATEGORY_LINKS WHERE CL_P_PID IN
+        <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>
+    </delete>
+    <delete id="deleteOrderItemsBulk" parameterType="list">
+        DELETE FROM ORDER_ITEMS WHERE OI_P_PID IN
+        <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>
+    </delete>
+    <delete id="deleteProductDetailBulk" parameterType="list">
+        DELETE FROM PRODUCT_DETAIL WHERE PD_P_PID IN
+        <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>
+    </delete>
+    <delete id="deleteProductOptionsBulk" parameterType="list">
+        DELETE FROM PRODUCT_OPTION WHERE POP_P_PID IN
+        <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>
+    </delete>
+    <delete id="deleteProductReviewBulk" parameterType="list">
+        DELETE FROM PRODUCT_REVIEW WHERE PR_P_PID IN
+        <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>
+    </delete>
+    <delete id="deleteTagsLinksBulk" parameterType="list">
+        DELETE FROM TAGS_LINKS WHERE TL_P_PID IN
+        <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>
+    </delete>
+
+    <!-- 부모(다건) -->
+    <delete id="deleteProducts" parameterType="list">
+        DELETE FROM PRODUCT_ITEM WHERE P_PID IN
+        <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>
+    </delete>
+
+</mapper>

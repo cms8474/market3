@@ -7,8 +7,9 @@ import kr.co.team3.mapper.my.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
+
+// 강민철 2025-10-20 1710
 
 @Service
 @RequiredArgsConstructor

@@ -59,16 +59,13 @@ public class SalesSummaryService {
         OffsetDateTime startAt = startLdt.atZone(zone).toOffsetDateTime();
         OffsetDateTime endAt = endLdt.atZone(zone).toOffsetDateTime();
 
-        // ===== 3. 페이징 계산 =====
         int offset = pageRequestDTO.getOffset();
         int limit = pageRequestDTO.getSize();
 
-        // ===== 4. Mapper 호출 (DB 조회) =====
         List<SalesSummaryDTO> list = mapper.selectSalesSummaryList(
                 pageRequestDTO, offset, limit, startAt, endAt);
         int total = mapper.countSalesSummary(pageRequestDTO, startAt, endAt);
 
-        // ===== 5. PageResponseDTO 생성 후 반환 =====
         return new PageResponseDTO<>(pageRequestDTO, list, total);
     }
 }

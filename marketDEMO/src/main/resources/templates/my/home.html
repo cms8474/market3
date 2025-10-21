@@ -67,7 +67,7 @@
                         <th>확인/신청</th>
                     </tr>
                     <tr th:each="order : ${orderDTOList}" th:object="${order}">
-                        <td>[[*{po_orderdate}]]</td>
+                        <td>[[*{poOrderdate}]]</td>
                         <td><img src="/images/logo.png"/></td>
                         <td>
                             <a href="#" class="orderNum" th:attr="order=*{poNo}">주문번호 : [[*{poNo}]]</a><br>
@@ -76,9 +76,11 @@
                             수량 : [[*{oiProdQty}]]개<br>
                             <b><span th:text="${#numbers.formatInteger(order.oiTotPrice, 3, 'COMMA')} + '원'">totPrice</span></b>
                         </td>
-                        <td>[[*{oiDelStatus}]]</td>
+                        <td th:if="*{poState} != '구매확정'" th:attr="name='state', order=*{poNo}">[[*{oiDelStatus}]]</td>
+                        <td th:if="*{poState} == '구매확정'" style="color: blue; font-weight: bold;">[[*{poState}]]</td>
                         <td>
-                            <button name="buyConfirm" class="blueButton">구매확정</button><br>
+                            <button name="buyConfirm" class="blueButton" th:attr="order=*{poNo}"
+                                    th:if="*{oiDelStatus} == '배송완료' and *{poState} != '구매확정'">구매확정</button><br th:if="*{oiDelStatus} == '배송완료' and *{poState} != '구매확정'">
                             <button name="productReview" class="blueButton">상품평쓰기</button><br>
                             <button name="returnRequest">반품신청</button><br>
                             <button name="exchangeRequest">교환신청</button>
@@ -220,4 +222,4 @@
 <!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
 
 
-<!-- 강민철 2025-10-20 1457 -->
+<!-- 강민철 2025-10-21 1029 -->

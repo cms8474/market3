@@ -61,6 +61,16 @@ public class CartService {
     }
 
     /**
+     * 사용자의 장바구니 목록 조회 (별칭 메서드)
+     * @param userId 사용자 ID
+     * @return 장바구니 목록
+     */
+    @Transactional(readOnly = true)
+    public List<CartItemsEntity> getCartItemsByUserId(String userId) {
+        return cartItemsRepository.findByCiUId(userId);
+    }
+
+    /**
      * 장바구니에서 상품 삭제
      * @param ciUId 사용자 ID
      * @param ciPPid 상품 ID
