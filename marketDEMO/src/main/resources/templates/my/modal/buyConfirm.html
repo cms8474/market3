@@ -23,13 +23,11 @@
             const confirmCancelButton = document.getElementById("confirmCancel");
             const buyConfirmButton = document.getElementsByClassName("BCConfirmButton")[0];
             let orderNum = 0;
-            let clickedConfirmButton = null;
 
             document.addEventListener('click', function (e) {
                 if(e.target.name === 'buyConfirm') {
                     e.preventDefault();
                     orderNum = e.target.getAttribute('order');
-                    clickedConfirmButton = e.target;
 
                     modal.style.display = "flex";
                 }
@@ -43,20 +41,24 @@
                         if(!data){
                             alert('구매 확정 진행 중 오류가 발생했습니다.');
                         } else {
-                            alert('구매 확정 되었습니다.');
-                            // 버튼 뒤의 <br> 제거
-                            // 옵셔널 체이닝 `?.` : 왼쪽 값이 null 또는 undefined면, 에러 대신 undefined를 반환하고 평가를 중단
-                            if (clickedConfirmButton?.nextElementSibling?.tagName === 'BR') {
-                                clickedConfirmButton.nextElementSibling.remove();
+                            // 제거할 구매확정 버튼 선언, 정의
+                            const rmConfirmBtns = document.querySelectorAll(`[name="buyConfirm"][order="${orderNum}"]`)
+                            // 버튼 뒤의 <br> 제거, 버튼 제거
+                            for (const button of rmConfirmBtns) {
+                                // 옵셔널 체이닝 `?.` : 왼쪽 값이 null 또는 undefined면, 에러 대신 undefined를 반환하고 평가를 중단
+                                if (button?.nextElementSibling?.tagName === 'BR') {
+                                    button.nextElementSibling.remove();
+                                }
+                                button.remove();
                             }
-                            clickedConfirmButton.remove();
-                            const buyConfirmTds = document.querySelectorAll(`[state="${orderNum}"]`);
+                            const buyConfirmTds = document.querySelectorAll(`[name="state"][order="${orderNum}"]`);
                             console.log(buyConfirmTds);
                             for (const td of buyConfirmTds) {
                                 td.innerText = '구매확정';
                                 td.style.color = 'blue';
                                 td.style.fontWeight = 'bold';
                             }
+                            alert('구매 확정 되었습니다.');
                             modal.style.display = "none";
                         }
                     })
@@ -75,4 +77,4 @@
         });
     </script>
 </article>
-<!-- 강민철 2025-10-21 0954 -->
+<!-- 강민철 2025-10-21 1029 -->

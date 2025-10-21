@@ -99,7 +99,7 @@
                         수량 : [[*{oiProdQty}]]개<br>
                         <b><span th:text="${#numbers.formatInteger(order.oiTotPrice, 3, 'COMMA')} + '원'">totPrice</span></b>
                     </td>
-                    <td th:if="*{poState} != '구매확정'" th:attr="state=*{poNo}">[[*{oiDelStatus}]]</td>
+                    <td th:if="*{poState} != '구매확정'" th:attr="name='state', order=*{poNo}">[[*{oiDelStatus}]]</td>
                     <td th:if="*{poState} == '구매확정'" style="color: blue; font-weight: bold;">[[*{poState}]]</td>
                     <td>
                         <button name="buyConfirm" class="blueButton" th:attr="order=*{poNo}"
@@ -163,6 +163,6 @@
 
 <!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
 
-<!--강민철 2025-10-21 0954-->
+<!--강민철 2025-10-21 1029-->
 
 
