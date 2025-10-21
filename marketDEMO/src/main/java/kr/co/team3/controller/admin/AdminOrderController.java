@@ -91,4 +91,18 @@ public class AdminOrderController {
         return "admin/order/delivery";
     }
 
+
+    @GetMapping("/order/delivery/detail")
+    @ResponseBody
+    public ResponseEntity<?> getDetail(
+            @RequestParam(required = false) String poNo,
+            @RequestParam(required = false) String trackingNum) {
+
+        OrderDeliveryDetailDTO dto = shipStatusService.getDetail(poNo, trackingNum);
+
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
+    }
 }

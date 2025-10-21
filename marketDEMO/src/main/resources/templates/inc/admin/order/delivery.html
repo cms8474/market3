@@ -47,7 +47,10 @@
                        th:text="${row.trackingNum != null ? row.trackingNum : '-'}">-</a>
                 </td>
                 <td th:text="${row.trackingCompany}">-</td>
+
                 <td th:text="${row.poNo}">-</td>
+
+
                 <td th:text="${row.recipient}">-</td>
                 <td th:text="${row.productName}">-</td>
                 <td th:text="${row.itemCount}">0</td>
@@ -56,9 +59,9 @@
                 <td class="status"
                     th:text="${row.delStatus}"
                     th:classappend="${#strings.equals(row.delStatus,'상품준비중')} ? ' status--ready' :
-                              (${#strings.equals(row.delStatus,'배송중')} ? ' status--ing' :
-                              (${#strings.equals(row.delStatus,'반품요청')} ? ' status--return' :
-                              (${#strings.equals(row.delStatus,'배송완료')} ? ' status--done' : '')))">
+                            (${#strings.equals(row.delStatus,'배송중')} ? ' status--ing' :
+                            (${#strings.equals(row.delStatus,'반품요청')} ? ' status--return' :
+                            (${#strings.equals(row.delStatus,'배송완료')} ? ' status--done' : '')))">
                     -
                 </td>
                 <td class="col-date"
@@ -122,7 +125,6 @@
                             <table class="od-table">
                                 <thead>
                                 <tr>
-                                    <th>이미지</th>
                                     <th>상품번호</th>
                                     <th>상품명</th>
                                     <th>판매자</th>
@@ -173,25 +175,97 @@
 
     <script th:src="@{/js/modal.js}"></script>
     <script>
-        // 검색 버튼은 form submit
-        document.getElementById('btnSearch')?.addEventListener('click', () => {
-            document.getElementById('searchForm').submit();
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+            // 필수 요소 존재 여부 로그 (초기 디버그용)
+            const requiredIds = [
+                'DetailModal','od-waybill','od-waybill2','od-orderNo','od-recipient',
+                'od-phone','od-addr','od-memo','od-sumProduct','od-sumDiscount',
+                'od-sumShipFee','od-sumPay','od-items'
+            ];
+            const missing = requiredIds.filter(id => !document.getElementById(id));
+            if (missing.length) {
+                console.warn('[delivery] Missing IDs in DOM:', missing);
+                // 여기서 ID가 빠져 있으면 모달 마크업이 실제 화면에 포함되지 않은 겁니다.
+            }
 
-        // 송장번호 클릭 시 상세 모달 오픈(필요 시 AJAX로 상세 조회)
-        document.querySelectorAll('td.order-no a').forEach(a => {
-            a.addEventListener('click', (e) => {
+            // 안전 setter
+            function setText(id, value) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value ?? '—';
+            }
+
+            function renderDetail(data){
+                // 헤더/배송정보
+                setText('od-waybill',  data.trackingNum);
+                setText('od-waybill2', data.trackingNum);
+                setText('od-orderNo',  data.poNo);
+                setText('od-recipient',data.recipient);
+                setText('od-phone',    data.phone);
+                setText('od-addr',     data.address);
+                setText('od-memo',     data.memo);
+
+                // 합계
+                const sumProduct  = (data.sumProduct ?? data.totalPrice ?? 0);
+                const sumDiscount = (data.sumDiscount ?? 0);
+                const shipFee     = (data.deliveryPrice ?? 0);
+                const sumPay      = (data.sumPay ?? (sumProduct + shipFee));
+                setText('od-sumProduct',  `${sumProduct.toLocaleString()} 원`);
+                setText('od-sumDiscount', `${sumDiscount.toLocaleString()} 원`);
+                setText('od-sumShipFee',  `${shipFee.toLocaleString()} 원`);
+                setText('od-sumPay',      `${sumPay.toLocaleString()} 원`);
+
+                // 아이템 테이블 (서버 JSON의 키: ppid)
+                const tbody = document.getElementById('od-items');
+                if (tbody) {
+                    tbody.innerHTML = '';
+                    (data.items || []).forEach(it => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+          <td>${it.ppid ?? '-'}</td>
+          <td>${it.productName ?? '-'}</td>
+          <td>${it.sellerId ?? '-'}</td>
+          <td class="num">${(it.price ?? 0).toLocaleString()}</td>
+          <td class="num">${it.qty ?? 0}</td>
+          <td class="num">${(it.itemDeliveryFee ?? 0).toLocaleString()}</td>
+          <td class="num">${(it.payAmount ?? ((it.price||0) * (it.qty||0))).toLocaleString()}</td>
+        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+
+                const modal = document.getElementById('DetailModal');
+                if (modal) modal.classList.add('open');
+            }
+
+            async function openDetail(params){
+                try{
+                    const qs = new URLSearchParams(params).toString();
+                    const res = await fetch(`/admin/order/delivery/detail?${qs}`, { headers:{ 'Accept':'application/json'} });
+                    if (!res.ok) { alert('상세 정보를 불러오지 못했습니다.'); return; }
+                    const data = await res.json();
+                    // 디버그: 응답 확인
+                    console.debug('[DETAIL]', data);
+                    renderDetail(data);
+                }catch(err){
+                    console.error('[DETAIL ERROR]', err);
+                    alert('상세호출중 오류가 발생했습니다.');
+                }
+            }
+
+            // 송장번호 클릭만 상세
+            document.addEventListener('click', (e) => {
+                const a = e.target.closest('td.order-no a');
+                if (!a) return;
                 e.preventDefault();
-                const waybill = a.dataset.waybill || '-';
-                document.getElementById('od-waybill').textContent = waybill;
-                document.getElementById('od-waybill2').textContent = waybill;
-                document.getElementById('DetailModal')?.classList.add('open');
+                const trackingNum = a.dataset.waybill;
+                if (trackingNum) openDetail({ trackingNum });
+                else alert('송장번호가 없습니다.');
             });
-        });
 
-        // 모달 닫기
-        document.querySelectorAll('[data-close="true"]').forEach(el => {
-            el.addEventListener('click', () => {
+            // 닫기
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-close="true"]');
+                if (!btn) return;
                 document.getElementById('DetailModal')?.classList.remove('open');
             });
         });
