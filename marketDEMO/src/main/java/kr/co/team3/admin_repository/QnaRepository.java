@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface QnaRepository extends JpaRepository<Qna, Long> {
+public interface QnaRepository extends JpaRepository<Qna, String> {
 
-    List<Qna> findTop5ByStatusOrderByCreatedAtDesc(String status);
+    List<Qna> findTop5ByOrderByCreatedAtDesc();
 }

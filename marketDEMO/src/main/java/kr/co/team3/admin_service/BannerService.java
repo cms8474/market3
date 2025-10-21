@@ -47,19 +47,31 @@ public class BannerService {
             log.info("[BANNER] will save file: orig={}, size={}", file.getOriginalFilename(), file.getSize());
             Files.createDirectories(root); // 외부 디렉터리 생성
 
-            String ext = "";
             String orig = file.getOriginalFilename();
-            if (orig != null && orig.contains(".")) {
-                ext = orig.substring(orig.lastIndexOf("."));
-            }
-            stored = UUID.randomUUID() + ext;
-
-            Path target = root.resolve(stored);
-            try (var in = file.getInputStream()) {
-                Files.copy(in, root.resolve(stored)); // 이미 있으면 실패 -> 필요시 REPLACE 옵션 추가
+            if (orig == null || orig.isBlank()) {
+                throw new IllegalArgumentException("파일명이 비어 있습니다.");
             }
 
-            file.transferTo(root.resolve(stored).toFile());
+            orig = Path.of(orig).getFileName().toString();
+
+            String ext = "";
+            int dot = orig.lastIndexOf('.');
+            String base = (dot > 0) ? orig.substring(0, dot) : orig;
+            ext = (dot > 0) ? orig.substring(dot) : "";
+
+            base = base.replaceAll("[^a-zA-Z0-9._-가-힣\\s]", "").trim().replaceAll("\\s+", "_");
+            if (base.isBlank()) base = "file";
+
+            String candidate = base + ext;
+            Path target = root.resolve(candidate);
+            int idx = 1;
+            while (Files.exists(target)) {
+                candidate = base + "-" + idx + ext;
+                target = root.resolve(candidate);
+                idx++;
+            }
+            file.transferTo(target);
+            stored = candidate;
             log.info("[BANNER] file saved as {}", stored);
         }
 
@@ -78,7 +90,7 @@ public class BannerService {
 
         Banner saved = bannerRepository.save(ad);
         log.info("[BANNER] JPA saved id={}", saved.getANo());
-        return bannerRepository.save(ad);
+        return saved;
     }
 
     @Transactional
