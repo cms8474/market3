@@ -5,6 +5,7 @@
 
 <mapper namespace="kr.co.team3.admin_mapper.AdminProductMapper">
 
+    <!-- PRODUCT_ITEM 매핑 -->
     <resultMap id="ProductItemMap" type="kr.co.team3.admin_dto.ProductItemDTO">
         <id     column="P_PID"             property="pPid"/>
         <result column="P_NAME"            property="name"/>
@@ -16,6 +17,7 @@
         <result column="P_DELIVERY_PRICE"  property="deliveryPrice"/>
         <result column="P_SELLER_ID"       property="sellerId"/>
         <result column="P_PC_ID"           property="pcId"/>
+        <!-- 스키마가 P_IAMGE_LIST로 정의돼 있으니 철자 그대로 사용 -->
         <result column="P_IAMGE_LIST"      property="imageList"/>
         <result column="P_IMAGE_MAIN"      property="imageMain"/>
         <result column="P_IMAGE_DETAIL"    property="imageDetail"/>
@@ -23,6 +25,7 @@
         <result column="P_VIEW_COUNT"      property="viewCount"/>
     </resultMap>
 
+    <!-- PRODUCT_ITEM INSERT (고정) -->
     <insert id="insertProductItem" parameterType="kr.co.team3.admin_dto.ProductItemDTO">
         INSERT INTO PRODUCT_ITEM (
             P_NAME, P_DESC, P_PRICE, P_DISCOUNT, P_POINT,
@@ -36,32 +39,59 @@
                )
     </insert>
 
+    <!-- PRODUCT_DETAIL INSERT (동적 INSERT: null/빈값 컬럼은 생략하여 DEFAULT 적용) -->
     <insert id="insertProductDetail" parameterType="kr.co.team3.admin_dto.ProductDetailDTO">
-        INSERT INTO PRODUCT_DETAIL (
-            PD_P_PID, PD_STATE, PD_TAX, PD_RECEIPT, PD_S_SELLER_TYPE,
-            PD_BRAND, PD_ORIGIN, PD_MAKER, PD_MANUF_COUNTRY, PD_CARE,
-            PD_MANUF_DATE, PD_WARRANTY_INFO, PD_AS, PD_PHONE
-        )
-        VALUES (
-                   #{pPid}, #{state}, #{tax}, #{receipt}, #{sellerType},
-                   #{brand}, #{origin}, #{maker}, #{country}, #{care},
-                   #{manufDate}, #{warranty}, #{asManager}, #{phone}
-               )
+        INSERT INTO PRODUCT_DETAIL
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            PD_P_PID
+            <if test="state != null and state != ''">, PD_STATE</if>
+            <if test="tax != null and tax != ''">, PD_TAX</if>
+            <if test="receipt != null and receipt != ''">, PD_RECEIPT</if>
+            <if test="sellerType != null and sellerType != ''">, PD_S_SELLER_TYPE</if>
+            <if test="brand != null and brand != ''">, PD_BRAND</if>
+            <if test="origin != null and origin != ''">, PD_ORIGIN</if>
+            <if test="maker != null and maker != ''">, PD_MAKER</if>
+            <if test="country != null and country != ''">, PD_MANUF_COUNTRY</if>
+            <if test="care != null and care != ''">, PD_CARE</if>
+            <if test="manufDate != null and manufDate != ''">, PD_MANUF_DATE</if>
+            <if test="warranty != null and warranty != ''">, PD_WARRANTY_INFO</if>
+            <if test="asManager != null and asManager != ''">, PD_AS</if>
+            <if test="phone != null and phone != ''">, PD_PHONE</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{pPid}
+            <if test="state != null and state != ''">, #{state}</if>
+            <if test="tax != null and tax != ''">, #{tax}</if>
+            <if test="receipt != null and receipt != ''">, #{receipt}</if>
+            <if test="sellerType != null and sellerType != ''">, #{sellerType}</if>
+            <if test="brand != null and brand != ''">, #{brand}</if>
+            <if test="origin != null and origin != ''">, #{origin}</if>
+            <if test="maker != null and maker != ''">, #{maker}</if>
+            <if test="country != null and country != ''">, #{country}</if>
+            <if test="care != null and care != ''">, #{care}</if>
+            <if test="manufDate != null and manufDate != ''">, #{manufDate}</if>
+            <if test="warranty != null and warranty != ''">, #{warranty}</if>
+            <if test="asManager != null and asManager != ''">, #{asManager}</if>
+            <if test="phone != null and phone != ''">, #{phone}</if>
+        </trim>
     </insert>
 
+    <!-- PRODUCT_OPTION INSERT (트리거가 POP_NO 생성 → 컬럼 생략) -->
     <insert id="insertProductOption" parameterType="kr.co.team3.admin_dto.ProductOptionDTO">
         INSERT INTO PRODUCT_OPTION (
-            POP_NO, POP_P_PID, POP_NAME, POP_SELECTION, POP_ADD_PRICE, POP_STOCK
+            POP_P_PID, POP_NAME, POP_SELECTION, POP_ADD_PRICE, POP_STOCK
         )
         VALUES (
-                   NULL, #{pPid}, #{name}, #{selection}, #{addPrice}, #{stock}
+                   #{pPid}, #{name}, #{selection}, #{addPrice}, #{stock}
                )
     </insert>
 
+    <!-- 단일 상품 조회 -->
     <select id="selectProductByPid" resultMap="ProductItemMap">
         SELECT * FROM PRODUCT_ITEM WHERE P_PID = #{pid}
     </select>
 
+    <!-- 최근 생성된 PID (해당 판매자 기준 최신 등록일) -->
     <select id="selectLastPidBySeller" resultType="string">
         SELECT P_PID
         FROM PRODUCT_ITEM
@@ -70,7 +100,9 @@
             FETCH FIRST 1 ROWS ONLY
     </select>
 
+    <!-- 옵션 목록 조회 -->
     <select id="selectOptionsByPid" resultType="kr.co.team3.admin_dto.ProductOptionDTO">
         SELECT * FROM PRODUCT_OPTION WHERE POP_P_PID = #{pid}
     </select>
+
 </mapper>

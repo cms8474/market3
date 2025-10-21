@@ -25,9 +25,13 @@ public class AdminProductService {
 
     private final AdminProductMapper mapper;
 
+    // 업로드 루트 경로 설정 (application.properties에서 주입)
     @Value("${app.upload-dir:uploads}")
     private String uploadRoot;
 
+    /**
+     * 상품 등록
+     */
     @Transactional
     public String register(ProductItemDTO item,
                            ProductDetailDTO detail,
@@ -37,30 +41,31 @@ public class AdminProductService {
                            MultipartFile detailImage,
                            MultipartFile infoImage) {
 
-        // 1) 파일 저장 → 상대경로 셋팅
+        // 1) 파일 저장 → 상대경로(DB에 저장될 경로) 셋팅
         item.setImageList(store(listImage, "list"));
         item.setImageMain(store(mainImage, "main"));
         item.setImageDetail(store(detailImage, "detail"));
         item.setDetailInfo(store(infoImage, "info")); // null 가능
 
-        // 2) PRODUCT_ITEM
+        // 2) PRODUCT_ITEM 저장
         mapper.insertProductItem(item);
 
-        // 3) 트리거가 생성한 PID 확보
+        // 3) 트리거로 생성된 P_PID 조회
         String pid = mapper.selectLastPidBySeller(item.getSellerId());
         if (!StringUtils.hasText(pid)) {
             throw new IllegalStateException("상품ID 생성 실패");
         }
 
-        // 4) PRODUCT_DETAIL
+        // 4) PRODUCT_DETAIL 저장
         if (detail == null) detail = new ProductDetailDTO();
         detail.setPPid(pid);
         mapper.insertProductDetail(detail);
 
-        // 5) PRODUCT_OPTION (여러 행)
+        // 5) PRODUCT_OPTION 저장 (여러 개)
         if (options != null) {
             for (ProductOptionDTO o : options) {
-                if (o == null || !StringUtils.hasText(o.getName()) || !StringUtils.hasText(o.getSelection())) continue;
+                if (o == null || !StringUtils.hasText(o.getName()) || !StringUtils.hasText(o.getSelection()))
+                    continue;
                 o.setPPid(pid);
                 if (o.getAddPrice() == null) o.setAddPrice(0);
                 if (o.getStock() == null) o.setStock(999);
@@ -71,25 +76,33 @@ public class AdminProductService {
         return pid;
     }
 
-    /** 파일 저장 후 웹서빙용 상대경로(/uploads/...) 반환 */
+    /**
+     * 파일 저장 후 웹경로(/uploads/...) 반환
+     */
     private String store(MultipartFile file, String tag) {
         try {
             if (file == null || file.isEmpty()) return null;
+
             String yyyymm = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
-            String relDir = "/uploads/product/" + yyyymm + "/";
+            // 항상 /uploads/product/ 하위에 저장
+            String webDir = "/uploads/product/" + yyyymm + "/";
+
+            // 실제 파일 저장 경로
+            Path base = Paths.get(uploadRoot, "product").toAbsolutePath().normalize();
+            Path dir  = base.resolve(yyyymm);
+            Files.createDirectories(dir);
 
             String ext = "";
             String original = file.getOriginalFilename();
-            if (original != null && original.contains(".")) {
+            if (original != null && original.lastIndexOf('.') != -1) {
                 ext = original.substring(original.lastIndexOf('.'));
             }
+
             String filename = UUID.randomUUID() + "_" + tag + ext;
+            Path dest = dir.resolve(filename);
+            file.transferTo(dest.toFile());
 
-            Path dir = Paths.get(uploadRoot + relDir.replace('/', java.io.File.separatorChar));
-            Files.createDirectories(dir);
-            file.transferTo(dir.resolve(filename).toFile());
-
-            return relDir + filename;
+            return webDir + filename; // DB에는 /uploads/product/... 저장
         } catch (Exception e) {
             throw new RuntimeException("파일 저장 실패(" + tag + "): " + e.getMessage(), e);
         }
