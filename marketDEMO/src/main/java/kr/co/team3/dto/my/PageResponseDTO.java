@@ -6,7 +6,7 @@ import lombok.Data;
 
 import java.util.List;
 
-// 강민철 2025-10-20 1457
+// 강민철 2025-10-20 1757
 
 @Data
 @AllArgsConstructor
@@ -55,6 +55,9 @@ public class PageResponseDTO {
 
         int last = (int) Math.ceil(total / (double) size);
         this.end = Math.min(end, last);
+        if (this.end < 1){
+            this.end = 1;
+        }
         this.prev = this.start > 1;
         this.next = total > this.end * this.size;
 

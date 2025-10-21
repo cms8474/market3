@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+// 강민철 2025-10-20 1710
+
 @Service
 @RequiredArgsConstructor
 public class PointService {
@@ -33,10 +35,12 @@ public class PointService {
         List<PointDTO> dtoList = pointMapper.selectAll(uId, pageRequestDTO);
         dtoList.forEach(dto -> {
             String formatted =  dto.getPoOrderdate().substring(0, 10);
-            dto.setPoOrderdate(formatted.substring(0,10));
+            dto.setPoOrderdate(formatted);
+            formatted =  dto.getUhDday().substring(0, 10);
+            dto.setUhDday(formatted);
         });
 
-        int total = pointMapper.selectCountHistory(uId);
+        int total = pointMapper.selectCountHistory(uId, pageRequestDTO);
 
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)
