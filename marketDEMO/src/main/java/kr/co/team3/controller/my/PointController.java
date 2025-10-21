@@ -15,15 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-// 강민철 2025-10-20 1757
+// 강민철 2025-10-21 1214
 
 @Controller
 @RequiredArgsConstructor
 public class PointController {
-    private final ProductOrderService productOrderService;
     private final PointService pointService;
-    private final BoardService boardService;
-    private final CouponService couponService;
 
     @GetMapping("/my/point")
     public String point(Model model, PageRequestDTO pageRequestDTO) {
@@ -39,16 +36,6 @@ public class PointController {
         PageResponseDTO pageResponseDTO = pointService.selectAll(loginId, pageRequestDTO);
         model.addAttribute("pageResponseDTO", pageResponseDTO);
 
-        // 나의쇼핑정보 (주문 수, 쿠폰 수, 포인트, 문의 수)
-        PageRequestDTO countPageRequestDTO = PageRequestDTO.builder().build();
-        int userPoints = pointService.getOwnPoints(loginId);
-        model.addAttribute("userPoints", userPoints);
-        int userOrderCount = productOrderService.getCountOrder(loginId, countPageRequestDTO);
-        model.addAttribute("userOrderCount", userOrderCount);
-        int userQnaCount = boardService.getNumberOfBoardsWithUidAndBtType(loginId, "qna");
-        model.addAttribute("userQnaCount", userQnaCount);
-        int userCouponCount = couponService.getNumberofCouponsWithUcUIdAndStatus(loginId, "사용가능");
-        model.addAttribute("userCouponCount", userCouponCount);
         return "my/point";
     }
 }

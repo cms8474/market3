@@ -19,10 +19,16 @@
                         <a th:href="@{/company/media}">미디어</a>
                     </nav>
                 </div>
-                <span>copylight ©Green University All rights reserved.ADMINISTRATOR Version 0.0.4</span>
+                <span>
+                    Copyright © [[${version.copylight}]].
+                    All rights reserved. | ADMINISTRATOR
+                    <strong>[[${version.vname}]]</strong> |
+                    Updated: [[${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}]]
+                </span>
             </div>
         </div>
     </footer>
     </body>
     </html>
 </div>
+<!-- 강민철 2025-10-21 1214 -->
