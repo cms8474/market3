@@ -14,6 +14,7 @@ public class CsDTO {
     private String boardId;
     private String boardWriter;
     private String boardType;
+    private String boardType1;
     private String boardTitle;
     private String boardContent;
     private String boardState;
@@ -29,6 +30,7 @@ public class CsDTO {
                 .boardId(e.getBoardId())
                 .boardWriter(e.getBoardWriter())
                 .boardType(e.getBoardType())
+                .boardType1(e.getBoardType1())
                 .boardTitle(e.getBoardTitle())
                 .boardContent(e.getBoardContent())
                 .boardState(e.getBoardState())
@@ -45,6 +47,7 @@ public class CsDTO {
                 .boardId(boardId)
                 .boardWriter(boardWriter)
                 .boardType(boardType)
+                .boardType1(boardType1)
                 .boardTitle(boardTitle)
                 .boardContent(boardContent)
                 .boardState(boardState)

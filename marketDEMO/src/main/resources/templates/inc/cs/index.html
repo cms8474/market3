@@ -197,7 +197,7 @@
             </h2>
             <div class="faq-icons">
                 <div class="faq-item" th:each="faq : ${faqList}">
-                    <a th:href="@{'/cs/faq/view'(no=${faq.boardNo})}">
+                    <a th:href="@{'/cs/faq/view'(no=${faq.boardId})}">
                         <img th:src="@{/images/logo.png}" alt="FAQ 아이콘">
                         <p th:text="${faq.boardType1}">회원</p>
                     </a>
@@ -216,7 +216,7 @@
             </h2>
             <ul class="qna-list">
                 <li th:each="qna : ${qnaList}">
-                    <a th:href="@{'/cs/qna/view'(no=${qna.boardNo})}">
+                    <a th:href="@{'/cs/qna/view'(no=${qna.boardId})}">
                         <span class="qna-category" th:text="'[' + ${qna.boardType1} + ']'"></span>
                         <span th:text="${qna.boardTitle}"></span>
                     </a>

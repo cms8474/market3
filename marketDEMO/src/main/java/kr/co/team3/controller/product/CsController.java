@@ -94,11 +94,9 @@ public class CsController {
     public String qnaWriteForm(HttpSession session, Model model) {
         MemberEntity loginMember = (MemberEntity) session.getAttribute("loginMember");
 
-        // 로그인 안 했으면 로그인 페이지로 이동
-        if (loginMember == null) {
-            return "redirect:/member/login";
-        }
-
+        // 로그인 상태를 모델에 추가 (템플릿에서 사용)
+        model.addAttribute("isLoggedIn", loginMember != null);
+        model.addAttribute("loginMember", loginMember);
         model.addAttribute("board", new CsDTO());
         return "inc/cs/qna/write"; // ✅ templates/inc/cs/qna/write.html
     }
@@ -114,6 +112,10 @@ public class CsController {
 
         dto.setBoardType("QNA");
         dto.setBoardWriter(loginMember.getUId());
+        // boardType1이 설정되지 않은 경우 기본값 설정
+        if (dto.getBoardType1() == null || dto.getBoardType1().trim().isEmpty()) {
+            dto.setBoardType1("기타");
+        }
         csService.write(dto);
 
         return "redirect:/cs/qna/list";

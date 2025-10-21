@@ -9,7 +9,7 @@
     <style>
         .grid-products {
             display:grid; grid-template-columns:repeat(4,1fr);
-            gap:20px; list-style:none; padding:0; margin-bottom:30px;
+            gap:20px; list-style:none; padding:0; margin-bottom:60px;
         }
         .product {
             border:1px solid #ddd; border-radius:6px; background:#fff; padding:12px;
@@ -108,7 +108,7 @@
                              th:src="${product.imageBase64}"
                              th:alt="${product.pName}">
                         <img th:unless="${product.imageBase64 != null}"
-                             src="/uploads/test3.png"
+                             src="/images/test3.png"
                              th:alt="${product.pName}">
                         <div class="name" th:text="${product.pName}">상품명</div>
                         <div>
@@ -201,6 +201,34 @@
 </main>
 
 <th:block th:replace="~{inc/_footer :: _footer}"/>
+
+<script>
+// 검색 기능 - 전역 함수로 정의
+window.performSearch = function() {
+    const searchInput = document.getElementById('searchInput');
+    const keyword = searchInput.value.trim();
+    
+    if (keyword === '') {
+        alert('검색어를 입력해주세요.');
+        return;
+    }
+    
+    // 검색 페이지로 이동
+    window.location.href = '/product/search?keyword=' + encodeURIComponent(keyword);
+};
+
+// DOM 로드 후 이벤트 리스너 추가
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                window.performSearch();
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>
 <!-- 최민수 2025-10-21 1628 -->

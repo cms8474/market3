@@ -23,6 +23,9 @@ public class CsEntity {
     @Column(name = "B_BT_TYPE")
     private String boardType; // NOTICE / FAQ / QNA
 
+    @Transient
+    private String boardType1; // 카테고리 세부 분류 (회원, 쿠폰/이벤트 등)
+
     @Column(name = "B_TITLE")
     private String boardTitle; // 제목
 
