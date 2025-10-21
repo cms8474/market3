@@ -111,8 +111,12 @@ public class OrderService {
         }
 
         // 4. 포인트 사용 처리
+        log.info("포인트 사용 확인: usedPoint={}", orderRequest.getUsedPoint());
         if (orderRequest.getUsedPoint() > 0) {
+            log.info("포인트 사용 처리 시작: 사용자={}, 사용포인트={}", orderRequest.getUserId(), orderRequest.getUsedPoint());
             processPointUsage(orderNumber, orderRequest.getUserId(), orderRequest.getUsedPoint());
+        } else {
+            log.info("포인트 사용하지 않음");
         }
 
         // 5. 쿠폰 사용 처리
@@ -125,25 +129,35 @@ public class OrderService {
     }
 
     private void processPointUsage(String orderNumber, String userId, int usedPoint) {
-        log.info("포인트 사용 처리: 사용자={}, 사용포인트={}", userId, usedPoint);
+        log.info("포인트 사용 처리 시작: 사용자={}, 사용포인트={}, 주문번호={}", userId, usedPoint, orderNumber);
 
-        // U_USER 테이블의 포인트 차감
-        memberService.deductPoint(userId, usedPoint);
+        try {
+            // U_USER 테이블의 포인트 차감
+            log.info("회원 포인트 차감 시작");
+            memberService.deductPoint(userId, usedPoint);
+            log.info("회원 포인트 차감 완료");
 
-        // POINT_HISTORY 테이블에 기록
-        String pointHistoryId = "PH_" + UUID.randomUUID().toString().replace("-", "").substring(0, 10);
-        PointHistory pointHistory = PointHistory.builder()
-                .uhNo(pointHistoryId)
-                .uhUId(userId)
-                .uhPoNo(orderNumber)
-                .uhText("상품 구매 포인트 사용")
-                .uhChangePoint(-usedPoint) // 음수로 저장
-                .uhChangeDate(null)
-                .uhDday(LocalDateTime.now())
-                .build();
+            // POINT_HISTORY 테이블에 기록
+            String pointHistoryId = "PH_" + UUID.randomUUID().toString().replace("-", "").substring(0, 10);
+            log.info("포인트 히스토리 ID 생성: {}", pointHistoryId);
+            
+            PointHistory pointHistory = PointHistory.builder()
+                    .uhNo(pointHistoryId)
+                    .uhUId(userId)
+                    .uhPoNo(orderNumber)
+                    .uhText("상품 구매 포인트 사용")
+                    .uhChangePoint(-usedPoint) // 음수로 저장
+                    .uhChangeDate(null)
+                    .uhDday(LocalDateTime.now())
+                    .build();
 
-        pointHistoryRepository.save(pointHistory);
-        log.info("포인트 사용 기록 저장 완료: {}", pointHistoryId);
+            log.info("포인트 히스토리 저장 시작: {}", pointHistory);
+            pointHistoryRepository.save(pointHistory);
+            log.info("포인트 사용 기록 저장 완료: {}", pointHistoryId);
+        } catch (Exception e) {
+            log.error("포인트 사용 처리 중 오류 발생", e);
+            throw e;
+        }
     }
 
     private void processCouponUsage(String orderNumber, String userId, String couponId) {
