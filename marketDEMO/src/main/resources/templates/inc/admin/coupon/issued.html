@@ -46,9 +46,7 @@
                 </td>
 
                 <!-- 쿠폰번호(상세 이동) -->
-                <td>
-                    <a th:href="@{/admin/coupon/detail(cId=${r.cId})}"
-                       th:text="${r.cId}">C000000</a>
+                <td th:text="${r.cId}">C000000
                 </td>
 
                 <td th:text="${r.ctType}">배송비</td>
