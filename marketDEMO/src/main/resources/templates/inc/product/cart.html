@@ -11,7 +11,11 @@
 
     <!-- ✅ cart.html 전용 스타일 -->
     <style>
-        .cart { flex:1; min-width:0; padding:20px; }
+        .cart { flex: 1; }
+        .order-section { margin-bottom: 24px; }
+        .order-section h3 {
+            font-size: 24px; margin-bottom: 10px; border-bottom: 2px solid #333; padding-bottom: 4px;
+        }
 
         /* 테이블 */
         .cart-table {
@@ -113,16 +117,14 @@
         <section class="cart">
 
             <!-- 상단 제목 + breadcrumb -->
-            <div class="title-bar">
-                <h2 class="page-title">장바구니</h2>
-                <nav class="breadcrumb">HOME &gt; 패션 · 의류 · 뷰티 &gt; 장바구니</nav>
-            </div>
-
-            <!-- 장바구니 테이블 -->
-            <table class="cart-table">
+            <div class="order-section">
+                <h3>장바구니</h3>
+                <nav class="breadcrumb">HOME &gt; my &gt; 장바구니</nav>
+                
+                <!-- 장바구니 테이블 -->
+                <table class="cart-table">
                 <thead>
                 <tr>
-                    <th><input type="checkbox" id="allCheck"></th>
                     <th>상품명</th>
                     <th>수량</th>
                     <th>판매가</th>
@@ -133,34 +135,60 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="cartItem : ${cartItems}">
-                    <td><input type="checkbox" name="cartItem" th:value="${cartItem.ciPPid}"></td>
-                    <td class="cart-info">
-                        <img th:src="@{/images/logo.png}" alt="상품">
-                        <div>
-                            <strong th:text="${productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pName : cartItem.ciPPid}">상품명</strong>
-                            <p class="desc" th:text="${productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pDesc : '상품 설명'}">상품 설명</p>
-                        </div>
-                    </td>
-                    <td>
-                        <span th:if="${cartItem.ciOp01 != null and cartItem.ciOp01 != ''}"
-                              th:text="${optionMap[cartItem.ciOp01] != null ? optionMap[cartItem.ciOp01].popName + ': ' + optionMap[cartItem.ciOp01].popSelection : '옵션1: ' + cartItem.ciOp01}">옵션1</span><br>
-                        <span th:if="${cartItem.ciOp02 != null and cartItem.ciOp02 != ''}"
-                              th:text="${optionMap[cartItem.ciOp02] != null ? optionMap[cartItem.ciOp02].popName + ': ' + optionMap[cartItem.ciOp02].popSelection : '옵션2: ' + cartItem.ciOp02}">옵션2</span>
-                    </td>
-                    <td th:text="${cartItem.ciAmount}">1</td>
-                    <td th:text="${#numbers.formatInteger(cartItem.ciTotPrice / cartItem.ciAmount, 0, 'COMMA')} + '원'">27,000원</td>
-                    <td class="total" th:text="${#numbers.formatInteger(cartItem.ciTotPrice, 0, 'COMMA')} + '원'">25,650원</td>
-                    <td>
-                        <form method="POST" th:action="@{/product/cart/remove}" style="display: inline;">
-                            <input type="hidden" name="pPid" th:value="${cartItem.ciPPid}">
-                            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-                            <button type="submit" class="btn-del" style="padding: 4px 8px; font-size: 12px;">삭제</button>
-                        </form>
-                    </td>
-                </tr>
+                <th:block th:each="cartItem : ${cartItems}">
+                    <!-- 메인 상품 행 -->
+                    <tr>
+                        <td class="cart-info">
+                            <img th:src="@{/images/logo.png}" alt="상품">
+                            <div>
+                                <strong th:text="${productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pName : cartItem.ciPPid}">상품명</strong>
+                            </div>
+                        </td>
+                        <td th:text="${cartItem.ciAmount}">1</td>
+                        <td th:text="${productMap[cartItem.ciPPid] != null ? #numbers.formatInteger(productMap[cartItem.ciPPid].pPrice, 0, 'COMMA') + '원' : '0원'}">상품기본가격</td>
+                        <td th:text="${productMap[cartItem.ciPPid] != null and productMap[cartItem.ciPPid].pDiscount != null and productMap[cartItem.ciPPid].pDiscount > 0 ? productMap[cartItem.ciPPid].pDiscount + '%' : '0%'}">할인률</td>
+                        <td th:text="${productMap[cartItem.ciPPid] != null ? #numbers.formatInteger(productMap[cartItem.ciPPid].pPoint, 0, 'COMMA') + 'P' : '0P'}">적립포인트</td>
+                        <td th:text="${productMap[cartItem.ciPPid] != null and productMap[cartItem.ciPPid].pDeliveryPrice != null and productMap[cartItem.ciPPid].pDeliveryPrice > 0 ? #numbers.formatInteger(productMap[cartItem.ciPPid].pDeliveryPrice, 0, 'COMMA') + '원' : '무료배송'}">배송비</td>
+                        <td class="total" th:text="${#numbers.formatInteger(cartItem.ciTotPrice, 0, 'COMMA')} + '원'">할인가격</td>
+                        <td>
+                            <form method="POST" th:action="@{/product/cart/remove}" style="display: inline;">
+                                <input type="hidden" name="pPid" th:value="${cartItem.ciPPid}">
+                                <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+                                <button type="submit" class="btn-del" style="padding: 4px 8px; font-size: 12px;">삭제</button>
+                            </form>
+                        </td>
+                    </tr>
+                    
+                    <!-- 옵션 행들 -->
+                    <tr th:if="${cartItem.ciOp01 != null and cartItem.ciOp01 != ''}" style="background-color: #f9f9f9;">
+                        <td style="padding-left: 40px; font-size: 13px; color: #666;">
+                            <span th:text="${optionMap[cartItem.ciOp01] != null ? optionMap[cartItem.ciOp01].popName + ': ' + optionMap[cartItem.ciOp01].popSelection : '옵션1: ' + cartItem.ciOp01}">옵션1</span>
+                        </td>
+                        <td th:text="${cartItem.ciAmount}">1</td>
+                        <td th:text="${optionMap[cartItem.ciOp01] != null and optionMap[cartItem.ciOp01].popAddPrice != null ? #numbers.formatInteger(optionMap[cartItem.ciOp01].popAddPrice, 0, 'COMMA') + '원' : '0원'}">20,000원</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr th:if="${cartItem.ciOp02 != null and cartItem.ciOp02 != ''}" style="background-color: #f9f9f9;">
+                        <td style="padding-left: 40px; font-size: 13px; color: #666;">
+                            <span th:text="${optionMap[cartItem.ciOp02] != null ? optionMap[cartItem.ciOp02].popName + ': ' + optionMap[cartItem.ciOp02].popSelection : '옵션2: ' + cartItem.ciOp02}">옵션2</span>
+                        </td>
+                        <td th:text="${cartItem.ciAmount}">1</td>
+                        <td th:text="${optionMap[cartItem.ciOp02] != null and optionMap[cartItem.ciOp02].popAddPrice != null ? #numbers.formatInteger(optionMap[cartItem.ciOp02].popAddPrice, 0, 'COMMA') + '원' : '0원'}">20,000원</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </th:block>
                 </tbody>
-            </table>
+                </table>
+            </div>
 
             <!-- 장바구니가 비어있을 때 -->
             <div th:if="${cartItems.empty}" style="text-align: center; padding: 40px; color: #999;">
@@ -170,22 +198,16 @@
 
             <!-- 하단 영역 -->
             <div class="cart-bottom">
-
-                <!-- 선택삭제 -->
-                <div class="cart-left">
-                    <button type="button" class="btn-del">선택삭제</button>
-                </div>
-
                 <!-- 전체합계 -->
                 <div class="cart-summary">
                     <h3>전체합계</h3>
                     <ul>
                         <li><span>상품수</span><strong th:text="${totalCount}">1</strong></li>
                         <li><span>상품금액</span><strong th:text="${#numbers.formatInteger(totalAmount, 0, 'COMMA')} + '원'">27,000원</strong></li>
-                        <li><span>배송비</span><strong>무료</strong></li>
-                        <li class="final"><span>전체주문금액</span><strong th:text="${#numbers.formatInteger(totalAmount, 0, 'COMMA')} + '원'">25,650원</strong></li>
+                        <li><span>배송비</span><strong th:text="${totalDeliveryFee > 0 ? #numbers.formatInteger(totalDeliveryFee, 0, 'COMMA') + '원' : '무료배송'}">무료배송</strong></li>
+                        <li class="final"><span>전체주문금액</span><strong th:text="${#numbers.formatInteger(finalOrderAmount, 0, 'COMMA')} + '원'">25,650원</strong></li>
                     </ul>
-                    <button type="button" class="btn-order">주문하기</button>
+                    <a href="/product/order" class="btn-order" style="display: block; text-align: center; text-decoration: none;">주문하기</a>
                 </div>
             </div>
         </section>

@@ -99,27 +99,11 @@
                         수량 : [[*{oiProdQty}]]개<br>
                         <b><span th:text="${#numbers.formatInteger(order.oiTotPrice, 3, 'COMMA')} + '원'">totPrice</span></b>
                     </td>
-                    <td>배송완료</td>
+                    <td th:if="*{poState} != '구매확정'" th:attr="name='state', order=*{poNo}">[[*{oiDelStatus}]]</td>
+                    <td th:if="*{poState} == '구매확정'" style="color: blue; font-weight: bold;">[[*{poState}]]</td>
                     <td>
-                        <button name="buyConfirm" class="blueButton">구매확정</button><br>
-                        <button name="productReview" class="blueButton">상품평쓰기</button><br>
-                        <button name="returnRequest">반품신청</button><br>
-                        <button name="exchangeRequest">교환신청</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2022-12-13</td>
-                    <td><img src="/images/logo.png"/></td>
-                    <td>
-                        <a href="#" class="orderNum">주문번호 : 1012211341</a><br>
-                        <a href="#" class="tradeName">(주) 상호명</a><br>
-                        <a href="#">상품명</a><br>
-                        수량 : 1개<br>
-                        <b>3,4000원</b>
-                    </td>
-                    <td>배송완료</td>
-                    <td>
-                        <button name="buyConfirm" class="blueButton">구매확정</button><br>
+                        <button name="buyConfirm" class="blueButton" th:attr="order=*{poNo}"
+                        th:if="*{oiDelStatus} == '배송완료' and *{poState} != '구매확정'">구매확정</button><br th:if="*{oiDelStatus} == '배송완료' and *{poState} != '구매확정'">
                         <button name="productReview" class="blueButton">상품평쓰기</button><br>
                         <button name="returnRequest">반품신청</button><br>
                         <button name="exchangeRequest">교환신청</button>
@@ -179,6 +163,6 @@
 
 <!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
 
-<!--강민철 2025-10-20 1457-->
+<!--강민철 2025-10-21 1029-->
 
 

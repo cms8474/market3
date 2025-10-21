@@ -13,5 +13,7 @@ public interface CouponIssueMapper {
     List<CouponIssueDTO> selectIssueList(@Param("req") PageRequestDTO req);
     int countIssueList(@Param("req") PageRequestDTO req);
     CouponIssueDTO selectIssueByPoNo(@Param("poNo") String poNo);
+    int stopIssue(@Param("poNo") String poNo);
+
 
 }

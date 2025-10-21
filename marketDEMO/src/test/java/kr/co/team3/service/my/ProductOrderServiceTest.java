@@ -12,7 +12,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
-// 강민철 2025-10-20 1457
+// 강민철 2025-10-21 0954
 
 @SpringBootTest
 class ProductOrderServiceTest {
@@ -42,5 +42,14 @@ class ProductOrderServiceTest {
         });
         Assertions.assertNotNull(dtoList);
         System.out.println(dtoList);
+    }
+
+    @Test
+    void modifyPoState() {
+        String uId = "user01";
+        String poNo = "user01_0002";
+        int check =  productOrderMapper.updatePoState(uId,poNo);
+        Assertions.assertEquals(1,check);
+        System.out.println(check);
     }
 }

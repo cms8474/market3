@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-// 강민철 2025-10-20 1457
+// 강민철 2025-10-21 1214
 
 @Controller
 @RequiredArgsConstructor
@@ -49,17 +49,6 @@ public class HomeController {
         List<BoardDTO> qnaDTOList = boardService.getBoardsWithUidAndBtTypeRecent5(loginId, "qna");
         model.addAttribute("qnaDTOList", qnaDTOList);
 //        log.info(qnaDTOList.toString());
-
-        // 나의쇼핑정보 (주문 수, 쿠폰 수, 포인트, 문의 수)
-        PageRequestDTO  pageRequestDTO = PageRequestDTO.builder().build();
-        int userPoints = pointService.getOwnPoints(loginId);
-        model.addAttribute("userPoints", userPoints);
-        int userOrderCount = productOrderService.getCountOrder(loginId, pageRequestDTO);
-        model.addAttribute("userOrderCount", userOrderCount);
-        int userQnaCount = boardService.getNumberOfBoardsWithUidAndBtType(loginId, "qna");
-        model.addAttribute("userQnaCount", userQnaCount);
-        int userCouponCount = couponService.getNumberofCouponsWithUcUIdAndStatus(loginId, "사용가능");
-        model.addAttribute("userCouponCount", userCouponCount);
 
         return "my/home";
     }

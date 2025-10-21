@@ -64,7 +64,8 @@ public class SecurityConfig {
             )
             
             // CSRF 설정
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**", "/member/sendEmailCode", "/member/verifyEmailCode", "/member/checkId/**", "/member/checkEmail/**", "/member/getTerms/**"));
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**", "/member/sendEmailCode", "/member/verifyEmailCode", "/member/checkId/**", "/member/checkEmail/**", "/member/getTerms/**","/admin/product/register",
+                    "/admin/product/categories/**"));
 
         return http.build();
     }
