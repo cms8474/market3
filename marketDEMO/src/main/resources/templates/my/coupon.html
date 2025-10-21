@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>마이페이지::쿠폰내역</title>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/my_page.css">
     <link rel="stylesheet" href="/css/my/myPage.css">
     <style>
         .sidebar nav a:nth-child(3) {
@@ -16,41 +17,13 @@
 <!-- ■■■■■ 헤더 ■■■■■ -->
 <div class="header-wrap" th:replace="~{my/_header.html}"></div>
 <!-- □□□□□ 헤더 □□□□□ -->
-<!-- 마이페이지 요약 정보 -->
-<!-- DB연결 예정 for each -->
-<div style="width: 100%;  background-color: #f2f2f2; display: flex; flex-direction: column; position: sticky; top: 0; height: 100px;max-width: 1920px;
-            margin: 0 auto;">
-    <div class="summary" style="display: inline-flex; min-width: 1060px; margin: 0 auto; width: 100%;">
-        <div style="margin-left: 5%; margin-right: auto; display: flex; align-items: center; height: 100px;">
-            <span style="font-size: 24px; font-weight: bold;">나의쇼핑정보</span>
-        </div>
-        <div style="width: 25%; margin-right: 5%; display: flex; align-items: center;">
-            <table style="border-collapse: collapse; text-align: center; width: 100%; height: 70%;">
-                <colgroup>
-                    <col style="width: 25%;">
-                    <col style="width: 25%;">
-                    <col style="width: 25%;">
-                    <col style="width: 25%;">
-                </colgroup>
-                <tr>
-                    <th style="border-right: solid 1px #d9d9d9;">주문</th>
-                    <th style="border-right: solid 1px #d9d9d9;">쿠폰</th>
-                    <th style="border-right: solid 1px #d9d9d9;">포인트</th>
-                    <th>문의</th>
-                </tr>
-                <tr>
-                    <td style="border-right: solid 1px #d9d9d9;">[[${userOrderCount}]]</td>
-                    <td style="border-right: solid 1px #d9d9d9;">[[${userCouponCount}]]</td>
-                    <td style="border-right: solid 1px #d9d9d9;"><span th:text="${#numbers.formatInteger(userPoints, 3, 'COMMA')}"></span></td>
-                    <td>[[${userQnaCount}]]</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <!-- ■■■■■ 사이드바 ■■■■■ -->
-    <div th:replace="~{my/_sidebar.html}"></div>
-    <!-- □□□□□ 사이드바 □□□□□ -->
-</div>
+
+<!-- 나의쇼핑정보 섹션 -->
+<div th:replace="~{my/_shopping_info.html}"></div>
+
+<!-- ■■■■■ 사이드바 ■■■■■ -->
+<div th:replace="~{my/_sidebar.html}"></div>
+<!-- □□□□□ 사이드바 □□□□□ -->
 <main class="mincheolkang" style="display: flex; flex-wrap: nowrap;">
     <!-- ■■■■■ 사이드바 공간 ■■■■■ -->
     <div style="width: 25%; height: 1px; min-width: 240px;"></div>

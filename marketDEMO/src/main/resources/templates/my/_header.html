@@ -6,7 +6,6 @@
             <a href="#"><img th:src="@{/images/adv.png}" alt="메인 상단 광고"></a>
         </div>
 
-
         <!-- 우상단 작은 메뉴 -->
         <div class="top-menu">
             <!-- 로그인하지 않은 경우 -->
@@ -19,8 +18,8 @@
             <div th:if="${#authentication.isAuthenticated() and #authentication.name != 'anonymousUser'}">
                 <!-- 관리자인 경우 -->
                 <span class="welcome-message" th:if="${@customUserDetailsService.isAdmin(#authentication.principal.username)}">
-                    <a href="/admin/" style="text-decoration: none; color: #1976d2;">
-                        <span style="color: #1976d2;" th:text="${@customUserDetailsService.getUserName(#authentication.principal.username)}"></span>님 환영합니다.
+                    <a href="/admin/" style="text-decoration: none; color: #6b73ff;">
+                        <span th:text="${@customUserDetailsService.getUserName(#authentication.principal.username)}"></span>님 환영합니다.
                     </a>
                 </span>
                 <!-- 일반 사용자인 경우 -->
@@ -37,8 +36,23 @@
         <div class="main-header">
             <div class="logo">
                 <!-- 로고 -->
-                <a href="/"><img src="/images/logo.png" alt="로고"></a>
+                <a href="/"><img th:src="@{/images/logo.png}" alt="로고"></a>
+            </div>
+            <!-- 검색 -->
+            <div class="search-bar">
+                <input type="text" placeholder="원하는 상품을 검색해보세요...">
+                <button type="button">🔍</button>
             </div>
         </div>
+
+        <!-- 헤더 메뉴 카테고리 -->
+        <nav class="header-menu">
+            <a href="/product/list?type=hit">히트상품</a>
+            <a href="/product/list?type=recommend">추천상품</a>
+            <a href="/product/list?type=latest">최신상품</a>
+            <a href="/product/list?type=popular">인기상품</a>
+            <a href="/product/list?type=discount">할인상품</a>
+        </nav>
+
     </header>
 </div>

@@ -1,0 +1,24 @@
+<!-- 나의쇼핑정보 섹션 -->
+<div class="my-shopping-info">
+    <div class="summary">
+        <div class="title-section">
+            <h2>나의쇼핑정보</h2>
+        </div>
+        <div class="stats-section">
+            <table class="stats-table">
+                <tr>
+                    <th>주문</th>
+                    <th>쿠폰</th>
+                    <th>포인트</th>
+                    <th>문의</th>
+                </tr>
+                <tr>
+                    <td th:text="${userOrderCount}">0</td>
+                    <td th:text="${userCouponCount}">0</td>
+                    <td><span th:text="${#numbers.formatInteger(userPoints, 3, 'COMMA')}">0</span>P</td>
+                    <td th:text="${userQnaCount}">0</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
