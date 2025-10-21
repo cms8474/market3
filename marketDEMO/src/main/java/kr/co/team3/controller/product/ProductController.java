@@ -16,6 +16,7 @@ import kr.co.team3.service.my.CouponService;
 import kr.co.team3.admin_service.AdminCouponService;
 import kr.co.team3.entity.my.Coupon;
 import kr.co.team3.admin_dto.CouponDTO;
+import kr.co.team3.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,6 +46,7 @@ public class ProductController {
     private final MemberService memberService;
     private final CouponService couponService;
     private final AdminCouponService adminCouponService;
+    private final OrderService orderService;
 
     @GetMapping("/product/list")
     public String productList(@RequestParam(required = false) String type, Model model) {
@@ -320,7 +322,16 @@ public class ProductController {
                                     @RequestParam(required = false) String postal,
                                     @RequestParam(required = false) String baseAddr,
                                     @RequestParam(required = false) String detailAddr,
-                                    @RequestParam(required = false) String request) {
+                                    @RequestParam(required = false) String request,
+                                    @RequestParam(required = false) String paymentMethod,
+                                    @RequestParam(required = false) String usedCouponId,
+                                    @RequestParam(required = false) Integer usedPoint,
+                                    @RequestParam(required = false) Integer productAmount,
+                                    @RequestParam(required = false) Integer discountAmount,
+                                    @RequestParam(required = false) Integer deliveryFee,
+                                    @RequestParam(required = false) Integer additionalDiscount,
+                                    @RequestParam(required = false) Integer finalAmount,
+                                    @RequestParam(required = false) Integer earnedPoint) {
         // 현재 로그인한 사용자 정보 가져오기
         String userId = authentication.getName();
         
@@ -356,80 +367,50 @@ public class ProductController {
         Optional<MemberEntity> memberOptional = memberService.getMember(userId);
         MemberEntity member = memberOptional.orElse(null);
         
-        // 주문 정보 계산
-        int totalAmount = cartItems.stream()
-                .mapToInt(ci -> ci.getCiTotPrice() != null ? ci.getCiTotPrice() : 0)
-                .sum();
+        // OrderService를 사용하여 주문 처리
+        OrderService.OrderRequest orderRequest = new OrderService.OrderRequest();
+        orderRequest.setUserId(userId);
+        orderRequest.setPaymentMethod(paymentMethod);
+        orderRequest.setRecipient(recipient);
+        orderRequest.setPhone(phone);
+        orderRequest.setPostal(postal);
+        orderRequest.setBaseAddr(baseAddr);
+        orderRequest.setDetailAddr(detailAddr);
+        orderRequest.setRequest(request);
+        orderRequest.setUsedCouponId(usedCouponId);
+        orderRequest.setUsedPoint(usedPoint != null ? usedPoint : 0);
+        orderRequest.setProductAmount(productAmount);
+        orderRequest.setDiscountAmount(discountAmount);
+        orderRequest.setDeliveryFee(deliveryFee != null ? deliveryFee : 0);
+        orderRequest.setAdditionalDiscount(additionalDiscount != null ? additionalDiscount : 0);
+        orderRequest.setFinalAmount(finalAmount != null ? finalAmount : 0);
+        orderRequest.setEarnedPoint(earnedPoint != null ? earnedPoint : 0);
+        orderRequest.setItemCount(cartItems.size());
         
-        int totalCount = cartItems.size();
-        
-        int productAmount = cartItems.stream()
-                .mapToInt(ci -> {
-                    IndexDTO product = productMap.get(ci.getCiPPid());
-                    if (product != null && product.getPPrice() != null && ci.getCiAmount() != null) {
-                        int basePrice = product.getPPrice() * ci.getCiAmount();
-                        
-                        // 옵션 가격 추가
-                        int optionPrice = 0;
-                        if (ci.getCiOp01() != null && !ci.getCiOp01().isEmpty()) {
-                            ProductOptionEntity option1 = optionMap.get(ci.getCiOp01());
-                            if (option1 != null && option1.getPopAddPrice() != null) {
-                                optionPrice += option1.getPopAddPrice() * ci.getCiAmount();
-                            }
-                        }
-                        if (ci.getCiOp02() != null && !ci.getCiOp02().isEmpty()) {
-                            ProductOptionEntity option2 = optionMap.get(ci.getCiOp02());
-                            if (option2 != null && option2.getPopAddPrice() != null) {
-                                optionPrice += option2.getPopAddPrice() * ci.getCiAmount();
-                            }
-                        }
-                        
-                        return basePrice + optionPrice;
+        // 주문 상품 정보 설정
+        List<OrderService.OrderItemRequest> orderItems = cartItems.stream()
+                .map(cartItem -> {
+                    OrderService.OrderItemRequest item = new OrderService.OrderItemRequest();
+                    item.setProductId(cartItem.getCiPPid());
+                    
+                    // 판매자 ID 설정 (상품 정보에서 가져오기)
+                    IndexDTO product = productMap.get(cartItem.getCiPPid());
+                    if (product != null && product.getPSellerId() != null) {
+                        item.setSellerId(product.getPSellerId());
+                    } else {
+                        item.setSellerId("unknown"); // 기본값
                     }
-                    return 0;
+                    
+                    item.setQuantity(cartItem.getCiAmount() != null ? cartItem.getCiAmount() : 1);
+                    item.setTotalPrice(cartItem.getCiTotPrice() != null ? cartItem.getCiTotPrice() : 0);
+                    return item;
                 })
-                .sum();
+                .collect(Collectors.toList());
         
-        int discountAmount = cartItems.stream()
-                .mapToInt(ci -> {
-                    IndexDTO product = productMap.get(ci.getCiPPid());
-                    if (product != null && product.getPPrice() != null && ci.getCiAmount() != null && ci.getCiTotPrice() != null) {
-                        int basePrice = product.getPPrice() * ci.getCiAmount();
-                        
-                        // 옵션 가격 추가
-                        int optionPrice = 0;
-                        if (ci.getCiOp01() != null && !ci.getCiOp01().isEmpty()) {
-                            ProductOptionEntity option1 = optionMap.get(ci.getCiOp01());
-                            if (option1 != null && option1.getPopAddPrice() != null) {
-                                optionPrice += option1.getPopAddPrice() * ci.getCiAmount();
-                            }
-                        }
-                        if (ci.getCiOp02() != null && !ci.getCiOp02().isEmpty()) {
-                            ProductOptionEntity option2 = optionMap.get(ci.getCiOp02());
-                            if (option2 != null && option2.getPopAddPrice() != null) {
-                                optionPrice += option2.getPopAddPrice() * ci.getCiAmount();
-                            }
-                        }
-                        
-                        int originalPrice = basePrice + optionPrice;
-                        int discountedPrice = ci.getCiTotPrice();
-                        return originalPrice - discountedPrice;
-                    }
-                    return 0;
-                })
-                .sum();
+        orderRequest.setOrderItems(orderItems);
         
-        int deliveryFee = cartItems.stream()
-                .mapToInt(ci -> {
-                    IndexDTO product = productMap.get(ci.getCiPPid());
-                    return product != null && product.getPDeliveryPrice() != null ? product.getPDeliveryPrice() : 0;
-                })
-                .sum();
-        
-        int finalAmount = productAmount + deliveryFee - discountAmount;
-        
-        // 주문번호 생성 (임시로 현재 시간 기반)
-        String orderNumber = "ORD" + System.currentTimeMillis();
+        // 주문 처리 실행
+        String orderNumber = orderService.processOrder(orderRequest);
         
         // 배송정보 모델 추가
         model.addAttribute("deliveryRecipient", recipient != null ? recipient : (member != null ? member.getUName() : "정보없음"));
@@ -444,12 +425,10 @@ public class ProductController {
         model.addAttribute("productMap", productMap);
         model.addAttribute("optionMap", optionMap);
         model.addAttribute("member", member);
-        model.addAttribute("totalAmount", totalAmount);
-        model.addAttribute("totalCount", totalCount);
         model.addAttribute("productAmount", productAmount);
         model.addAttribute("discountAmount", discountAmount);
-        model.addAttribute("deliveryFee", deliveryFee);
-        model.addAttribute("finalAmount", finalAmount);
+        model.addAttribute("deliveryFee", deliveryFee != null ? deliveryFee : 0);
+        model.addAttribute("finalAmount", finalAmount != null ? finalAmount : 0);
         model.addAttribute("orderNumber", orderNumber);
         
         return "inc/product/complete";

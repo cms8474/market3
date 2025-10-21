@@ -507,6 +507,19 @@
                 request: document.querySelector('textarea[placeholder="요청사항 입력"]').value
             };
             
+            // 결제 정보 수집
+            const paymentInfo = {
+                paymentMethod: selectedPayment.value,
+                usedCouponId: document.getElementById('couponSelect').value || '',
+                usedPoint: parseInt(document.getElementById('pointInput').value) || 0,
+                productAmount: parseInt(document.getElementById('productAmountDisplay').textContent.replace(/[^0-9]/g, '')) || 0,
+                discountAmount: parseInt(document.getElementById('discountAmountDisplay').textContent.replace(/[^0-9]/g, '')) || 0,
+                deliveryFee: parseInt(document.getElementById('deliveryFeeDisplay').textContent.replace(/[^0-9]/g, '')) || 0,
+                additionalDiscount: parseInt(document.getElementById('additionalDiscountDisplay').textContent.replace(/[^0-9]/g, '')) || 0,
+                finalAmount: parseInt(document.getElementById('finalAmountDisplay').textContent.replace(/[^0-9]/g, '')) || 0,
+                earnedPoint: Math.floor((parseInt(document.getElementById('finalAmountDisplay').textContent.replace(/[^0-9]/g, '')) || 0) * 0.01) // 1% 적립
+            };
+            
             // 폼 생성하여 POST로 전송
             const form = document.createElement('form');
             form.method = 'POST';
@@ -518,6 +531,15 @@
                 input.type = 'hidden';
                 input.name = key;
                 input.value = deliveryInfo[key];
+                form.appendChild(input);
+            });
+            
+            // 결제정보 필드들 추가
+            Object.keys(paymentInfo).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = paymentInfo[key];
                 form.appendChild(input);
             });
             
@@ -760,9 +782,9 @@
             <div class="final-box">
                 <h3>최종결제정보</h3>
                 <div class="row"><span>상품수</span><span th:text="${productCount}">1</span></div>
-                <div class="row"><span>상품금액</span><span th:text="${#numbers.formatInteger(productAmount, 0, 'COMMA')} + '원'">상품금액</span></div>
-                <div class="row"><span>할인금액</span><span th:text="'-' + ${#numbers.formatInteger(discountAmount, 0, 'COMMA')} + '원'" th:if="${discountAmount > 0}">-1,350원</span><span th:text="'0원'" th:if="${discountAmount <= 0}">0원</span></div>
-                <div class="row"><span>배송비</span><span th:text="${deliveryFee > 0 ? #numbers.formatInteger(deliveryFee, 0, 'COMMA') + '원' : '무료'}" th:if="${deliveryFee > 0}">3,000원</span><span th:text="'무료'" th:if="${deliveryFee <= 0}">무료</span></div>
+                <div class="row"><span>상품금액</span><span id="productAmountDisplay" th:text="${#numbers.formatInteger(productAmount, 0, 'COMMA')} + '원'">상품금액</span></div>
+                <div class="row"><span>할인금액</span><span id="discountAmountDisplay" th:text="'-' + ${#numbers.formatInteger(discountAmount, 0, 'COMMA')} + '원'" th:if="${discountAmount > 0}">-1,350원</span><span id="discountAmountDisplay" th:text="'0원'" th:if="${discountAmount <= 0}">0원</span></div>
+                <div class="row"><span>배송비</span><span id="deliveryFeeDisplay" th:text="${deliveryFee > 0 ? #numbers.formatInteger(deliveryFee, 0, 'COMMA') + '원' : '무료'}" th:if="${deliveryFee > 0}">3,000원</span><span id="deliveryFeeDisplay" th:text="'무료'" th:if="${deliveryFee <= 0}">무료</span></div>
                 <div class="row"><span>추가할인</span><span id="additionalDiscountDisplay">0원</span></div>
                 <div class="row total"><span>전체주문금액</span><span id="finalAmountDisplay" th:text="${#numbers.formatInteger(finalAmount, 0, 'COMMA')} + '원'">24,650원</span></div>
                 <div class="row"><span>적립 포인트</span><span th:text="${totalPoints}">270</span></div>

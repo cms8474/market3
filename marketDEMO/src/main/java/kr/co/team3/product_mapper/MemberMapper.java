@@ -25,6 +25,9 @@ public interface MemberMapper {
     
     MemberEntity findByuId(String uId);
     
+    // 회원 정보 업데이트
+    void updateMember(MemberEntity member);
+    
     // SELLER_INFO 테이블 관련
     void insertSellerInfo(SellerInfoEntity sellerInfo);
     
