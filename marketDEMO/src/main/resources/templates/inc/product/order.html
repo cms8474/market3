@@ -276,21 +276,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr th:each="cartItem : ${cartItems}">
                         <td><input type="checkbox"></td>
                         <td style="text-align:left; display:flex; align-items:center; gap:10px;">
                             <img th:src="@{/images/logo.png}" alt="상품이미지" style="width:60px; height:60px; border:1px solid #ddd;">
                             <div>
-                                <div>상품명</div>
-                                <div style="font-size:12px; color:#777;">상품설명</div>
+                                <div th:text="${productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pName : cartItem.ciPPid}">상품명</div>
+                                <div style="font-size:12px; color:#777;" th:text="${productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pDesc : '상품 설명'}">상품설명</div>
+                                <div style="font-size:11px; color:#999;" th:if="${cartItem.ciOp01 != null and cartItem.ciOp01 != ''}"
+                                     th:text="${optionMap[cartItem.ciOp01] != null ? optionMap[cartItem.ciOp01].popName + ': ' + optionMap[cartItem.ciOp01].popSelection : '옵션1: ' + cartItem.ciOp01}">옵션1</div>
+                                <div style="font-size:11px; color:#999;" th:if="${cartItem.ciOp02 != null and cartItem.ciOp02 != ''}"
+                                     th:text="${optionMap[cartItem.ciOp02] != null ? optionMap[cartItem.ciOp02].popName + ': ' + optionMap[cartItem.ciOp02].popSelection : '옵션2: ' + cartItem.ciOp02}">옵션2</div>
                             </div>
                         </td>
-                        <td>1</td>
-                        <td>27,000</td>
-                        <td>5%</td>
-                        <td>270</td>
-                        <td>무료배송</td>
-                        <td style="color:#d32f2f; font-weight:bold;">25,650</td>
+                        <td th:text="${cartItem.ciAmount}">1</td>
+                        <td th:text="${#numbers.formatInteger(productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pPrice : 0, 0, 'COMMA')} + '원'">27,000원</td>
+                        <td th:text="${productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pDiscount : 0} + '%'">5%</td>
+                        <td th:text="${productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pPoint : 0}">270</td>
+                        <td th:text="${productMap[cartItem.ciPPid] != null and productMap[cartItem.ciPPid].pDeliveryPrice == 0 ? '무료배송' : (productMap[cartItem.ciPPid] != null ? #numbers.formatInteger(productMap[cartItem.ciPPid].pDeliveryPrice, 0, 'COMMA') + '원' : '무료배송')}">무료배송</td>
+                        <td style="color:#d32f2f; font-weight:bold;" th:text="${#numbers.formatInteger(cartItem.ciTotPrice, 0, 'COMMA')} + '원'">25,650원</td>
                     </tr>
                     </tbody>
                 </table>
@@ -301,27 +305,27 @@
                 <h3>배송정보</h3>
                 <div class="form-row">
                     <label>수령인</label>
-                    <input type="text" placeholder="수령인 입력">
+                    <input type="text" th:value="${member != null ? member.uName : ''}" placeholder="수령인 입력">
                 </div>
                 <div class="form-row">
                     <label>휴대폰</label>
-                    <input type="text" placeholder="010-0000-0000">
+                    <input type="text" th:value="${member != null ? member.uPhone : ''}" placeholder="010-0000-0000">
                 </div>
                 <div class="form-row">
                     <label>우편번호</label>
                     <div class="zipcode-box">
-                        <input type="text" placeholder="우편번호">
+                        <input type="text" th:value="${member != null ? member.uPostal : ''}" placeholder="우편번호">
                         <button type="button">검색</button>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <label>기본주소</label>
-                    <input type="text" placeholder="기본주소 입력">
+                    <input type="text" th:value="${member != null ? member.uBaseAddr : ''}" placeholder="기본주소 입력">
                 </div>
                 <div class="form-row">
                     <label>상세주소</label>
-                    <input type="text" placeholder="상세주소 입력">
+                    <input type="text" th:value="${member != null ? member.uDetailAddr : ''}" placeholder="상세주소 입력">
                 </div>
                 <div class="form-row">
                     <label>기타</label>
@@ -333,7 +337,7 @@
             <div class="order-section discount-box">
                 <h3>할인정보</h3>
                 <div style="margin-bottom:8px;">
-                    <span>현재포인트 : 7200점</span>
+                    <span>현재포인트 : <span th:text="${member != null ? member.uPoint : 0}">7200</span>점</span>
                     <button>사용하기</button>
                 </div>
                 <div style="font-size:12px; color:#777; margin-bottom:10px;">
@@ -341,7 +345,12 @@
                 </div>
                 <div style="display:flex; gap:8px;">
                     <select>
-                        <option>쿠폰 선택</option>
+                        <option value="">쿠폰 선택</option>
+                        <option th:each="userCoupon : ${userCoupons}" 
+                                th:value="${userCoupon.ucCId}"
+                                th:text="${couponDetailMap[userCoupon.ucCId] != null ? couponDetailMap[userCoupon.ucCId].cName : userCoupon.ucCId}">
+                            쿠폰명
+                        </option>
                     </select>
                     <button>사용하기</button>
                 </div>
@@ -363,13 +372,13 @@
             <!-- 최종결제정보 -->
             <div class="final-box">
                 <h3>최종결제정보</h3>
-                <div class="row"><span>상품수</span><span>1</span></div>
-                <div class="row"><span>상품금액</span><span>27,000원</span></div>
-                <div class="row"><span>할인금액</span><span>-1,350원</span></div>
-                <div class="row"><span>배송비</span><span>0원</span></div>
-                <div class="row"><span>추가할인</span><span>-1,000원</span></div>
-                <div class="row total"><span>전체주문금액</span><span>24,650원</span></div>
-                <div class="row"><span>적립 포인트</span><span>270</span></div>
+                <div class="row"><span>상품수</span><span th:text="${productCount}">1</span></div>
+                <div class="row"><span>상품금액</span><span th:text="${#numbers.formatInteger(productAmount, 0, 'COMMA')} + '원'">27,000원</span></div>
+                <div class="row"><span>할인금액</span><span th:text="'-' + ${#numbers.formatInteger(discountAmount, 0, 'COMMA')} + '원'" th:if="${discountAmount > 0}">-1,350원</span><span th:text="'0원'" th:if="${discountAmount <= 0}">0원</span></div>
+                <div class="row"><span>배송비</span><span th:text="${deliveryFee > 0 ? #numbers.formatInteger(deliveryFee, 0, 'COMMA') + '원' : '무료'}" th:if="${deliveryFee > 0}">3,000원</span><span th:text="'무료'" th:if="${deliveryFee <= 0}">무료</span></div>
+                <div class="row"><span>추가할인</span><span th:text="'-' + ${#numbers.formatInteger(additionalDiscount, 0, 'COMMA')} + '원'" th:if="${additionalDiscount > 0}">-1,000원</span><span th:text="'0원'" th:if="${additionalDiscount <= 0}">0원</span></div>
+                <div class="row total"><span>전체주문금액</span><span th:text="${#numbers.formatInteger(finalAmount, 0, 'COMMA')} + '원'">24,650원</span></div>
+                <div class="row"><span>적립 포인트</span><span th:text="${totalPoints}">270</span></div>
                 <button class="btn-pay">결제하기</button>
             </div>
         </section>

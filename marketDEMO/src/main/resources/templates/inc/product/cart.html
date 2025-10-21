@@ -115,7 +115,7 @@
             <!-- 상단 제목 + breadcrumb -->
             <div class="title-bar">
                 <h2 class="page-title">장바구니</h2>
-                <nav class="breadcrumb">HOME &gt; 패션 · 의류 · 뷰티 &gt; 장바구니</nav>
+                <nav class="breadcrumb">HOME &gt; my &gt; 장바구니</nav>
             </div>
 
             <!-- 장바구니 테이블 -->
@@ -185,7 +185,7 @@
                         <li><span>배송비</span><strong>무료</strong></li>
                         <li class="final"><span>전체주문금액</span><strong th:text="${#numbers.formatInteger(totalAmount, 0, 'COMMA')} + '원'">25,650원</strong></li>
                     </ul>
-                    <button type="button" class="btn-order">주문하기</button>
+                    <a href="/product/order" class="btn-order" style="display: block; text-align: center; text-decoration: none;">주문하기</a>
                 </div>
             </div>
         </section>
