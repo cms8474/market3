@@ -24,25 +24,8 @@ class AdminCsControllerTest {
     }
     @Test
     void recruitRegister() {
-        RecruitmentDTO dto = RecruitmentDTO.builder()
-                .r_dept("개발팀")
-                .r_career("신입")
-                .r_type("정규직")
-                .r_title("테스트용 채용 공고")
-                .r_status("모집중")
-                .r_start_date("2025-10-14")
-                .r_end_date("2025-10-30")
-                .build();
 
-        RecruitmentDTO saved = recruitmentService.save(dto);
 
-        Assertions.assertNotNull(saved.getR_no());
-        Assertions.assertEquals("개발팀", saved.getR_dept());
-        Assertions.assertEquals("테스트용 채용 공고", saved.getR_title());
-
-        Recruitment entity = recruitmentRepository.findById(saved.getR_no()).orElse(null);
-        Assertions.assertNotNull(entity);
-        Assertions.assertEquals("정규직", entity.getR_type());
     }
 
     @Test

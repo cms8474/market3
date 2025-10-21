@@ -124,11 +124,11 @@
     </update>
 
     <!-- 상세 조회 -->
-    <select id="selectCouponDetail" parameterType="string" resultMap="CouponMap">
+    <select id="selectCouponDetail" resultType="kr.co.team3.admin_dto.CouponDTO">
         SELECT
-            C.C_ID,
-            C.C_CT_TYPE,
-            C.C_NAME,
+            C.C_ID            AS cId,
+            C.C_CT_TYPE       AS ctType,
+            C.C_NAME          AS cName,
             NVL(
                     NULLIF(C.C_TEXT, ''),
                     TRIM(
@@ -142,18 +142,12 @@
                                 ELSE ''
                                 END
                     )
-            ) AS BENEFIT,
-            C.C_DIS_DELIVERY,
-            C.C_DIS_MONEY,
-            C.C_START_DAY,
-            C.C_END_DAY,
-            C.C_S_U_ID,
-            SI.S_COMPANY_NAME,
-            C.C_AMOUNT,
-            C.C_USED,
-            C.C_STATUS
+            )                 AS benefit,
+            C.C_START_DAY     AS startDay,
+            C.C_END_DAY       AS endDay,
+            C.C_S_U_ID        AS issuerUid,
+            SI.S_COMPANY_NAME AS issuerName
         FROM COUPON C
-                 JOIN COUPON_TYPE T ON T.CT_TYPE = C.C_CT_TYPE
                  LEFT JOIN SELLER_INFO SI ON SI.S_U_ID = C.C_S_U_ID
         WHERE C.C_ID = #{cId}
     </select>

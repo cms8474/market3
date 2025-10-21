@@ -49,6 +49,13 @@ public class PageRequestDTO {
     private String dateTo;       // 'YYYY-MM-DD'
 
 
+
+
+    private String sellerId;   // 로그인 아이디
+    private String userType;   // 관리자/판매자/일반
+
+
+
     // 파생값은 필드로 보관하지 않고 계산만
     public int getOffset() {
         int safePg = Math.max(pg, 1);
