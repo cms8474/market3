@@ -39,6 +39,25 @@
         SELECT * FROM U_USER WHERE U_ID = #{uId}
     </select>
 
+    <!-- 회원 정보 업데이트 -->
+    <update id="updateMember" parameterType="kr.co.team3.product_entity.MemberEntity">
+        UPDATE U_USER SET
+            U_PW = #{uPw},
+            U_NAME = #{uName},
+            U_BIRTH = #{uBirth},
+            U_GENDER = #{uGender},
+            U_MAIL = #{uMail},
+            U_PHONE = #{uPhone},
+            U_POSTAL = #{uPostal},
+            U_BASE_ADDR = #{uBaseAddr},
+            U_DETAIL_ADDR = #{uDetailAddr},
+            U_TYPE = #{uType},
+            U_POINT = #{uPoint},
+            U_RANK = #{uRank},
+            U_STATUS = #{uStatus}
+        WHERE U_ID = #{uId}
+    </update>
+
     <!-- 판매자 정보 등록 -->
     <insert id="insertSellerInfo" parameterType="kr.co.team3.product_entity.SellerInfoEntity">
         INSERT INTO SELLER_INFO (
