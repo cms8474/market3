@@ -1,11 +1,9 @@
 package kr.co.team3.controller.admin;
 
-import kr.co.team3.admin_dto.OrderDetailDTO;
-import kr.co.team3.admin_dto.OrderStatusDTO;
-import kr.co.team3.admin_dto.PageRequestDTO;
-import kr.co.team3.admin_dto.PageResponseDTO;
+import kr.co.team3.admin_dto.*;
 import kr.co.team3.admin_service.OrderDetailService;
 import kr.co.team3.admin_service.OrderStatusService;
+import kr.co.team3.admin_service.ShipStatusService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +21,8 @@ public class AdminOrderController {
     /*------------------order------------------*/
     private final OrderStatusService service;
     private final OrderDetailService orderDetailService;
+    private final ShipStatusService shipStatusService;
+
 
     @GetMapping("/order/list")
     public String orders(PageRequestDTO pageRequestDTO, Model model) {
@@ -75,10 +75,20 @@ public class AdminOrderController {
 
 
 /*-----------------------------------------------------------------*/
-    @GetMapping(value = {"/order/delivery"})
-    public String orderdelivery() {
-        System.out.println("go order/delivery");
-        return "/admin/order/delivery";
+
+
+    @GetMapping("/order/delivery")
+    public String shipList(PageRequestDTO PageResponseDTO, Model model) {
+
+        if (PageResponseDTO.getPg() < 1) PageResponseDTO.setPg(1);
+        if (PageResponseDTO.getSize() < 1) PageResponseDTO.setSize(10);
+
+        PageResponseDTO<ShipStatusDTO> pageRequestDTO = shipStatusService.getPage(PageResponseDTO);
+
+        model.addAttribute("pageResponseDTO", PageResponseDTO);
+        model.addAttribute("pageRequestDTO", pageRequestDTO);
+
+        return "admin/order/delivery";
     }
 
 }

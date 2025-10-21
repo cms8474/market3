@@ -43,13 +43,25 @@ public class PageRequestDTO {
     @Builder.Default
     private String dir = "desc";
 
+    private String status;       // 배송상태 (ex. 상품준비중/배송중/배송완료)
+    private String company;      // 택배사
+    private String dateFrom;     // 'YYYY-MM-DD'
+    private String dateTo;       // 'YYYY-MM-DD'
+
+
     // 파생값은 필드로 보관하지 않고 계산만
     public int getOffset() {
         int safePg = Math.max(pg, 1);
         int safeSize = Math.max(size, 1);
         return (safePg - 1) * safeSize;
     }
+    public int getStartRow() {
+        return getOffset();
+    }
 
+    public int getEndRow() {
+        return getOffset() + Math.max(size, 1);
+    }
     /** 단일 정렬 컬럼 */
     public Pageable getPageable(String sort){
         int safePg = Math.max(pg, 1) - 1;
