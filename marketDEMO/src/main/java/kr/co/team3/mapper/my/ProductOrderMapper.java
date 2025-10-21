@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-// 강민철 2025-10-20 1710
+// 강민철 2025-10-21 0954
 
 @Mapper
 public interface ProductOrderMapper {

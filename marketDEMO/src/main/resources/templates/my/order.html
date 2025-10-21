@@ -103,7 +103,7 @@
                     <td th:if="*{poState} == '구매확정'" style="color: blue; font-weight: bold;">[[*{poState}]]</td>
                     <td>
                         <button name="buyConfirm" class="blueButton" th:attr="order=*{poNo}"
-                        th:if="*{poState} != '구매확정'">구매확정</button><br th:if="*{poState} != '구매확정'">
+                        th:if="*{oiDelStatus} == '배송완료' and *{poState} != '구매확정'">구매확정</button><br th:if="*{oiDelStatus} == '배송완료' and *{poState} != '구매확정'">
                         <button name="productReview" class="blueButton">상품평쓰기</button><br>
                         <button name="returnRequest">반품신청</button><br>
                         <button name="exchangeRequest">교환신청</button>
@@ -163,6 +163,6 @@
 
 <!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
 
-<!--강민철 2025-10-20 1710-->
+<!--강민철 2025-10-21 0954-->
 
 

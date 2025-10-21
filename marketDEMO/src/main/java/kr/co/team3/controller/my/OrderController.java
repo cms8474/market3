@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-// 강민철 2025-10-20 1757
+// 강민철 2025-10-21 0954
 
 @Controller
 @RequiredArgsConstructor
