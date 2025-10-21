@@ -52,30 +52,28 @@
 
                             <tbody>
                             <!-- DB (널방어) 넣고 바꾸기 -->
-                            <tr th:each="n : ${#numbers.sequence(1,4)}">
-                                <td><input type="checkbox" name="ids" th:value="${n}"></td>
-                                <td th:text="${n}">1</td>
+                            <tr th:each="b, iStat : ${banners}">
+                                <td><input type="checkbox" name="ids" th:value="${b.aNo}"></td>
+                                <td th:text="${iStat.index + 1}">1</td>
                                 <td>
                                     <div class="thumb">
-                                        <img src="/images/로고.png">
+                                        <img th:if="${b.aFile}" th:src="@{'/images/' + ${b.aFile}}" alt="thumb">
                                     </div>
                                 </td>
                                 <td class="ban-info">
-                                    <div class="name">배너명</div>
+                                    <div class="name" th:text="${b.aName}">배너명</div>
                                     <div class="meta">
-                                        크기 : 1200 × 80<br/>
-                                        배경색 : #ffffff<br/>
-                                        배너링크
+                                        크기 : <span th:text="${b.aSize}">1200 × 80</span><br/>
+                                        배경색 : <span th:text="${b.aBackColor}">#ffffff</span><br/>
+                                        <a th:if="${b.aLink}" th:href="${b.aLink}" target="_blank">배너링크</a>
                                     </div>
                                 </td>
-                                <td>MAIN1</td>
-                                <td>2023/01/01</td>
-                                <td>2023/01/07</td>
-                                <td>13:30</td>
-                                <td>15:00</td>
+                                <td th:text="${b.aLocation}">MAIN_TOP</td>
+                                <td th:text="${b.aStartDate!=null ? #temporals.format(b.aStartDate,'yyyy/MM/dd') : ''}">2023/01/01</td>
+                                <td th:text="${b.aEndDate!=null ? #temporals.format(b.aEndDate,'yyyy/MM/dd') : ''}">2023/01/07</td>
+                                <td th:text="${b.aStartTime!=null ? #temporals.format(b.aStartTime,'HH:mm') : ''}">13:30</td>
+                                <td th:text="${b.aEndTime!=null ? #temporals.format(b.aEndTime,'HH:mm') : ''}">15:00</td>
                                 <td class="ctrl">
-                                    <a href="#" class="link">[ 활성 ]</a><br/>
-                                    <a href="#" class="link">[ 비활성 ]</a><br/>
                                 </td>
                             </tr>
                             </tbody>
@@ -110,7 +108,12 @@
                     </div>
 
                     <div class="card-foot between">
-                        <button type="button" class="btn ghost" id="btnDelete">선택삭제</button>
+                        <button type="button" class="btn ghost" id="btnDelete"
+                                th:data-url="@{/admin/config/banner/delete}"
+                                th:data-csrf-token="${_csrf.token}"
+                                th:data-csrf-header="${_csrf.headerName}">
+                            선택삭제
+                        </button>
                         <a class="btn primary" href="#bannerModal" id="btnNew">배너등록</a>
                     </div>
                 </form>
@@ -119,31 +122,84 @@
     </div>
 
     <script>
-        // 탭 라벨만 변경 (데모)
-        const tabTitleMap = {
-            MAIN_TOP: '메인 상단배너',
-            MAIN_SLIDER: '메인 슬라이더배너',
-            PRODUCT: '상품 상세보기 배너',
-            LOGIN: '회원로그인 배너',
-            MY: '마이페이지 배너'
-        };
-        document.querySelectorAll('.config-banner .tab').forEach(t=>{
-            t.addEventListener('click', (e)=>{
-                e.preventDefault();
-                document.querySelectorAll('.config-banner .tab').forEach(x=>x.classList.remove('active'));
-                t.classList.add('active');
-                const key = t.dataset.tab;
-                document.getElementById('tabTitle').textContent = tabTitleMap[key] || '';
+        (function() {
+            // 탭 라벨만 변경 (데모)
+            const tabTitleMap = {
+                MAIN_TOP: '메인 상단배너',
+                MAIN_SLIDER: '메인 슬라이더배너',
+                PRODUCT: '상품 상세보기 배너',
+                LOGIN: '회원로그인 배너',
+                MY: '마이페이지 배너'
+            };
+            document.querySelectorAll('.config-banner .tab').forEach(t => {
+                t.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.config-banner .tab').forEach(x => x.classList.remove('active'));
+                    t.classList.add('active');
+                    const key = t.dataset.tab;
+                    document.getElementById('tabTitle').textContent = tabTitleMap[key] || '';
+                });
             });
-        });
 
-        // 전체선택
-        const all = document.getElementById('chkAll');
-        if(all){
-            all.addEventListener('change', ()=>{
-                document.querySelectorAll('input[name="ids"]').forEach(c=> c.checked = all.checked);
+            // 전체선택
+            const all = document.getElementById('chkAll');
+            if (all) {
+                all.addEventListener('change', () => {
+                    document.querySelectorAll('input[name="ids"]').forEach(c => c.checked = all.checked);
+                });
+            }
+
+            // 삭제
+            const DELETE_URL = /*[[@{/admin/config/banner/delete}]]*/ '/admin/config/banner/delete';
+            document.addEventListener('DOMContentLoaded', () => {
+                const btn = document.getElementById('btnDelete');
+                if (!btn) return;
+
+                // CSRF (Spring Security)
+
+                const token = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
+                const header = document.querySelector('meta[name="_csrf_header"]')?.getAttribute('content');
+
+                btn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+
+                    // 체크된 PK 모으기 (checkbox name="ids", value=배너 PK)
+                    const ids = [...document.querySelectorAll('input[name="ids"]:checked')]
+                        .map(cb => Number(cb.value))
+                        .filter(Number.isFinite);
+
+                    if (!ids.length) return alert('삭제할 배너를 선택하세요.');
+                    if (!confirm(`${ids.length}개를 삭제할까요?`)) return;
+
+                    const targetUrl = btn.dataset.url || DEFAULT_DELETE_URL;
+
+                    try {
+                        const res = await fetch(targetUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                ...(token && header ? { [header]: token } : {}),
+                            },
+                            credentials: 'same-origin',
+                            body: JSON.stringify(ids)
+                        });
+
+                        if (!res.ok) {
+                            const msg = await res.text().catch(()=>'');
+                            console.error(msg);
+                            alert('삭제중 오류가 발생했습니다');
+                            return;
+                        }
+                        const data = await res.json().catch(() => ({}));
+                        alert(`삭제 완료 (${data.count ?? ids.length}건)`);
+                        location.reload();
+                    } catch (err) {
+                        console.error(err);
+                        alert('삭제중 오류가 발생했습니다');
+                    }
+                });
             });
-        }
+        })();
     </script>
     <div id="bannerModal" class="bn-modal" role="dialog" aria-modal="true" aria-labelledby="bnModalTitle">
         <div class="bn-modal__panel">
@@ -154,7 +210,6 @@
             </div>
 
             <form class="bn-modal__body" th:action="@{/admin/config/banner}" method="post" enctype="multipart/form-data">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <input type="hidden" name="action" value="create">
 
                 <div class="bn-row">
@@ -181,11 +236,11 @@
                     <label class="bn-label" for="bPos">배너위치</label>
                     <select id="bPos" name="position" class="bn-input" required>
                         <option value="">선택</option>
-                        <option value="MAIN_TOP">메인상단</option>
-                        <option value="MAIN_SLIDER">메인슬라이더</option>
-                        <option value="PRODUCT">상품상세</option>
-                        <option value="LOGIN">로그인</option>
-                        <option value="MY">마이페이지</option>
+                        <option value="MAIN_TOP"    th:selected="${tab=='MAIN_TOP'}">메인상단</option>
+                        <option value="MAIN_SLIDER" th:selected="${tab=='MAIN_SLIDER'}">메인슬라이더</option>
+                        <option value="PRODUCT"     th:selected="${tab=='PRODUCT'}">상품상세</option>
+                        <option value="LOGIN"       th:selected="${tab=='LOGIN'}">로그인</option>
+                        <option value="MY"          th:selected="${tab=='MY'}">마이페이지</option>
                     </select>
                 </div>
 

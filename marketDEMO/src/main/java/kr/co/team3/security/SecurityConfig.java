@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers("/admin/**").permitAll()
                 .requestMatchers("/article/**").hasAnyRole("ADMIN", "MANAGER", "MEMBER")
+                .requestMatchers("/images/**", "/css/**", "/js/**", "/webjars/**").permitAll()
                 .anyRequest().permitAll()
             )
             

@@ -36,6 +36,7 @@ spring:
     multipart:
       location: upload
       max-file-size: 10MB
+      max-request-size: 10MB
   security:
     user:
       name: user
@@ -86,3 +87,7 @@ spring:
           auth: true
           starttls:
             enable: true
+app:
+  upload-dir: "/home/ec2-user/marketDEMO/uploads"
+  public-url-prefix: "/images/"
+  image-dir: file:/data/kmarket/images/

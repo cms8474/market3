@@ -4,7 +4,9 @@ import lombok.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 @Getter
@@ -26,6 +28,20 @@ public class PageRequestDTO {
 
     private String searchType;
     private String keyword;
+
+    //  매출현황 전용 필드
+    @Builder.Default
+    private String periodType = "day"; // day | week | month
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Builder.Default
+    private LocalDate baseDate = LocalDate.now();
+
+    @Builder.Default
+    private String sort = "sales_sum";
+
+    @Builder.Default
+    private String dir = "desc";
 
     // 파생값은 필드로 보관하지 않고 계산만
     public int getOffset() {
