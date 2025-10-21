@@ -9,7 +9,7 @@ body {
 .header {
     width: 100%;
     max-width: 1920px;
-    margin: 0 auto;
+    margin: 0 auto 0 auto;
     padding: 0;
     box-sizing: border-box;
     background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
@@ -80,9 +80,14 @@ body {
 
 
 /* 광고 이미지 */
+.header_bar {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 .header_bar img {
     width: 100%;
-    height: 60px;
+    height: 20px;
     object-fit: cover;
     border-radius: 0 0 12px 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -104,11 +109,11 @@ body {
     height: 120px;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 0;
     padding: 0 20px;
     background: rgba(255, 255, 255, 0.7);
     border-radius: 16px;
-    margin: 0 20px 20px 20px;
+    margin: 0 20px 0 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
@@ -182,7 +187,7 @@ body {
     display: flex;
     gap: 8px;
     justify-content: center;
-    margin: 0 20px 30px 20px;
+    margin: 0 20px 0 20px;
     padding: 0;
     background: rgba(255, 255, 255, 0.6);
     border-radius: 20px;

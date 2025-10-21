@@ -16,18 +16,17 @@
     <!-- 나의쇼핑정보 섹션 -->
     <div th:replace="~{my/_shopping_info.html}"></div>
 
-    <!-- ■■■■■ 사이드바 ■■■■■ -->
-    <div th:replace="~{my/_sidebar.html}"></div>
-    <!-- □□□□□ 사이드바 □□□□□ -->
-    <main class="mincheolkang" style="display: flex; flex-wrap: nowrap;">
-        <!-- ■■■■■ 사이드바 공간 ■■■■■ -->
-        <div style="width: 25%; height: 1px; min-width: 240px;"></div>
-        <!-- □□□□□ 사이드바 공간 □□□□□ -->
-        <section class="main-content" style="margin-left: 10px;">
-            <div class="ad-banner" style="width: 100%; height: 86px; text-align: center;">
-                <img src="/images/adv.png" style="width: 810px; height: 100%;">
+    <main class="mincheolkang" style="display: flex; margin-top: 0; padding-top: 0;">
+        <!-- 사이드바 -->
+        <div class="sidebar" th:replace="~{my/_sidebar.html}"></div>
+        
+        <!-- 메인 콘텐츠 영역 -->
+        <section class="main-content" style="flex: 1; margin-left: 10px;">
+            <!-- 광고 배너 -->
+            <div class="ad-banner" style="width: 100%; height: 30px; text-align: center; margin-bottom: 2px; margin-top: 0;">
+                <img src="/images/adv.png" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
-            <section>
+            <section style="margin-top: 0;">
                 <div style="display: flex; align-items: center;">
                     <h3 style="margin-right: auto;">최근주문내역</h3>
                     <a th:href="@{/my/order}" style="margin-right: 20px;">더보기 ></a>
@@ -190,7 +189,71 @@
     <div th:replace="~{my/_footer.html}"></div>
 <!-- □□□□□ 푸터 □□□□□ -->
 
-
+<script>
+// 모달 열림/닫힘 감지 및 body 클래스 관리
+document.addEventListener('DOMContentLoaded', function() {
+    // 모든 모달 요소들을 감지
+    const modals = document.querySelectorAll('article[th\\:replace*="modal"]');
+    
+    // MutationObserver를 사용하여 모달 상태 변화 감지
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                const target = mutation.target;
+                const isModalOpen = target.style.display === 'block' || 
+                                  target.style.display === 'flex' || 
+                                  target.classList.contains('show') ||
+                                  !target.style.display.includes('none');
+                
+                if (isModalOpen) {
+                    document.body.classList.add('modal-open');
+                } else {
+                    // 모든 모달이 닫혔는지 확인
+                    const anyModalOpen = Array.from(modals).some(modal => 
+                        modal.style.display === 'block' || 
+                        modal.style.display === 'flex' || 
+                        modal.classList.contains('show') ||
+                        !modal.style.display.includes('none')
+                    );
+                    
+                    if (!anyModalOpen) {
+                        document.body.classList.remove('modal-open');
+                    }
+                }
+            }
+        });
+    });
+    
+    // 각 모달에 대해 observer 등록
+    modals.forEach(function(modal) {
+        observer.observe(modal, {
+            attributes: true,
+            attributeFilter: ['style', 'class']
+        });
+    });
+    
+    // 버튼 클릭 이벤트로도 감지
+    const modalButtons = document.querySelectorAll('button[name="buyConfirm"], button[name="productReview"], button[name="returnRequest"], button[name="exchangeRequest"]');
+    modalButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            setTimeout(function() {
+                const anyModalOpen = Array.from(modals).some(modal => 
+                    modal.style.display === 'block' || 
+                    modal.style.display === 'flex' || 
+                    modal.classList.contains('show') ||
+                    !modal.style.display.includes('none')
+                );
+                
+                if (anyModalOpen) {
+                    document.body.classList.add('modal-open');
+                } else {
+                    document.body.classList.remove('modal-open');
+                }
+            }, 100);
+        });
+    });
+});
+</script>
 
 <!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> -->
 
