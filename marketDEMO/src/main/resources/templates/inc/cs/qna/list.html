@@ -172,7 +172,7 @@
                     <tbody>
                     <tr th:each="qna : ${list.content}">
                         <td>
-                            <a th:href="@{'/cs/qna/view'(id=${qna.boardId})}">
+                            <a th:href="@{'/cs/qna/view'(no=${qna.boardId})}">
                                 <span th:text="${qna.boardTitle}"></span>
                             </a>
                         </td>

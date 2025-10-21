@@ -3,73 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>상품검색결과</title>
-    <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/sidebar.css">
-    <link rel="stylesheet" href="/css/product.css">
-
-    <!-- ✅ search.html 전용 style -->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/product.css}">
+    
     <style>
-        /* 검색 결과 요약 */
-        .search-summary {
-            margin-bottom: 12px;
-            font-size: 14px;
+        /* 상품 카드 높이 줄이기 */
+        .product {
+            height: 280px !important;
+            min-height: 280px !important;
+            max-height: 280px !important;
         }
-        .search-summary .keyword {
-            font-weight: 700;
-            color: #d32f2f;
-        }
-        .search-summary .count {
-            color: #333;
-        }
-
-        /* 검색바 한 줄 */
-        .search-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-        }
-
-        /* 검색 입력창 */
-        .search-input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            height: 36px;
-            box-sizing: border-box;
-        }
-
-        /* 검색 버튼 */
-        .search-btn {
-            padding: 0 20px;
-            height: 36px;
-            background: #b71c1c;
-            color: #fff;
-            border: 1px solid #b71c1c;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* 체크박스 */
-        .checkboxes {
-            display: flex;
-            gap: 10px;
-            font-size: 13px;
-        }
-
-        /* 가격 범위 */
-        .price-range {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .price-input {
-            width: 90px;
-            padding: 6px;
-            border: 1px solid #ccc;
-            height: 32px;
-            box-sizing: border-box;
+        
+        /* 판매자 정보 우측 정렬 및 가운데 정렬 */
+        .seller-section {
+            text-align: right !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
+            justify-content: center !important;
         }
     </style>
 </head>
@@ -102,47 +54,22 @@
             </aside>
         </div>
 
-        <!-- ✅ 본문 -->
-        <section class="product-search">
-
-            <!-- 제목 + breadcrumb -->
+        <section class="product-list">
             <div class="title-bar">
                 <h2 class="page-title">상품검색결과</h2>
-                <nav class="breadcrumb">HOME &gt; 상품검색 &gt; 검색결과</nav>
+                <nav class="breadcrumb">
+                    <a href="/">HOME</a> &gt; 
+                    <span>상품검색</span> &gt; 
+                    <span th:text="${pageResponseDTO.keyword}">검색결과</span>
+                </nav>
             </div>
 
             <!-- 검색결과 요약 -->
-            <div class="search-summary">
-                <span class="keyword" th:text="${pageResponseDTO.keyword}">셔츠</span> 검색결과
-                <span class="count">(총 : [[${pageResponseDTO.total}]]건)</span>
+            <div class="search-summary" style="margin-bottom: 20px; font-size: 14px;">
+                <span style="font-weight: 700; color: #d32f2f;" th:text="${pageResponseDTO.keyword}">셔츠</span> 검색결과
+                <span style="color: #333;">(총 : [[${pageResponseDTO.total}]]건)</span>
             </div>
 
-            <!-- ✅ 검색바 -->
-            <div class="search-bar">
-                <div class="search-row">
-                    <!-- 검색창 -->
-                    <input type="text" placeholder="검색어 입력" class="search-input">
-
-                    <!-- 검색 버튼 -->
-                    <button type="button" class="search-btn">검색</button>
-
-                    <!-- 체크박스 -->
-                    <div class="checkboxes">
-                        <label><input type="checkbox"> 상품명</label>
-                        <label><input type="checkbox"> 설명</label>
-                        <label><input type="checkbox"> 가격</label>
-                    </div>
-
-                    <!-- 가격 범위 -->
-                    <div class="price-range">
-                        <input type="text" placeholder="최소금액" class="price-input">
-                        <span>~</span>
-                        <input type="text" placeholder="최대금액" class="price-input">
-                    </div>
-                </div>
-            </div>
-
-            <!-- ✅ 정렬 탭 -->
             <div class="category-tabs">
                 <button>판매많은순</button>
                 <button>낮은가격순</button>
@@ -152,47 +79,109 @@
                 <button>최근등록순</button>
             </div>
 
-            <!-- ✅ 검색 결과 리스트 -->
+            <!-- 상품 목록 -->
             <ul class="products">
-                <li class="product" th:each="product : ${pageResponseDTO.dtoList}" th:object="${product}">
-                    <img th:src="@{/images/logo.png}" alt="상품이미지">
+                <li class="product" th:each="product : ${pageResponseDTO.dtoList}" th:if="${product != null}">
+                    <a th:href="@{/product/view(pPid=${product.pPId})}">
+                        <div class="product-image">
+                            <img th:if="${product.pImageMain != null}" 
+                                 th:src="${product.pImageMain}" 
+                                 th:alt="${product.pName}">
+                            <img th:unless="${product.pImageMain != null}" 
+                                 th:src="@{/images/logo.png}" 
+                                 th:alt="${product.pName}">
+                        </div>
 
-                    <!-- 가운데 정보 -->
-                    <div class="info">
-                        <h3 class="name" th:text="*{PName}">상품명</h3>
-                        <p class="desc" th:text="*{PDesc}">간단한 상품 설명</p>
-                        <div class="delivery-badges">
-                            <span class="badge shipping" th:if="*{PDeliveryPrice} == 0" th:text="*{PDeliveryPrice} == 0 ? '무료배송' : ''">무료배송</span>
-                            <span th:if="*{PDeliveryPrice} != 0">　</span>
-                        </div>
-                        <div class="seller-line">
-                            <span class="seller-name" th:text="*{SCompanyName}">상호명</span>
-                            <span class="badge grade">그린등급</span>
-                        </div>
-                        <div class="rating-line">
-                            상품평 <span class="stars">★★★★☆</span> <span class="count" th:text="'('+*{PViewCount}+')'">(120)</span>
-                        </div>
-                    </div>
+                        <div class="product-info">
+                            <div class="product-header">
+                                <h3 class="product-name" th:text="${product.pName}">상품명</h3>
+                                <p class="product-desc" th:text="${product.pDesc}">상품 설명</p>
+                            </div>
 
-                    <!-- 우측 가격 -->
-                    <div class="meta-right">
-                        <div class="sale-price">
-                            <b style="font-size: x-large;"
-                               th:text="${#numbers.formatInteger(product.PPrice * (100 - product.PDiscount) / 100, 3, 'COMMA')}+'원'">27,000원</b>
+                            <div class="price-section">
+                                <div class="current-price" th:text="${#numbers.formatInteger(product.pPrice * (100 - product.pDiscount) / 100, 0, 'COMMA')} + '원'">27,000원</div>
+                                <div class="price-details">
+                                    <span class="original-price" th:text="${#numbers.formatInteger(product.pPrice, 0, 'COMMA')} + '원'">30,000원</span>
+                                    <span class="discount-rate" th:if="${product.pDiscount > 0}" th:text="${product.pDiscount} + '% ↓'">10% ↓</span>
+                                </div>
+                                <div class="shipping-info" th:if="${product.pDeliveryPrice == null or product.pDeliveryPrice == 0}" 
+                                     style="background: linear-gradient(135deg, rgba(173, 216, 230, 0.3) 0%, rgba(135, 206, 235, 0.3) 100%); 
+                                            color: #4682b4; 
+                                            width: 80px; 
+                                            padding: 4px 8px; 
+                                            border-radius: 12px; 
+                                            font-size: 12px; 
+                                            font-weight: 600; 
+                                            text-align: center; 
+                                            border: 1px solid rgba(70, 130, 180, 0.2); 
+                                            box-shadow: 0 2px 4px rgba(70, 130, 180, 0.1);">무료배송</div>
+                                <div class="shipping-info" th:unless="${product.pDeliveryPrice == null or product.pDeliveryPrice == 0}" 
+                                     th:text="'배송비 ' + ${#numbers.formatInteger(product.pDeliveryPrice, 0, 'COMMA')} + '원'"
+                                     style="background: rgba(108, 117, 125, 0.1); 
+                                            color: #6c757d; 
+                                            width: 80px;
+                                            padding: 4px 8px; 
+                                            border-radius: 12px; 
+                                            font-size: 12px; 
+                                            font-weight: 600; 
+                                            text-align: center; 
+                                            border: 1px solid rgba(108, 117, 125, 0.2);">배송비</div>
+                            </div>
+
+                            <div class="seller-section" style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
+                                <div class="seller-info">
+                                    <span class="icon">🏠</span>
+                                    <span class="seller-name" th:text="${product.sCompanyName}">판매자</span>
+                                </div>
+                                <div class="satisfaction-badge">
+                                    <span class="icon">🏅</span>
+                                    <span>고객만족우수</span>
+                                </div>
+                                <div class="rating-info">
+                                    <span>상품평</span>
+                                    <span class="stars" th:if="${product.starAvg > 0}">
+                                        <span th:each="i : ${#numbers.sequence(1, 5)}">
+                                            <span th:if="${i <= T(Math).floor(product.starAvg)}">⭐</span>
+                                            <span th:if="${i == T(Math).floor(product.starAvg) + 1 and (product.starAvg - T(Math).floor(product.starAvg)) >= 0.5}">✨</span>
+                                        </span>
+                                    </span>
+                                    <span class="stars" th:unless="${product.starAvg > 0}" style="color: #fbbf24; font-size: 12px;">새상품!</span>
+                                    <span class="count" th:text="'(' + ${product.pViewCount} + ')'">(120)</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="origin-line">
-                            <span class="origin" th:text="${#numbers.formatInteger(product.PPrice, 3, 'COMMA')}+'원'">30,000원</span>
-                            <span class="discount" th:text="*{PDiscount}+'% ↓'">10% ↓</span>
-                        </div>
-                    </div>
+                    </a>
                 </li>
             </ul>
 
+            <!-- 상품이 없는 경우 -->
+            <div th:if="${pageResponseDTO.dtoList == null or pageResponseDTO.dtoList.isEmpty()}" class="no-products">
+                <p>검색 결과가 없습니다.</p>
+            </div>
+
             <!-- ✅ 페이지네이션 -->
-            <div class="pagination">
+            <div class="pagination" th:if="${pageResponseDTO.total > 0}">
+                <!-- 이전 페이지 -->
+                <a th:if="${pageResponseDTO.prev}" 
+                   th:href="@{/product/search(pg=${pageResponseDTO.start - 1}, keyword=${pageResponseDTO.keyword})}" 
+                   class="prev">이전</a>
+                <span th:unless="${pageResponseDTO.prev}" class="prev disabled">이전</span>
+                
+                <!-- 페이지 번호들 -->
                 <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
-                    <a th:href="@{/product/search(pg=${num}, keyword=${pageResponseDTO.keyword})}" th:class="${num == pageResponseDTO.pg ? 'current' : 'num'}">[[${num}]]</a>
+                    <a th:if="${num != pageResponseDTO.pg}" 
+                       th:href="@{/product/search(pg=${num}, keyword=${pageResponseDTO.keyword})}" 
+                       th:text="${num}">1</a>
+                    <span th:if="${num == pageResponseDTO.pg}" 
+                          class="active" 
+                          th:text="${num}">1</span>
                 </th:block>
+                
+                <!-- 다음 페이지 -->
+                <a th:if="${pageResponseDTO.next}" 
+                   th:href="@{/product/search(pg=${pageResponseDTO.end + 1}, keyword=${pageResponseDTO.keyword})}" 
+                   class="next">다음</a>
+                <span th:unless="${pageResponseDTO.next}" class="next disabled">다음</span>
             </div>
         </section>
     </div>
@@ -201,6 +190,33 @@
 <!-- 공통 푸터 -->
 <th:block th:replace="~{inc/_footer :: _footer}"/>
 
+<script>
+// 검색 기능 - 전역 함수로 정의
+window.performSearch = function() {
+    const searchInput = document.getElementById('searchInput');
+    const keyword = searchInput.value.trim();
+    
+    if (keyword === '') {
+        alert('검색어를 입력해주세요.');
+        return;
+    }
+    
+    // 검색 페이지로 이동
+    window.location.href = '/product/search?keyword=' + encodeURIComponent(keyword);
+};
+
+// DOM 로드 후 이벤트 리스너 추가
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                window.performSearch();
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>
 <!-- 강민철 2025-10-21 1703 -->

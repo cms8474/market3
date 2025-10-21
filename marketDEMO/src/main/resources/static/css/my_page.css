@@ -1,5 +1,292 @@
 /* 마이페이지 전용 스타일 */
 
+/* 전체 레이아웃 마진 최소화 */
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.header-wrap {
+    margin-bottom: 0 !important;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    width: 240px !important;
+    min-width: 240px !important;
+    height: fit-content !important;
+    flex-shrink: 0 !important;
+}
+
+/* 메인 콘텐츠 */
+.main-content {
+    flex: 1 !important;
+    margin-left: 10px !important;
+    padding: 20px !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    min-width: 0 !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 255, 0.9) 100%);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(107, 115, 255, 0.1);
+    border: 1px solid rgba(107, 115, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* 광고 배너 스타일 개선 */
+.ad-banner {
+    width: 100% !important;
+    height: 40px !important;
+    text-align: center !important;
+    margin-bottom: 20px !important;
+    margin-top: 0 !important;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(107, 115, 255, 0.1);
+}
+
+.ad-banner img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.3s ease;
+}
+
+.ad-banner img:hover {
+    transform: scale(1.02);
+}
+
+/* 섹션 제목 스타일 개선 */
+.main-content h3 {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #6b73ff !important;
+    margin: 30px 0 20px 0 !important;
+    padding: 15px 20px !important;
+    background: linear-gradient(135deg, rgba(107, 115, 255, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    border-radius: 12px;
+    border-left: 4px solid #6b73ff;
+    box-shadow: 0 2px 8px rgba(107, 115, 255, 0.1);
+}
+
+/* 더보기 링크 스타일 */
+.main-content a[style*="margin-right: 20px"] {
+    color: #6b73ff !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    background: rgba(107, 115, 255, 0.1) !important;
+    border-radius: 20px !important;
+    transition: all 0.3s ease !important;
+    border: 1px solid rgba(107, 115, 255, 0.2) !important;
+    margin-left: auto !important;  /* 우측 정렬 */
+}
+
+.main-content a[style*="margin-right: 20px"]:hover {
+    background: #6b73ff !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(107, 115, 255, 0.3) !important;
+}
+
+/* 테이블 스타일 개선 */
+.myPageTable {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 20px rgba(107, 115, 255, 0.1) !important;
+    margin-bottom: 30px !important;
+}
+
+.myPageTable th {
+    background: #d8d9e9 !important;
+    color: #5a60bb !important;
+    font-weight: 600 !important;
+    padding: 15px 12px !important;
+    text-align: center !important;
+    border-bottom: 1px solid rgba(90, 96, 187, 0.2) !important;
+    font-size: 14px !important;
+    border-radius: 0 !important;
+    transition: none !important;
+}
+
+.myPageTable th:first-child {
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+}
+
+.myPageTable th:last-child {
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+.myPageTable td {
+    padding: 15px 12px !important;
+    text-align: left !important;
+    border-bottom: 1px solid rgba(107, 115, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    transition: all 0.3s ease !important;
+    padding-left: 17px !important;
+}
+
+.myPageTable tr:hover td {
+    background: rgba(107, 115, 255, 0.05) !important;
+    transform: scale(1.01) !important;
+}
+
+.myPageTable tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* 버튼 스타일 개선 */
+.blueButton {
+    background: linear-gradient(135deg, #6b73ff 0%, #8b5cf6 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin: 2px !important;
+    box-shadow: 0 2px 8px rgba(107, 115, 255, 0.2) !important;
+}
+
+.blueButton:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(107, 115, 255, 0.4) !important;
+}
+
+.blueButton:active {
+    transform: translateY(0) !important;
+}
+
+/* 일반 버튼 스타일 */
+button[name="returnRequest"], 
+button[name="exchangeRequest"] {
+    background: rgba(108, 117, 125, 0.1) !important;
+    color: #6c757d !important;
+    border: 1px solid rgba(108, 117, 125, 0.2) !important;
+    padding: 8px 16px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin: 2px !important;
+}
+
+button[name="returnRequest"]:hover, 
+button[name="exchangeRequest"]:hover {
+    background: #6c757d !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3) !important;
+}
+
+/* 카드 스타일 개선 */
+.mySettings {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 20px !important;
+    margin-top: 20px !important;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    box-shadow: 0 4px 20px rgba(107, 115, 255, 0.1) !important;
+    border: 1px solid rgba(107, 115, 255, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 30px rgba(107, 115, 255, 0.2) !important;
+}
+
+.card__head {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 15px !important;
+    padding-bottom: 10px !important;
+    border-bottom: 2px solid rgba(107, 115, 255, 0.1) !important;
+}
+
+.card__title {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #6b73ff !important;
+    margin: 0 !important;
+}
+
+.card__action {
+    color: #6b73ff !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    padding: 6px 12px !important;
+    background: rgba(107, 115, 255, 0.1) !important;
+    border-radius: 15px !important;
+    transition: all 0.3s ease !important;
+    font-size: 12px !important;
+}
+
+.card__action:hover {
+    background: #6b73ff !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+}
+
+.card__body p {
+    margin: 8px 0 !important;
+    color: #495057 !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+.card__body .meta {
+    color: #6c757d !important;
+    font-size: 12px !important;
+    font-style: italic !important;
+}
+
+/* 나의쇼핑정보 스타일 - 모달 열림 시 완전히 숨김 */
+.my-shopping-info {
+    z-index: 1 !important;
+    position: relative !important;
+}
+
+body.modal-open .my-shopping-info {
+    display: none !important;
+}
+
+body.modal-open .my-shopping-info .stats-table {
+    background: rgba(108, 117, 125, 0.05) !important;
+}
+
+body.modal-open .my-shopping-info .stats-table th,
+body.modal-open .my-shopping-info .stats-table td {
+    background: rgba(108, 117, 125, 0.1) !important;
+    color: #6c757d !important;
+}
+
+body.modal-open .my-shopping-info h2 {
+    color: #6c757d !important;
+}
+
+/* 메인 컨테이너 */
+.mincheolkang {
+    display: flex !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
 /* 나의쇼핑정보 섹션 */
 .my-shopping-info {
     width: 100%;
@@ -8,7 +295,7 @@
     background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
     border-radius: 0 0 20px 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 20px 0;
+    padding: 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -20,7 +307,7 @@
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 10px 20px;
 }
 
 .my-shopping-info .title-section {
@@ -256,12 +543,44 @@
     left: 0;
 }
 
+/* 광고 배너 스타일 */
+.ad-banner {
+    height: 30px !important;
+    margin-bottom: 2px !important;
+    margin-top: 0 !important;
+    padding: 0 !important; 
+}
+
+.ad-banner img {
+    width: 100% !important;  /* 이미지 너비를 컨테이너에 맞춤 */
+    height: 100% !important;  /* 이미지 높이를 컨테이너에 맞춤 */
+    object-fit: cover !important;  /* 이미지 비율 유지하며 컨테이너에 맞춤 */
+}
+
+/* 최근주문내역 섹션 스타일 */
+section h3 {
+    margin-top: 0 !important;  /* 제목 상단 마진 제거 */
+    margin-bottom: 10px !important;  /* 제목 하단 마진 최소화 */
+}
+
+/* 전체 레이아웃 마진 최소화 */
+.mincheolkang {
+    margin-top: 0 !important;  /* 메인 컨테이너 상단 마진 제거 */
+    padding-top: 0 !important;  /* 메인 컨테이너 상단 패딩 제거 */
+}
+
+/* 마이페이지 메인 콘텐츠 영역 */
+.main-content {
+    margin-top: 0 !important;  /* 상단 마진 제거 */
+    padding-top: 0 !important;  /* 상단 패딩 제거 */
+}
+
 /* 마이페이지 컨텐츠 영역 */
 .my-content {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 16px;
-    margin: 20px;
-    padding: 30px;
+    margin: 5px 20px;  /* 상단 마진을 더 줄임 */
+    padding: 20px;     /* 패딩도 줄임 */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     min-height: 500px;
 }
