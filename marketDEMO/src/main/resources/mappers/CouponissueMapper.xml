@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.admin_mapper.CouponIssueMapper">
+
+    <!-- 검색 공통 -->
+    <sql id="searchWhere">
+        <where>
+            <if test="req.keyword != null and req.keyword != '' and req.searchType != null and req.searchType != ''">
+                <choose>
+                    <when test='req.searchType == "poNo"'>
+                        AND uc.UC_PO_NO LIKE '%' || #{req.keyword} || '%'
+                    </when>
+                    <when test='req.searchType == "cId"'>
+                        AND uc.UC_C_ID LIKE '%' || #{req.keyword} || '%'
+                    </when>
+                    <when test='req.searchType == "cName"'>
+                        AND c.C_NAME LIKE '%' || #{req.keyword} || '%'
+                    </when>
+                    <when test='req.searchType == "userId"'>
+                        AND uc.UC_U_ID LIKE '%' || #{req.keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 결과 매핑 -->
+    <resultMap id="CouponIssueMap" type="kr.co.team3.admin_dto.CouponIssueDTO">
+        <result property="poNo"    column="PO_NO"/>
+        <result property="cId"     column="C_ID"/>
+        <result property="ctType"  column="CT_TYPE"/>
+        <result property="cName"   column="C_NAME"/>
+        <result property="userId"  column="USER_ID"/>
+        <result property="status"  column="UC_STATUS"/>
+        <result property="useDay"  column="UC_USE_DAY"/>
+        <result property="issuerUid"  column="ISSUER_UID"/>
+        <result property="issuerName" column="ISSUER_NAME"/>
+        <result property="cText"      column="C_TEXT"/>
+    </resultMap>
+
+    <!-- 목록 조회 -->
+    <select id="selectIssueList" resultMap="CouponIssueMap">
+        SELECT
+        uc.UC_PO_NO   AS PO_NO,
+        uc.UC_C_ID    AS C_ID,
+        c.C_CT_TYPE   AS CT_TYPE,
+        c.C_NAME      AS C_NAME,
+        uc.UC_U_ID    AS USER_ID,
+        uc.UC_STATUS  AS UC_STATUS,
+        uc.UC_USE_DAY AS UC_USE_DAY
+        FROM USER_COUPON uc
+        JOIN COUPON c ON c.C_ID = uc.UC_C_ID
+        <include refid="searchWhere"/>
+        ORDER BY
+        uc.UC_USE_DAY DESC NULLS LAST,
+        uc.UC_PO_NO   DESC
+        OFFSET #{req.offset} ROWS FETCH NEXT #{req.size} ROWS ONLY
+    </select>
+
+    <!-- 총건수 -->
+    <select id="countIssueList" resultType="int">
+        SELECT COUNT(1)
+        FROM USER_COUPON uc
+        JOIN COUPON c ON c.C_ID = uc.UC_C_ID
+        <include refid="searchWhere"/>
+    </select>
+
+    <!-- 단건 조회 -->
+    <select id="selectIssueByPoNo" parameterType="string" resultMap="CouponIssueMap">
+        SELECT
+            uc.UC_PO_NO   AS PO_NO,
+            uc.UC_C_ID    AS C_ID,
+            c.C_CT_TYPE   AS CT_TYPE,
+            c.C_NAME      AS C_NAME,
+            uc.UC_U_ID    AS USER_ID,
+            uc.UC_STATUS  AS UC_STATUS,
+            uc.UC_USE_DAY AS UC_USE_DAY,
+            c.C_S_U_ID        AS ISSUER_UID,     -- ★
+            si.S_COMPANY_NAME AS ISSUER_NAME,    -- ★
+            c.C_TEXT          AS C_TEXT
+        FROM USER_COUPON uc
+                 JOIN COUPON c        ON c.C_ID  = uc.UC_C_ID
+                 LEFT JOIN SELLER_INFO si ON si.S_U_ID = c.C_S_U_ID
+        WHERE uc.UC_PO_NO = #{poNo}
+    </select>
+
+</mapper>

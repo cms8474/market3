@@ -10,8 +10,8 @@
         <!-- 우상단 작은 메뉴-->
         <div class="top-menu">
             <a th:href="@{/}">홈</a>
-            <a th:href="@{/logout}">로그아웃</a>
-            <a th:href="@{/support}">고객센터</a>
+            <a th:href="@{/}">로그아웃</a>
+            <a th:href="@{/cs/index}">고객센터</a>
         </div>
 
         <!-- 헤더 메인 -->
@@ -19,7 +19,7 @@
             <div class="logo">
                 <!-- 로고 -->
                 <a th:href="@{/admin}">
-                    <img src="/images/로고.png" alt="로고">
+                    <img th:src="@{/images/logo.png}" alt="로고">
                 </a>
             </div>
             <!-- 검색 -->

@@ -1,6 +1,8 @@
 package kr.co.team3.product_dto;
 
 import lombok.*;
+
+import java.time.LocalDateTime;
 import java.util.Base64;
 
 @Getter
@@ -13,8 +15,19 @@ public class IndexDTO {
     // ===== 상품 정보 =====
     private String pPid;
     private String pName;
+    private String pDesc;
     private Integer pPrice;
     private Integer pDiscount;
+    private Integer pPoint;
+    private Integer pStockQuantity;
+    private Integer pDeliveryPrice;
+    private LocalDateTime pRegdate;
+    private String pSellerId;
+    private String pPcId;
+    private String pImageList;
+    private String pImageMain;
+    private String pImageDetail;
+    private String pDetailInfo;
     private Integer pViewCount;
     private String imageBase64;
 
@@ -34,6 +47,7 @@ public class IndexDTO {
     private String vAddr;
     private String vTel;
 
+
     /* ========================
        ✅ JPQL 생성자 정의
        ======================== */
@@ -52,36 +66,43 @@ public class IndexDTO {
         this.pcLever = pcLever;
     }
 
-    // ✅ 3️⃣ Hibernate JPQL용 — convertToBase64() 반환값(String)을 받는 생성자
-    public IndexDTO(String pPid, String pName, Integer pPrice, Integer pDiscount, Integer pViewCount, String imageBase64) {
+    // ✅ 3️⃣ 상품 목록용 (기본 정보)
+    public IndexDTO(String pPid, String pName, Integer pPrice, Integer pDiscount, Integer pViewCount, String pImageMain) {
         this.pPid = pPid;
         this.pName = pName;
         this.pPrice = pPrice;
         this.pDiscount = pDiscount;
         this.pViewCount = pViewCount;
-        this.imageBase64 = imageBase64;
+        this.pImageMain = pImageMain;
+        this.imageBase64 = pImageMain; // 이미지 경로를 그대로 사용
     }
 
-    // 4️⃣ 기존 byte[] 기반 (조회수 포함) — 다른 쿼리에서 사용 가능
-    public IndexDTO(String pPid, String pName, Integer pPrice, Integer pDiscount, Integer pViewCount, byte[] pImageMain) {
+    // 4️⃣ 상품 상세용 (모든 정보)
+    public IndexDTO(String pPid, String pName, String pDesc, Integer pPrice, Integer pDiscount, 
+                   Integer pPoint, Integer pStockQuantity, Integer pDeliveryPrice, 
+                   LocalDateTime pRegdate, String pSellerId, String pPcId, 
+                   String pImageList, String pImageMain, String pImageDetail, 
+                   String pDetailInfo, Integer pViewCount) {
         this.pPid = pPid;
         this.pName = pName;
+        this.pDesc = pDesc;
         this.pPrice = pPrice;
         this.pDiscount = pDiscount;
+        this.pPoint = pPoint;
+        this.pStockQuantity = pStockQuantity;
+        this.pDeliveryPrice = pDeliveryPrice;
+        this.pRegdate = pRegdate;
+        this.pSellerId = pSellerId;
+        this.pPcId = pPcId;
+        this.pImageList = pImageList;
+        this.pImageMain = pImageMain;
+        this.pImageDetail = pImageDetail;
+        this.pDetailInfo = pDetailInfo;
         this.pViewCount = pViewCount;
-        this.imageBase64 = convertToBase64(pImageMain);
+        this.imageBase64 = pImageMain; // 이미지 경로를 그대로 사용
     }
 
-    // 5️⃣ 상품용 (조회수 없이)
-    public IndexDTO(String pPid, String pName, Integer pPrice, Integer pDiscount, byte[] pImageMain) {
-        this.pPid = pPid;
-        this.pName = pName;
-        this.pPrice = pPrice;
-        this.pDiscount = pDiscount;
-        this.imageBase64 = convertToBase64(pImageMain);
-    }
-
-    // 6️⃣ 회사 정보용
+    // 5️⃣ 회사 정보용
     public IndexDTO(String vCompany, String vEmail, String vAddr, String vTel) {
         this.vCompany = vCompany;
         this.vEmail = vEmail;
