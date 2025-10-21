@@ -1,0 +1,51 @@
+<div th:fragment="_footer">
+    <footer class="footer" style="background:#f5f5f5; padding:30px 0; border-top:1px solid #ddd; font-size:13px; color:#333;">
+
+        <!-- 상단 링크 -->
+        <div class="footer-links" style="text-align:center; margin-bottom:20px;">
+            <a href="/company/index" style="margin:0 8px; color:#333; text-decoration:none;">회사소개</a> |
+            <a href="/policy/buyer" style="margin:0 8px; color:#333; text-decoration:none;">서비스이용약관</a> |
+            <a href="/policy/privacy" style="margin:0 8px; color:#333; text-decoration:none;">개인정보처리방침</a> |
+            <a href="/policy/finance" style="margin:0 8px; color:#333; text-decoration:none;">전자금융거래약관</a>
+        </div>
+
+        <!-- 회사 및 고객센터 -->
+        <div class="footer-content"
+             style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start;">
+
+            <div class="company-info"
+                 style="display:flex; align-items:flex-start; gap:15px;">
+                <img th:src="@{/images/logo.png}"
+                     alt="회사 로고"
+                     style="width:65px; height:65px; object-fit:cover; margin-top:4px;">
+
+                <div class="company-text"
+                     style="text-align:left; line-height:1.4; margin-top:2px;">
+                    <p style="margin:0 0 5px 0;"><strong>(주)케이마켓</strong></p>
+                    <p style="margin:0;">부산광역시 부산진구 중앙대로 103 그린타워 13층</p>
+                    <p style="margin:2px 0;">대표이사 : 홍길동</p>
+                    <p style="margin:2px 0;">사업자등록번호 : 123-45-12345</p>
+                </div>
+            </div>
+
+            <div class="customer-center"
+                 style="text-align:left; line-height:1.4; margin-top:5px;">
+                <p style="margin:0 0 5px 0;">
+                    <strong>
+                        <a th:href="@{/cs/index}" style="color:inherit; text-decoration:none;">고객센터</a>
+                    </strong>
+                </p>
+                <p style="margin:0;">Tel : 1234-5678 (평일 09:00~18:00)</p>
+                <p style="margin:2px 0;">전자금융거래 분쟁 담당 : 1234-1234 (365일 09:00~18:00)</p>
+            </div>
+
+        </div>
+
+        <!-- 하단 카피라이트 + 버전 정보 -->
+        <div class="admin-footer">
+              <span th:text="${site != null ? site.copyright + ' Kmarket ADMINISTRATOR Version ' + site.version
+                                            : 'Copyright ©Kmarket.co.kr All rights reserved. Kmarket ADMINISTRATOR Version 0.0.4'}">
+              </span>
+        </div>
+    </footer>
+</div>

@@ -8,6 +8,8 @@
         <result property="ctType"     column="C_CT_TYPE"/>
         <result property="cName"      column="C_NAME"/>
         <result property="benefit"    column="BENEFIT"/>
+        <result property="cDisDelivery" column="C_DIS_DELIVERY"/>
+        <result property="cDisMoney"  column="C_DIS_MONEY"/>
         <result property="startDay"   column="C_START_DAY"/>
         <result property="endDay"     column="C_END_DAY"/>
         <result property="issuerUid"  column="C_S_U_ID"/>
@@ -141,6 +143,8 @@
                                 END
                     )
             ) AS BENEFIT,
+            C.C_DIS_DELIVERY,
+            C.C_DIS_MONEY,
             C.C_START_DAY,
             C.C_END_DAY,
             C.C_S_U_ID,

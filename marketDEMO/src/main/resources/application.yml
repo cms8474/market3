@@ -88,6 +88,6 @@ spring:
           starttls:
             enable: true
 app:
-  upload-dir: /home/ec2-user/marketDEMO/uploads
-  public-url-prefix: /images
+  upload-dir: "/home/ec2-user/marketDEMO/uploads"
+  public-url-prefix: "/images/"
   image-dir: file:/data/kmarket/images/

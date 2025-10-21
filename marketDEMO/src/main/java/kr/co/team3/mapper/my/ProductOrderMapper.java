@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-// 강민철 2025-10-20 1457
+// 강민철 2025-10-21 0954
 
 @Mapper
 public interface ProductOrderMapper {
@@ -16,4 +16,5 @@ public interface ProductOrderMapper {
                                                                 @Param("po_no") String po_no);
     public int selectCountOrder(@Param("u_id") String uId, @Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
     public List<ProductOrderDTO> selectAll(@Param("u_id") String u_id, @Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
+    public int updatePoState(@Param("uId") String uId, @Param("poNo") String poNo);
 }

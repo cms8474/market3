@@ -28,6 +28,8 @@
         h2.page-title a { text-decoration:none; color:inherit; }
         .product a { display:block; text-decoration:none; color:inherit; }
     </style>
+
+
 </head>
 <body>
 
@@ -44,17 +46,17 @@
                 <h3 class="page-title">베스트 상품</h3>
                 <ul class="products">
                     <li class="best-product-item" th:each="product : ${bestProducts}" th:if="${product != null}">
-                        <img th:if="${product.imageBase64 != null}" 
-                             th:src="${product.imageBase64}" 
+                        <img th:if="${product.imageBase64 != null}"
+                             th:src="${product.imageBase64}"
                              th:alt="${product.pName}">
-                        <img th:unless="${product.imageBase64 != null}" 
+                        <img th:unless="${product.imageBase64 != null}"
                              src="/images/logo.png"
                              th:alt="${product.pName}">
                         <div class="info">
                             <h4 class="name" th:text="${product.pName}">상품명</h4>
                             <p class="price">
                                 <span class="origin" th:text="${#numbers.formatInteger(product.pPrice, 0, 'COMMA')} + '원'">원가</span>
-                                <span class="discount" th:if="${product.pDiscount > 0}" 
+                                <span class="discount" th:if="${product.pDiscount > 0}"
                                       th:text="${product.pDiscount} + '% ↓'">할인율</span>
                                 <span class="sale" th:text="${#numbers.formatInteger(product.pPrice * (100 - product.pDiscount) / 100, 0, 'COMMA')} + '원'">할인가</span>
                             </p>
@@ -67,23 +69,23 @@
         <!--  메인 상품 영역 -->
         <section class="product-list">
 
-            <!-- 1. 히트상품 -->
+            <!--  히트상품 -->
             <h2 class="page-title">
                 <a href="/product/list?type=hit">히트상품</a>
             </h2>
             <ul class="grid-products">
                 <li class="product" th:each="product : ${hitProducts}" th:if="${product != null}">
                     <a th:href="@{/product/view(pPid=${product.pPid})}">
-                        <img th:if="${product.imageBase64 != null}" 
-                             th:src="${product.imageBase64}" 
+                        <img th:if="${product.imageBase64 != null}"
+                             th:src="${product.imageBase64}"
                              th:alt="${product.pName}">
-                        <img th:unless="${product.imageBase64 != null}" 
+                        <img th:unless="${product.imageBase64 != null}"
                              src="/images/logo.png"
                              th:alt="${product.pName}">
                         <div class="name" th:text="${product.pName}">상품명</div>
                         <div>
                             <span class="origin" th:text="${#numbers.formatInteger(product.pPrice, 0, 'COMMA')} + '원'">원가</span>
-                            <span class="discount" th:if="${product.pDiscount > 0}" 
+                            <span class="discount" th:if="${product.pDiscount > 0}"
                                   th:text="${product.pDiscount} + '% ↓'">할인율</span>
                         </div>
                         <div class="sale" th:text="${#numbers.formatInteger(product.pPrice * (100 - product.pDiscount) / 100, 0, 'COMMA')} + '원'">할인가</div>
@@ -95,20 +97,23 @@
             <!-- 2. 추천상품 -->
             <h2 class="page-title">
                 <a href="/product/list?type=recommend">추천상품</a>
+            <!--  최신상품 -->
+            <h2 class="page-title">
+                <a href="/product/list?type=latest">최신상품</a>
             </h2>
             <ul class="grid-products">
                 <li class="product" th:each="product : ${recommendProducts}" th:if="${product != null}">
                     <a th:href="@{/product/view(pPid=${product.pPid})}">
-                        <img th:if="${product.imageBase64 != null}" 
-                             th:src="${product.imageBase64}" 
+                        <img th:if="${product.imageBase64 != null}"
+                             th:src="${product.imageBase64}"
                              th:alt="${product.pName}">
-                        <img th:unless="${product.imageBase64 != null}" 
+                        <img th:unless="${product.imageBase64 != null}"
                              src="/images/logo.png"
                              th:alt="${product.pName}">
                         <div class="name" th:text="${product.pName}">상품명</div>
                         <div>
                             <span class="origin" th:text="${#numbers.formatInteger(product.pPrice, 0, 'COMMA')} + '원'">원가</span>
-                            <span class="discount" th:if="${product.pDiscount > 0}" 
+                            <span class="discount" th:if="${product.pDiscount > 0}"
                                   th:text="${product.pDiscount} + '% ↓'">할인율</span>
                         </div>
                         <div class="sale" th:text="${#numbers.formatInteger(product.pPrice * (100 - product.pDiscount) / 100, 0, 'COMMA')} + '원'">할인가</div>
@@ -117,23 +122,23 @@
                 </li>
             </ul>
 
-            <!-- 3. 최신상품 -->
+            <!--  최신상품 -->
             <h2 class="page-title">
                 <a href="/product/list?type=latest">최신상품</a>
             </h2>
             <ul class="grid-products">
                 <li class="product" th:each="product : ${latestProducts}" th:if="${product != null}">
                     <a th:href="@{/product/view(pPid=${product.pPid})}">
-                        <img th:if="${product.imageBase64 != null}" 
-                             th:src="${product.imageBase64}" 
+                        <img th:if="${product.imageBase64 != null}"
+                             th:src="${product.imageBase64}"
                              th:alt="${product.pName}">
-                        <img th:unless="${product.imageBase64 != null}" 
+                        <img th:unless="${product.imageBase64 != null}"
                              src="/images/logo.png"
                              th:alt="${product.pName}">
                         <div class="name" th:text="${product.pName}">상품명</div>
                         <div>
                             <span class="origin" th:text="${#numbers.formatInteger(product.pPrice, 0, 'COMMA')} + '원'">원가</span>
-                            <span class="discount" th:if="${product.pDiscount > 0}" 
+                            <span class="discount" th:if="${product.pDiscount > 0}"
                                   th:text="${product.pDiscount} + '% ↓'">할인율</span>
                         </div>
                         <div class="sale" th:text="${#numbers.formatInteger(product.pPrice * (100 - product.pDiscount) / 100, 0, 'COMMA')} + '원'">할인가</div>
@@ -149,16 +154,16 @@
             <ul class="grid-products">
                 <li class="product" th:each="product : ${popularProducts}" th:if="${product != null}">
                     <a th:href="@{/product/view(pPid=${product.pPid})}">
-                        <img th:if="${product.imageBase64 != null}" 
-                             th:src="${product.imageBase64}" 
+                        <img th:if="${product.imageBase64 != null}"
+                             th:src="${product.imageBase64}"
                              th:alt="${product.pName}">
-                        <img th:unless="${product.imageBase64 != null}" 
+                        <img th:unless="${product.imageBase64 != null}"
                              src="/images/logo.png"
                              th:alt="${product.pName}">
                         <div class="name" th:text="${product.pName}">상품명</div>
                         <div>
                             <span class="origin" th:text="${#numbers.formatInteger(product.pPrice, 0, 'COMMA')} + '원'">원가</span>
-                            <span class="discount" th:if="${product.pDiscount > 0}" 
+                            <span class="discount" th:if="${product.pDiscount > 0}"
                                   th:text="${product.pDiscount} + '% ↓'">할인율</span>
                         </div>
                         <div class="sale" th:text="${#numbers.formatInteger(product.pPrice * (100 - product.pDiscount) / 100, 0, 'COMMA')} + '원'">할인가</div>
@@ -174,16 +179,16 @@
             <ul class="grid-products">
                 <li class="product" th:each="product : ${discountProducts}" th:if="${product != null}">
                     <a th:href="@{/product/view(pPid=${product.pPid})}">
-                        <img th:if="${product.imageBase64 != null}" 
-                             th:src="${product.imageBase64}" 
+                        <img th:if="${product.imageBase64 != null}"
+                             th:src="${product.imageBase64}"
                              th:alt="${product.pName}">
-                        <img th:unless="${product.imageBase64 != null}" 
+                        <img th:unless="${product.imageBase64 != null}"
                              src="/images/logo.png"
                              th:alt="${product.pName}">
                         <div class="name" th:text="${product.pName}">상품명</div>
                         <div>
                             <span class="origin" th:text="${#numbers.formatInteger(product.pPrice, 0, 'COMMA')} + '원'">원가</span>
-                            <span class="discount" th:if="${product.pDiscount > 0}" 
+                            <span class="discount" th:if="${product.pDiscount > 0}"
                                   th:text="${product.pDiscount} + '% ↓'">할인율</span>
                         </div>
                         <div class="sale" th:text="${#numbers.formatInteger(product.pPrice * (100 - product.pDiscount) / 100, 0, 'COMMA')} + '원'">할인가</div>
@@ -191,7 +196,6 @@
                     </a>
                 </li>
             </ul>
-
         </section>
     </div>
 </main>
@@ -199,6 +203,7 @@
 <th:block th:replace="~{inc/_footer :: _footer}"/>
 </body>
 </html>
-<!-- 최민수 2025-10-20 1710 -->
-<!-- 설유진 2025-10-21 0938 -->
-<!-- 전용준 2025-10-20 1723-->
+<!-- 최민수 2025-10-21 1628 -->
+<!-- 설유진 2025-10-20 1718 -->
+<!-- 전용준 2025-10-21 1123-->
+<!-- 김대현 2025-10-21 1113 -->

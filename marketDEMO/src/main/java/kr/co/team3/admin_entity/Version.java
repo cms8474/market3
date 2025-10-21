@@ -1,6 +1,7 @@
 package kr.co.team3.admin_entity;
 
 import jakarta.persistence.*;
+import kr.co.team3.admin_dto.VersionDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -91,4 +92,14 @@ public class Version {
                 .build();
     }
 
+    // 강민철 2025-10-21 1214 수정
+    public VersionDTO toDTO(){
+        return VersionDTO.builder()
+                .vname(vname).uploader(uploader).body(body).title(title).subTitle(subTitle)
+                .headerLogo(headerLogo).footerLogo(footerLogo).favicon(favicon)
+                .company(company).ceo(ceo).sellerRegNo(sellerRegNo).onlineSalesRegNo(onlineSalesRegNo)
+                .addr(addr).tel(tel).actTime(actTime).email(email).managerPhone(managerPhone)
+                .copylight(copylight)
+                .build();
+    }
 }

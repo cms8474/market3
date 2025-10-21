@@ -3,7 +3,7 @@
 
         <!-- 상단 광고 -->
         <div class="header_bar">
-            <a href="#"><img src="/images/adv.png" alt="메인 상단 광고"></a>
+            <a href="#"><img th:src="@{/images/adv.png}" alt="메인 상단 광고"></a>
         </div>
 
         <!-- 우상단 작은 메뉴 -->
@@ -36,13 +36,14 @@
         <div class="main-header">
             <div class="logo">
                 <!--  로고 클릭 시 메인 페이지 이동 -->
-                <a href="/"><img src="/images/logo.png" alt="로고"></a>
+                <a href="/"><img th:src="@{/images/logo.png}" alt="로고"></a>
             </div>
             <!-- 검색 -->
             <div class="search-bar">
                 <input type="text" placeholder="검색">
                 <button type="button">🔍</button>
             </div>
+
         </div>
 
         <!-- 헤더 메뉴 카테고리 -->
