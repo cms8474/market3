@@ -84,10 +84,10 @@
                     <span th:if="${row.shipStatus != null}" class="ship-done">입력완료</span>
 
                     <!-- 주문취소 -->
-                    <span th:if="${#strings.trim(row.state)} == '주문취소'" class="ship-cancel">주문취소</span>
+                    <span th:if="${#strings.trim(row.state) == '주문취소'}" class="ship-cancel">주문취소</span>
 
                     <!-- 결제대기 등 기타 상태 -->
-                    <span th:if="${#strings.trim(row.state)} == '결제대기'" class="ship-wait">-</span>
+                    <span th:if="${#strings.trim(row.state) == '결제대기'}" class="ship-wait">-</span>
                 </td>
             </tr>
 

@@ -18,4 +18,7 @@ public class ProductItemDTO {
     private String imageMain;     // P_IMAGE_MAIN
     private String imageDetail;   // P_IMAGE_DETAIL
     private String detailInfo;    // P_DETAIL_INFO
+
+    private Long viewCount;   // P_VIEW_COUNT
+
 }
