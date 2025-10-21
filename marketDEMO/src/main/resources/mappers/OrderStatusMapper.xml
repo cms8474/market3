@@ -9,31 +9,30 @@
         <where>
             <if test="keyword != null and keyword != ''">
                 <choose>
-                    <!-- 주문번호로 검색 -->
+                    <!-- 주문번호로 검색 (NUMBER → CHAR 변환) -->
                     <when test="searchType == 'po_no'">
-                        AND po.PO_NO LIKE '%' || #{keyword} || '%'
+                        AND TO_CHAR(po.PO_NO) LIKE '%' || #{keyword} || '%'
                     </when>
 
-                    <!-- 주문자 아이디로 검색 -->
+                    <!-- 주문자 아이디 -->
                     <when test="searchType == 'u_id'">
-                        AND po.PO_U_ID LIKE '%' || #{keyword} || '%'
+                        AND LOWER(po.PO_U_ID) LIKE '%' || LOWER(#{keyword}) || '%'
                     </when>
 
-                    <!-- 주문자명으로 검색 -->
+                    <!-- 주문자명 -->
                     <when test="searchType == 'u_name'">
-                        AND uu.U_NAME LIKE '%' || #{keyword} || '%'
+                        AND LOWER(uu.U_NAME) LIKE '%' || LOWER(#{keyword}) || '%'
                     </when>
 
-                    <!-- 기본값: 주문자 아이디로 검색 -->
+                    <!-- 기본: 주문자 아이디 -->
                     <otherwise>
-                        AND po.PO_U_ID LIKE '%' || #{keyword} || '%'
+                        AND LOWER(po.PO_U_ID) LIKE '%' || LOWER(#{keyword}) || '%'
                     </otherwise>
                 </choose>
             </if>
         </where>
     </sql>
 
-    <!-- 결과 매핑 -->
     <!-- 결과 매핑 -->
     <resultMap id="OrderStatusMap" type="kr.co.team3.admin_dto.OrderStatusDTO">
         <result column="PO_NO"          property="poNo"/>
@@ -44,11 +43,11 @@
         <result column="PO_PAY_TYPE"    property="payType"/>
         <result column="PO_STATE"       property="state"/>
         <result column="PO_ORDERDATE"   property="orderDate"/>
-        <!-- NEW: 송장 입력 여부(0/1) -->
-        <result column="SHIP_INPUT_DONE" property="shipInputDone"/>
+        <!-- 배송 상태 표시용 문자열: '입력완료' | '주문취소' | NULL -->
+        <result column="SHIP_STATUS"    property="shipStatus"/>
     </resultMap>
 
-    <!-- 목록: 최신 주문일 우선 -->
+    <!-- 목록: 최신 주문일 우선 (ROWNUM 페이징) -->
     <select id="selectOrderStatusList"
             parameterType="kr.co.team3.admin_dto.PageRequestDTO"
             resultMap="OrderStatusMap">
@@ -65,12 +64,12 @@
         po.PO_STATE,
         CAST(po.PO_ORDERDATE AS TIMESTAMP) AS PO_ORDERDATE,
 
-        /* 배송 상태 표시용 */
+        /* 배송 상태 표시용: 하나라도 배송중/완료/(상품)준비중 있으면 '입력완료', 취소 있으면 '주문취소' */
         CASE
         WHEN EXISTS (
         SELECT 1 FROM ORDER_ITEMS oi
         WHERE oi.OI_PO_NO = po.PO_NO
-        AND (oi.OI_DEL_STATUS = '배송중' OR oi.OI_DEL_STATUS = '배송완료')
+        AND (oi.OI_DEL_STATUS IN ('배송중','배송완료','상품준비중'))
         ) THEN '입력완료'
         WHEN EXISTS (
         SELECT 1 FROM ORDER_ITEMS oi
