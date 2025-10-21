@@ -7,6 +7,7 @@ import kr.co.team3.admin_service.ShipStatusService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -71,7 +72,11 @@ public class AdminOrderController {
         return "redirect:/admin/order/list";
     }
 
-
+    @Scheduled(cron = "0 0 3 * * *")
+    public void updateShipStatusDaily() {
+        int count = service.runAutoUpdate();
+        log.info("[배송상태 자동갱신] {}건 상태 업데이트 완료", count);
+    }
 
 
 /*-----------------------------------------------------------------*/

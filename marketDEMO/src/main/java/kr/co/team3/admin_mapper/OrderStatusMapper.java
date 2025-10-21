@@ -14,4 +14,8 @@ public interface OrderStatusMapper {
 
 
     int countOrderStatus(PageRequestDTO pageRequestDTO);
+
+
+    int updateToDelivered();
+    int updateToShipping();
 }

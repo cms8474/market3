@@ -69,7 +69,7 @@
         WHEN EXISTS (
         SELECT 1 FROM ORDER_ITEMS oi
         WHERE oi.OI_PO_NO = po.PO_NO
-        AND (oi.OI_DEL_STATUS IN ('배송중','배송완료','상품준비중'))
+        AND (oi.OI_DEL_STATUS IN ('배송중','배송완료'))
         ) THEN '입력완료'
         WHEN EXISTS (
         SELECT 1 FROM ORDER_ITEMS oi
@@ -99,4 +99,31 @@
         <include refid="searchWhere"/>
     </select>
 
+
+    <update id="updateToDelivered">
+        UPDATE MARKET_DEV.ORDER_ITEMS oi
+        SET oi.OI_DEL_STATUS = '배송완료'
+        WHERE oi.OI_DEL_STATUS = '배송중'
+          AND EXISTS (
+            SELECT 1
+            FROM MARKET_DEV.PRODUCT_ORDER po
+            WHERE po.PO_NO = oi.OI_PO_NO
+              AND po.PO_ORDERDATE &lt;= SYSDATE - 3
+              AND NVL(po.PO_STATE, 'X') &lt;&gt; '주문취소'
+        )
+    </update>
+
+    <!-- [1일 규칙] '배송준비중' → 1일 경과 시 '배송중' -->
+    <update id="updateToShipping">
+        UPDATE MARKET_DEV.ORDER_ITEMS oi
+        SET oi.OI_DEL_STATUS = '배송중'
+        WHERE oi.OI_DEL_STATUS = '배송준비'
+          AND EXISTS (
+            SELECT 1
+            FROM MARKET_DEV.PRODUCT_ORDER po
+            WHERE po.PO_NO = oi.OI_PO_NO
+              AND po.PO_ORDERDATE &lt;= SYSDATE - 1
+              AND NVL(po.PO_STATE, 'X') &lt;&gt; '주문취소'
+        )
+    </update>
 </mapper>

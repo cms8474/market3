@@ -7,6 +7,7 @@ import kr.co.team3.admin_mapper.OrderStatusMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,5 +43,13 @@ public class OrderStatusService {
         log.info(">>> [OrderStatus] total count={}", total);
 
         return new PageResponseDTO<>(req, list, total);
+    }
+
+    @Transactional
+    public int runAutoUpdate() {
+        // 순서 중요: 3일→배송완료 먼저, 그다음 1일→배송중
+        int updatedDelivered = orderStatusMapper.updateToDelivered();
+        int updatedShipping = orderStatusMapper.updateToShipping();
+        return updatedDelivered + updatedShipping;
     }
 }
