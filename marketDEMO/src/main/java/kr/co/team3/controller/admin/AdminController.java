@@ -25,13 +25,17 @@ import java.util.function.Function;
 @RequestMapping("/admin")
 public class AdminController {
     private final DashboardService service;
+    private final NoticeService noticeService;
+    private final QnaService qnaService;
     //private final NoticeService noticeService;
     //private final QnaService qnaService;
 
-    public AdminController(DashboardService service) {
+    public AdminController(DashboardService service, NoticeService noticeService, QnaService qnaService) {
         this.service = service;
         //this.noticeService = noticeService;
         //this.qnaService = qnaService;
+        this.noticeService = noticeService;
+        this.qnaService = qnaService;
     }
     @GetMapping({"", "/"})
     public String adminMain(Model model) {
@@ -46,20 +50,20 @@ public class AdminController {
 
         // 2) 상단 운영현황에 들어갈 S 맵
         Map<String, Object> S = new LinkedHashMap<>();
-        int depositDone = nzi.apply(TD != null ? TD.getDepositDone() : 0);
+        int confirmDone  = nzi.apply(TD != null ? TD.getConfirmDone() : 0);
         int shippingCnt = nzi.apply(TD != null ? TD.getShippingCnt() : 0);
         int canceledCnt = nzi.apply(TD != null ? TD.getCanceledCnt() : 0);
         int exchangeCnt = nzi.apply(TD != null ? TD.getExchangeCnt() : 0);
         int returnCnt   = nzi.apply(TD != null ? TD.getReturnCnt()   : 0);
 
-        S.put("depositDone", depositDone);
+        S.put("confirmDone", confirmDone );
         S.put("shippingCnt", shippingCnt);
         S.put("canceledCnt", canceledCnt);
         S.put("exchangeCnt", exchangeCnt);
         S.put("returnCnt",   returnCnt);
 
         // 전에 해놨던거 이름 안맞아서 임의로 넣어둠 (
-        S.put("waiting",  depositDone);
+        S.put("waiting",  confirmDone );
         S.put("ready",    shippingCnt);
         S.put("cancel",   canceledCnt);
         S.put("exchange", exchangeCnt);
@@ -101,8 +105,8 @@ public class AdminController {
         ));
 
         // 5) 공지/문의 리스트 (비어있어도 안전)
-        model.addAttribute("noticeTop5", List.of());
-        model.addAttribute("qnaTop5",    List.of());
+        model.addAttribute("noticeTop5", noticeService.top5());
+        model.addAttribute("qnaTop5",    qnaService.top5());
 
         // 6) 레이아웃 템플릿 본문 프래그먼트 지정
         model.addAttribute("contentFragment", "inc/admin/admin_main :: content");

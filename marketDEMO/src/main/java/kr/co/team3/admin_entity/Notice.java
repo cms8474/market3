@@ -2,6 +2,7 @@ package kr.co.team3.admin_entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -9,32 +10,25 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
-@Table(name="NOTICE")
+@Where(clause = "B_BT_TYPE LIKE 'noti%'")
+@Table(name="BOARD")
 public class Notice {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_NOTICE_GEN")
-    @Column(name = "ID")
-    private Long id;
+    @Column(name = "B_ID")
+    private String id; // BOARD PK가 VARCHAR2라 String으로!
 
-    @Column(name = "TITLE", nullable = false, length = 200)
+    @Column(name = "B_TITLE")
     private String title;
 
-    @Lob
-    @Column(name = "CONTENTS", nullable = false)
-    private String contents;
-
-    @Column(name = "WRITER", length = 100)
+    @Column(name = "B_U_ID")
     private String writer;
 
-    @Column(name = "VIEW_COUNT", nullable = false)
-    private Long viewCount = 0L;
-
-    @Column(name = "STATUS", nullable = false, length = 1)
-    private String status = "Y";
-
-    @Column(name = "CREATED_AT", nullable = false)
+    @Column(name = "B_REG_DATE")
     private LocalDateTime createdAt;
 
-    @Column(name = "UPDATED_AT")
-    private LocalDateTime updatedAt;
+    @Column(name = "B_VIEW")
+    private Integer viewCount;
+
+    @Column(name = "B_STATE")
+    private String status; // 상태값 쓰려면 BOARD의 B_STATE 사용
 }

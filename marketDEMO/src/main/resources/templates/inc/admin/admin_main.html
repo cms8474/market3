@@ -26,7 +26,7 @@
         <table class="stats-table">
             <thead>
             <tr>
-                <th>입금완료</th>
+                <th>구매확정</th>
                 <th>배송(진행중)</th>
                 <th>취소</th>
                 <th>교환</th>
@@ -37,7 +37,7 @@
 
             <!-- 상단 굵은 숫자 라인 -->
             <tr class="row-strong">
-                <td><span class="num" th:text="${S.depositDone}">0</span></td>
+                <td><span class="num" th:text="${S.confirmDone}">0</span></td>
                 <td><span class="num" th:text="${S.shippingCnt}">0</span></td>
                 <td><span class="num" th:text="${S.canceledCnt}">0</span></td>
                 <td><span class="num" th:text="${S.exchangeCnt}">0</span></td>
@@ -89,13 +89,14 @@
             </tbody>
         </table>
     </section>
+    <!--  공지사항 Top 5 -->
     <section class="boards">
         <div class="board">
             <div class="board-title"><h3>공지사항</h3></div>
             <ul class="board-list">
                 <li th:if="${#lists.isEmpty(noticeTop5)}" class="empty">최근 글이 없습니다.</li>
                 <li th:each="n : ${noticeTop5}">
-                    <a th:href="@{/cs/notice/{id}(id=${n.id})}" class="row">
+                    <a th:href="@{/admin/cs/notice/view/{id}(id=${n.id})}" class="row">
                         <span class="title" th:text="${n.title}">제목</span>
                         <span class="date" th:text="${#temporals.format(n.createdAt,'yy.MM.dd')}">22.10.31</span>
                     </a>
@@ -103,13 +104,13 @@
             </ul>
         </div>
 
-            <!-- ② 고객문의 Top 5 -->
+            <!--  고객문의 Top 5 -->
         <div class="board">
             <div class="board-title"><h3>고객문의</h3></div>
             <ul class="board-list">
                 <li th:if="${#lists.isEmpty(qnaTop5)}" class="empty">최근 글이 없습니다.</li>
                 <li th:each="q : ${qnaTop5}">
-                    <a th:href="@{/cs/qna/{id}(id=${q.id})}" class="row">
+                    <a th:href="@{/admin/cs/qna/view/{id}(id=${q.id})}" class="row">
                         <span class="title"><span class="cate">[일반]</span> <span th:text="${q.title}">문의제목</span></span>
                         <span class="meta">
                         <span class="writer"

@@ -20,10 +20,10 @@ public class DashboardService {
 
     public DashboardDTO stats(LocalDate from, LocalDate to) {
         Object[] row = repo.loadDashboardRaw(from, to);
-        // 순서: deposit_done, canceled_cnt, exchange_cnt, return_cnt, shipping_cnt,
+        // 순서: confirm_done, canceled_cnt, exchange_cnt, return_cnt, shipping_cnt,
         //       order_cnt, order_amt, signup_cnt, visit_cnt(항상 0), board_cnt
         return DashboardDTO.builder()
-                .depositDone(((Number) row[0]).intValue())
+                .confirmDone(((Number) row[0]).intValue())
                 .canceledCnt(((Number) row[1]).intValue())
                 .exchangeCnt(((Number) row[2]).intValue())
                 .returnCnt(((Number) row[3]).intValue())
@@ -33,6 +33,7 @@ public class DashboardService {
                 .signupCnt(((Number) row[7]).intValue())
                 .visitCnt(((Number) row[8]).intValue())
                 .boardCnt(((Number) row[9]).intValue())
+
                 .from(from).to(to)
                 .build();
     }

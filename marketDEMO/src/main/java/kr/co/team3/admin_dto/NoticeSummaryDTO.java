@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 public class NoticeSummaryDTO {
-    private Long id;
+    private String id;
     private String title;
-    private String writer;
+
     private LocalDateTime createdAt;
 
 
