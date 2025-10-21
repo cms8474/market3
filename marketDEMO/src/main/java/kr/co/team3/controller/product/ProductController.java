@@ -28,16 +28,14 @@ import kr.co.team3.dto.product.ProductDTO;
 import kr.co.team3.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import java.util.List;
@@ -61,47 +59,71 @@ public class ProductController {
     private final OrderService orderService;
 
     @GetMapping("/product/list")
-    public String productList(@RequestParam(required = false) String type, Model model) {
+    public String productList(@RequestParam(required = false) String type, 
+                             @RequestParam(defaultValue = "1") int page, 
+                             Model model) {
 
         List<IndexDTO> products = null;
         String categoryName = "";
+        int pageSize = 5; // 한 페이지에 5개 상품
+        int totalProducts = 0;
+        int totalPages = 0;
 
         if (type == null || type.isEmpty()) {
             // type이 없으면 최신상품으로 기본 설정
-            products = indexService.getLatestProducts();
+            products = indexService.getLatestProductsWithStarAvg();
             categoryName = "전체상품";
         } else {
             switch (type) {
                 case "hit":
-                    products = indexService.getHitProducts();
+                    products = indexService.getHitProductsWithStarAvg();
                     categoryName = "히트상품";
                     break;
                 case "recommend":
-                    products = indexService.getRecommendProducts();
+                    products = indexService.getRecommendProductsWithStarAvg();
                     categoryName = "추천상품";
                     break;
                 case "latest":
-                    products = indexService.getLatestProducts();
+                    products = indexService.getLatestProductsWithStarAvg();
                     categoryName = "최신상품";
                     break;
                 case "popular":
-                    products = indexService.getPopularProducts();
+                    products = indexService.getPopularProductsWithStarAvg();
                     categoryName = "인기상품";
                     break;
                 case "discount":
-                    products = indexService.getDiscountProducts();
+                    products = indexService.getDiscountProductsWithStarAvg();
                     categoryName = "할인상품";
                     break;
                 default:
-                    products = indexService.getLatestProducts();
+                    products = indexService.getLatestProductsWithStarAvg();
                     categoryName = "전체상품";
                     break;
+            }
+        }
+
+        if (products != null) {
+            totalProducts = products.size();
+            totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+            
+            // 페이지네이션 적용
+            int startIndex = (page - 1) * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, totalProducts);
+            
+            if (startIndex < totalProducts) {
+                products = products.subList(startIndex, endIndex);
+            } else {
+                products = new ArrayList<>();
             }
         }
 
         model.addAttribute("products", products);
         model.addAttribute("categoryName", categoryName);
         model.addAttribute("categoryType", type);
+        model.addAttribute("type", type);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalProducts", totalProducts);
 
         return "inc/product/list";
     }

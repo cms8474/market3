@@ -6,6 +6,24 @@
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/sidebar.css}">
     <link rel="stylesheet" th:href="@{/css/product.css}">
+    
+    <style>
+        /* 상품 카드 높이 줄이기 */
+        .product {
+            height: 280px !important;
+            min-height: 280px !important;
+            max-height: 280px !important;
+        }
+        
+        /* 판매자 정보 우측 정렬 및 가운데 정렬 */
+        .seller-section {
+            text-align: right !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
+            justify-content: center !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -72,96 +90,81 @@
                 <button>후기많은순</button>
                 <button>최근등록순</button>
             </div>
-            <ul class="products">
-                <li class="product">
-                    <img th:src="@{/images/logo.png}" alt="상품이미지">
-
-                    <!-- 가운데 정보 -->
-                    <div class="info">
-                        <h3 class="name">상품명</h3>
-                        <p class="desc">간단한 상품 설명</p>
-                        <div class="delivery-badges">
-
-                        </div>
-                    </div>
 
             <!-- 상품 목록 -->
             <ul class="products">
-                <li class="product">
-                    <img th:src="@{/images/logo.png}" alt="상품이미지">
-
-                    <!-- 가운데 정보 -->
-                    <div class="info">
-                        <h3 class="name">상품명</h3>
-                        <p class="desc">간단한 상품 설명</p>
-                        <div class="delivery-badges">
-                            <span class="badge shipping">무료배송</span>
+                <li class="product" th:each="product : ${products}" th:if="${product != null}">
+                    <a th:href="@{/product/view(pPid=${product.pPid})}">
+                        <div class="product-image">
+                            <img th:if="${product.imageBase64 != null}" 
+                                 th:src="${product.imageBase64}" 
+                                 th:alt="${product.pName}">
+                            <img th:unless="${product.imageBase64 != null}" 
+                                 th:src="@{/images/logo.png}" 
+                                 th:alt="${product.pName}">
                         </div>
-                    </div>
 
-                    <!-- 우측 가격/판매자 패널 -->
-                    <div class="meta-right">
-                        <div class="price-block">
-                            <div class="sale-price"><strong>27,000</strong><span class="won">원</span></div>
-                            <div class="origin-line">
-                                <span class="origin">30,000원</span>
-                                <span class="discount">10% <span class="arrow">↓</span></span>
+                        <div class="product-info">
+                            <div class="product-header">
+                                <h3 class="product-name" th:text="${product.pName}">상품명</h3>
+                                <p class="product-desc" th:text="${product.pDesc}">상품 설명</p>
                             </div>
-                        </div>
 
-                        <div class="seller-line">
-                            <span class="icon">🏠</span>
-                            <span class="seller-name">판매자</span>
-                            <span class="badge grade">그린등급</span>
-                        </div>
-
-                        <div class="rating-line">
-                            상품평 <span class="stars">★★★★☆</span> <span class="count">(120)</span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <ul class="products">
-                <li class="product">
-                    <img th:src="@{/images/logo.png}" alt="상품이미지">
-
-                    <!-- 가운데 정보 -->
-                    <div class="info">
-                        <h3 class="name">상품명</h3>
-                        <p class="desc">간단한 상품 설명</p>
-                        <div class="delivery-badges">
-                            <span class="badge shipping">무료배송</span>
-                        </div>
-
-                        <!-- 판매자 및 평점 정보 -->
-                        <div class="seller-container">
-                            <div class="seller-line">
-                                <span class="icon">🏠</span>
-                                <span class="seller-name">판매자</span>
+                            <div class="price-section">
+                                <div class="current-price" th:text="${#numbers.formatInteger(product.pPrice * (100 - product.pDiscount) / 100, 0, 'COMMA')} + '원'">27,000원</div>
+                                <div class="price-details">
+                                    <span class="original-price" th:text="${#numbers.formatInteger(product.pPrice, 0, 'COMMA')} + '원'">30,000원</span>
+                                    <span class="discount-rate" th:if="${product.pDiscount > 0}" th:text="${product.pDiscount} + '% ↓'">10% ↓</span>
+                                </div>
+                                <div class="shipping-info" th:if="${product.pDeliveryPrice == null or product.pDeliveryPrice == 0}" 
+                                     style="background: linear-gradient(135deg, rgba(173, 216, 230, 0.3) 0%, rgba(135, 206, 235, 0.3) 100%); 
+                                            color: #4682b4;
+                                            width: 80px; 
+                                            padding: 4px 8px; 
+                                            border-radius: 12px; 
+                                            font-size: 12px; 
+                                            font-weight: 600; 
+                                            text-align: center; 
+                                            border: 1px solid rgba(70, 130, 180, 0.2); 
+                                            box-shadow: 0 2px 4px rgba(70, 130, 180, 0.1);">무료배송</div>
+                                <div class="shipping-info" th:unless="${product.pDeliveryPrice == null or product.pDeliveryPrice == 0}" 
+                                     th:text="'배송비 ' + ${#numbers.formatInteger(product.pDeliveryPrice, 0, 'COMMA')} + '원'"
+                                     style="background: rgba(108, 117, 125, 0.1); 
+                                            color: #6c757d; 
+                                            width: 80px;
+                                            padding: 4px 8px; 
+                                            border-radius: 12px; 
+                                            font-size: 12px; 
+                                            font-weight: 600; 
+                                            text-align: center; 
+                                            border: 1px solid rgba(108, 117, 125, 0.2);">배송비</div>
                             </div>
-                            <div class="satisfaction-badge">
-                                <span class="icon">🏅</span>
-                                <span>고객만족우수</span>
-                            </div>
-                            <div class="rating-line">
-                                <span>상품평</span> <span class="stars">★★★★☆</span>
+
+                            <div class="seller-section" style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
+                                <div class="seller-info">
+                                    <span class="icon">🏠</span>
+                                    <span class="seller-name" th:text="${product.sCompanyName}">판매자</span>
+                                </div>
+                                <div class="satisfaction-badge">
+                                    <span class="icon">🏅</span>
+                                    <span>고객만족우수</span>
+                                </div>
+                                <div class="rating-info">
+                                    <span>상품평</span>
+                                    <span class="stars" th:if="${product.starAvg > 0}">
+                                        <span th:each="i : ${#numbers.sequence(1, 5)}">
+                                            <span th:if="${i <= T(Math).floor(product.starAvg)}">⭐</span>
+                                            <span th:if="${i == T(Math).floor(product.starAvg) + 1 and (product.starAvg - T(Math).floor(product.starAvg)) >= 0.5}">✨</span>
+                                        </span>
+                                    </span>
+                                    <span class="stars" th:unless="${product.starAvg > 0}" style="color: #fbbf24; font-size: 12px;">새상품!</span>
+                                    <span class="count" th:text="'(' + ${product.pViewCount} + ')'">(120)</span>
+                                </div>
                             </div>
                         </div>
                     </a>
                 </li>
             </ul>
-            <ul class="products">
-                <li class="product">
-                    <img th:src="@{/images/logo.png}" alt="상품이미지">
-
-                    <!-- 가운데 정보 -->
-                    <div class="info">
-                        <h3 class="name">상품명</h3>
-                        <p class="desc">간단한 상품 설명</p>
-                        <div class="delivery-badges">
-                            <span class="badge shipping">무료배송</span>
-                        </div>
-                    </div>
 
             <!-- 상품이 없는 경우 -->
             <div th:if="${products == null or products.isEmpty()}" class="no-products">
@@ -169,14 +172,28 @@
             </div>
 
             <!-- ✅ 페이지네이션 -->
-            <div class="pagination">
-                <a href="#" class="prev">이전</a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#" class="next">다음</a>
+            <div class="pagination" th:if="${totalPages > 1}">
+                <!-- 이전 페이지 -->
+                <a th:if="${currentPage > 1}" 
+                   th:href="@{/product/list(type=${type}, page=${currentPage - 1})}" 
+                   class="prev">이전</a>
+                <span th:unless="${currentPage > 1}" class="prev disabled">이전</span>
+                
+                <!-- 페이지 번호들 -->
+                <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                    <a th:if="${pageNum != currentPage}" 
+                       th:href="@{/product/list(type=${type}, page=${pageNum})}" 
+                       th:text="${pageNum}">1</a>
+                    <span th:if="${pageNum == currentPage}" 
+                          class="active" 
+                          th:text="${pageNum}">1</span>
+                </th:block>
+                
+                <!-- 다음 페이지 -->
+                <a th:if="${currentPage < totalPages}" 
+                   th:href="@{/product/list(type=${type}, page=${currentPage + 1})}" 
+                   class="next">다음</a>
+                <span th:unless="${currentPage < totalPages}" class="next disabled">다음</span>
             </div>
         </section>
     </div>
@@ -184,5 +201,32 @@
 
 <th:block th:replace="~{inc/_footer :: _footer}"/>
 
+<script>
+// 검색 기능 - 전역 함수로 정의
+window.performSearch = function() {
+    const searchInput = document.getElementById('searchInput');
+    const keyword = searchInput.value.trim();
+    
+    if (keyword === '') {
+        alert('검색어를 입력해주세요.');
+        return;
+    }
+    
+    // 검색 페이지로 이동
+    window.location.href = '/product/search?keyword=' + encodeURIComponent(keyword);
+};
+
+// DOM 로드 후 이벤트 리스너 추가
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                window.performSearch();
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>

@@ -42,7 +42,7 @@ public class ProductDTO {
     @Column(name = "p_view_count")
     private int pViewCount;
     @Column(name = "star_avg")
-    private int starAvg;
+    private Double starAvg;
     @Column(name = "s_company_name")
     private String sCompanyName;
 }

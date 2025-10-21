@@ -53,7 +53,8 @@ public interface IndexRepository extends JpaRepository<IndexEntity, String> {
             i.pPrice,
             i.pDiscount,
             i.pViewCount,
-            i.pImageMain
+            i.pImageMain,
+            i.pDeliveryPrice
         )
         FROM IndexEntity i
         ORDER BY i.pViewCount DESC
@@ -70,7 +71,8 @@ public interface IndexRepository extends JpaRepository<IndexEntity, String> {
             i.pPrice,
             i.pDiscount,
             i.pViewCount,
-            i.pImageMain
+            i.pImageMain,
+            i.pDeliveryPrice
         )
         FROM IndexEntity i
         JOIN TagLinkEntity t ON i.pPid = t.tlPPid
@@ -89,7 +91,8 @@ public interface IndexRepository extends JpaRepository<IndexEntity, String> {
             i.pPrice,
             i.pDiscount,
             i.pViewCount,
-            i.pImageMain
+            i.pImageMain,
+            i.pDeliveryPrice
         )
         FROM IndexEntity i
         JOIN TagLinkEntity t ON i.pPid = t.tlPPid
@@ -108,7 +111,8 @@ public interface IndexRepository extends JpaRepository<IndexEntity, String> {
             i.pPrice,
             i.pDiscount,
             i.pViewCount,
-            i.pImageMain
+            i.pImageMain,
+            i.pDeliveryPrice
         )
         FROM IndexEntity i
         JOIN TagLinkEntity t ON i.pPid = t.tlPPid
@@ -127,7 +131,8 @@ public interface IndexRepository extends JpaRepository<IndexEntity, String> {
             i.pPrice,
             i.pDiscount,
             i.pViewCount,
-            i.pImageMain
+            i.pImageMain,
+            i.pDeliveryPrice
         )
         FROM IndexEntity i
         JOIN TagLinkEntity t ON i.pPid = t.tlPPid
@@ -146,7 +151,8 @@ public interface IndexRepository extends JpaRepository<IndexEntity, String> {
             i.pPrice,
             i.pDiscount,
             i.pViewCount,
-            i.pImageMain
+            i.pImageMain,
+            i.pDeliveryPrice
         )
         FROM IndexEntity i
         JOIN TagLinkEntity t ON i.pPid = t.tlPPid

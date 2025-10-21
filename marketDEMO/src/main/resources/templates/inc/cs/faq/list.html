@@ -183,7 +183,7 @@
                 <h2>가입 관련 문의</h2>
                 <ul class="faq-list" id="joinFaq">
                     <li th:each="faq : ${joinList}">
-                        <a th:href="@{'/cs/faq/view'(no=${faq.boardNo})}" class="question"
+                        <a th:href="@{'/cs/faq/view'(no=${faq.boardId})}" class="question"
                            th:text="'Q. ' + ${faq.boardTitle}"></a>
                         <span class="answer" th:text="${faq.boardAnswer}"></span>
                     </li>
@@ -201,7 +201,7 @@
                 <h2>탈퇴 관련 문의</h2>
                 <ul class="faq-list" id="leaveFaq">
                     <li th:each="faq : ${leaveList}">
-                        <a th:href="@{'/cs/faq/view'(no=${faq.boardNo})}" class="question"
+                        <a th:href="@{'/cs/faq/view'(no=${faq.boardId})}" class="question"
                            th:text="'Q. ' + ${faq.boardTitle}"></a>
                         <span class="answer" th:text="${faq.boardAnswer}"></span>
                     </li>

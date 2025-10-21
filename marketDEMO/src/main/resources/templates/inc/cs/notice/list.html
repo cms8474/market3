@@ -180,7 +180,7 @@
 
                 <ul class="notice-list">
                     <li th:each="notice : ${list.content}">
-                        <a th:href="@{'/cs/notice/view'(no=${notice.boardNo})}"
+                        <a th:href="@{'/cs/notice/view'(no=${notice.boardId})}"
                            th:text="${notice.boardTitle}"></a>
                         <span th:text="${#temporals.format(notice.boardRegDate, 'yy.MM.dd')}"></span>
                     </li>

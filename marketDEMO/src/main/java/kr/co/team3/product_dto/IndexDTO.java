@@ -30,6 +30,8 @@ public class IndexDTO {
     private String pDetailInfo;
     private Integer pViewCount;
     private String imageBase64;
+    private Double starAvg;
+    private String sCompanyName;
 
     // ===== 카테고리 =====
     private String pcId;
@@ -74,6 +76,18 @@ public class IndexDTO {
         this.pDiscount = pDiscount;
         this.pViewCount = pViewCount;
         this.pImageMain = pImageMain;
+        this.imageBase64 = pImageMain; // 이미지 경로를 그대로 사용
+    }
+
+    // ✅ 3-1️⃣ 상품 목록용 (배송비 포함)
+    public IndexDTO(String pPid, String pName, Integer pPrice, Integer pDiscount, Integer pViewCount, String pImageMain, Integer pDeliveryPrice) {
+        this.pPid = pPid;
+        this.pName = pName;
+        this.pPrice = pPrice;
+        this.pDiscount = pDiscount;
+        this.pViewCount = pViewCount;
+        this.pImageMain = pImageMain;
+        this.pDeliveryPrice = pDeliveryPrice;
         this.imageBase64 = pImageMain; // 이미지 경로를 그대로 사용
     }
 
