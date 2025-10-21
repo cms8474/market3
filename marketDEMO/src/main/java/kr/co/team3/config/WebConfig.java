@@ -13,6 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
     /**
      * 이미지 실제 저장 위치.
      *    EC2:       file:/data/market/images/
+     *    /home/ec2-user/marketDEMO/uploads << 여기
      *    로컬:        file:///C:/data/market/images/
      *
      */
@@ -22,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${app.image-url-prefix:/images/}")
     private String imageUrlPrefix;
 
-    @Value("${app.upload-dir}")
+    @Value("${app.upload-dir:/home/ec2-user/marketDEMO/uploads}")
     private String uploadDir;
 
     @Override
