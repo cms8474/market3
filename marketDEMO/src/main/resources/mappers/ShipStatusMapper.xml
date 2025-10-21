@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.admin_mapper.ShipStatusMapper">
+
+    <!-- 공통 SELECT 본문 -->
+    <sql id="BaseSelect">
+        SELECT
+            oi.OI_TRACKING_NUM      AS trackingNum,
+            oi.OI_TRACKING_COMPANY  AS trackingCompany,
+            oi.OI_DEL_STATUS        AS delStatus,
+            oi.OI_P_PID             AS pPid,
+
+            pi.P_NAME               AS productName,
+
+            po.PO_NO                AS poNo,
+            po.PO_RECIPIENT         AS recipient,
+            po.PO_ITEM_COUNT        AS itemCount,
+            po.PO_TOT_PRICE         AS totalPrice,
+            po.PO_DELIVERY_PRICE    AS deliveryPrice,
+            po.PO_ORDERDATE         AS orderDate
+        FROM ORDER_ITEMS oi
+                 JOIN PRODUCT_ORDER po ON po.PO_NO = oi.OI_PO_NO
+                 JOIN PRODUCT_ITEM  pi ON pi.P_PID = oi.OI_P_PID
+    </sql>
+
+    <!-- 공통 WHERE 절 -->
+    <sql id="ShipWhere">
+        <where>
+            <!-- 검색 타입 / 키워드 -->
+            <if test="keyword != null and keyword != '' and searchType != null and searchType != ''">
+                <choose>
+                    <!-- 주문번호 -->
+                    <when test="searchType == 'poNo'">
+                        AND po.PO_NO LIKE '%' || #{keyword} || '%'
+                    </when>
+
+                    <!-- 송장번호 -->
+                    <when test="searchType == 'trackingNum'">
+                        AND oi.OI_TRACKING_NUM LIKE '%' || #{keyword} || '%'
+                    </when>
+
+                    <!-- 수령인 -->
+                    <when test="searchType == 'recipient'">
+                        AND po.PO_RECIPIENT LIKE '%' || #{keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+
+            <!-- (선택) 배송상태 필터 -->
+            <if test="status != null and status != ''">
+                AND oi.OI_DEL_STATUS = #{status}
+            </if>
+
+            <!-- (선택) 기간 필터: 주문일(접수일) -->
+            <if test="dateFrom != null and dateFrom != ''">
+                AND po.PO_ORDERDATE &gt;= TO_TIMESTAMP(#{dateFrom} || ' 00:00:00','YYYY-MM-DD HH24:MI:SS')
+            </if>
+            <if test="dateTo != null and dateTo != ''">
+                AND po.PO_ORDERDATE &lt;  TO_TIMESTAMP(#{dateTo}   || ' 23:59:59','YYYY-MM-DD HH24:MI:SS')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 정렬 -->
+    <sql id="ShipOrderBy">
+        ORDER BY po.PO_ORDERDATE DESC, po.PO_NO DESC, oi.OI_P_PID ASC
+    </sql>
+
+    <!-- 카운트 -->
+    <select id="countShipList" parameterType="kr.co.team3.admin_dto.PageRequestDTO" resultType="int">
+        SELECT COUNT(*)
+        FROM (
+        SELECT oi.OI_PO_NO, oi.OI_P_PID
+        FROM ORDER_ITEMS oi
+        JOIN PRODUCT_ORDER po ON po.PO_NO = oi.OI_PO_NO
+        JOIN PRODUCT_ITEM  pi ON pi.P_PID = oi.OI_P_PID
+        <include refid="ShipWhere"/>
+        <include refid="ShipOrderBy"/>
+        )
+    </select>
+
+    <!-- 목록 (ROWNUM 페이징) -->
+    <select id="selectShipList" parameterType="kr.co.team3.admin_dto.PageRequestDTO"
+            resultType="kr.co.team3.admin_dto.ShipStatusDTO">
+        SELECT * FROM (
+        SELECT inner_.*, ROWNUM AS rn
+        FROM (
+        <include refid="BaseSelect"/>
+        <include refid="ShipWhere"/>
+        <include refid="ShipOrderBy"/>
+        ) inner_
+        WHERE ROWNUM &lt;= #{endRow}
+        )
+        WHERE rn &gt; #{startRow}
+    </select>
+
+</mapper>

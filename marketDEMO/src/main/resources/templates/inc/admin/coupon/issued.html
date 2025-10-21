@@ -32,31 +32,53 @@
                 <th>사용자</th>
                 <th>상태</th>
                 <th>사용일</th>
+                <th>관리</th>
+
             </tr>
             </thead>
             <tbody>
-            <tr th:each="r : ${page.dtoList}">
-                <!-- 발급번호(UC_PO_NO) : 링크 연결 -->
+            <tr th:each="r : ${page.dtoList}"
+                th:with="st=${r.status != null ? #strings.trim(r.status) : ''}">
+                <!-- 발급번호 -->
                 <td class="coupon-link">
                     <a th:href="@{/admin/coupon/issued(poNo=${r.poNo}, pg=${req.pg}, size=${req.size}, searchType=${req.searchType}, keyword=${req.keyword})}"
                        th:text="${r.poNo}">PO000000</a>
                 </td>
-                <!-- 쿠폰번호 : 상세 API로 이동(READ 전용) -->
+
+                <!-- 쿠폰번호(상세 이동) -->
                 <td>
                     <a th:href="@{/admin/coupon/detail(cId=${r.cId})}"
                        th:text="${r.cId}">C000000</a>
                 </td>
+
                 <td th:text="${r.ctType}">배송비</td>
                 <td th:text="${r.cName}">쿠폰명</td>
                 <td th:text="${r.userId}">user01</td>
+
                 <td class="coupon-status" th:text="${r.status}">사용가능</td>
-                <td class="center" th:text="${r.useDay != null ? #temporals.format(r.useDay,'yyyy-MM-dd HH:mm') : '-'}">-</td>
+
+                <td class="center"
+                    th:text="${r.useDay != null ? #temporals.format(r.useDay,'yyyy-MM-dd HH:mm') : '-'}">-</td>
+
+                <!--  관리 -->
+                <td class="center">
+                    <!-- 상태가 '사용가능'일 때만 중단 버튼 -->
+                    <a href="#"
+                       class="btn-mini stop-issue"
+                       th:if="${#strings.equalsIgnoreCase(st,'사용가능')}"
+                       th:attr="data-po-no=${r.poNo}">중단</a>
+
+                    <!-- 그 외엔 중단됨 표시 -->
+                    <span class="text-gray"
+                          th:if="${!#strings.equalsIgnoreCase(st,'사용가능')}">중단됨</span>
+                </td>
             </tr>
 
             <!-- 비어있을 때 -->
             <tr th:if="${#lists.isEmpty(page.dtoList)}">
-                <td colspan="7" class="center">조회된 발급내역이 없습니다.</td>
+                <td colspan="8" class="center">조회된 발급내역이 없습니다.</td>
             </tr>
+
             </tbody>
         </table>
 
@@ -179,6 +201,61 @@
                     alert(err.message || '상세 조회 중 오류가 발생했습니다.');
                 }
             });
+        });
+    </script>
+    <script>
+        document.querySelectorAll('td.coupon-status').forEach(el => {
+            const t = el.textContent.trim();
+            if (t === '사용가능') el.classList.add('coupon-status--active');
+            else if (t === '사용완료' || t === '만료' || t === '중단') el.classList.add('coupon-status--closed'); // ★ 중단 포함
+        });
+    </script>
+
+    <script>
+        const csrfToken  = document.querySelector('meta[name="_csrf"]')?.content;
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+        document.addEventListener("click", async (e) => {
+            const btn = e.target.closest(".stop-issue");
+            if (!btn) return;
+
+            e.preventDefault();
+            const poNo = btn.dataset.poNo;
+            if (!poNo) return;
+
+            if (!confirm("정말 중단하시겠습니까?")) return;
+
+            btn.classList.add('is-loading'); btn.setAttribute('disabled','disabled');
+
+            try {
+                const resp = await fetch(`/admin/coupon/issued/stop?poNo=${encodeURIComponent(poNo)}`, {
+                    method: 'POST',
+                    headers: csrfToken && csrfHeader ? { [csrfHeader]: csrfToken } : {}
+                });
+                const data = await resp.json().catch(()=>({}));
+
+                if (resp.ok && data.ok) {
+                    const row = btn.closest('tr');
+
+                    // 상태 셀 업데이트: '중단'
+                    const statusTd = row.querySelector('td.coupon-status');
+                    if (statusTd) {
+                        statusTd.textContent = '중단';
+                        statusTd.classList.remove('coupon-status--active');
+                        statusTd.classList.add('coupon-status--closed');
+                    }
+
+                    // 관리 셀: 버튼 → '중단됨'
+                    btn.replaceWith(Object.assign(document.createElement('span'), {className:'text-gray', textContent:'중단됨'}));
+                    alert('발급이 중단되었습니다.');
+                } else {
+                    alert(data.msg || '중단 처리 중 오류가 발생했습니다.');
+                    btn.classList.remove('is-loading'); btn.removeAttribute('disabled');
+                }
+            } catch (err) {
+                alert('네트워크 오류가 발생했습니다.');
+                btn.classList.remove('is-loading'); btn.removeAttribute('disabled');
+            }
         });
     </script>
 

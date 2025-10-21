@@ -12,24 +12,27 @@
             <!-- 기간 타입 먼저 -->
             <label class="sr-only" for="periodType">기간</label>
             <select id="periodType" name="periodType" aria-label="기간" onchange="toggleDateInputs()">
-                <option value="day"   th:selected="${pageResponseDTO.periodType}=='day'">일별</option>
-                <option value="week"  th:selected="${pageResponseDTO.periodType}=='week'">주간</option>
                 <option value="month" th:selected="${pageResponseDTO.periodType}=='month'">월간</option>
+                <option value="week"  th:selected="${pageResponseDTO.periodType}=='week'">주간</option>
+                <option value="day"   th:selected="${pageResponseDTO.periodType}=='day'">일별</option>
             </select>
 
-            <!-- 일별: 날짜 -->
-            <input type="date" id="baseDate" name="baseDate"
-                   th:value="${pageResponseDTO.baseDate != null ? #temporals.format(pageResponseDTO.baseDate,'yyyy-MM-dd') : #temporals.format(#temporals.createNow(),'yyyy-MM-dd')}" />
+            <!-- 월간: yyyy-MM -->
+            <input type="month" id="baseMonth" name="baseMonth"
+                   th:value="${pageResponseDTO.baseDate != null ? #temporals.format(pageResponseDTO.baseDate,'yyyy-MM') : ''}"
+                   style="display:none;" />
 
             <!-- 주간: ISO 주 -->
             <input type="week" id="baseWeek" name="baseWeek"
                    th:value="${pageResponseDTO.baseDate != null ? #temporals.format(pageResponseDTO.baseDate, 'YYYY-''W''ww') : ''}"
                    style="display:none;" />
 
-            <!-- 월간: yyyy-MM -->
-            <input type="month" id="baseMonth" name="baseMonth"
-                   th:value="${pageResponseDTO.baseDate != null ? #temporals.format(pageResponseDTO.baseDate,'yyyy-MM') : ''}"
-                   style="display:none;" />
+
+            <!-- 일별: 날짜 -->
+            <input type="date" id="baseDate" name="baseDate"
+                   th:value="${pageResponseDTO.baseDate != null ? #temporals.format(pageResponseDTO.baseDate,'yyyy-MM-dd') : #temporals.format(#temporals.createNow(),'yyyy-MM-dd')}" />
+
+
 
             <!-- 유지 파라미터 -->
             <input type="hidden" name="sort" th:value="${pageResponseDTO.sort}" />
@@ -136,4 +139,62 @@
         // 초기 상태 반영
         toggleDateInputs();
     </script>
+
+    <script>
+        function toggleDateInputs() {
+            var type = document.getElementById('periodType').value;
+            var d = document.getElementById('baseDate');
+            var w = document.getElementById('baseWeek');
+            var m = document.getElementById('baseMonth');
+
+            d.style.display = (type === 'day') ? '' : 'none';
+            w.style.display = (type === 'week') ? '' : 'none';
+            m.style.display = (type === 'month') ? '' : 'none';
+
+            if (type !== 'day')  d.value = '';
+            if (type !== 'week') w.value = '';
+            if (type !== 'month') m.value = '';
+        }
+
+        //  기본 선택값 자동 세팅
+        function setDefaultBaseDate() {
+            var type = document.getElementById('periodType').value;
+            var today = new Date();
+            var d = document.getElementById('baseDate');
+            var w = document.getElementById('baseWeek');
+            var m = document.getElementById('baseMonth');
+
+            // 오늘 (yyyy-MM-dd)
+            var yyyy = today.getFullYear();
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var dd = String(today.getDate()).padStart(2, '0');
+            var dateStr = yyyy + '-' + mm + '-' + dd;
+
+            // 이번 달 (yyyy-MM)
+            var monthStr = yyyy + '-' + mm;
+
+            // 이번 주 (ISO week)
+            var temp = new Date(today.getTime());
+            temp.setHours(0,0,0,0);
+            // ISO week 계산
+            var dayNum = (today.getDay() + 6) % 7; // 월요일=0
+            temp.setDate(temp.getDate() - dayNum + 3); // 목요일로 이동
+            var firstThursday = new Date(temp.getFullYear(), 0, 4);
+            var weekNo = 1 + Math.round(((temp - firstThursday) / 86400000 - 3 + ((firstThursday.getDay() + 6) % 7)) / 7);
+            var weekStr = temp.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+
+            if (type === 'day') {
+                d.value = dateStr;
+            } else if (type === 'week') {
+                w.value = weekStr;
+            } else if (type === 'month') {
+                m.value = monthStr;
+            }
+        }
+
+        // 초기 상태 반영
+        toggleDateInputs();
+        setDefaultBaseDate();
+    </script>
+
 </th:block>

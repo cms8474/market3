@@ -66,3 +66,220 @@
             text-decoration: underline;
         }
 
+
+        /* =============== 주문상세 모달 내부 =============== */
+
+        /* 섹션 헤더 */
+        .od-section {
+            margin-bottom: 20px;
+        }
+        .od-section h6 {
+            font-size: 15px;
+            font-weight: 700;
+            height: 35px;
+            padding: 10px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            color: #222;
+        }
+
+        /* 상품정보 테이블 */
+        .table.order-items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        .table.order-items th {
+            background: #f7f8fa;
+            color: #333;
+            border: 1px solid #e5e7eb;
+            padding: 8px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .table.order-items td {
+            border: 1px solid #e5e7eb;
+            padding: 8px;
+            text-align: center;
+            color: #444;
+        }
+
+        /* 숫자 정렬 */
+        .table.order-items td.num {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* 합계 영역: 세로 정렬 + 오른쪽 배치 */
+        .order-sum {
+            display: flex;
+            justify-content: flex-end; /* 오른쪽 정렬 */
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .order-sum ul {
+            display: flex;
+            flex-direction: column; /* 세로로 정렬 */
+            align-items: flex-end;   /* 오른쪽 정렬 */
+            gap: 3px;                /* 항목 간 간격 */
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .order-sum li {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 6px 10px;
+            background: #fafafa;
+            color: #333;
+            font-size: 13px;
+            width: 180px;            /* 폭 통일 (선택사항) */
+            display: flex;
+            justify-content: space-between; /* 텍스트와 금액 양끝 배치 */
+        }
+
+        .order-sum li b {
+            color: #0b5fff;
+            font-weight: 700;
+        }
+
+        /* 결제정보/배송정보 테이블 */
+        .od-section .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .od-section .table th {
+            background: #f9fafb;
+            color: #555;
+            font-weight: 600;
+            width: 120px;
+            text-align: left;
+            border: 1px solid #e5e7eb;
+            padding: 8px;
+        }
+        .od-section .table td {
+            border: 1px solid #e5e7eb;
+            padding: 8px;
+            color: #333;
+        }
+
+        /* 주문번호 헤더 */
+        .od-head {
+            background: #f7f8fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #555;
+        }
+        .od-head .od-no {
+            font-weight: 700;
+            color: #111;
+            margin-left: 6px;
+        }
+
+        /* 빈 행 스타일 */
+        .empty {
+            text-align: center;
+            color: #999;
+            padding: 14px 0;
+        }
+
+        /* 반응형 최소 조정 */
+        @media (max-width: 768px) {
+            .order-sum ul {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            .order-sum li {
+                width: 100%;
+                text-align: right;
+            }
+        }
+
+        /* 상세 모달 전용: 더 넓게 */
+        .modal__dialog.order-detail{
+            width: 1000px;          /* 원하는 픽셀로 조정 */
+            max-width: 96vw;        /* 화면 작아지면 반응형으로 줄어듦 */
+        }
+
+        /* 배송입력 모달도 조금 넓히고 싶으면 (선택) */
+        .modal__dialog{
+            max-width: 92vw;        /* 공통 안전장치 */
+        }
+
+        /* 모달 내부 여백 조금 넉넉하게 */
+        .modal__dialog.order-detail .modal__body{
+            padding: 20px 24px;
+        }
+
+        /* 테이블이 모달보다 넓어질 때 가로 스크롤 허용 */
+        .modal__dialog.order-detail .od-section{
+            overflow-x: auto;
+        }
+
+        /* 합계 영역 오른쪽 세로 정렬(이미 적용했을 수도) */
+        .order-sum{
+            margin-top: 8px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .order-sum ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            min-width: 260px; /* 숫자 줄바꿈 방지용 */
+        }
+        .order-sum li{
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            line-height: 1.6;
+        }
+        .order-sum li:last-child{
+            font-weight: 700;
+        }
+
+        /* 작은 화면일 때 조금 더 꽉 차게 */
+        @media (max-width: 768px){
+            .modal__dialog.order-detail{
+                width: 95vw;
+            }
+        }
+
+
+        .badge--done {  color:#138a4b; }
+        .badge--cancel {  color:#c0283a; }
+
+
+        .status--wait{
+            color:#374151}
+        /* 결제완료 - 초록 */
+        .status--ok {
+            color: #f39c12;
+        }
+
+        /* 배송중 - 진한 회색 */
+        .status--ship {
+            color: #0a8a4b;
+        }
+
+        /* 배송완료 - 보라 */
+        .status--done {
+            color: #0a8a4b;
+        }
+
+        /* 구매확정 - 파랑 */
+        .status--confirm {
+            color: #0b5fff;
+        }
+
+        /* 주문취소 - 빨강 */
+        .status--cancel {
+            color: #c82b42;}
+

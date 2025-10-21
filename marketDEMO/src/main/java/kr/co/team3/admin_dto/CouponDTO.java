@@ -11,9 +11,10 @@ public class CouponDTO {
     private String ctType;       // 쿠폰종류 코드
 
     private String cName;        // 쿠폰명
-    private String benefit;      // 혜택(가공: C_TEXT 우선, 없으면 DIS_* 결합)
-    private String cDisDelivery; // 배송비 할인 (무료 또는 정수)
-    private String cDisMoney;    // 금액 할인 (정수 또는 %)
+    private String notice;          // C_TEXT (유의사항)
+    private String benefit;
+    private String benefitMoney;    // C_DIS_MONEY
+    private String benefitDelivery;
 
     private LocalDate startDay;  // 사용기간 시작
     private LocalDate endDay;    // 사용기간 종료

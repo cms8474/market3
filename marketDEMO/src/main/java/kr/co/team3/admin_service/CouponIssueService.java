@@ -24,4 +24,8 @@ public class CouponIssueService {
         return couponIssueMapper.selectIssueByPoNo(poNo); // Mapper/XML에 SELECT 하나 추가
     }
 
+    public int stopIssue(String poNo) {
+        return couponIssueMapper.stopIssue(poNo);
+    }
+
 }

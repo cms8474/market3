@@ -2,41 +2,31 @@ package kr.co.team3.admin_entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "QNA") // 실제 테이블명과 맞추기
+@Table(name = "BOARD") // 실제 테이블명과 맞추기
+@Where(clause = "B_BT_TYPE LIKE 'qna%'")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Qna {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_QNA_GEN")
-    @Column(name = "ID")
-    private Long id;
+    @Column(name = "B_ID")
+    private String id;
 
-    @Column(name = "TITLE", nullable = false, length = 200)
+    @Column(name = "B_TITLE")
     private String title;
 
-    @Lob
-    @Column(name = "QUESTION", nullable = false)
-    private String question;
+    @Column(name = "B_U_ID")
+    private String questioner; // 템플릿에서 쓰는 필드명
 
-    @Column(name = "QUESTIONER", length = 100)
-    private String questioner;
-
-    @Lob
-    @Column(name = "ANSWER")
-    private String answer;
-
-    @Column(name = "ANSWERED_YN", nullable = false, length = 1)
-    private String answeredYn = "N";
-
-    @Column(name = "STATUS", nullable = false, length = 1)
-    private String status = "Y";
-
-    @Column(name = "CREATED_AT", nullable = false)
+    @Column(name = "B_REG_DATE")
     private LocalDateTime createdAt;
 
-    @Column(name = "ANSWERED_AT")
-    private LocalDateTime answeredAt;
+    @Column(name = "B_VIEW")
+    private Integer viewCount;
+
+    @Column(name = "B_STATE")
+    private String status;
 }
