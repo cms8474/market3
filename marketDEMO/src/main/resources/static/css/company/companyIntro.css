@@ -567,15 +567,25 @@
 .recruit-table th:nth-child(7),
 .recruit-table td:nth-child(7){ width:220px; text-align:center; color:#666; }
 
-/* 상태 색감(텍스트만 있을 때 최소 스타일) */
-.recruit-table td:nth-child(6){ color:#16a34a; }  /* 기본을 모집중(초록)으로 */
+/* 상태 색감(텍스트만 있을 때 최소 스타일)*/
+
 
 /* 접근성/브라우저 호환 위해 권장(선택): 상태에 클래스 사용 시
    <td class="status open">모집중</td>
    <td class="status closed">종료</td>
 */
-.recruit-table td.status.open{ color:#16a34a; }
-.recruit-table td.status.closed{ color:#9aa0a6; }
+
+/* ===== 채용 상태 색상 ===== */
+.recruit-table td.status.open {
+    color: #16a34a !important; /* 초록 */
+    font-weight: 600;
+}
+
+.recruit-table td.status.closed {
+    color: #dc2626 !important; /* 빨강 */
+    font-weight: 600;
+}
+
 
 /* 작은 화면 대응 */
 @media (max-width: 768px){

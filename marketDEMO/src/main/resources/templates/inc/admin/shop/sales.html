@@ -1,89 +1,139 @@
 <th:block th:fragment="content">
     <link rel="stylesheet" href="/css/admin/sales-status.css">
-        <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
-        <div class="page">
-            <div class="topbar">
-                <h4>매출현황</h4>
-                <div class="breadcrumb">HOME &gt; 상점관리 &gt; <b>매출현황</b></div>
+
+    <div class="page">
+        <div class="topbar">
+            <h4>매출현황</h4>
+            <div class="breadcrumb">HOME &gt; 상점관리 &gt; <b>매출현황</b></div>
+        </div>
+
+        <!-- 검색/필터 -->
+        <form class="search-box" th:action="@{/admin/shop/sales}" method="get">
+            <!-- 기간 타입 먼저 -->
+            <label class="sr-only" for="periodType">기간</label>
+            <select id="periodType" name="periodType" aria-label="기간" onchange="toggleDateInputs()">
+                <option value="day"   th:selected="${pageResponseDTO.periodType}=='day'">일별</option>
+                <option value="week"  th:selected="${pageResponseDTO.periodType}=='week'">주간</option>
+                <option value="month" th:selected="${pageResponseDTO.periodType}=='month'">월간</option>
+            </select>
+
+            <!-- 일별: 날짜 -->
+            <input type="date" id="baseDate" name="baseDate"
+                   th:value="${pageResponseDTO.baseDate != null ? #temporals.format(pageResponseDTO.baseDate,'yyyy-MM-dd') : #temporals.format(#temporals.createNow(),'yyyy-MM-dd')}" />
+
+            <!-- 주간: ISO 주 -->
+            <input type="week" id="baseWeek" name="baseWeek"
+                   th:value="${pageResponseDTO.baseDate != null ? #temporals.format(pageResponseDTO.baseDate, 'YYYY-''W''ww') : ''}"
+                   style="display:none;" />
+
+            <!-- 월간: yyyy-MM -->
+            <input type="month" id="baseMonth" name="baseMonth"
+                   th:value="${pageResponseDTO.baseDate != null ? #temporals.format(pageResponseDTO.baseDate,'yyyy-MM') : ''}"
+                   style="display:none;" />
+
+            <!-- 유지 파라미터 -->
+            <input type="hidden" name="sort" th:value="${pageResponseDTO.sort}" />
+            <input type="hidden" name="dir"  th:value="${pageResponseDTO.dir}" />
+            <input type="hidden" name="pg"   th:value="${pageResponseDTO.pg}" />
+            <input type="hidden" name="size" th:value="${pageResponseDTO.size}" />
+
+            <button type="submit" class="btn">검색</button>
+        </form>
+
+        <!-- 목록 -->
+        <table>
+            <thead>
+            <tr>
+                <th class="col-no">번호</th>
+                <th>상호명</th>
+                <th>사업자등록번호</th>
+                <th>주문건수</th>
+                <th>결제완료</th>
+                <th>배송중</th>
+                <th>배송완료</th>
+                <th>구매확정</th>
+                <th>주문합계</th>
+                <th>매출합계</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="m, st : ${list}">
+                <!-- 번호 = startNo - index -->
+                <td class="col-no" th:text="${pageResponseDTO.startNo - st.index}">1</td>
+                <td th:text="${m.companyName}">(주)상호</td>
+                <td th:text="${m.bizRegNum}">000-00-00000</td>
+
+                <td th:text="${#numbers.formatInteger(m.totalOrders,0)}">0</td>
+                <td th:text="${#numbers.formatInteger(m.paidCount,0)}">0</td>
+                <td th:text="${#numbers.formatInteger(m.shippingCount,0)}">0</td>
+                <td th:text="${#numbers.formatInteger(m.deliveredCount,0)}">0</td>
+                <td th:text="${#numbers.formatInteger(m.confirmedCount,0)}">0</td>
+
+                <td th:text="${#numbers.formatDecimal(m.orderTotal, 0, 'COMMA', 0, 'POINT')}">0</td>
+                <td th:text="${#numbers.formatDecimal(m.salesTotal, 0, 'COMMA', 0, 'POINT')}">0</td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(list)}">
+                <td colspan="10" style="text-align:center;">조회 결과가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 페이징 -->
+        <div class="pagination-wrap">
+            <div class="pagination">
+                <a th:if="${pageResponseDTO.prev}"
+                   th:href="@{/admin/shop/sales(
+              pg=${pageResponseDTO.start - 1},
+              baseDate=${pageResponseDTO.baseDate},
+              periodType=${pageResponseDTO.periodType},
+              sort=${pageResponseDTO.sort},
+              dir=${pageResponseDTO.dir},
+              size=${pageResponseDTO.size}
+           )}" class="prev">이전</a>
+
+                <th:block th:each="num : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                    <a th:href="@{/admin/shop/sales(
+                 pg=${num},
+                 baseDate=${pageResponseDTO.baseDate},
+                 periodType=${pageResponseDTO.periodType},
+                 sort=${pageResponseDTO.sort},
+                 dir=${pageResponseDTO.dir},
+                 size=${pageResponseDTO.size}
+               )}"
+                       th:classappend="${num == pageResponseDTO.pg} ? 'current' : 'num'"
+                       th:text="${num}">1</a>
+                </th:block>
+
+                <a th:if="${pageResponseDTO.next}"
+                   th:href="@{/admin/shop/sales(
+              pg=${pageResponseDTO.end + 1},
+              baseDate=${pageResponseDTO.baseDate},
+              periodType=${pageResponseDTO.periodType},
+              sort=${pageResponseDTO.sort},
+              dir=${pageResponseDTO.dir},
+              size=${pageResponseDTO.size}
+           )}" class="next">다음</a>
             </div>
-
-            <!-- 검색 -->
-            <!-- 상단 검색창 -->
-            <div class="search-box">
-                <!-- 일별 날짜 선택 -->
-                <label class="sr-only" for="searchDate">일별</label>
-                <input type="date" id="searchDate" name="date">
-
-                <!-- 검색 버튼 -->
-                <button type="submit" class="btn">검색</button>
-            </div>
-
-
-
-            <!-- 목록 -->
-            <table>
-                <thead>
-                <tr>
-                    <th class="col-no">번호</th>
-                    <th>상호명</th>
-                    <th>사업자등록번호</th>
-                    <th>주문건수</th>
-                    <th>결제완료</th>
-                    <th>배송중</th>
-                    <th>배송완료</th>
-                    <th>구매확정</th>
-                    <th>주문합계</th>
-                    <th>매출합계</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="col-no">5</td>
-                    <td>(주)다나와</td>
-                    <td>112-12-12345</td>
-                    <td>103</td>
-                    <td>90</td>
-                    <td>56</td>
-                    <td>103</td>
-                    <td>103</td>
-                    <td>10,333,334</td>
-                    <td>10,333,333</td>
-                </tr>
-
-                <tr>
-                    <td class="col-no">5</td>
-                    <td>(주)다나와</td>
-                    <td>112-12-12345</td>
-                    <td>103</td>
-                    <td>90</td>
-                    <td>56</td>
-                    <td>103</td>
-                    <td>103</td>
-                    <td>10,333,334</td>
-                    <td>10,333,333</td>
-                </tr>
-
-
-
-
-                </tbody>
-            </table>
-
-            <!-- 테이블 하단 영역 -->
-            <div class="pagination-wrap">
-                <div class="pagination">
-                    <a href="#">이전</a>
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">다음</a>
-                </div>
-            </div>
-
-
         </div>
     </div>
 
+    <script>
+        function toggleDateInputs() {
+            var type = document.getElementById('periodType').value;
+            var d = document.getElementById('baseDate');
+            var w = document.getElementById('baseWeek');
+            var m = document.getElementById('baseMonth');
+
+            d.style.display = (type === 'day') ? '' : 'none';
+            w.style.display = (type === 'week') ? '' : 'none';
+            m.style.display = (type === 'month') ? '' : 'none';
+
+            if (type !== 'day')  d.value = '';
+            if (type !== 'week') w.value = '';
+            if (type !== 'month') m.value = '';
+        }
+        // 초기 상태 반영
+        toggleDateInputs();
+    </script>
 </th:block>

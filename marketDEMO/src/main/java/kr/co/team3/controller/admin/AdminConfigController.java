@@ -1,32 +1,41 @@
 package kr.co.team3.controller.admin;
 
+import jakarta.servlet.http.HttpServletRequest;
+import kr.co.team3.admin_entity.Banner;
+import kr.co.team3.admin_service.BannerService;
+import kr.co.team3.admin_service.PolicyService;
 import kr.co.team3.admin_service.VersionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import lombok.RequiredArgsConstructor;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
+@Slf4j
 @Controller
 @RequestMapping("/admin/config")
+@RequiredArgsConstructor
 public class AdminConfigController {
     private final VersionService versionService;
+    private final BannerService bannerService;
+    private final PolicyService policyService;
 
     @Value("${app.upload-dir:upload}")
     private String uploadDir;
-
-    public AdminConfigController(VersionService versionService) {
-        this.versionService = versionService;
-    }
 
     @GetMapping("/basic")
     public String basic(Model model) {
@@ -72,7 +81,7 @@ public class AdminConfigController {
                             @RequestParam(required = false) String disputeTel,
 
                             // 저작권
-                            @RequestParam(required = false) String copyright,
+                            @RequestParam(required = false) String copylight,
 
                             RedirectAttributes ra) {
 
@@ -100,12 +109,11 @@ public class AdminConfigController {
                 versionService.updateSupport(csTel, csHours, csEmail, disputeTel);
                 ra.addFlashAttribute("msg", "고객센터 정보가 저장되었습니다.");
             }
-            case "save-copyright" -> {
-                versionService.updateCopyright(copyright);
+            case "save-copylight" -> {
+                versionService.updatecopylight(copylight);
                 ra.addFlashAttribute("msg", "카피라이트가 저장되었습니다.");
             }
             default -> {
-                // do nothing
             }
         }
 
@@ -130,67 +138,120 @@ public class AdminConfigController {
     }
 
     @GetMapping("/banner")
-    public String banner( @RequestParam(name="tab", required=false, defaultValue="MAIN_TOP") String tab,Model model) {
+    public String banner( @RequestParam(name="tab", required=false, defaultValue="MAIN_TOP") String tab,Model model,
+                          HttpServletRequest request) {
+
+        request.getAttribute(CsrfToken.class.getName());
+
         model.addAttribute("pageTitle","배너관리");
         model.addAttribute("activeMenu", "config-banner");
         model.addAttribute("contentFragment", "inc/admin/config/banner :: content");
         model.addAttribute("pageCss", "/css/config/admin_config_banner.css");
         model.addAttribute("tab", tab);
 
-        // model.addAttribute("banners", bannerService.findByTab(tabParam));
+        model.addAttribute("banners", bannerService.list());
 
         return "admin";
 
     }
     @PostMapping("/banner")
-    public String createBanner(@RequestParam String action, RedirectAttributes ra){
-
-        if ("create".equals(action)) {
-            ra.addFlashAttribute("msg", "배너가 등록되었습니다.");
+    public String createBanner(@RequestParam String action,
+                               @RequestParam(name= "name") String name,
+                               @RequestParam(name= "size", required = false) String size,
+                               @RequestParam(name= "bgColor", required = false) String bgColor,
+                               @RequestParam(name= "linkUrl", required = false) String linkUrl,
+                               @RequestParam(name= "position") String position,
+                               @RequestParam(name= "startDate", required = false) LocalDate startDate,
+                               @RequestParam(name= "endDate", required = false) LocalDate endDate,
+                               @RequestParam(name= "startTime", required = false) String startTimeStr,
+                               @RequestParam(name= "endTime", required = false) String endTimeStr,
+                               @RequestParam(name= "image", required = false) MultipartFile image,
+                               RedirectAttributes ra)
+        {
+        if (!"create".equalsIgnoreCase(action)) {
+            return "redirect:/admin/config/banner?tab=" + position;
         }
-        return "redirect:/admin/config/banner";
+            log.info("[BANNER] POST in: action={}, name={}, position={}, hasImage={}",
+                    action, name, position, image!=null && !image.isEmpty());
+        try {
+            LocalDateTime startDateTime = composeDateTime(startDate, startTimeStr);
+            LocalDateTime endDateTime = composeDateTime(endDate, endTimeStr);
+            Banner saved = bannerService.create(
+                    name, size, bgColor, linkUrl, position,
+                    startDate, endDate, startDateTime, endDateTime, image
+            );
+            log.info("[BANNER] saved id={}", saved.getANo());
+            ra.addFlashAttribute("msg", "배너가 등록되었습니다.");
+        } catch (Exception e) {
+            log.error("[BANNER] create failed", e);
+            ra.addFlashAttribute("msg", "error: " + e.getMessage());
+        }
+            return "redirect:/admin/config/banner?tab=" + position;
+        }
+
+    @PostMapping(value = "/banner/delete", consumes = "application/json")
+    @ResponseBody
+    public Map<String, Object> deleteBanners(@RequestBody List<Long> ids) {
+        bannerService.deleteByIds(ids);
+        return Map.of("ok", true, "count", ids.size());
     }
 
+    private LocalDateTime composeDateTime(LocalDate d, String hm) {
+        if (d == null || hm == null || hm.isBlank()) return null;
+        return LocalDateTime.of(d, LocalTime.parse(hm)); // "13:30" -> 13:30
+    }
+
+
     @GetMapping("/policy")
-    public String policy(Model model) {
+    public String policy(HttpServletRequest request, Model model) {
+        request.getSession(true);
         model.addAttribute("pageTitle", "약관관리");
         model.addAttribute("activeMenu", "config-policy");
         model.addAttribute("contentFragment", "inc/admin/config/policy :: content");
 
-        // model.addAttribute("buyerTos", policyService.getBuyerTos());
-        // model.addAttribute("sellerTos", policyService.getSellerTos());
+        model.addAttribute("buyerTos",    policyService.getBody(PolicyService.BUYER_TOS));
+        model.addAttribute("sellerTos",   policyService.getBody(PolicyService.SELLER_TOS));
+        model.addAttribute("financeTos",  policyService.getBody(PolicyService.FINANCE_TOS));
+        model.addAttribute("locationTos", policyService.getBody(PolicyService.LOCATION_TOS));
+        model.addAttribute("privacyTos",  policyService.getBody(PolicyService.PRIVACY_TOS));
         return "admin";
     }
 
     @PostMapping("/policy")
     public String savePolicy(@RequestParam String action,
-                             @RequestParam(required=false) String buyerTos,
-                             @RequestParam(required=false) String sellerTos,
+                             @RequestParam(required = false) String buyerTos,
+                             @RequestParam(required = false) String sellerTos,
+                             @RequestParam(required = false) String financeTos,
+                             @RequestParam(required = false) String locationTos,
+                             @RequestParam(required = false) String privacyTos,
                              RedirectAttributes ra) {
         switch (action) {
             case "save-buyer-tos" -> {
-                // policyService.saveBuyerTos(buyerTos);
+                policyService.saveBody(PolicyService.BUYER_TOS, nullToEmpty(buyerTos));
                 ra.addFlashAttribute("msg", "구매회원 약관이 저장되었습니다.");
             }
             case "save-seller-tos" -> {
-                // policyService.saveSellerTos(sellerTos);
+                policyService.saveBody(PolicyService.SELLER_TOS, nullToEmpty(sellerTos));
                 ra.addFlashAttribute("msg", "판매회원 약관이 저장되었습니다.");
             }
             case "save-finance-tos" -> {
-                // policyService.saveFinanceTos(financeTos);
+                policyService.saveBody(PolicyService.FINANCE_TOS, nullToEmpty(financeTos));
                 ra.addFlashAttribute("msg", "전자금융거래 약관이 저장되었습니다.");
             }
             case "save-location-tos" -> {
-                // policyService.saveLocationTos(locationTos);
-                ra.addFlashAttribute("msg", "위치정보 이용 약관이 저장되었습니다.");
+                policyService.saveBody(PolicyService.LOCATION_TOS, nullToEmpty(locationTos));
+                ra.addFlashAttribute("msg", "위치정보 이용약관이 저장되었습니다.");
             }
             case "save-privacy-tos" -> {
-                // policyService.savePrivacyTos(privacyTos);
-                ra.addFlashAttribute("msg", "개인정보처리방침이 저장되었습니다.");
+                policyService.saveBody(PolicyService.PRIVACY_TOS, nullToEmpty(privacyTos));
+                ra.addFlashAttribute("msg", "개인정보 처리방침이 저장되었습니다.");
             }
+            default -> ra.addFlashAttribute("msg", "알 수 없는 요청입니다.");
         }
         return "redirect:/admin/config/policy";
     }
+    private String nullToEmpty(String s) { return s == null ? "" : s; }
+
 
     @GetMapping("/category")
     public String category(Model model) {

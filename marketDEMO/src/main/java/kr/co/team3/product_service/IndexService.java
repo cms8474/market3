@@ -48,9 +48,20 @@ public class IndexService {
         return indexRepository.findLatestProducts(limit);
     }
 
+    // 인기상품 추가 (조회수 높은 순)
+    public List<IndexDTO> getPopularProducts() {
+        Pageable limit = PageRequest.of(0, 8);
+        return indexRepository.findPopularProducts(limit);
+    }
+
     public List<IndexDTO> getDiscountProducts() {
         Pageable limit = PageRequest.of(0, 8);
         return indexRepository.findDiscountProducts(limit);
+    }
+
+    // 상품 상세 조회
+    public IndexDTO getProductById(String pPid) {
+        return indexRepository.findProductById(pPid);
     }
 
     public List<IndexDTO> getCompanyInfo() {

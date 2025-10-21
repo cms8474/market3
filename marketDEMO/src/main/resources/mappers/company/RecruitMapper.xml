@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.company_mapper.RecruitMapper">
+
+    <select id="findAll" resultType="kr.co.team3.company_entity.RecruitEntity">
+        SELECT
+            r_no       AS rNo,
+            r_dept     AS rDept,
+            r_career   AS rCareer,
+            r_type     AS rType,
+            r_title    AS rTitle,
+            r_status   AS rStatus,
+            r_start_date AS rStartDate,
+            r_end_date   AS rEndDate,
+            r_reg_date   AS rRegDate
+        FROM recruitment
+        ORDER BY r_no DESC
+    </select>
+
+    <select id="findPaged" resultType="kr.co.team3.company_entity.RecruitEntity">
+        SELECT
+            r_no       AS rNo,
+            r_dept     AS rDept,
+            r_career   AS rCareer,
+            r_type     AS rType,
+            r_title    AS rTitle,
+            r_status   AS rStatus,
+            r_start_date AS rStartDate,
+            r_end_date   AS rEndDate,
+            r_reg_date   AS rRegDate
+        FROM recruitment
+        ORDER BY r_no DESC
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM recruitment
+    </select>
+
+</mapper>
