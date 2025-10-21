@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// 강민철 2025-10-20 1457
+// 강민철 2025-10-21 0954
 
 @Service
 @RequiredArgsConstructor
@@ -57,6 +57,15 @@ public class ProductOrderService {
                 .total(total)
                 .build();
     }
-    public void modify(){}
+    public boolean modifyPoState(String uId, String poNo){
+        if (uId == null || uId.isEmpty()) {
+            throw new IllegalArgumentException("User ID cannot be null or empty");
+        }
+        if (poNo == null || poNo.isEmpty()) {
+            throw new IllegalArgumentException("PO NO cannot be null or empty");
+        }
+        int checkInt = productOrderMapper.updatePoState(uId,poNo);
+        return checkInt > 0;
+    }
     public void delete(){}
 }
