@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.admin_mapper.AdminProductMapper">
+
+    <resultMap id="ProductItemMap" type="kr.co.team3.admin_dto.ProductItemDTO">
+        <id     column="P_PID"             property="pPid"/>
+        <result column="P_NAME"            property="name"/>
+        <result column="P_DESC"            property="desc"/>
+        <result column="P_PRICE"           property="price"/>
+        <result column="P_DISCOUNT"        property="discount"/>
+        <result column="P_POINT"           property="point"/>
+        <result column="P_STOCK_QUANTITY"  property="stockQuantity"/>
+        <result column="P_DELIVERY_PRICE"  property="deliveryPrice"/>
+        <result column="P_SELLER_ID"       property="sellerId"/>
+        <result column="P_PC_ID"           property="pcId"/>
+        <result column="P_IAMGE_LIST"      property="imageList"/>
+        <result column="P_IMAGE_MAIN"      property="imageMain"/>
+        <result column="P_IMAGE_DETAIL"    property="imageDetail"/>
+        <result column="P_DETAIL_INFO"     property="detailInfo"/>
+        <result column="P_VIEW_COUNT"      property="viewCount"/>
+    </resultMap>
+
+    <insert id="insertProductItem" parameterType="kr.co.team3.admin_dto.ProductItemDTO">
+        INSERT INTO PRODUCT_ITEM (
+            P_NAME, P_DESC, P_PRICE, P_DISCOUNT, P_POINT,
+            P_STOCK_QUANTITY, P_DELIVERY_PRICE, P_SELLER_ID, P_PC_ID,
+            P_IAMGE_LIST, P_IMAGE_MAIN, P_IMAGE_DETAIL, P_DETAIL_INFO, P_VIEW_COUNT
+        )
+        VALUES (
+                   #{name}, #{desc}, #{price}, #{discount}, #{point},
+                   #{stockQuantity}, #{deliveryPrice}, #{sellerId}, #{pcId},
+                   #{imageList}, #{imageMain}, #{imageDetail}, #{detailInfo}, 0
+               )
+    </insert>
+
+    <insert id="insertProductDetail" parameterType="kr.co.team3.admin_dto.ProductDetailDTO">
+        INSERT INTO PRODUCT_DETAIL (
+            PD_P_PID, PD_STATE, PD_TAX, PD_RECEIPT, PD_S_SELLER_TYPE,
+            PD_BRAND, PD_ORIGIN, PD_MAKER, PD_MANUF_COUNTRY, PD_CARE,
+            PD_MANUF_DATE, PD_WARRANTY_INFO, PD_AS, PD_PHONE
+        )
+        VALUES (
+                   #{pPid}, #{state}, #{tax}, #{receipt}, #{sellerType},
+                   #{brand}, #{origin}, #{maker}, #{country}, #{care},
+                   #{manufDate}, #{warranty}, #{asManager}, #{phone}
+               )
+    </insert>
+
+    <insert id="insertProductOption" parameterType="kr.co.team3.admin_dto.ProductOptionDTO">
+        INSERT INTO PRODUCT_OPTION (
+            POP_NO, POP_P_PID, POP_NAME, POP_SELECTION, POP_ADD_PRICE, POP_STOCK
+        )
+        VALUES (
+                   NULL, #{pPid}, #{name}, #{selection}, #{addPrice}, #{stock}
+               )
+    </insert>
+
+    <select id="selectProductByPid" resultMap="ProductItemMap">
+        SELECT * FROM PRODUCT_ITEM WHERE P_PID = #{pid}
+    </select>
+
+    <select id="selectLastPidBySeller" resultType="string">
+        SELECT P_PID
+        FROM PRODUCT_ITEM
+        WHERE P_SELLER_ID = #{sellerId}
+        ORDER BY P_REGDATE DESC
+            FETCH FIRST 1 ROWS ONLY
+    </select>
+
+    <select id="selectOptionsByPid" resultType="kr.co.team3.admin_dto.ProductOptionDTO">
+        SELECT * FROM PRODUCT_OPTION WHERE POP_P_PID = #{pid}
+    </select>
+</mapper>
