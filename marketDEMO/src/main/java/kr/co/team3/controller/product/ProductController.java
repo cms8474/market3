@@ -24,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
@@ -207,23 +208,57 @@ public class ProductController {
         // 상품수: CART_ITEMS의 행 수
         int productCount = cartItems.size();
         
-        // 상품금액: 모든 상품의 P_PRICE의 총합 (할인 전 원래 가격)
+        // 상품금액: 모든 상품의 P_PRICE + 옵션 가격의 총합 (할인 전 원래 가격)
         int productAmount = cartItems.stream()
                 .mapToInt(ci -> {
                     IndexDTO product = productMap.get(ci.getCiPPid());
                     if (product != null && product.getPPrice() != null && ci.getCiAmount() != null) {
-                        return product.getPPrice() * ci.getCiAmount();
+                        int basePrice = product.getPPrice() * ci.getCiAmount();
+                        
+                        // 옵션 가격 추가
+                        int optionPrice = 0;
+                        if (ci.getCiOp01() != null && !ci.getCiOp01().isEmpty()) {
+                            ProductOptionEntity option1 = optionMap.get(ci.getCiOp01());
+                            if (option1 != null && option1.getPopAddPrice() != null) {
+                                optionPrice += option1.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        if (ci.getCiOp02() != null && !ci.getCiOp02().isEmpty()) {
+                            ProductOptionEntity option2 = optionMap.get(ci.getCiOp02());
+                            if (option2 != null && option2.getPopAddPrice() != null) {
+                                optionPrice += option2.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        
+                        return basePrice + optionPrice;
                     }
                     return 0;
                 })
                 .sum();
         
-        // 할인금액: 원래 가격에서 실제 결제 금액을 뺀 차이
+        // 할인금액: 원래 가격(상품가격 + 옵션가격)에서 실제 결제 금액을 뺀 차이
         int discountAmount = cartItems.stream()
                 .mapToInt(ci -> {
                     IndexDTO product = productMap.get(ci.getCiPPid());
                     if (product != null && product.getPPrice() != null && ci.getCiAmount() != null && ci.getCiTotPrice() != null) {
-                        int originalPrice = product.getPPrice() * ci.getCiAmount();
+                        int basePrice = product.getPPrice() * ci.getCiAmount();
+                        
+                        // 옵션 가격 추가
+                        int optionPrice = 0;
+                        if (ci.getCiOp01() != null && !ci.getCiOp01().isEmpty()) {
+                            ProductOptionEntity option1 = optionMap.get(ci.getCiOp01());
+                            if (option1 != null && option1.getPopAddPrice() != null) {
+                                optionPrice += option1.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        if (ci.getCiOp02() != null && !ci.getCiOp02().isEmpty()) {
+                            ProductOptionEntity option2 = optionMap.get(ci.getCiOp02());
+                            if (option2 != null && option2.getPopAddPrice() != null) {
+                                optionPrice += option2.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        
+                        int originalPrice = basePrice + optionPrice;
                         int discountedPrice = ci.getCiTotPrice();
                         return originalPrice - discountedPrice; // 할인된 금액
                     }
@@ -242,8 +277,8 @@ public class ProductController {
         // 추가할인: 기본값 0 (쿠폰 사용 시 계산)
         int additionalDiscount = 0;
         
-        // 전체주문금액: 상품금액 - 할인금액 - 배송비 - 추가할인
-        int finalAmount = productAmount - discountAmount - deliveryFee - additionalDiscount;
+        // 전체주문금액: 상품금액 + 배송비 - 할인금액 - 추가할인
+        int finalAmount = productAmount + deliveryFee - discountAmount - additionalDiscount;
         
         // 사용자의 사용 가능한 쿠폰 목록 조회
         List<Coupon> userCoupons = couponService.getAvailableCouponsByUserId(userId);
@@ -278,8 +313,281 @@ public class ProductController {
         return "inc/product/order";
     }
 
+    @PostMapping("/product/complete")
+    public String productCompletePost(Authentication authentication, Model model,
+                                    @RequestParam(required = false) String recipient,
+                                    @RequestParam(required = false) String phone,
+                                    @RequestParam(required = false) String postal,
+                                    @RequestParam(required = false) String baseAddr,
+                                    @RequestParam(required = false) String detailAddr,
+                                    @RequestParam(required = false) String request) {
+        // 현재 로그인한 사용자 정보 가져오기
+        String userId = authentication.getName();
+        
+        // 장바구니 아이템들 가져오기 (주문한 상품들)
+        List<CartItemsEntity> cartItems = cartService.getCartItemsByUserId(userId);
+        
+        // 상품 정보 맵 생성
+        Map<String, IndexDTO> productMap = new HashMap<>();
+        Map<String, ProductOptionEntity> optionMap = new HashMap<>();
+        
+        for (CartItemsEntity cartItem : cartItems) {
+            IndexDTO product = indexService.getProductById(cartItem.getCiPPid());
+            if (product != null) {
+                productMap.put(cartItem.getCiPPid(), product);
+            }
+            
+            // 옵션 정보 추가
+            if (cartItem.getCiOp01() != null && !cartItem.getCiOp01().isEmpty()) {
+                Optional<ProductOptionEntity> option1 = productOptionRepository.findById(cartItem.getCiOp01());
+                if (option1.isPresent()) {
+                    optionMap.put(cartItem.getCiOp01(), option1.get());
+                }
+            }
+            if (cartItem.getCiOp02() != null && !cartItem.getCiOp02().isEmpty()) {
+                Optional<ProductOptionEntity> option2 = productOptionRepository.findById(cartItem.getCiOp02());
+                if (option2.isPresent()) {
+                    optionMap.put(cartItem.getCiOp02(), option2.get());
+                }
+            }
+        }
+        
+        // 회원 정보 가져오기
+        Optional<MemberEntity> memberOptional = memberService.getMember(userId);
+        MemberEntity member = memberOptional.orElse(null);
+        
+        // 주문 정보 계산
+        int totalAmount = cartItems.stream()
+                .mapToInt(ci -> ci.getCiTotPrice() != null ? ci.getCiTotPrice() : 0)
+                .sum();
+        
+        int totalCount = cartItems.size();
+        
+        int productAmount = cartItems.stream()
+                .mapToInt(ci -> {
+                    IndexDTO product = productMap.get(ci.getCiPPid());
+                    if (product != null && product.getPPrice() != null && ci.getCiAmount() != null) {
+                        int basePrice = product.getPPrice() * ci.getCiAmount();
+                        
+                        // 옵션 가격 추가
+                        int optionPrice = 0;
+                        if (ci.getCiOp01() != null && !ci.getCiOp01().isEmpty()) {
+                            ProductOptionEntity option1 = optionMap.get(ci.getCiOp01());
+                            if (option1 != null && option1.getPopAddPrice() != null) {
+                                optionPrice += option1.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        if (ci.getCiOp02() != null && !ci.getCiOp02().isEmpty()) {
+                            ProductOptionEntity option2 = optionMap.get(ci.getCiOp02());
+                            if (option2 != null && option2.getPopAddPrice() != null) {
+                                optionPrice += option2.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        
+                        return basePrice + optionPrice;
+                    }
+                    return 0;
+                })
+                .sum();
+        
+        int discountAmount = cartItems.stream()
+                .mapToInt(ci -> {
+                    IndexDTO product = productMap.get(ci.getCiPPid());
+                    if (product != null && product.getPPrice() != null && ci.getCiAmount() != null && ci.getCiTotPrice() != null) {
+                        int basePrice = product.getPPrice() * ci.getCiAmount();
+                        
+                        // 옵션 가격 추가
+                        int optionPrice = 0;
+                        if (ci.getCiOp01() != null && !ci.getCiOp01().isEmpty()) {
+                            ProductOptionEntity option1 = optionMap.get(ci.getCiOp01());
+                            if (option1 != null && option1.getPopAddPrice() != null) {
+                                optionPrice += option1.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        if (ci.getCiOp02() != null && !ci.getCiOp02().isEmpty()) {
+                            ProductOptionEntity option2 = optionMap.get(ci.getCiOp02());
+                            if (option2 != null && option2.getPopAddPrice() != null) {
+                                optionPrice += option2.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        
+                        int originalPrice = basePrice + optionPrice;
+                        int discountedPrice = ci.getCiTotPrice();
+                        return originalPrice - discountedPrice;
+                    }
+                    return 0;
+                })
+                .sum();
+        
+        int deliveryFee = cartItems.stream()
+                .mapToInt(ci -> {
+                    IndexDTO product = productMap.get(ci.getCiPPid());
+                    return product != null && product.getPDeliveryPrice() != null ? product.getPDeliveryPrice() : 0;
+                })
+                .sum();
+        
+        int finalAmount = productAmount + deliveryFee - discountAmount;
+        
+        // 주문번호 생성 (임시로 현재 시간 기반)
+        String orderNumber = "ORD" + System.currentTimeMillis();
+        
+        // 배송정보 모델 추가
+        model.addAttribute("deliveryRecipient", recipient != null ? recipient : (member != null ? member.getUName() : "정보없음"));
+        model.addAttribute("deliveryPhone", phone != null ? phone : (member != null ? member.getUPhone() : "정보없음"));
+        model.addAttribute("deliveryPostal", postal != null ? postal : (member != null ? member.getUPostal() : ""));
+        model.addAttribute("deliveryBaseAddr", baseAddr != null ? baseAddr : (member != null ? member.getUBaseAddr() : ""));
+        model.addAttribute("deliveryDetailAddr", detailAddr != null ? detailAddr : (member != null ? member.getUDetailAddr() : ""));
+        model.addAttribute("deliveryRequest", request != null ? request : "");
+        
+        // 모델에 데이터 추가
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("productMap", productMap);
+        model.addAttribute("optionMap", optionMap);
+        model.addAttribute("member", member);
+        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("productAmount", productAmount);
+        model.addAttribute("discountAmount", discountAmount);
+        model.addAttribute("deliveryFee", deliveryFee);
+        model.addAttribute("finalAmount", finalAmount);
+        model.addAttribute("orderNumber", orderNumber);
+        
+        return "inc/product/complete";
+    }
+
     @GetMapping("/product/complete")
-    public String productComplete() {
+    public String productComplete(Authentication authentication, Model model) {
+        // 현재 로그인한 사용자 정보 가져오기
+        String userId = authentication.getName();
+        
+        // 장바구니 아이템들 가져오기 (주문한 상품들)
+        List<CartItemsEntity> cartItems = cartService.getCartItemsByUserId(userId);
+        
+        // 상품 정보 맵 생성
+        Map<String, IndexDTO> productMap = new HashMap<>();
+        Map<String, ProductOptionEntity> optionMap = new HashMap<>();
+        
+        for (CartItemsEntity cartItem : cartItems) {
+            IndexDTO product = indexService.getProductById(cartItem.getCiPPid());
+            if (product != null) {
+                productMap.put(cartItem.getCiPPid(), product);
+            }
+            
+            // 옵션 정보 추가
+            if (cartItem.getCiOp01() != null && !cartItem.getCiOp01().isEmpty()) {
+                Optional<ProductOptionEntity> option1 = productOptionRepository.findById(cartItem.getCiOp01());
+                if (option1.isPresent()) {
+                    optionMap.put(cartItem.getCiOp01(), option1.get());
+                }
+            }
+            if (cartItem.getCiOp02() != null && !cartItem.getCiOp02().isEmpty()) {
+                Optional<ProductOptionEntity> option2 = productOptionRepository.findById(cartItem.getCiOp02());
+                if (option2.isPresent()) {
+                    optionMap.put(cartItem.getCiOp02(), option2.get());
+                }
+            }
+        }
+        
+        // 회원 정보 가져오기
+        Optional<MemberEntity> memberOptional = memberService.getMember(userId);
+        MemberEntity member = memberOptional.orElse(null);
+        
+        // 주문 정보 계산
+        int totalAmount = cartItems.stream()
+                .mapToInt(ci -> ci.getCiTotPrice() != null ? ci.getCiTotPrice() : 0)
+                .sum();
+        
+        int totalCount = cartItems.size();
+        
+        int productAmount = cartItems.stream()
+                .mapToInt(ci -> {
+                    IndexDTO product = productMap.get(ci.getCiPPid());
+                    if (product != null && product.getPPrice() != null && ci.getCiAmount() != null) {
+                        int basePrice = product.getPPrice() * ci.getCiAmount();
+                        
+                        // 옵션 가격 추가
+                        int optionPrice = 0;
+                        if (ci.getCiOp01() != null && !ci.getCiOp01().isEmpty()) {
+                            ProductOptionEntity option1 = optionMap.get(ci.getCiOp01());
+                            if (option1 != null && option1.getPopAddPrice() != null) {
+                                optionPrice += option1.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        if (ci.getCiOp02() != null && !ci.getCiOp02().isEmpty()) {
+                            ProductOptionEntity option2 = optionMap.get(ci.getCiOp02());
+                            if (option2 != null && option2.getPopAddPrice() != null) {
+                                optionPrice += option2.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        
+                        return basePrice + optionPrice;
+                    }
+                    return 0;
+                })
+                .sum();
+        
+        int discountAmount = cartItems.stream()
+                .mapToInt(ci -> {
+                    IndexDTO product = productMap.get(ci.getCiPPid());
+                    if (product != null && product.getPPrice() != null && ci.getCiAmount() != null && ci.getCiTotPrice() != null) {
+                        int basePrice = product.getPPrice() * ci.getCiAmount();
+                        
+                        // 옵션 가격 추가
+                        int optionPrice = 0;
+                        if (ci.getCiOp01() != null && !ci.getCiOp01().isEmpty()) {
+                            ProductOptionEntity option1 = optionMap.get(ci.getCiOp01());
+                            if (option1 != null && option1.getPopAddPrice() != null) {
+                                optionPrice += option1.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        if (ci.getCiOp02() != null && !ci.getCiOp02().isEmpty()) {
+                            ProductOptionEntity option2 = optionMap.get(ci.getCiOp02());
+                            if (option2 != null && option2.getPopAddPrice() != null) {
+                                optionPrice += option2.getPopAddPrice() * ci.getCiAmount();
+                            }
+                        }
+                        
+                        int originalPrice = basePrice + optionPrice;
+                        int discountedPrice = ci.getCiTotPrice();
+                        return originalPrice - discountedPrice;
+                    }
+                    return 0;
+                })
+                .sum();
+        
+        int deliveryFee = cartItems.stream()
+                .mapToInt(ci -> {
+                    IndexDTO product = productMap.get(ci.getCiPPid());
+                    return product != null && product.getPDeliveryPrice() != null ? product.getPDeliveryPrice() : 0;
+                })
+                .sum();
+        
+        int finalAmount = productAmount + deliveryFee - discountAmount;
+        
+        // 주문번호 생성 (임시로 현재 시간 기반)
+        String orderNumber = "ORD" + System.currentTimeMillis();
+        
+        // 기본 배송정보 (GET 요청 시에는 회원 정보 사용)
+        model.addAttribute("deliveryRecipient", member != null ? member.getUName() : "정보없음");
+        model.addAttribute("deliveryPhone", member != null ? member.getUPhone() : "정보없음");
+        model.addAttribute("deliveryPostal", member != null ? member.getUPostal() : "");
+        model.addAttribute("deliveryBaseAddr", member != null ? member.getUBaseAddr() : "");
+        model.addAttribute("deliveryDetailAddr", member != null ? member.getUDetailAddr() : "");
+        model.addAttribute("deliveryRequest", "");
+        
+        // 모델에 데이터 추가
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("productMap", productMap);
+        model.addAttribute("optionMap", optionMap);
+        model.addAttribute("member", member);
+        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("productAmount", productAmount);
+        model.addAttribute("discountAmount", discountAmount);
+        model.addAttribute("deliveryFee", deliveryFee);
+        model.addAttribute("finalAmount", finalAmount);
+        model.addAttribute("orderNumber", orderNumber);
+        
         return "inc/product/complete";
     }
 
