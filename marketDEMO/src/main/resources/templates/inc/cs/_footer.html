@@ -42,14 +42,10 @@
         </div>
 
         <!-- 하단 카피라이트 + 버전 정보 -->
-        <div class="footer-bottom" style="margin-top:30px; text-align:center; font-size:12px; color:#666;">
-            <span>
-                Copyright © [[${version.copylight}]].
-                All rights reserved. | ADMINISTRATOR
-                <strong>[[${version.vname}]]</strong> |
-                Updated: [[${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}]]
-            </span>
+        <div class="admin-footer">
+              <span th:text="${site != null ? site.copyright + ' Kmarket ADMINISTRATOR Version ' + site.version
+                                            : 'Copyright ©Kmarket.co.kr All rights reserved. Kmarket ADMINISTRATOR Version 0.0.4'}">
+              </span>
         </div>
     </footer>
 </div>
-<!-- 강민철 2025-10-21 1214 -->
