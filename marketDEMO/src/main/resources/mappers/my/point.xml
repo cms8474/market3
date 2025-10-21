@@ -2,6 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 강민철 2025-10-20 1710 -->
 <mapper namespace="kr.co.team3.mapper.my.PointMapper">
     <!-- 포인트 내역 조회용 where절 -->
     <sql id="searchWhere">
@@ -53,7 +54,9 @@
         FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
     </select>
     <select id="selectCountHistory" resultType="int">
-        SELECT COUNT(*) FROM POINT_HISTORY
+        SELECT COUNT(*)
+        FROM POINT_HISTORY ph
+        JOIN PRODUCT_ORDER po ON ph.UH_PO_NO = po.PO_NO
         <include refid="searchWhere"/>
     </select>
 </mapper>

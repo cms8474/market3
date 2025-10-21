@@ -46,8 +46,10 @@ public class AdminConfigController {
         model.addAttribute("contentFragment", "inc/admin/config/basic :: content");
         model.addAttribute("pageCss", "/css/admin_config_basic.css");
 
+        // 강민철 2025-10-21 1214 수정
+        // GlobalInfoController에서 뿌림
         // 화면에 뿌릴 최신 레코드
-        model.addAttribute("v", v);
+        // model.addAttribute("v", v);
 
         return "admin";
     }
@@ -79,7 +81,7 @@ public class AdminConfigController {
                             @RequestParam(required = false) String disputeTel,
 
                             // 저작권
-                            @RequestParam(required = false) String copyright,
+                            @RequestParam(required = false) String copylight,
 
                             RedirectAttributes ra) {
 
@@ -107,8 +109,8 @@ public class AdminConfigController {
                 versionService.updateSupport(csTel, csHours, csEmail, disputeTel);
                 ra.addFlashAttribute("msg", "고객센터 정보가 저장되었습니다.");
             }
-            case "save-copyright" -> {
-                versionService.updateCopyright(copyright);
+            case "save-copylight" -> {
+                versionService.updatecopylight(copylight);
                 ra.addFlashAttribute("msg", "카피라이트가 저장되었습니다.");
             }
             default -> {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.policy_mapper.TermsMapper">
+
+    <select id="findByName" parameterType="string" resultType="kr.co.team3.policy_dto.TermsDTO">
+        SELECT
+            t_name AS tName,
+            t_body AS tBody
+        FROM m_terms
+        WHERE t_name = #{tName}
+    </select>
+
+</mapper>
