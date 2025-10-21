@@ -1,0 +1,161 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.team3.admin_mapper.AdminCouponMapper">
+
+    <resultMap id="CouponMap" type="kr.co.team3.admin_dto.CouponDTO">
+        <id     property="cId"        column="C_ID"/>
+        <result property="ctType"     column="C_CT_TYPE"/>
+        <result property="cName"      column="C_NAME"/>
+        <result property="benefit"    column="BENEFIT"/>
+        <result property="startDay"   column="C_START_DAY"/>
+        <result property="endDay"     column="C_END_DAY"/>
+        <result property="issuerUid"  column="C_S_U_ID"/>
+        <result property="issuerName" column="S_COMPANY_NAME"/>
+        <result property="amount"     column="C_AMOUNT"/>
+        <result property="used"       column="C_USED"/>
+        <result property="status"     column="C_STATUS"/>
+        <result property="regDate"    column="C_REG_DATE"/>
+    </resultMap>
+
+    <!-- 검색 WHERE: cId / cName / issuer(발급자) -->
+    <sql id="searchWhere">
+        <where>
+            <if test="req.keyword != null and req.keyword != '' and req.searchType != null and req.searchType != ''">
+                <choose>
+                    <when test='req.searchType == "cId"'>
+                        AND C.C_ID LIKE '%' || #{req.keyword} || '%'
+                    </when>
+                    <when test='req.searchType == "cName"'>
+                        AND C.C_NAME LIKE '%' || #{req.keyword} || '%'
+                    </when>
+                    <when test='req.searchType == "issuer"'>
+                        AND (
+                        C.C_S_U_ID LIKE '%' || #{req.keyword} || '%'
+                        OR SI.S_COMPANY_NAME LIKE '%' || #{req.keyword} || '%'
+                        )
+                    </when>
+                </choose>
+            </if>
+
+        </where>
+    </sql>
+
+    <!-- 목록 (Oracle ROWNUM 페이징) -->
+    <select id="selectCouponList" parameterType="map" resultMap="CouponMap">
+        SELECT * FROM (
+        SELECT inner_.*, ROWNUM rn FROM (
+        SELECT
+        C.C_ID,
+        C.C_CT_TYPE,
+        C.C_NAME,
+        /* 혜택 가공: C_TEXT 우선, 없으면 할인정보 결합 */
+        NVL(
+        NULLIF(C.C_TEXT, ''),
+        TRIM(
+        CASE
+        WHEN C.C_DIS_MONEY IS NOT NULL AND C.C_DIS_DELIVERY IS NOT NULL
+        THEN C.C_DIS_MONEY || ' / 배송:' || C.C_DIS_DELIVERY
+        WHEN C.C_DIS_MONEY IS NOT NULL
+        THEN C.C_DIS_MONEY
+        WHEN C.C_DIS_DELIVERY IS NOT NULL
+        THEN '배송:' || C.C_DIS_DELIVERY
+        ELSE ''
+        END
+        )
+        ) AS BENEFIT,
+        C.C_START_DAY,
+        C.C_END_DAY,
+        C.C_S_U_ID,
+        SI.S_COMPANY_NAME,
+        C.C_AMOUNT,
+        C.C_USED,
+        C.C_STATUS,
+        /* 발급일 컬럼 없음 → NULL 반환 (선택: 컬럼 추가 시 변경) */
+        CAST(NULL AS TIMESTAMP) AS C_REG_DATE
+        FROM COUPON C
+        JOIN COUPON_TYPE T ON T.CT_TYPE = C.C_CT_TYPE
+        LEFT JOIN SELLER_INFO SI ON SI.S_U_ID = C.C_S_U_ID
+        <include refid="searchWhere"/>
+        ORDER BY C.C_START_DAY DESC, C.C_ID DESC
+        ) inner_
+        WHERE ROWNUM &lt;= #{req.offset} + #{req.size}
+        )
+        WHERE rn &gt; #{req.offset}
+    </select>
+
+    <!-- 전체 개수 -->
+    <select id="countCouponList" parameterType="map" resultType="int">
+        SELECT COUNT(1)
+        FROM COUPON C
+        JOIN COUPON_TYPE T ON T.CT_TYPE = C.C_CT_TYPE
+        LEFT JOIN SELLER_INFO SI ON SI.S_U_ID = C.C_S_U_ID
+        <include refid="searchWhere"/>
+    </select>
+
+    <!-- 쿠폰 등록 -->
+    <insert id="insertCoupon" parameterType="kr.co.team3.admin_dto.CouponDTO">
+        INSERT INTO COUPON (
+            C_S_U_ID,     -- 발급처
+            C_CT_TYPE,    -- 쿠폰종류
+            C_NAME,       -- 쿠폰명
+            C_TEXT,       -- 혜택
+            C_START_DAY,  -- 시작일
+            C_END_DAY,    -- 종료일
+            C_AMOUNT,     -- 발급수
+            C_USED,       -- 사용수
+            C_STATUS      -- 상태
+        )
+        VALUES (
+                   #{issuerUid},
+                   #{ctType},
+                   #{cName},
+                   #{benefit},
+                   #{startDay},
+                   #{endDay},
+                   0,             -- 발급수
+                   0,             -- 사용수
+                   '발급가능'     -- 상태 기본값
+               )
+    </insert>
+
+    <update id="closeCoupon" parameterType="string">
+        UPDATE COUPON
+        SET C_STATUS = '종료'
+        WHERE C_ID = #{cId}
+    </update>
+
+    <!-- 상세 조회 -->
+    <select id="selectCouponDetail" parameterType="string" resultMap="CouponMap">
+        SELECT
+            C.C_ID,
+            C.C_CT_TYPE,
+            C.C_NAME,
+            NVL(
+                    NULLIF(C.C_TEXT, ''),
+                    TRIM(
+                            CASE
+                                WHEN C.C_DIS_MONEY IS NOT NULL AND C.C_DIS_DELIVERY IS NOT NULL
+                                    THEN C.C_DIS_MONEY || ' / 배송:' || C.C_DIS_DELIVERY
+                                WHEN C.C_DIS_MONEY IS NOT NULL
+                                    THEN C.C_DIS_MONEY
+                                WHEN C.C_DIS_DELIVERY IS NOT NULL
+                                    THEN '배송:' || C.C_DIS_DELIVERY
+                                ELSE ''
+                                END
+                    )
+            ) AS BENEFIT,
+            C.C_START_DAY,
+            C.C_END_DAY,
+            C.C_S_U_ID,
+            SI.S_COMPANY_NAME,
+            C.C_AMOUNT,
+            C.C_USED,
+            C.C_STATUS
+        FROM COUPON C
+                 JOIN COUPON_TYPE T ON T.CT_TYPE = C.C_CT_TYPE
+                 LEFT JOIN SELLER_INFO SI ON SI.S_U_ID = C.C_S_U_ID
+        WHERE C.C_ID = #{cId}
+    </select>
+
+</mapper>

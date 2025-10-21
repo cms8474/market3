@@ -13,7 +13,7 @@
         <div class="footer-content" style="max-width:1100px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap;">
 
             <div class="company-info" style="width:48%; min-width:300px;">
-                <img th:src="@{/images/로고.png}" alt="회사 로고" class="footer-logo" style="width:60px; margin-bottom:10px;">
+                <img th:src="@{/images/logo.png}" alt="회사 로고" class="footer-logo" style="width:60px; margin-bottom:10px;">
                 <p><strong>(주)케이마켓</strong></p>
                 <p>부산광역시 부산진구 중앙대로 103 그린타워 13층</p>
                 <p>대표이사 : 홍길동</p>
@@ -28,14 +28,10 @@
         </div>
 
         <!-- 하단 카피라이트 + 버전 정보 -->
-        <div class="footer-bottom" style="margin-top:30px; text-align:center; font-size:12px; color:#666;">
-            <span>
-                Copyright © K_MARKET.
-                All rights reserved. | ADMINISTRATOR
-                <strong>Version 0.0.4</strong> |
-                Updated: <span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span>
-            </span>
+        <div class="admin-footer">
+              <span th:text="${site != null ? site.copyright + ' Kmarket ADMINISTRATOR Version ' + site.version
+                                            : 'Copyright ©Kmarket.co.kr All rights reserved. Kmarket ADMINISTRATOR Version 0.0.4'}">
+              </span>
         </div>
-
     </footer>
 </div>

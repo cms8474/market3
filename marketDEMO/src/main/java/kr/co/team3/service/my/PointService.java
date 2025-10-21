@@ -1,11 +1,15 @@
 package kr.co.team3.service.my;
 
+import kr.co.team3.dto.my.PageRequestDTO;
+import kr.co.team3.dto.my.PageResponseDTO;
 import kr.co.team3.dto.my.PointDTO;
 import kr.co.team3.mapper.my.PointMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+// 강민철 2025-10-20 1710
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +29,23 @@ public class PointService {
 
     public int getOwnPoints(String uId){
         return pointMapper.selectPoints(uId);
+    }
+
+    public PageResponseDTO selectAll(String uId, PageRequestDTO pageRequestDTO){
+        List<PointDTO> dtoList = pointMapper.selectAll(uId, pageRequestDTO);
+        dtoList.forEach(dto -> {
+            String formatted =  dto.getPoOrderdate().substring(0, 10);
+            dto.setPoOrderdate(formatted);
+            formatted =  dto.getUhDday().substring(0, 10);
+            dto.setUhDday(formatted);
+        });
+
+        int total = pointMapper.selectCountHistory(uId, pageRequestDTO);
+
+        return PageResponseDTO.builder()
+                .pageRequestDTO(pageRequestDTO)
+                .pointDTOList(dtoList)
+                .total(total)
+                .build();
     }
 }

@@ -31,7 +31,30 @@ public interface MemberMapper {
     // 약관 조회
     String getTermsContent(String termName);
 
+
+    // ========== 관리자 기능 ==========
     //관리자 회원목록 조회
     List<MemberDTO> selectMemberList(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
     int selectCountTotal(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
+
+
+    // 회원 단건 조회 , 수정
+    MemberDTO selectMemberById(String u_id);
+
+    int updateMemberProfile(MemberDTO dto);
+
+
+    //회원 상태 업데이트
+    int updateStatusToStop(String u_id);
+
+    int updateStatusToActive(String u_id);
+
+    int deactivateMember(String u_id);
+
+    int makeDormantOver90Days();
+
+    //선택수정
+    int bulkUpdateRanks(@Param("list") List<MemberDTO> list);
+
+
 }

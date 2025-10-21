@@ -1,10 +1,13 @@
 package kr.co.team3.controller.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
+import kr.co.team3.admin_entity.Banner;
 import kr.co.team3.admin_service.BannerService;
 import kr.co.team3.admin_service.PolicyService;
 import kr.co.team3.admin_service.VersionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,10 +25,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
-import static com.querydsl.core.util.StringUtils.nullToEmpty;
-
+@Slf4j
 @Controller
 @RequestMapping("/admin/config")
+@RequiredArgsConstructor
 public class AdminConfigController {
     private final VersionService versionService;
     private final BannerService bannerService;
@@ -33,12 +36,6 @@ public class AdminConfigController {
 
     @Value("${app.upload-dir:upload}")
     private String uploadDir;
-
-    public AdminConfigController(VersionService versionService, BannerService bannerService, PolicyService policyService) {
-        this.versionService = versionService;
-        this.bannerService = bannerService;
-        this.policyService = policyService;
-    }
 
     @GetMapping("/basic")
     public String basic(Model model) {
@@ -82,7 +79,7 @@ public class AdminConfigController {
                             @RequestParam(required = false) String disputeTel,
 
                             // 저작권
-                            @RequestParam(required = false) String copyright,
+                            @RequestParam(required = false) String copylight,
 
                             RedirectAttributes ra) {
 
@@ -110,8 +107,8 @@ public class AdminConfigController {
                 versionService.updateSupport(csTel, csHours, csEmail, disputeTel);
                 ra.addFlashAttribute("msg", "고객센터 정보가 저장되었습니다.");
             }
-            case "save-copyright" -> {
-                versionService.updateCopyright(copyright);
+            case "save-copylight" -> {
+                versionService.updatecopylight(copylight);
                 ra.addFlashAttribute("msg", "카피라이트가 저장되었습니다.");
             }
             default -> {
@@ -139,14 +136,18 @@ public class AdminConfigController {
     }
 
     @GetMapping("/banner")
-    public String banner( @RequestParam(name="tab", required=false, defaultValue="MAIN_TOP") String tab,Model model) {
+    public String banner( @RequestParam(name="tab", required=false, defaultValue="MAIN_TOP") String tab,Model model,
+                          HttpServletRequest request) {
+
+        request.getAttribute(CsrfToken.class.getName());
+
         model.addAttribute("pageTitle","배너관리");
         model.addAttribute("activeMenu", "config-banner");
         model.addAttribute("contentFragment", "inc/admin/config/banner :: content");
         model.addAttribute("pageCss", "/css/config/admin_config_banner.css");
         model.addAttribute("tab", tab);
 
-        model.addAttribute("banners", bannerService.list(tab));
+        model.addAttribute("banners", bannerService.list());
 
         return "admin";
 
@@ -168,33 +169,30 @@ public class AdminConfigController {
         if (!"create".equalsIgnoreCase(action)) {
             return "redirect:/admin/config/banner?tab=" + position;
         }
+            log.info("[BANNER] POST in: action={}, name={}, position={}, hasImage={}",
+                    action, name, position, image!=null && !image.isEmpty());
         try {
             LocalDateTime startDateTime = composeDateTime(startDate, startTimeStr);
             LocalDateTime endDateTime = composeDateTime(endDate, endTimeStr);
-            bannerService.create(
+            Banner saved = bannerService.create(
                     name, size, bgColor, linkUrl, position,
                     startDate, endDate, startDateTime, endDateTime, image
             );
+            log.info("[BANNER] saved id={}", saved.getANo());
             ra.addFlashAttribute("msg", "배너가 등록되었습니다.");
         } catch (Exception e) {
+            log.error("[BANNER] create failed", e);
             ra.addFlashAttribute("msg", "error: " + e.getMessage());
         }
             return "redirect:/admin/config/banner?tab=" + position;
         }
 
-    @PostMapping("/banner/delete")
-    public String deleteBanners(@RequestParam(name = "ids", required = false) List<Long> ids,
-                                @RequestParam(name = "tab", required = false, defaultValue = "MAIN_TOP") String tab,
-                                RedirectAttributes ra) {
-        try {
-            bannerService.deleteByIds(ids);
-            ra.addFlashAttribute("msg", "선택한 배너가 삭제되었습니다.");
-        } catch (Exception e) {
-            ra.addFlashAttribute("msg", "error " + e.getMessage());
-        }
-        return "redirect:/admin/config/banner?tab=" + tab;
+    @PostMapping(value = "/banner/delete", consumes = "application/json")
+    @ResponseBody
+    public Map<String, Object> deleteBanners(@RequestBody List<Long> ids) {
+        bannerService.deleteByIds(ids);
+        return Map.of("ok", true, "count", ids.size());
     }
-
 
     private LocalDateTime composeDateTime(LocalDate d, String hm) {
         if (d == null || hm == null || hm.isBlank()) return null;

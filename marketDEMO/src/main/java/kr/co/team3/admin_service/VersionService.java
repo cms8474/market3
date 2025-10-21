@@ -62,9 +62,9 @@ public class VersionService {
         next.setId(null);
         versionRepository.save(next);
     }
-    public void updateCopyright(String copyright) {
+    public void updatecopylight(String copylight) {
         Version next = baseOrEmpty().copy();
-        next.setCopylight(copyright);
+        next.setCopylight(copylight);
         next.setId(null);
         versionRepository.save(next);
     }
