@@ -12,6 +12,7 @@ import kr.co.team3.product_dto.CsDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -426,13 +428,17 @@ public class AdminCsController {
 
 
     /*------------------ Recruit ------------------*/
-    @GetMapping("/recruit/list")
-    public String recruitList(HttpServletRequest request, Model model) {
-        request.getSession();
-        List<Recruitment> list = recruitmentService.findAll();
 
-        log.info("recruit list size = {}", list.size());
-        model.addAttribute("list", list);
+    @GetMapping("/recruit/list")
+    public String recruitList(@RequestParam(required = false) String searchType,
+                              @RequestParam(required = false) String keyword,
+                              @PageableDefault(size = 10, sort = "recruitRegDate", direction = Sort.Direction.DESC)
+                              Pageable pageable,
+                              Model model) {
+        Page<Recruitment> page = recruitmentService.findPage(searchType, keyword, pageable);
+        model.addAttribute("page", page);
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("keyword", keyword);
         return "admin/cs/recruit/recruitList";
     }
 

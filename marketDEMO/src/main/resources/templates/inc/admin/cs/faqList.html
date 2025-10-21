@@ -86,12 +86,24 @@
             </div>
 
             <div class="center pagination">
-                <a th:if="${!page.first}" th:href="@{|?page=${page.number - 1}&q=${q}&cate=${cate}|}">이전</a>
+                <!-- 이전 -->
+                <a th:if="${!page.first}"
+                   th:href="@{/admin/cs/faq/list(page=${page.number - 1}, size=${page.size}, q=${q}, cate=${cate})}">
+                    이전
+                </a>
+
+                <!-- 페이지 번호 -->
                 <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-                   th:href="@{|?page=${i}&q=${q}&cate=${cate}|}"
+                   th:href="@{/admin/cs/faq/list(page=${i}, size=${page.size}, q=${q}, cate=${cate})}"
                    th:text="${i + 1}"
-                   th:classappend="${i == page.number} ? 'active'">1</a>
-                <a th:if="${!page.last}" th:href="@{|?page=${page.number + 1}&q=${q}&cate=${cate}|}">다음</a>
+                   th:classappend="${i == page.number} ? 'active'">
+                </a>
+
+                <!-- 다음 -->
+                <a th:if="${!page.last}"
+                   th:href="@{/admin/cs/faq/list(page=${page.number + 1}, size=${page.size}, q=${q}, cate=${cate})}">
+                    다음
+                </a>
             </div>
 
             <div class="right">
@@ -207,8 +219,25 @@
         }
         syncCateHidden();
 
-        // 폼 제출 전 최종 동기화
-        $form.addEventListener('submit', syncCateHidden);
+        $form.addEventListener('submit', (e) => {
+            syncCateHidden();
+
+            const hasLv1 = !!$lv1.value;             // 1차 선택 여부
+            const hasLv2Options = !$lv2.disabled      // 2차 셀렉트가 활성화(=옵션 존재)
+                && $lv2.options.length > 1; // placeholder 외 실옵션 존재
+            const hasLv2 = !!$lv2.value;              // 2차 선택 여부
+
+            // 1차를 골랐고, 2차 옵션이 존재하는데(=고를 수 있는데) 2차를 안 골랐다면 막기
+            if (hasLv1 && hasLv2Options && !hasLv2) {
+                e.preventDefault();
+                alert('2차까지 선택해 주세요.');
+                $lv2.focus();
+                return false;
+            }
+
+            // 그 외에는 정상 제출 (예: 1차만 있고 2차가 아예 없는 경우, 혹은 둘 다 비움)
+            return true;
+        });
     </script>
 
 </th:block>

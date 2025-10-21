@@ -13,46 +13,46 @@ import java.time.LocalDate;
 @Builder
 public class RecruitmentDTO {
 
-    private int r_no;
-    private String r_dept;
-    private String r_career;
+    private int recruitNo;
+    private String recruitDept;
+    private String recruitCareer;
 
-    private String r_type;
-    private String r_title;
-    private String r_status;
+    private String recruitType;
+    private String recruitTitle;
+    private String recruitStatus;
 
-    private String r_start_date;
-    private String r_end_date;
-    private String r_reg_date;
+    /** 폼에서 받는 yyyy-MM-dd 문자열 */
+    private String recruitStartDate;
+    private String recruitEndDate;
+    private String recruitRegDate; // 표시용 날짜 문자열
 
-
-
+    /** DTO → Entity */
     public Recruitment toEntity() {
         return Recruitment.builder()
-                .r_no(r_no)
-                .r_dept(r_dept)
-                .r_career(r_career)
-                .r_type(r_type)
-                .r_title(r_title)
-                .r_status(r_status != null ? r_status : "모집중")
-                .r_start_date(parseDate(r_start_date))
-                .r_end_date(parseDate(r_end_date))
+                .recruitNo(recruitNo)
+                .recruitDept(recruitDept)
+                .recruitCareer(recruitCareer)
+                .recruitType(recruitType)
+                .recruitTitle(recruitTitle)
+                .recruitStatus(recruitStatus != null ? recruitStatus : "모집중")
+                .recruitStartDate(parseDate(recruitStartDate))
+                .recruitEndDate(parseDate(recruitEndDate))
                 .build();
     }
 
     private LocalDate parseDate(String dateStr) {
         if (dateStr == null || dateStr.isBlank()) return null;
-        return LocalDate.parse(dateStr);
+        return LocalDate.parse(dateStr); // yyyy-MM-dd
     }
 
+    /** 계산 상태 (DTO 측에서도 필요하면 사용) */
     public String getComputedStatus() {
         LocalDate today = LocalDate.now();
-        LocalDate start = parseDate(r_start_date);
-        LocalDate end = parseDate(r_end_date);
-
+        LocalDate start = parseDate(recruitStartDate);
+        LocalDate end   = parseDate(recruitEndDate);
         if (start == null || end == null) return "미정";
         if (today.isBefore(start)) return "모집예정";
-        else if (!today.isAfter(end)) return "모집중";
-        else return "종료";
+        if (!today.isAfter(end))   return "모집중";
+        return "종료";
     }
 }

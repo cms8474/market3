@@ -81,13 +81,24 @@
             </div>
 
             <div class="center pagination">
-                <a href="#">이전</a>
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">다음</a>
+                <!-- 이전 -->
+                <a th:if="${!page.first}"
+                   th:href="@{/admin/cs/qna/list(page=${page.number - 1}, size=${page.size}, q=${q}, cate=${cate})}">
+                    이전
+                </a>
+
+                <!-- 페이지 번호 -->
+                <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                   th:href="@{/admin/cs/qna/list(page=${i}, size=${page.size}, q=${q}, cate=${cate})}"
+                   th:text="${i + 1}"
+                   th:classappend="${i == page.number} ? 'active'">
+                </a>
+
+                <!-- 다음 -->
+                <a th:if="${!page.last}"
+                   th:href="@{/admin/cs/qna/list(page=${page.number + 1}, size=${page.size}, q=${q}, cate=${cate})}">
+                    다음
+                </a>
             </div>
             <div class="right"></div>
 
@@ -213,7 +224,22 @@
         syncCateHidden();
 
         // 폼 제출 전 최종 동기화
-        $form.addEventListener('submit', syncCateHidden);
-    </script>
+        // 폼 제출 전 최종 동기화 + 2차 선택 강제
+        $form.addEventListener('submit', (e) => {
+            syncCateHidden();
+
+            const hasLv1 = !!$lv1.value;                         // 1차 선택 여부
+            const hasLv2Options = !$lv2.disabled && $lv2.options.length > 1; // 2차 옵션 존재?
+            const hasLv2 = !!$lv2.value;                         // 2차 선택 여부
+
+            // 1차를 선택했고, 2차 옵션이 존재하지만 2차를 선택하지 않았다면 경고 후 막기
+            if (hasLv1 && hasLv2Options && !hasLv2) {
+                e.preventDefault();
+                alert('2차까지 선택해 주세요.');
+                $lv2.focus();
+                return false;
+            }
+            return true;
+        });    </script>
 
 </th:block>

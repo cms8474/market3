@@ -72,16 +72,33 @@
             </div>
 
             <div class="center pagination">
+                <!-- 이전 -->
                 <a th:if="${!page.first}"
-                   th:href="@{|?page=${page.number - 1}&q=${q}&cate=${cate}|}">이전</a>
+                   th:href="@{/admin/cs/notice/list(page=${#bools.isTrue(@environment.getProperty('spring.data.web.pageable.one-indexed-parameters')) ? page.number : page.number - 1},
+                                       size=${page.size},
+                                       q=${q},
+                                       cate=${cate})}">
+                    이전
+                </a>
 
+                <!-- 번호 -->
                 <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-                   th:href="@{|?page=${i}&q=${q}&cate=${cate}|}"
+                   th:href="@{/admin/cs/notice/list(page=${#bools.isTrue(@environment.getProperty('spring.data.web.pageable.one-indexed-parameters')) ? (i + 1) : i},
+                                      size=${page.size},
+                                      q=${q},
+                                      cate=${cate})}"
                    th:text="${i + 1}"
-                   th:classappend="${i == page.number} ? 'active'">1</a>
+                   th:classappend="${i == page.number} ? 'active'">
+                </a>
 
+                <!-- 다음 -->
                 <a th:if="${!page.last}"
-                   th:href="@{|?page=${page.number + 1}&q=${q}&cate=${cate}|}">다음</a>
+                   th:href="@{/admin/cs/notice/list(page=${#bools.isTrue(@environment.getProperty('spring.data.web.pageable.one-indexed-parameters')) ? page.number + 2 : page.number + 1},
+                                      size=${page.size},
+                                      q=${q},
+                                      cate=${cate})}">
+                    다음
+                </a>
             </div>
 
             <div class="right">
