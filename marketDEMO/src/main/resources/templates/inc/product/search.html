@@ -22,16 +22,6 @@
             color: #333;
         }
 
-        /* 검색바 컨테이너 */
-        .search-bar {
-            border: 1px solid #ddd;
-            padding: 12px;
-            background: #fafafa;
-            margin-bottom: 16px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
         /* 검색바 한 줄 */
         .search-row {
             display: flex;
@@ -123,8 +113,8 @@
 
             <!-- 검색결과 요약 -->
             <div class="search-summary">
-                <span class="keyword">셔츠</span> 검색결과
-                <span class="count">(총 : 20건)</span>
+                <span class="keyword" th:text="${pageResponseDTO.keyword}">셔츠</span> 검색결과
+                <span class="count">(총 : [[${pageResponseDTO.total}]]건)</span>
             </div>
 
             <!-- ✅ 검색바 -->
@@ -164,31 +154,34 @@
 
             <!-- ✅ 검색 결과 리스트 -->
             <ul class="products">
-                <li class="product">
+                <li class="product" th:each="product : ${pageResponseDTO.dtoList}" th:object="${product}">
                     <img th:src="@{/images/로고.png}" alt="상품이미지">
 
                     <!-- 가운데 정보 -->
                     <div class="info">
-                        <h3 class="name">상품명</h3>
-                        <p class="desc">간단한 상품 설명</p>
+                        <h3 class="name" th:text="*{PName}">상품명</h3>
+                        <p class="desc" th:text="*{PDesc}">간단한 상품 설명</p>
                         <div class="delivery-badges">
-                            <span class="badge shipping">무료배송</span>
+                            <span class="badge shipping" th:text="*{PDeliveryPrice} == 0 ? '무료배송' : '　'">무료배송</span>
                         </div>
                         <div class="seller-line">
-                            판매자 <span class="seller-name">상호명</span>
+                            <span class="seller-name" th:text="*{SCompanyName}">상호명</span>
                             <span class="badge grade">그린등급</span>
                         </div>
                         <div class="rating-line">
-                            상품평 <span class="stars">★★★★☆</span> <span class="count">(120)</span>
+                            상품평 <span class="stars">★★★★☆</span> <span class="count" th:text="'('+*{PViewCount}+')'">(120)</span>
                         </div>
                     </div>
 
                     <!-- 우측 가격 -->
                     <div class="meta-right">
-                        <div class="sale-price">27,000원</div>
+                        <div class="sale-price">
+                            <b style="font-size: x-large;"
+                               th:text="${#numbers.formatInteger(product.PPrice * (100 - product.PDiscount) / 100, 3, 'COMMA')}+'원'">27,000원</b>
+                        </div>
                         <div class="origin-line">
-                            <span class="origin">30,000원</span>
-                            <span class="discount">10% ↓</span>
+                            <span class="origin" th:text="${#numbers.formatInteger(product.PPrice, 3, 'COMMA')}+'원'">30,000원</span>
+                            <span class="discount" th:text="*{PDiscount}+'% ↓'">10% ↓</span>
                         </div>
                     </div>
                 </li>
@@ -196,9 +189,9 @@
 
             <!-- ✅ 페이지네이션 -->
             <div class="pagination">
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
+                <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                    <a th:href="@{/product/search(pg=${num}, keyword=${pageResponseDTO.keyword})}" th:class="${num == pageResponseDTO.pg ? 'current' : 'num'}">[[${num}]]</a>
+                </th:block>
             </div>
         </section>
     </div>
@@ -209,3 +202,4 @@
 
 </body>
 </html>
+<!-- 강민철 2025-10-21 1703 -->

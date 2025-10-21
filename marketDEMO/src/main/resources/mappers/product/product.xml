@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 강민철 2025-10-21 1703 -->
+<mapper namespace="kr.co.team3.mapper.product.ProductMapper">
+    <select id="selectWithKeyword" resultType="kr.co.team3.dto.product.ProductDTO">
+        SELECT t.*, NVL(AVG(pr.PR_STAR), 0) AS star_avg, si.S_COMPANY_NAME
+        FROM PRODUCT_ITEM t
+        LEFT JOIN PRODUCT_REVIEW pr
+        ON t.P_PID = pr.PR_P_PID
+        JOIN SELLER_INFO si
+        ON t.P_SELLER_ID = si.S_U_ID
+        GROUP BY t.P_PID,
+        t.P_NAME,
+        t.P_DESC,
+        t.P_PRICE,
+        t.P_DISCOUNT,
+        t.P_POINT,
+        t.P_STOCK_QUANTITY,
+        t.P_DELIVERY_PRICE,
+        t.P_REGDATE,
+        t.P_SELLER_ID,
+        t.P_PC_ID,
+        t.P_IAMGE_LIST,
+        t.P_IMAGE_MAIN,
+        t.P_IMAGE_DETAIL,
+        t.P_DETAIL_INFO,
+        t.P_VIEW_COUNT,
+        si.S_COMPANY_NAME
+        HAVING t.P_NAME LIKE '%' || #{pageRequestDTO.keyword} || '%'
+        OR t.P_DESC LIKE '%' || #{pageRequestDTO.keyword} || '%'
+        ORDER BY P_PID
+        OFFSET #{pageRequestDTO.offset} ROWS FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="countWithKeyword" resultType="int">
+        SELECT COUNT(*)
+        FROM PRODUCT_ITEM
+        WHERE P_NAME LIKE '%' || #{pageRequestDTO.keyword} || '%'
+        OR P_DESC LIKE '%' || #{pageRequestDTO.keyword} || '%'
+        ORDER BY P_PID
+    </select>
+</mapper>
