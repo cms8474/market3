@@ -1,9 +1,15 @@
 <div th:fragment="_footer">
     <footer>
         <div class="footer">
-            <span>copylight ©Green University All rights reserved.ADMINISTRATOR Version 0.0.7</span>
+            <span>
+                Copyright © [[${version.copylight}]].
+                All rights reserved. | ADMINISTRATOR
+                <strong>[[${version.vname}]]</strong> |
+                Updated: [[${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}]]
+            </span>
         </div>
     </footer>
     </body>
     </html>
 </div>
+<!-- 강민철 2025-10-21 1214 -->
