@@ -579,8 +579,8 @@ section h3 {
 .my-content {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 16px;
-    margin: 5px 20px;  /* 상단 마진을 더 줄임 */
-    padding: 20px;     /* 패딩도 줄임 */
+    margin: 5px 20px; 
+    padding: 20px;   
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     min-height: 500px;
 }
