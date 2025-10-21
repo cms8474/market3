@@ -40,8 +40,10 @@
             </div>
             <!-- 검색 -->
             <div class="search-bar">
-                <input type="text" placeholder="검색">
-                <button type="button">🔍</button>
+                <form th:action="@{/product/search}" method="get" style="width: 100%; display: flex;">
+                    <input type="text" name="keyword" placeholder="검색">
+                    <button type="submit">🔍</button>
+                </form>
             </div>
 
         </div>
@@ -58,3 +60,4 @@
 
     </header>
 </div>
+<!-- 강민철 2025-10-21 1703 -->
