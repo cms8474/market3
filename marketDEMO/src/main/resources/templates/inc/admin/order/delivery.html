@@ -1,6 +1,7 @@
 <th:block th:fragment="content">
     <link rel="stylesheet" href="/css/admin/order-delivery.css">
     <link rel="stylesheet" href="/css/admin/modal.css">
+
     <!-- ■■■ 메인컨텐츠 시작 ■■■ -->
     <div class="page">
         <div class="topbar">
@@ -9,15 +10,18 @@
         </div>
 
         <!-- 검색 -->
-        <div class="search-row">
+        <form class="search-row" th:action="@{/admin/order/delivery}" method="get" id="searchForm">
             <select name="searchType" id="searchType">
-                <option value="trackingNo">송장번호</option>
-                <option value="orderNo">주문번호</option>
-                <option value="receiver">수령인</option>
+                <option value="trackingNum" th:selected="${pageResponseDTO.searchType}=='trackingNum'">송장번호</option>
+                <option value="poNo"        th:selected="${pageResponseDTO.searchType}=='poNo'">주문번호</option>
+                <option value="recipient"   th:selected="${pageResponseDTO.searchType}=='recipient'">수령인</option>
             </select>
-            <input type="text" name="keyword" placeholder="검색어입력" />
-            <button class="btn" type="button" id="btnSearch">검색</button>
-        </div>
+            <input type="text" name="keyword" placeholder="검색어입력" th:value="${pageResponseDTO.keyword}" />
+            <!-- 페이지/사이즈 유지 -->
+            <input type="hidden" name="pg"   th:value="${pageResponseDTO.pg != null ? pageResponseDTO.pg : 1}" />
+            <input type="hidden" name="size" th:value="${pageResponseDTO.size != null ? pageResponseDTO.size : 10}" />
+            <button class="btn" type="submit" id="btnSearch">검색</button>
+        </form>
 
         <!-- 목록 -->
         <table>
@@ -36,31 +40,69 @@
             </tr>
             </thead>
             <tbody id="list-body">
-            <tr>
-                <td class="order-no"><a href="#" data-waybill="10121220308">10121220308</a></td>
-                <td>한진택배</td>
-                <td>10121211338</td>
-                <td>강진찬</td>
-                <td>휴대폰 케이스</td>
-                <td >1</td>
-                <td >89,000</td>
-                <td >3,000</td>
-                <td class="status">반품요청</td>
-                <td class="col-date">0000-00-00<br>00:00:00</td>
+            <!-- 데이터 있을 때 -->
+            <tr th:each="row : ${pageRequestDTO.dtoList}">
+                <td class="order-no">
+                    <a href="#" th:data-waybill="${row.trackingNum}"
+                       th:text="${row.trackingNum != null ? row.trackingNum : '-'}">-</a>
+                </td>
+                <td th:text="${row.trackingCompany}">-</td>
+
+                <td th:text="${row.poNo}">-</td>
+
+
+                <td th:text="${row.recipient}">-</td>
+                <td th:text="${row.productName}">-</td>
+                <td th:text="${row.itemCount}">0</td>
+                <td th:text="${#numbers.formatInteger(row.totalPrice, 3, 'COMMA')}">0</td>
+                <td th:text="${#numbers.formatInteger(row.deliveryPrice, 3, 'COMMA')}">0</td>
+                <td class="status"
+                    th:text="${row.delStatus}"
+                    th:classappend="${#strings.equals(row.delStatus,'상품준비중')} ? ' status--ready' :
+                            (${#strings.equals(row.delStatus,'배송중')} ? ' status--ing' :
+                            (${#strings.equals(row.delStatus,'반품요청')} ? ' status--return' :
+                            (${#strings.equals(row.delStatus,'배송완료')} ? ' status--done' : '')))">
+                    -
+                </td>
+                <td class="col-date"
+                    th:text="${row.orderDate != null ? #temporals.format(row.orderDate, 'yyyy-MM-dd HH:mm') : '-'}">-</td>
+            </tr>
+
+            <!-- 데이터 없을 때 -->
+            <tr th:if="${#lists.isEmpty(pageRequestDTO.dtoList)}">
+                <td colspan="10" style="text-align:center;">조회된 데이터가 없습니다.</td>
             </tr>
             </tbody>
         </table>
 
         <!-- 페이지네이션 -->
-        <div class="pagination-wrap">
+        <div class="pagination-wrap" th:if="${pageRequestDTO.total > 0}">
             <div class="pagination">
-                <a href="#">이전</a>
-                <a href="#" aria-current="page">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">다음</a>
+                <!-- 이전 -->
+                <a th:if="${pageRequestDTO.prev}"
+                   th:href="@{/admin/order/delivery(pg=${pageRequestDTO.start-1},
+                    size=${pageRequestDTO.size},
+                    searchType=${pageResponseDTO.searchType},
+                    keyword=${pageResponseDTO.keyword})}">이전</a>
+                <span th:if="${!pageRequestDTO.prev}" class="disabled">이전</span>
+
+                <!-- 페이지 번호 -->
+                <a th:each="p : ${#numbers.sequence(pageRequestDTO.start, pageRequestDTO.end)}"
+                   th:href="@{/admin/order/delivery(pg=${p},
+                    size=${pageRequestDTO.size},
+                    searchType=${pageResponseDTO.searchType},
+                    keyword=${pageResponseDTO.keyword})}"
+                   th:attr="aria-current=${p == pageRequestDTO.pg ? 'page' : null}"
+                   th:classappend="${p == pageRequestDTO.pg} ? 'active' : ''"
+                   th:text="${p}">1</a>
+
+                <!-- 다음 -->
+                <a th:if="${pageRequestDTO.next}"
+                   th:href="@{/admin/order/delivery(pg=${pageRequestDTO.end+1},
+                    size=${pageRequestDTO.size},
+                    searchType=${pageResponseDTO.searchType},
+                    keyword=${pageResponseDTO.keyword})}">다음</a>
+                <span th:if="${!pageRequestDTO.next}" class="disabled">다음</span>
             </div>
         </div>
 
@@ -83,7 +125,6 @@
                             <table class="od-table">
                                 <thead>
                                 <tr>
-                                    <th>이미지</th>
                                     <th>상품번호</th>
                                     <th>상품명</th>
                                     <th>판매자</th>
@@ -101,17 +142,10 @@
                             <!-- 합계 -->
                             <aside class="od-totals">
                                 <dl>
-                                    <div>
-                                        <dt>총 상품금액</dt><dd id="od-sumProduct">0 원</dd>
-                                    </div>
-                                    <div>
-                                        <dt>총 할인금액</dt><dd id="od-sumDiscount">0 원</dd>
-                                    </div>
-                                    <div><dt>배송비</dt><dd id="od-sumShipFee">0 원</dd>
-                                    </div>
-                                    <div class="total">
-                                        <dt>총 결제금액</dt><dd id="od-sumPay">0 원</dd>
-                                    </div>
+                                    <div><dt>총 상품금액</dt><dd id="od-sumProduct">0 원</dd></div>
+                                    <div><dt>총 할인금액</dt><dd id="od-sumDiscount">0 원</dd></div>
+                                    <div><dt>배송비</dt><dd id="od-sumShipFee">0 원</dd></div>
+                                    <div class="total"><dt>총 결제금액</dt><dd id="od-sumPay">0 원</dd></div>
                                 </dl>
                             </aside>
                         </div>
@@ -121,18 +155,12 @@
                     <section class="od-section">
                         <header class="od-sec-head"><h6>배송정보</h6></header>
                         <div class="od-info-grid">
-                            <div class="label">주문번호</div>
-                            <div id="od-orderNo">—</div>
-                            <div class="label">수령인</div>
-                            <div>—</div>
-                            <div class="label">연락처</div>
-                            <div>—</div>
-                            <div class="label">배송지주소</div>
-                            <div>—</div>
-                            <div class="label">송장번호</div>
-                            <div>—</div>
-                            <div class="label">기타</div>
-                            <div id="od-memo">—</div>
+                            <div class="label">주문번호</div><div id="od-orderNo">—</div>
+                            <div class="label">수령인</div><div id="od-recipient">—</div>
+                            <div class="label">연락처</div><div id="od-phone">—</div>
+                            <div class="label">배송지주소</div><div id="od-addr">—</div>
+                            <div class="label">송장번호</div><div id="od-waybill2">—</div>
+                            <div class="label">기타</div><div id="od-memo">—</div>
                         </div>
                     </section>
                 </div>
@@ -145,32 +173,101 @@
     </div>
     <!-- □□□ 메인컨텐츠 종료 □□□ -->
 
-
     <script th:src="@{/js/modal.js}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 필수 요소 존재 여부 로그 (초기 디버그용)
+            const requiredIds = [
+                'DetailModal','od-waybill','od-waybill2','od-orderNo','od-recipient',
+                'od-phone','od-addr','od-memo','od-sumProduct','od-sumDiscount',
+                'od-sumShipFee','od-sumPay','od-items'
+            ];
+            const missing = requiredIds.filter(id => !document.getElementById(id));
+            if (missing.length) {
+                console.warn('[delivery] Missing IDs in DOM:', missing);
+                // 여기서 ID가 빠져 있으면 모달 마크업이 실제 화면에 포함되지 않은 겁니다.
+            }
 
-<script>
-    // 전체 선택
-    const chkAll = document.getElementById('chkAll');
-    chkAll?.addEventListener('change', (e) => {
-        document.querySelectorAll('tbody input[type="checkbox"]')
-            .forEach(cb => cb.checked = e.target.checked);
-    });
+            // 안전 setter
+            function setText(id, value) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value ?? '—';
+            }
 
-    document.querySelectorAll('td.status').forEach((el) => {
-        const text = el.textContent.trim();
+            function renderDetail(data){
+                // 헤더/배송정보
+                setText('od-waybill',  data.trackingNum);
+                setText('od-waybill2', data.trackingNum);
+                setText('od-orderNo',  data.poNo);
+                setText('od-recipient',data.recipient);
+                setText('od-phone',    data.phone);
+                setText('od-addr',     data.address);
+                setText('od-memo',     data.memo);
 
-        if (text === "배송준비") {
-            el.classList.add("status--ready");
-        } else if (text === "배송 중") {
-            el.classList.add("status--ing");
-        } else if (text === "반품요청") {
-            el.classList.add("status--return");
-        } else if (text === "배송완료") {
-            el.classList.add("status--done");
-        }
-    });
+                // 합계
+                const sumProduct  = (data.sumProduct ?? data.totalPrice ?? 0);
+                const sumDiscount = (data.sumDiscount ?? 0);
+                const shipFee     = (data.deliveryPrice ?? 0);
+                const sumPay      = (data.sumPay ?? (sumProduct + shipFee));
+                setText('od-sumProduct',  `${sumProduct.toLocaleString()} 원`);
+                setText('od-sumDiscount', `${sumDiscount.toLocaleString()} 원`);
+                setText('od-sumShipFee',  `${shipFee.toLocaleString()} 원`);
+                setText('od-sumPay',      `${sumPay.toLocaleString()} 원`);
 
-</script>
+                // 아이템 테이블 (서버 JSON의 키: ppid)
+                const tbody = document.getElementById('od-items');
+                if (tbody) {
+                    tbody.innerHTML = '';
+                    (data.items || []).forEach(it => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+          <td>${it.ppid ?? '-'}</td>
+          <td>${it.productName ?? '-'}</td>
+          <td>${it.sellerId ?? '-'}</td>
+          <td class="num">${(it.price ?? 0).toLocaleString()}</td>
+          <td class="num">${it.qty ?? 0}</td>
+          <td class="num">${(it.itemDeliveryFee ?? 0).toLocaleString()}</td>
+          <td class="num">${(it.payAmount ?? ((it.price||0) * (it.qty||0))).toLocaleString()}</td>
+        `;
+                        tbody.appendChild(tr);
+                    });
+                }
 
+                const modal = document.getElementById('DetailModal');
+                if (modal) modal.classList.add('open');
+            }
 
+            async function openDetail(params){
+                try{
+                    const qs = new URLSearchParams(params).toString();
+                    const res = await fetch(`/admin/order/delivery/detail?${qs}`, { headers:{ 'Accept':'application/json'} });
+                    if (!res.ok) { alert('상세 정보를 불러오지 못했습니다.'); return; }
+                    const data = await res.json();
+                    // 디버그: 응답 확인
+                    console.debug('[DETAIL]', data);
+                    renderDetail(data);
+                }catch(err){
+                    console.error('[DETAIL ERROR]', err);
+                    alert('상세호출중 오류가 발생했습니다.');
+                }
+            }
+
+            // 송장번호 클릭만 상세
+            document.addEventListener('click', (e) => {
+                const a = e.target.closest('td.order-no a');
+                if (!a) return;
+                e.preventDefault();
+                const trackingNum = a.dataset.waybill;
+                if (trackingNum) openDetail({ trackingNum });
+                else alert('송장번호가 없습니다.');
+            });
+
+            // 닫기
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-close="true"]');
+                if (!btn) return;
+                document.getElementById('DetailModal')?.classList.remove('open');
+            });
+        });
+    </script>
 </th:block>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.admin_mapper.AdminCategoryMapper">
+
+    <resultMap id="CategoryMap" type="kr.co.team3.admin_dto.AdminCategoryDTO">
+        <result property="pcId"   column="PC_ID"/>
+        <result property="pcName" column="PC_NAME"/>
+    </resultMap>
+
+    <!-- 1차: PC_LEVER='대' -->
+    <select id="selectLevel1" resultMap="CategoryMap">
+        SELECT PC_ID, PC_NAME
+        FROM PRODUCT_CATEGORY
+        WHERE PC_LEVER = '대'
+        ORDER BY PC_ID
+    </select>
+
+    <!-- 2차: PC_LEVER='중' 이고, 부모는 첫 자리 숫자 매칭 -->
+    <select id="selectLevel2" parameterType="string" resultMap="CategoryMap">
+        SELECT PC_ID, PC_NAME
+        FROM PRODUCT_CATEGORY
+        WHERE PC_LEVER = '중'
+          AND SUBSTR(PC_ID, 1, 1) = SUBSTR(#{parentId}, 1, 1)
+        ORDER BY PC_ID
+    </select>
+
+</mapper>

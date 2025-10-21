@@ -24,7 +24,8 @@ public class DashboardRepositoryImpl implements DashboardRepository {
     public Object[] loadDashboardRaw(LocalDate from, LocalDate to) {
 
         String sql = """
-            WITH
+            
+                WITH
             O AS (
               SELECT po.po_no, po.po_state, po.po_tot_price, po.po_orderDate
               FROM PRODUCT_ORDER po
@@ -35,17 +36,23 @@ public class DashboardRepositoryImpl implements DashboardRepository {
               FROM ORDER_ITEMS oi
               WHERE oi.oi_po_no IN (SELECT po_no FROM O)
             ),
-            OJOIN AS (
+            O_AGG AS (
               SELECT
-                SUM(CASE WHEN o.po_state='입금완료' THEN 1 ELSE 0 END) AS deposit_done,
-                SUM(CASE WHEN o.po_state='취소'     THEN 1 ELSE 0 END) AS canceled_cnt,
-                SUM(CASE WHEN o.po_state='교환'     THEN 1 ELSE 0 END) AS exchange_cnt,
-                SUM(CASE WHEN o.po_state='반품'     THEN 1 ELSE 0 END) AS return_cnt,
-                SUM(CASE WHEN oi.oi_del_status IN ('상품준비중','배송준비','배송중','배송완료') THEN 1 ELSE 0 END) AS shipping_cnt,
-                COUNT(DISTINCT o.po_no) AS order_cnt,
-                SUM(o.po_tot_price)     AS order_amt
-              FROM O o
-              LEFT JOIN OI oi ON oi.oi_po_no = o.po_no
+                /* 주문 테이블만 보고 주문 단위 집계 */
+                COUNT(CASE WHEN po_state='구매확정'    THEN 1 END) AS confirm_done,
+                COUNT(CASE WHEN po_state='취소'     THEN 1 END) AS canceled_cnt,
+                COUNT(CASE WHEN po_state='교환'     THEN 1 END) AS exchange_cnt,
+                COUNT(CASE WHEN po_state='반품'     THEN 1 END) AS return_cnt,
+                COUNT(*)                                        AS order_cnt,
+                SUM(po_tot_price)                               AS order_amt
+              FROM O
+            ),
+            OI_AGG AS (
+              /* 배송 관련: '주문 수' 기준이면 DISTINCT, '항목 수'면 DISTINCT 제거 */
+              SELECT
+                COUNT(DISTINCT CASE WHEN oi_del_status IN ('배송준비중','배송중','배송완료')
+                                    THEN oi_po_no END) AS shipping_cnt
+              FROM OI
             ),
             UU AS (
               SELECT COUNT(*) AS signup_cnt
@@ -58,17 +65,20 @@ public class DashboardRepositoryImpl implements DashboardRepository {
               WHERE TRUNC(b.b_reg_date) BETWEEN TRUNC(:fromDate) AND TRUNC(:toDate)
             )
             SELECT
-              NVL(oj.deposit_done, 0) AS deposit_done,
-              NVL(oj.canceled_cnt, 0) AS canceled_cnt,
-              NVL(oj.exchange_cnt, 0) AS exchange_cnt,
-              NVL(oj.return_cnt,   0) AS return_cnt,
-              NVL(oj.shipping_cnt, 0) AS shipping_cnt,
-              NVL(oj.order_cnt,    0) AS order_cnt,
-              NVL(oj.order_amt,    0) AS order_amt,
-              uu.signup_cnt        AS signup_cnt,
-              0                    AS visit_cnt,   -- 필요 시 VL CTE로 교체
-              bd.board_cnt         AS board_cnt
-            FROM OJOIN oj, UU uu, BD bd
+              NVL(o.confirm_done, 0)  AS confirm_done,
+              NVL(o.canceled_cnt, 0)  AS canceled_cnt,
+              NVL(o.exchange_cnt, 0)  AS exchange_cnt,
+              NVL(o.return_cnt,   0)  AS return_cnt,
+              NVL(oi.shipping_cnt, 0) AS shipping_cnt,
+              NVL(o.order_cnt,    0)  AS order_cnt,
+              NVL(o.order_amt,    0)  AS order_amt,   -- ★ 여기 oj 아님!
+              uu.signup_cnt            AS signup_cnt,
+              0                        AS visit_cnt,
+              bd.board_cnt             AS board_cnt
+            FROM O_AGG o
+            CROSS JOIN OI_AGG oi
+            CROSS JOIN UU uu
+            CROSS JOIN BD bd            
             """;
 
         Query q = em.createNativeQuery(sql);

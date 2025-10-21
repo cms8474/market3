@@ -67,7 +67,7 @@
                         <th>확인/신청</th>
                     </tr>
                     <tr th:each="order : ${orderDTOList}" th:object="${order}">
-                        <td>[[*{po_orderdate}]]</td>
+                        <td>[[*{poOrderdate}]]</td>
                         <td><img src="/images/logo.png"/></td>
                         <td>
                             <a href="#" class="orderNum" th:attr="order=*{poNo}">주문번호 : [[*{poNo}]]</a><br>

@@ -8,6 +8,8 @@
         <result property="ctType"     column="C_CT_TYPE"/>
         <result property="cName"      column="C_NAME"/>
         <result property="benefit"    column="BENEFIT"/>
+        <result property="cDisDelivery" column="C_DIS_DELIVERY"/>
+        <result property="cDisMoney"  column="C_DIS_MONEY"/>
         <result property="startDay"   column="C_START_DAY"/>
         <result property="endDay"     column="C_END_DAY"/>
         <result property="issuerUid"  column="C_S_U_ID"/>
@@ -96,27 +98,23 @@
     <!-- 쿠폰 등록 -->
     <insert id="insertCoupon" parameterType="kr.co.team3.admin_dto.CouponDTO">
         INSERT INTO COUPON (
-            C_S_U_ID,     -- 발급처
-            C_CT_TYPE,    -- 쿠폰종류
-            C_NAME,       -- 쿠폰명
-            C_TEXT,       -- 혜택
-            C_START_DAY,  -- 시작일
-            C_END_DAY,    -- 종료일
-            C_AMOUNT,     -- 발급수
-            C_USED,       -- 사용수
-            C_STATUS      -- 상태
+        C_S_U_ID, C_CT_TYPE, C_NAME, C_TEXT,
+        C_DIS_MONEY, C_DIS_DELIVERY,
+        C_START_DAY, C_END_DAY, C_AMOUNT, C_USED, C_STATUS
         )
         VALUES (
-                   #{issuerUid},
-                   #{ctType},
-                   #{cName},
-                   #{benefit},
-                   #{startDay},
-                   #{endDay},
-                   0,             -- 발급수
-                   0,             -- 사용수
-                   '발급가능'     -- 상태 기본값
-               )
+        #{issuerUid},
+        #{ctType},
+        #{cName},
+        #{notice,          jdbcType=VARCHAR},   <!-- 유의사항: null 가능 -->
+        #{benefitMoney,    jdbcType=VARCHAR},   <!-- 금액/퍼센트 혜택: null 가능 -->
+        #{benefitDelivery, jdbcType=VARCHAR},   <!-- 배송비 혜택: null 가능 -->
+        #{startDay},
+        #{endDay},
+        0,
+        0,
+        '발급가능'
+        )
     </insert>
 
     <update id="closeCoupon" parameterType="string">
@@ -145,6 +143,8 @@
                                 END
                     )
             ) AS BENEFIT,
+            C.C_DIS_DELIVERY,
+            C.C_DIS_MONEY,
             C.C_START_DAY,
             C.C_END_DAY,
             C.C_S_U_ID,

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.team3.admin_mapper.ShipStatusDetailMapper">
+
+    <!-- =======================
+         ResultMap (단일 DTO + collection)
+         ======================= -->
+    <resultMap id="OrderDeliveryDetailMap" type="kr.co.team3.admin_dto.OrderDeliveryDetailDTO">
+        <!-- 헤더 키 -->
+        <id     property="poNo"           column="PO_NO"/>
+
+        <!-- 주문/배송 기본 -->
+        <result property="recipient"      column="RECIPIENT"/>
+        <result property="phone"          column="PHONE"/>
+        <result property="address"        column="ADDRESS"/>
+        <result property="memo"           column="MEMO"/>
+
+        <result property="trackingNum"    column="TRACKING_NUM"/>
+        <result property="trackingCompany" column="TRACKING_COMPANY"/>
+        <result property="delStatus"      column="DEL_STATUS"/>
+
+        <result property="orderDate"      column="ORDERDATE"/>
+        <result property="itemCount"      column="ITEM_COUNT"/>
+
+        <!-- 금액 -->
+        <result property="totalPrice"     column="TOTAL_PRICE"/>
+        <result property="deliveryPrice"  column="DELIVERY_PRICE"/>
+        <result property="sumProduct"     column="SUM_PRODUCT"/>
+        <result property="sumDiscount"    column="SUM_DISCOUNT"/>
+        <result property="sumPay"         column="SUM_PAY"/>
+
+        <!-- 아이템 목록 (nested select) -->
+        <collection property="items"
+                    ofType="kr.co.team3.admin_dto.OrderDeliveryDetailDTO$Item"
+                    column="PO_NO"
+                    select="selectItemsByPoNo"/>
+    </resultMap>
+
+    <!-- =======================
+         1) 송장번호 → 주문번호
+         ======================= -->
+    <select id="findPoNoByTracking" resultType="string">
+        SELECT DISTINCT oi.OI_PO_NO
+        FROM ORDER_ITEMS oi
+        WHERE oi.OI_TRACKING_NUM = #{trackingNum}
+    </select>
+
+    <!-- =======================
+         2) 주문번호 → 상세(헤더+합계)
+         - 대표 송장/택배사: 스칼라 서브쿼리에서 1건 선택
+         - 합계: 아이템 합계/할인/결제금액 계산
+         ======================= -->
+    <select id="selectDetailByPoNo"
+            parameterType="string"
+            resultMap="OrderDeliveryDetailMap">
+
+        SELECT
+            po.PO_NO                                        AS PO_NO,
+            po.PO_RECIPIENT                                 AS RECIPIENT,
+            po.PO_RE_PHONE                                            AS PHONE,
+            TRIM(BOTH ' ' FROM NVL(po.PO_BASE_ADDR,'') || ' ' || NVL(po.PO_DETAIL_ADDR,'')) AS ADDRESS,
+            ( SELECT MAX(oi.OI_ETC)
+                         KEEP (DENSE_RANK FIRST ORDER BY oi.OI_P_PID)
+              FROM ORDER_ITEMS oi
+              WHERE oi.OI_PO_NO = po.PO_NO
+            )                                            AS MEMO,
+
+            /* 대표 송장/택배사 (있으면 첫 1건) */
+            ( SELECT t.OI_TRACKING_NUM
+              FROM ( SELECT OI_TRACKING_NUM
+                     FROM ORDER_ITEMS
+                     WHERE OI_PO_NO = po.PO_NO
+                       AND OI_TRACKING_NUM IS NOT NULL
+                     ORDER BY OI_P_PID
+                   ) t
+              WHERE ROWNUM = 1
+            )                                               AS TRACKING_NUM,
+            ( SELECT t.OI_TRACKING_COMPANY
+              FROM ( SELECT OI_TRACKING_COMPANY
+                     FROM ORDER_ITEMS
+                     WHERE OI_PO_NO = po.PO_NO
+                       AND OI_TRACKING_COMPANY IS NOT NULL
+                     ORDER BY OI_P_PID
+                   ) t
+              WHERE ROWNUM = 1
+            )                                               AS TRACKING_COMPANY,
+
+            /* 상태: 주문별 대표값이 없다면 NULL, 또는 필요 시 서브쿼리로 도출 */
+            ( SELECT t.OI_DEL_STATUS
+              FROM ( SELECT OI_DEL_STATUS
+                     FROM ORDER_ITEMS
+                     WHERE OI_PO_NO = po.PO_NO
+                     ORDER BY OI_P_PID
+                   ) t
+              WHERE ROWNUM = 1
+            )                                               AS DEL_STATUS,
+
+            po.PO_ORDERDATE                                 AS ORDERDATE,
+            po.PO_ITEM_COUNT                                AS ITEM_COUNT,
+
+            /* 금액들 */
+            po.PO_TOT_PRICE                                 AS TOTAL_PRICE,
+            po.PO_DELIVERY_PRICE                            AS DELIVERY_PRICE,
+
+            /* 아이템 합계(가격) */
+            ( SELECT NVL(SUM(NVL(oi.OI_TOT_PRICE, 0)), 0)
+              FROM ORDER_ITEMS oi
+              WHERE oi.OI_PO_NO = po.PO_NO
+            )                                               AS SUM_PRODUCT,
+
+            /* 할인 합계: 우선 0, 후에 할인 테이블 있으면 교체 */
+                    0                                       AS SUM_DISCOUNT,
+
+            /* 총 결제금액: (물품합계 or 계산합계) + 배송비 */
+            ( NVL(po.PO_TOT_PRICE, 0) + NVL(po.PO_DELIVERY_PRICE, 0) ) AS SUM_PAY
+
+        FROM PRODUCT_ORDER po
+        WHERE po.PO_NO = #{poNo}
+    </select>
+
+    <!-- =======================
+         3) 주문번호 → 아이템 목록
+         ======================= -->
+    <select id="selectItemsByPoNo"
+            parameterType="string"
+            resultType="kr.co.team3.admin_dto.OrderDeliveryDetailDTO$Item">
+        SELECT
+            oi.OI_P_PID                          AS pPid,
+            pi.P_NAME                            AS productName,
+            pi.P_SELLER_ID                       AS sellerId,
+            NVL(oi.OI_TOT_PRICE, pi.P_PRICE)     AS price,
+            oi.OI_PROD_QTY                       AS qty,
+            pi.P_DELIVERY_PRICE                  AS itemDeliveryFee,
+            NVL(oi.OI_TOT_PRICE, pi.P_PRICE)     AS payAmount,
+            pi.P_IMAGE_MAIN                      AS imageUrl
+        FROM ORDER_ITEMS oi
+                 JOIN PRODUCT_ITEM  pi ON pi.P_PID = oi.OI_P_PID
+        WHERE oi.OI_PO_NO = #{poNo}
+        ORDER BY oi.OI_P_PID
+    </select>
+
+</mapper>

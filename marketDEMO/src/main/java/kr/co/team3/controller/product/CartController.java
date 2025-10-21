@@ -101,12 +101,25 @@ public class CartController {
                 .mapToInt(ci -> ci.getCiTotPrice() != null ? ci.getCiTotPrice() : 0)
                 .sum();
         int totalCount = cartItems.size();
+        
+        // 배송비 합계 계산
+        int totalDeliveryFee = cartItems.stream()
+                .mapToInt(ci -> {
+                    IndexDTO product = productMap.get(ci.getCiPPid());
+                    return product != null && product.getPDeliveryPrice() != null ? product.getPDeliveryPrice() : 0;
+                })
+                .sum();
+        
+        // 전체주문금액 = 상품금액 + 배송비
+        int finalOrderAmount = totalAmount + totalDeliveryFee;
 
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("productMap", productMap);
         model.addAttribute("optionMap", optionMap);
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("totalCount", totalCount);
+        model.addAttribute("totalDeliveryFee", totalDeliveryFee);
+        model.addAttribute("finalOrderAmount", finalOrderAmount);
         
         return "inc/product/cart";
     }

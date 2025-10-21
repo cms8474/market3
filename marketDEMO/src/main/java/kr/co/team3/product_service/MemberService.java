@@ -347,4 +347,14 @@ public class MemberService {
     // 임시 인증번호 저장용 (실제로는 Redis 사용 권장)
     private final java.util.concurrent.ConcurrentHashMap<String, String> emailVerificationCodes = new java.util.concurrent.ConcurrentHashMap<>();
     
+    // 포인트 차감 메서드
+    public void deductPoint(String uId, int pointToDeduct) {
+        MemberEntity member = memberMapper.findByuId(uId);
+        if (member != null) {
+            int currentPoint = member.getUPoint() != null ? member.getUPoint() : 0;
+            int newPoint = Math.max(0, currentPoint - pointToDeduct); // 포인트가 음수가 되지 않도록
+            member.setUPoint(newPoint);
+            memberMapper.updateMember(member);
+        }
+    }
 }

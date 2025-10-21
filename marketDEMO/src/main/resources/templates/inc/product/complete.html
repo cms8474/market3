@@ -83,20 +83,44 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr style="border-bottom:1px solid #eee; text-align:center;">
-                        <td style="padding:10px; text-align:left;">샘플상품</td>
-                        <td>27,000</td>
-                        <td>-1,350</td>
-                        <td>1</td>
-                        <td style="color:#d32f2f; font-weight:700;">25,650</td>
-                    </tr>
+                    <th:block th:each="cartItem : ${cartItems}">
+                        <!-- 메인 상품 행 -->
+                        <tr style="border-bottom:1px solid #eee; text-align:center;">
+                            <td style="padding:10px; text-align:left;" th:text="${productMap[cartItem.ciPPid] != null ? productMap[cartItem.ciPPid].pName : cartItem.ciPPid}">상품명</td>
+                            <td th:text="${productMap[cartItem.ciPPid] != null ? #numbers.formatInteger(productMap[cartItem.ciPPid].pPrice, 0, 'COMMA') : '0'}">판매가</td>
+                            <td th:text="${productMap[cartItem.ciPPid] != null and productMap[cartItem.ciPPid].pDiscount != null and productMap[cartItem.ciPPid].pDiscount > 0 ? '-' + #numbers.formatInteger((productMap[cartItem.ciPPid].pPrice * cartItem.ciAmount * productMap[cartItem.ciPPid].pDiscount / 100), 0, 'COMMA') : '0'}">할인금액</td>
+                            <td th:text="${cartItem.ciAmount}">수량</td>
+                            <td style="color:#d32f2f; font-weight:700;" th:text="${#numbers.formatInteger(cartItem.ciTotPrice, 0, 'COMMA')}">주문금액</td>
+                        </tr>
+                        
+                        <!-- 옵션 행들 -->
+                        <tr th:if="${cartItem.ciOp01 != null and cartItem.ciOp01 != ''}" style="border-bottom:1px solid #eee; text-align:center; background-color: #f9f9f9;">
+                            <td style="padding:10px; text-align:left; padding-left: 30px; font-size: 13px; color: #666;">
+                                <span th:text="${optionMap[cartItem.ciOp01] != null ? optionMap[cartItem.ciOp01].popName + ': ' + optionMap[cartItem.ciOp01].popSelection : '옵션1: ' + cartItem.ciOp01}">옵션1</span>
+                            </td>
+                            <td th:text="${optionMap[cartItem.ciOp01] != null and optionMap[cartItem.ciOp01].popAddPrice != null ? #numbers.formatInteger(optionMap[cartItem.ciOp01].popAddPrice, 0, 'COMMA') : '0'}">옵션가격</td>
+                            <td>0</td>
+                            <td th:text="${cartItem.ciAmount}">수량</td>
+                            <td style="color:#d32f2f; font-weight:700;" th:text="${optionMap[cartItem.ciOp01] != null and optionMap[cartItem.ciOp01].popAddPrice != null ? #numbers.formatInteger(optionMap[cartItem.ciOp01].popAddPrice * cartItem.ciAmount, 0, 'COMMA') : '0'}">옵션금액</td>
+                        </tr>
+                        
+                        <tr th:if="${cartItem.ciOp02 != null and cartItem.ciOp02 != ''}" style="border-bottom:1px solid #eee; text-align:center; background-color: #f9f9f9;">
+                            <td style="padding:10px; text-align:left; padding-left: 30px; font-size: 13px; color: #666;">
+                                <span th:text="${optionMap[cartItem.ciOp02] != null ? optionMap[cartItem.ciOp02].popName + ': ' + optionMap[cartItem.ciOp02].popSelection : '옵션2: ' + cartItem.ciOp02}">옵션2</span>
+                            </td>
+                            <td th:text="${optionMap[cartItem.ciOp02] != null and optionMap[cartItem.ciOp02].popAddPrice != null ? #numbers.formatInteger(optionMap[cartItem.ciOp02].popAddPrice, 0, 'COMMA') : '0'}">옵션가격</td>
+                            <td>0</td>
+                            <td th:text="${cartItem.ciAmount}">수량</td>
+                            <td style="color:#d32f2f; font-weight:700;" th:text="${optionMap[cartItem.ciOp02] != null and optionMap[cartItem.ciOp02].popAddPrice != null ? #numbers.formatInteger(optionMap[cartItem.ciOp02].popAddPrice * cartItem.ciAmount, 0, 'COMMA') : '0'}">옵션금액</td>
+                        </tr>
+                    </th:block>
                     </tbody>
                 </table>
                 <div style="padding:12px; text-align:right; font-size:14px; line-height:1.6; background:#fafafa;">
-                    총 상품금액 <strong>27,000원</strong><br>
-                    할인금액 <strong>-1,350원</strong><br>
-                    배송비 <strong>0원</strong><br>
-                    <span style="font-size:16px; font-weight:700; color:#d32f2f;">= 최종 결제금액 25,650원</span>
+                    총 상품금액 <strong th:text="${#numbers.formatInteger(productAmount, 0, 'COMMA')} + '원'">상품금액</strong><br>
+                    할인금액 <strong th:text="'-' + ${#numbers.formatInteger(discountAmount, 0, 'COMMA')} + '원'" th:if="${discountAmount > 0}">할인금액</strong><strong th:text="'0원'" th:if="${discountAmount <= 0}">0원</strong><br>
+                    배송비 <strong th:text="${deliveryFee > 0 ? #numbers.formatInteger(deliveryFee, 0, 'COMMA') + '원' : '무료'}" th:if="${deliveryFee > 0}">배송비</strong><strong th:text="'무료'" th:if="${deliveryFee <= 0}">무료</strong><br>
+                    <span style="font-size:16px; font-weight:700; color:#d32f2f;">= 최종 결제금액 <span th:text="${#numbers.formatInteger(finalAmount, 0, 'COMMA')} + '원'">최종금액</span></span>
                 </div>
             </div>
 
@@ -107,15 +131,15 @@
                     <tbody>
                     <tr style="border-bottom:1px solid #eee;">
                         <th style="width:150px; text-align:left; padding:10px; background:#fcfcfc;">주문번호</th>
-                        <td style="padding:10px;">100012121</td>
+                        <td style="padding:10px;" th:text="${orderNumber}">주문번호</td>
                     </tr>
                     <tr style="border-bottom:1px solid #eee;">
                         <th style="padding:10px; background:#fcfcfc; text-align:left;">결제방법</th>
-                        <td style="padding:10px;">신용카드</td>
+                        <td style="padding:10px;">무통장입금</td>
                     </tr>
                     <tr>
                         <th style="padding:10px; background:#fcfcfc; text-align:left;">결제금액</th>
-                        <td style="padding:10px; font-weight:700; color:#d32f2f;">24,650원</td>
+                        <td style="padding:10px; font-weight:700; color:#d32f2f;" th:text="${#numbers.formatInteger(finalAmount, 0, 'COMMA')} + '원'">결제금액</td>
                     </tr>
                     </tbody>
                 </table>
@@ -128,15 +152,19 @@
                     <tbody>
                     <tr style="border-bottom:1px solid #eee;">
                         <th style="width:150px; text-align:left; padding:10px; background:#fcfcfc;">수령인</th>
-                        <td style="padding:10px;">홍길동</td>
+                        <td style="padding:10px;" th:text="${deliveryRecipient}">수령인</td>
                     </tr>
                     <tr style="border-bottom:1px solid #eee;">
                         <th style="padding:10px; background:#fcfcfc; text-align:left;">연락처</th>
-                        <td style="padding:10px;">010-1234-1110</td>
+                        <td style="padding:10px;" th:text="${deliveryPhone}">연락처</td>
                     </tr>
-                    <tr>
+                    <tr style="border-bottom:1px solid #eee;">
                         <th style="padding:10px; background:#fcfcfc; text-align:left;">배송지 주소</th>
-                        <td style="padding:10px;">서울시 강남구 역삼동 123-110</td>
+                        <td style="padding:10px;" th:text="${deliveryPostal + ' ' + deliveryBaseAddr + ' ' + deliveryDetailAddr}">배송지 주소</td>
+                    </tr>
+                    <tr th:if="${deliveryRequest != null and deliveryRequest != ''}">
+                        <th style="padding:10px; background:#fcfcfc; text-align:left;">배송 요청사항</th>
+                        <td style="padding:10px;" th:text="${deliveryRequest}">배송 요청사항</td>
                     </tr>
                     </tbody>
                 </table>

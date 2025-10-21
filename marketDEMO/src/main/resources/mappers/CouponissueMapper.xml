@@ -86,4 +86,12 @@
         WHERE uc.UC_PO_NO = #{poNo}
     </select>
 
+
+    <!--  발급 중단(단건) -->
+    <update id="stopIssue" parameterType="string">
+        UPDATE USER_COUPON
+        SET UC_STATUS = '중단'
+        WHERE UC_PO_NO = #{poNo}
+    </update>
+
 </mapper>

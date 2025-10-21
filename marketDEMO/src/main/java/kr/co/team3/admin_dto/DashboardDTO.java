@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class DashboardDTO {
-    private int depositDone;
     private int canceledCnt;
     private int exchangeCnt;
     private int returnCnt;
@@ -25,4 +24,6 @@ public class DashboardDTO {
 
     private LocalDate from;
     private LocalDate to;
+
+    private int confirmDone;
 }
