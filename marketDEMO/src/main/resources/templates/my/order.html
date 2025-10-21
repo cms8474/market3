@@ -91,7 +91,7 @@
                 </tr>
                 <tr th:each="order : ${pageResponseDTO.poDtoList}" th:object="${order}">
                     <td>[[*{poOrderdate}]]</td>
-                    <td><img src="/images/로고.png"/></td>
+                    <td><img src="/images/logo.png"/></td>
                     <td>
                         <a href="#" class="orderNum" th:attr="order=*{poNo}">주문번호 : [[*{poNo}]]</a><br>
                         <a href="#" class="tradeName">[[*{sCompanyName}]]</a><br>
