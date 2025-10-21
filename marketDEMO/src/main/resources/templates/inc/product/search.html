@@ -162,7 +162,8 @@
                         <h3 class="name" th:text="*{PName}">상품명</h3>
                         <p class="desc" th:text="*{PDesc}">간단한 상품 설명</p>
                         <div class="delivery-badges">
-                            <span class="badge shipping" th:text="*{PDeliveryPrice} == 0 ? '무료배송' : '　'">무료배송</span>
+                            <span class="badge shipping" th:if="*{PDeliveryPrice} == 0" th:text="*{PDeliveryPrice} == 0 ? '무료배송' : ''">무료배송</span>
+                            <span th:if="*{PDeliveryPrice} != 0">　</span>
                         </div>
                         <div class="seller-line">
                             <span class="seller-name" th:text="*{SCompanyName}">상호명</span>
