@@ -1,5 +1,5 @@
 <th:block th:fragment="content">
-    <link rel="stylesheet" href="/css/admin/product-list.css">
+    <link rel="stylesheet" href="/css/admin/product-list.css"/>
 
     <!-- ■■■■■ 메인컨텐츠 시작 ■■■■■ -->
     <div class="page">
@@ -15,24 +15,24 @@
         <!-- 검색 -->
         <form class="search-row" th:action="@{/admin/product/list}" method="get">
             <select name="searchType" id="searchType" aria-label="검색 대상">
-                <option value=""        th:selected="${pageResponseDTO.searchType == null or pageResponseDTO.searchType == ''}">전체</option>
+                <option value=""        th:selected="${pageResponseDTO.searchType == null or pageResponseDTO.searchType == ''}">선택</option>
                 <option value="name"    th:selected="${pageResponseDTO.searchType == 'name'}">상품명</option>
                 <option value="pid"     th:selected="${pageResponseDTO.searchType == 'pid'}">상품코드</option>
                 <option value="seller"  th:selected="${pageResponseDTO.searchType == 'seller'}">판매자 키워드</option>
             </select>
-            <input type="text" name="keyword" placeholder="검색어입력" th:value="${pageResponseDTO.keyword}" />
+            <input type="text" name="keyword" placeholder="검색어입력" th:value="${pageResponseDTO.keyword}"/>
             <!-- 페이징 유지 -->
-            <input type="hidden" name="pg"   th:value="${pageResponseDTO.pg}" />
-            <input type="hidden" name="size" th:value="${pageResponseDTO.size}" />
+            <input type="hidden" name="pg"   th:value="${pageResponseDTO.pg}"/>
+            <input type="hidden" name="size" th:value="${pageResponseDTO.size}"/>
             <button class="btn" type="submit">검색</button>
         </form>
 
-        <!-- 선택삭제용 폼 (폼 중첩 방지: 단건삭제는 별도 숨김 폼 사용) -->
+        <!-- 선택삭제용 폼 (테이블+하단영역을 함께 감싼다. 단건삭제는 별도 폼) -->
         <form id="bulkForm" th:action="@{/admin/product/delete-bulk}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <!-- 상태 유지 -->
-            <input type="hidden" name="pg"        th:value="${pageResponseDTO.pg}"/>
-            <input type="hidden" name="size"      th:value="${pageResponseDTO.size}"/>
+            <input type="hidden" name="pg"         th:value="${pageResponseDTO.pg}"/>
+            <input type="hidden" name="size"       th:value="${pageResponseDTO.size}"/>
             <input type="hidden" name="searchType" th:value="${pageResponseDTO.searchType}"/>
             <input type="hidden" name="keyword"    th:value="${pageResponseDTO.keyword}"/>
 
@@ -40,7 +40,7 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th class="col-check"><input type="checkbox" id="chkAll" /></th>
+                    <th class="col-check"><input type="checkbox" id="chkAll"/></th>
                     <th class="col-no">사진</th>
                     <th>상품코드</th>
                     <th>상품명</th>
@@ -56,7 +56,7 @@
                 <tbody>
                 <tr th:each="p, idx : ${pageResponseDTO.dtoList}">
                     <td class="col-check">
-                        <input type="checkbox" name="pids" th:value="${p.pid}">
+                        <input type="checkbox" name="pids" th:value="${p.pid}"/>
                     </td>
 
                     <td class="center">
@@ -64,7 +64,7 @@
                              th:if="${p.imageUrl != null}"
                              th:src="@{${p.imageUrl}}"
                              alt="상품 이미지"
-                             style="width:64px;height:64px;object-fit:cover;border-radius:6px;">
+                             style="width:64px;height:64px;object-fit:cover;border-radius:6px;"/>
                         <div th:if="${p.imageUrl == null}" class="thumb thumb--placeholder"
                              style="width:64px;height:64px;border-radius:6px;background:#f2f2f2;display:flex;align-items:center;justify-content:center;color:#888;">
                             No Image
@@ -91,25 +91,27 @@
                 </tbody>
             </table>
 
-            <!-- 테이블 하단 영역 -->
+            <!-- 테이블 하단 영역(같은 폼 내부) -->
             <div class="table-bottom">
                 <div class="left">
                     <button type="submit" class="btn-gray"
                             onclick="return confirm('선택한 항목을 삭제하시겠습니까?');">선택삭제</button>
                 </div>
 
-                <!-- 페이지네이션 -->
-                <div class="center pagination" th:if="${pageResponseDTO.total > 0}">
+                <div class="center pagination">
                     <a th:if="${pageResponseDTO.prev}"
-                       th:href="@{/admin/product/list(pg=${pageResponseDTO.start - 1}, size=${pageResponseDTO.size}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}">이전</a>
+                       th:href="@{/admin/product/list(pg=${pageResponseDTO.start - 1}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}"
+                       class="prev">이전</a>
 
-                    <a th:each="i : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}"
-                       th:classappend="${i} == ${pageResponseDTO.pg} ? 'active'"
-                       th:href="@{/admin/product/list(pg=${i}, size=${pageResponseDTO.size}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}"
-                       th:text="${i}">1</a>
+                    <th:block th:each="num : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                        <a th:href="@{/admin/product/list(pg=${num}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}"
+                           th:classappend="${num == pageResponseDTO.pg} ? 'current' : 'num'"
+                           th:text="${num}">1</a>
+                    </th:block>
 
                     <a th:if="${pageResponseDTO.next}"
-                       th:href="@{/admin/product/list(pg=${pageResponseDTO.end + 1}, size=${pageResponseDTO.size}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}">다음</a>
+                       th:href="@{/admin/product/list(pg=${pageResponseDTO.end + 1}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}"
+                       class="next">다음</a>
                 </div>
 
                 <div class="right">
@@ -118,13 +120,13 @@
             </div>
         </form>
 
-        <!-- 단건삭제 숨김 폼 (폼 중첩 방지용) -->
+        <!-- 단건삭제 숨김 폼 (폼 중첩 방지용, bulkForm 밖에 위치) -->
         <form id="deleteOneForm" th:action="@{/admin/product/delete}" method="post" style="display:none;">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-            <input type="hidden" name="pid" value="">
+            <input type="hidden" name="pid" value=""/>
             <!-- 상태 유지 -->
-            <input type="hidden" name="pg"        th:value="${pageResponseDTO.pg}"/>
-            <input type="hidden" name="size"      th:value="${pageResponseDTO.size}"/>
+            <input type="hidden" name="pg"         th:value="${pageResponseDTO.pg}"/>
+            <input type="hidden" name="size"       th:value="${pageResponseDTO.size}"/>
             <input type="hidden" name="searchType" th:value="${pageResponseDTO.searchType}"/>
             <input type="hidden" name="keyword"    th:value="${pageResponseDTO.keyword}"/>
         </form>

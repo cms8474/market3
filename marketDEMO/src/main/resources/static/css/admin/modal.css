@@ -5,10 +5,15 @@
 
 .modal .modal__dialog {
     position:relative; margin:60px auto 0;
-    width:680px; max-width:calc(100% - 24px);
+    width:680px;
     background:#fff; border-radius:8px;
     box-shadow:0 12px 30px rgba(0,0,0,.25);
     overflow:hidden;
+    max-height: 70vh;           /* 세로 전체의 75%까지만 */
+    margin: 40px auto;          /* 위아래 여백 줄임 */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .modal__header {
@@ -73,7 +78,7 @@ input[readonly]{ background:#f7f7f7; color:#555; }
 .form-grid > .form-label, .form-grid > .form-field { border-top:1px solid #eee; padding-top:10px; }
 .form-grid > .form-label:first-child, .form-grid > .form-field:first-of-type { border-top:none; padding-top:0; }
 
-.benefit-grid{ display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px 12px; }
+.benefit-grid{  grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px 12px; }
 .benefit-grid .full{ grid-column:1/-1; }
 .or-row{ display:flex; align-items:center; gap:8px; color:#666; }
 

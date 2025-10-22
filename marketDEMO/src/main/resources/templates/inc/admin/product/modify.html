@@ -3,24 +3,28 @@
 
     <div class="page">
         <div class="topbar">
-            <h4>상품등록</h4>
-            <div class="breadcrumb">HOME &gt; 상품관리 &gt; <b>상품등록</b></div>
+            <h4>상품수정</h4>
+            <div class="breadcrumb">HOME &gt; 상품관리 &gt; <b>상품수정</b></div>
         </div>
 
-        <!-- 상품등록 폼 -->
-        <!-- 컨트롤러: @PostMapping("/admin/product/register") -->
-        <form th:action="@{/admin/product/register}"
+        <!-- 상품수정 폼 -->
+        <!-- 컨트롤러: @PostMapping("/admin/product/modify") -->
+        <form id="productForm"
+              th:action="@{/admin/product/modify}"
               method="post"
               enctype="multipart/form-data">
 
-        <!-- CSRF -->
+            <!-- CSRF & PID -->
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="hidden" name="pid" th:value="${item.pPid}"/>
+            <!-- 현재 pcId 보관 (카테고리 안 바꾸면 그대로 사용) -->
+            <input type="hidden" id="currentPcId" th:value="${item.pcId}"/>
 
             <!-- ─── 상품분류 ─── -->
             <section class="block">
                 <div class="block-head">
                     <strong>상품분류</strong>
-                    <span class="help">1차, 2차 카테고리 기본분류는 반드시 선택하셔야 합니다.</span>
+                    <span class="help">카테고리를 변경하지 않으면 기존 값이 유지됩니다.</span>
                 </div>
 
                 <table class="tbl">
@@ -28,16 +32,16 @@
                     <tr>
                         <th>1차 분류</th>
                         <td>
-                            <select id="cat1" name="cat1" required>
-                                <option value="">1차분류 선택</option>
+                            <select id="cat1" name="cat1">
+                                <option value="">(변경없음)</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>2차 분류</th>
                         <td>
-                            <select id="cat2" name="cat2" required disabled>
-                                <option value="">2차분류 선택</option>
+                            <select id="cat2" name="cat2" disabled>
+                                <option value="">(변경없음)</option>
                             </select>
                         </td>
                     </tr>
@@ -49,42 +53,42 @@
             <section class="block">
                 <div class="block-head">
                     <strong>기본정보</strong>
-                    <span class="help">기본정보는 반드시 입력하셔야 합니다.</span>
+                    <span class="help">필요한 항목만 수정하세요.</span>
                 </div>
 
                 <table class="tbl">
                     <tbody>
                     <tr>
                         <th>상품명</th>
-                        <td><input type="text" class="inp" name="name" required/></td>
+                        <td><input type="text" class="inp" name="name" th:value="${item.name}" required/></td>
                     </tr>
                     <tr>
                         <th>기본설명</th>
-                        <td><input type="text" class="inp" name="summary" required/></td>
+                        <td><input type="text" class="inp" name="summary" th:value="${item.desc}" required/></td>
                     </tr>
                     <tr>
                         <th>제조사</th>
-                        <td><input type="text" class="inp" name="maker"/></td>
+                        <td><input type="text" class="inp" name="maker" th:value="${detail.maker}"/></td>
                     </tr>
                     <tr>
                         <th>상품금액</th>
-                        <td><input type="number" class="inp" name="price" min="0" step="1" required/> 원</td>
+                        <td><input type="number" class="inp" name="price" min="0" step="1" th:value="${item.price}" required/> 원</td>
                     </tr>
                     <tr>
                         <th>할인율</th>
-                        <td><input type="number" class="inp" name="discountRate" min="0" max="100" step="1"/> %</td>
+                        <td><input type="number" class="inp" name="discountRate" min="0" max="100" step="1" th:value="${item.discount}"/> %</td>
                     </tr>
                     <tr>
                         <th>포인트</th>
-                        <td><input type="number" class="inp" name="point" min="0" step="1"/> 원</td>
+                        <td><input type="number" class="inp" name="point" min="0" step="1" th:value="${item.point}"/> 원</td>
                     </tr>
                     <tr>
                         <th>재고수량</th>
-                        <td><input type="number" class="inp" name="stock" min="0" step="1"/> 개</td>
+                        <td><input type="number" class="inp" name="stock" min="0" step="1" th:value="${item.stockQuantity}"/> 개</td>
                     </tr>
                     <tr>
                         <th>배송비</th>
-                        <td><input type="number" class="inp" name="deliveryFee" min="0" step="1"/> 원</td>
+                        <td><input type="number" class="inp" name="deliveryFee" min="0" step="1" th:value="${item.deliveryPrice}"/> 원</td>
                     </tr>
                     </tbody>
                 </table>
@@ -98,29 +102,38 @@
                     <tr>
                         <th>목록 이미지</th>
                         <td>
-                            <input type="file" accept="image/*" name="listImage" required/>
-                            <span class="help">크기 190×190, 상품 목록에 출력</span>
+                            <div th:if="${item.imageList}">
+                                현재: <a th:href="@{${item.imageList}}" th:text="${item.imageList}" target="_blank"></a>
+                            </div>
+                            <input type="file" accept="image/*" name="listImage"/>
+                            <span class="help">선택 시 기존 이미지를 교체합니다.</span>
                         </td>
                     </tr>
                     <tr>
                         <th>메인 이미지</th>
                         <td>
-                            <input type="file" accept="image/*" name="mainImage" required/>
-                            <span class="help">크기 230×230, 상품 메인에 출력</span>
+                            <div th:if="${item.imageMain}">
+                                현재: <a th:href="@{${item.imageMain}}" th:text="${item.imageMain}" target="_blank"></a>
+                            </div>
+                            <input type="file" accept="image/*" name="mainImage"/>
                         </td>
                     </tr>
                     <tr>
                         <th>상세 이미지</th>
                         <td>
-                            <input type="file" accept="image/*" name="detailImage" required/>
-                            <span class="help">크기 456×456, 상품 상세에 출력</span>
+                            <div th:if="${item.imageDetail}">
+                                현재: <a th:href="@{${item.imageDetail}}" th:text="${item.imageDetail}" target="_blank"></a>
+                            </div>
+                            <input type="file" accept="image/*" name="detailImage"/>
                         </td>
                     </tr>
                     <tr>
                         <th>상세정보</th>
                         <td>
+                            <div th:if="${item.detailInfo}">
+                                현재: <a th:href="@{${item.detailInfo}}" th:text="${item.detailInfo}" target="_blank"></a>
+                            </div>
                             <input type="file" accept="image/*" name="infoImage"/>
-                            <span class="help">가로 940px, 높이 자유, 최대 1MB</span>
                         </td>
                     </tr>
                     </tbody>
@@ -131,10 +144,7 @@
             <section class="block">
                 <div class="block-head">
                     <strong>상품 선택정보</strong>
-                    <span class="help">
-            상품의 선택형 옵션(선택 입력)입니다.<br/>
-            예시) 옵션1: 사이즈, 옵션1 항목: XXL, XL, L, M, S, 옵션2: 색상
-          </span>
+                    <span class="help">옵션을 다시 입력하면 전체가 교체됩니다. 필요 없으면 비워두세요.</span>
                 </div>
 
                 <table class="tbl" id="optionTable">
@@ -157,80 +167,73 @@
             <section class="block">
                 <div class="block-head">
                     <strong>상품정보 제공고시</strong>
-                    <span class="help">전자상거래법에 따라 의무적으로 등록하는 정보입니다.</span>
                 </div>
 
                 <table class="tbl">
                     <tbody>
                     <tr>
                         <th>상품명 태그</th>
-                        <td><input type="text" class="inp" name="notice.tag" placeholder="예: 새상품"/></td>
+                        <td><input type="text" class="inp" name="notice.tag" th:value="${detail.state}" placeholder="예: 새상품"/></td>
                     </tr>
                     <tr>
                         <th>부제/연세여부</th>
-                        <td><input type="text" class="inp" name="notice.taxType" placeholder="예: 과세상품"/></td>
+                        <td><input type="text" class="inp" name="notice.taxType" th:value="${detail.tax}" placeholder="예: 과세상품"/></td>
                     </tr>
                     <tr>
                         <th>영수증 발행</th>
-                        <td><input type="text" class="inp" name="notice.receipt" placeholder="예: 발행가능 - 신용카드전표"/></td>
+                        <td><input type="text" class="inp" name="notice.receipt" th:value="${detail.receipt}" placeholder="예: 발행가능 - 신용카드전표"/></td>
                     </tr>
                     <tr>
                         <th>사업자 구분</th>
-                        <td><input type="text" class="inp" name="notice.bizType" placeholder="예: 사업자판매자"/></td>
+                        <td><input type="text" class="inp" name="notice.bizType" th:value="${detail.sellerType}" placeholder="예: 사업자판매자"/></td>
                     </tr>
                     <tr>
                         <th>원산지</th>
-                        <td><input type="text" class="inp" name="notice.origin" placeholder="예: 국내산"/></td>
+                        <td><input type="text" class="inp" name="notice.origin" th:value="${detail.origin}" placeholder="예: 국내산"/></td>
                     </tr>
                     <tr>
                         <th>제조자/수입국</th>
-                        <td><input type="text" class="inp" name="notice.maker" placeholder="상세정보 직접 입력"/></td>
+                        <td><input type="text" class="inp" name="notice.maker" th:value="${detail.maker}" placeholder="상세정보 직접 입력"/></td>
                     </tr>
                     <tr>
                         <th>제조국</th>
-                        <td><input type="text" class="inp" name="notice.country" placeholder="상세정보 직접 입력"/></td>
+                        <td><input type="text" class="inp" name="notice.country" th:value="${detail.country}" placeholder="상세정보 직접 입력"/></td>
                     </tr>
                     <tr>
                         <th>취급시주의사항</th>
-                        <td><input type="text" class="inp" name="notice.caution" placeholder="상세정보 직접 입력"/></td>
+                        <td><input type="text" class="inp" name="notice.caution" th:value="${detail.care}" placeholder="상세정보 직접 입력"/></td>
                     </tr>
                     <tr>
                         <th>제조연월</th>
-                        <td><input type="text" class="inp" name="notice.mfgDate" placeholder="상세정보 직접 입력"/></td>
+                        <td><input type="text" class="inp" name="notice.mfgDate" th:value="${detail.manufDate}" placeholder="상세정보 직접 입력"/></td>
                     </tr>
                     <tr>
                         <th>품질보증기준</th>
-                        <td><input type="text" class="inp" name="notice.warranty" placeholder="상세정보 직접 입력"/></td>
+                        <td><input type="text" class="inp" name="notice.warranty" th:value="${detail.warranty}" placeholder="상세정보 직접 입력"/></td>
                     </tr>
                     <tr>
                         <th>A/S 책임자</th>
-                        <td><input type="text" class="inp" name="notice.asManager" placeholder="상세정보 직접 입력"/></td>
+                        <td><input type="text" class="inp" name="notice.asManager" th:value="${detail.asManager}" placeholder="상세정보 직접 입력"/></td>
                     </tr>
                     <tr>
                         <th>전화번호</th>
-                        <td><input type="text" class="inp" name="notice.phone" placeholder="상세정보 직접 입력"/></td>
+                        <td><input type="text" class="inp" name="notice.phone" th:value="${detail.phone}" placeholder="상세정보 직접 입력"/></td>
                     </tr>
                     </tbody>
                 </table>
             </section>
 
-            <div class="notice-box">
-                전자상거래등에서의 상품 등의 정보 제공에 관한 고시에 따라
-                총 35개 상품군에 대해 상품 특성 등을 양식에 따라 입력할 수 있습니다.
-            </div>
-
             <!-- 버튼 -->
             <div class="btn-area">
-                <a href="#" class="btn btn-delete">취소</a>
-                <button type="submit" class="btn btn-primary">등록</button>
+                <a th:href="@{/admin/product/list}" class="btn btn-delete">취소</a>
+                <button type="submit" class="btn btn-primary">저장</button>
             </div>
         </form>
     </div>
 
-    <!-- 스크립트: 컨텍스트패스 자동 반영 & 에러 메시지 개선 -->
+    <!-- 스크립트 -->
     <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", () => {
-            // 컨텍스트 패스 포함된 API 베이스 (ex: /{context}/admin/product/categories)
             const API_BASE = /*[[@{/admin/product/categories}]]*/ "";
 
             // ===== 옵션 동적 추가 =====
@@ -276,6 +279,7 @@
             // ===== 카테고리 로딩 =====
             const cat1 = document.getElementById("cat1");
             const cat2 = document.getElementById("cat2");
+            const currentPcId = document.getElementById("currentPcId")?.value || "";
 
             function resetSelect(sel, placeholder) {
                 sel.innerHTML = "";
@@ -294,8 +298,8 @@
             }
 
             async function loadLevel1() {
-                resetSelect(cat1, "1차분류 선택");
-                resetSelect(cat2, "2차분류 선택");
+                resetSelect(cat1, "(변경없음)");
+                resetSelect(cat2, "(변경없음)");
                 cat2.disabled = true;
                 try {
                     const list = await fetchJson(`${API_BASE}/level1`);
@@ -312,7 +316,7 @@
             }
 
             async function loadLevel2(parentId) {
-                resetSelect(cat2, "2차분류 선택");
+                resetSelect(cat2, "(변경없음)");
                 cat2.disabled = true;
                 if (!parentId) return;
                 try {
@@ -333,8 +337,8 @@
             cat1.addEventListener("change", e => loadLevel2(e.target.value));
             loadLevel1();
 
-            // ===== 폼 유효성 =====
-            const form = document.getElementById("shopForm");
+            // ===== 폼 유효성 & 카테고리 유지 처리 =====
+            const form = document.getElementById("productForm");
             form.addEventListener("submit", (e) => {
                 const price = form.querySelector('input[name="price"]');
                 const discount = form.querySelector('input[name="discountRate"]');
@@ -346,13 +350,17 @@
                 }
                 if (discount && discount.value !== "" && (Number(discount.value) < 0 || Number(discount.value) > 100)) {
                     e.preventDefault();
-                    alert("활인율은 0~100 사이로 입력하세요.");
+                    alert("할인율은 0~100 사이로 입력하세요.");
                     return;
                 }
-                if (!cat1.value || !cat2.value) {
-                    e.preventDefault();
-                    alert("카테고리를 모두 선택하세요.");
-                    return;
+
+                // 카테고리를 변경하지 않았다면 기존 pcId를 cat2로 넣어서 보냄
+                if (!cat1.value && !cat2.value && currentPcId) {
+                    const hidden = document.createElement("input");
+                    hidden.type = "hidden";
+                    hidden.name = "cat2";
+                    hidden.value = currentPcId;
+                    form.appendChild(hidden);
                 }
             });
         });

@@ -30,8 +30,8 @@
         
             /* 주문상태별 건수  */
             COUNT(DISTINCT CASE WHEN po.PO_STATE = '결제완료' THEN po.PO_NO END) AS paidCount,
-            COUNT(DISTINCT CASE WHEN po.PO_STATE = '배송중'   THEN po.PO_NO END) AS shippingCount,
-            COUNT(DISTINCT CASE WHEN po.PO_STATE = '배송완료' THEN po.PO_NO END) AS deliveredCount,
+            COUNT(DISTINCT CASE WHEN oi.OI_DEL_STATUS = '배송중'   THEN po.PO_NO END) AS shippingCount,
+            COUNT(DISTINCT CASE WHEN oi.OI_DEL_STATUS = '배송완료' THEN po.PO_NO END) AS deliveredCount,
             COUNT(DISTINCT CASE WHEN po.PO_STATE = '구매확정' THEN po.PO_NO END) AS confirmedCount,
 
             /* 주문합계: 아이템 금액 합 (기간 내) */

@@ -141,19 +141,31 @@
                         <!-- 발급처(issuerUid) -->
                         <label class="form-label" for="issuerUid">발급처</label>
                         <div class="form-field">
-                            <input id="issuerUid" name="issuerUid" type="text" placeholder="발급처 ID 또는 상호" required />
+                            <!-- 보기용 + 제출용(히든) 둘 다 넣어 tamper 방지 -->
+                            <input id="issuerUid_display" type="text"
+                                   th:value="${#authentication != null ? #authentication.name : '로그인이 필요합니다'}"
+                                   readonly aria-readonly="true" class="input--readonly" />
+
+                            <input id="issuerUid" name="issuerUid" type="hidden"
+                                   th:value="${#authentication != null ? #authentication.name : ''}" />
                         </div>
+
 
                         <!-- 쿠폰종류(ctType) -->
                         <label class="form-label" for="ctype">쿠폰종류</label>
                         <div class="form-field">
                             <select id="ctype" name="ctType" required>
                                 <option value="" hidden>종류선택</option>
-                                <option value="개별상품할인">개별발급 쿠폰</option>
-                                <option value="배송비무료">배송비무료 쿠폰</option>
-                                <option value="주문상품할인">주문상품할인 쿠폰</option>
+
+                                <!-- 관리자만 -->
+                                <option value="주문상품할인" th:if="${userType}=='관리자' or ${userType}=='ADMIN'">주문상품할인</option>
+                                <option value="배송비무료"   th:if="${userType}=='관리자' or ${userType}=='ADMIN'">배송비무료</option>
+
+                                <!-- 판매자만 -->
+                                <option value="개별상품할인" th:if="${userType}=='판매자' or ${userType}=='SELLER'">개별상품할인</option>
                             </select>
                         </div>
+
 
                         <!-- 쿠폰명(cName) -->
                         <label class="form-label" for="cname">쿠폰명</label>
@@ -164,24 +176,34 @@
                         <!-- 혜택(benefit) -->
                         <!-- 혜택 -->
                         <label class="form-label">혜택</label>
+                        <!-- 혜택(benefit) -->
                         <div class="form-field radio">
                             <div class="benefit-grid">
-                                <!-- 금액 할인 -->
-                                <label><input type="radio" name="benefit" value="1,000원"> 1,000원 할인</label>
-                                <label><input type="radio" name="benefit" value="2,000원"> 2,000원 할인</label>
-                                <label><input type="radio" name="benefit" value="3,000원"> 3,000원 할인</label>
-                                <label><input type="radio" name="benefit" value="4,000원"> 4,000원 할인</label>
-                                <label><input type="radio" name="benefit" value="5,000원"> 5,000원 할인</label>
 
-                                <!-- 퍼센트 할인 -->
-                                <label><input type="radio" name="benefit" value="10%"> 10% 할인</label>
-                                <label><input type="radio" name="benefit" value="20%"> 20% 할인</label>
-                                <label><input type="radio" name="benefit" value="30%"> 30% 할인</label>
-                                <label><input type="radio" name="benefit" value="40%"> 40% 할인</label>
-                                <label><input type="radio" name="benefit" value="50%"> 50% 할인</label>
+                                <!-- [A] 금액/퍼센트 그룹 -->
+                                <div id="benefit-money-percent" class="hidden" aria-label="금액 및 퍼센트 할인">
+                                    <!-- 금액 할인 -->
+                                    <label><input type="radio" name="benefit" value="1,000원"> 1,000원 할인</label>
+                                    <label><input type="radio" name="benefit" value="2,000원"> 2,000원 할인</label>
+                                    <label><input type="radio" name="benefit" value="3,000원"> 3,000원 할인</label>
+                                    <label><input type="radio" name="benefit" value="4,000원"> 4,000원 할인</label>
+                                    <label><input type="radio" name="benefit" value="5,000원"> 5,000원 할인</label>
 
-                                <!-- 배송비 무료 -->
-                                <label class="full"><input type="radio" name="benefit" value="배송비무료"> 배송비 무료</label>
+                                    <!-- 퍼센트 할인 -->
+                                    <label><input type="radio" name="benefit" value="10%"> 10% 할인</label>
+                                    <label><input type="radio" name="benefit" value="20%"> 20% 할인</label>
+                                    <label><input type="radio" name="benefit" value="30%"> 30% 할인</label>
+                                    <label><input type="radio" name="benefit" value="40%"> 40% 할인</label>
+                                    <label><input type="radio" name="benefit" value="50%"> 50% 할인</label>
+                                </div>
+
+                                <!-- [B] 배송비 무료 그룹 -->
+                                <div id="benefit-delivery" class="hidden" aria-label="배송비 무료">
+                                    <label class="full">
+                                        <input type="radio" name="benefit" value="배송비무료"> 배송비 무료
+                                    </label>
+                                </div>
+
                             </div>
                         </div>
 
@@ -374,6 +396,95 @@
             }
         });
     </script>
+    <script>
+        (function(){
+            const ctype = document.getElementById('ctype'); // 쿠폰종류 select
+            const grpMoneyPercent = document.getElementById('benefit-money-percent');
+            const grpDelivery     = document.getElementById('benefit-delivery');
+
+            function clearGroup(groupEl){
+                if (!groupEl) return;
+                groupEl.querySelectorAll('input[name="benefit"]').forEach(r=>{
+                    r.checked = false;
+                    r.disabled = true; // 비활성화하면 제출 안 됨
+                });
+                groupEl.classList.add('hidden');
+            }
+
+            function enableGroup(groupEl, autoCheckFirst = false){
+                if (!groupEl) return;
+                groupEl.querySelectorAll('input[name="benefit"]').forEach(r=>{
+                    r.disabled = false;
+                });
+                groupEl.classList.remove('hidden');
+
+                if (autoCheckFirst) {
+                    const first = groupEl.querySelector('input[name="benefit"]');
+                    if (first && !first.checked) first.checked = true;
+                }
+            }
+
+            function updateBenefitOptions(){
+                const v = (ctype?.value || '').trim();
+
+                if (v === '배송비무료') {
+                    clearGroup(grpMoneyPercent);
+                    enableGroup(grpDelivery, true); // 자동 체크
+                } else if (v === '주문상품할인' || v === '개별상품할인') {
+                    clearGroup(grpDelivery);
+                    enableGroup(grpMoneyPercent, false);
+                } else {
+                    // 미선택/기타 → 모두 숨김
+                    clearGroup(grpMoneyPercent);
+                    clearGroup(grpDelivery);
+                }
+            }
+
+            // 초기 로드
+            document.addEventListener('DOMContentLoaded', updateBenefitOptions);
+            // 선택 변경
+            ctype?.addEventListener('change', updateBenefitOptions);
+
+            // 모달이 열릴 때도 상태 동기화 (aria-hidden이 false로 바뀌면)
+            const modal = document.getElementById('Modal');
+            if (modal) {
+                const obs = new MutationObserver(updateBenefitOptions);
+                obs.observe(modal, { attributes: true, attributeFilter: ['aria-hidden'] });
+            }
+        })();
+    </script>
+    <script>
+        function openModalById(id){
+            const m = document.getElementById(id);
+            if (m) {
+                m.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('modal-open');   // ★ 바디 스크롤 락
+            }
+        }
+
+        // 닫기 공통 처리
+        document.addEventListener('click', (e)=>{
+            const closeBtn = e.target.closest('[data-close="true"]');
+            if (!closeBtn) return;
+
+            const modal = closeBtn.closest('.modal');
+            if (modal) {
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.classList.remove('modal-open'); // ★ 락 해제
+            }
+        });
+
+        // ESC 닫기 (선택)
+        document.addEventListener('keydown', (e)=>{
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal[aria-hidden="false"]').forEach(m=>{
+                    m.setAttribute('aria-hidden', 'true');
+                });
+                document.body.classList.remove('modal-open');
+            }
+        });
+    </script>
 
 
 </th:block>
+

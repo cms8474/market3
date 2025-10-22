@@ -71,7 +71,7 @@
         SET OI_TRACKING_COMPANY = #{courier},
             OI_TRACKING_NUM     = #{trackingNum},
             OI_ETC              = #{etc},
-            OI_DEL_STATUS       = '배송준비중'
+            OI_DEL_STATUS       = '배송준비'
         WHERE OI_PO_NO = #{poNo}
     </update>
 

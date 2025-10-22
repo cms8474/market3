@@ -84,10 +84,10 @@
                     <span th:if="${row.shipStatus != null}" class="ship-done">입력완료</span>
 
                     <!-- 주문취소 -->
-                    <span th:if="${#strings.trim(row.state)} == '주문취소'" class="ship-cancel">주문취소</span>
+                    <span th:if="${#strings.trim(row.state) == '주문취소'}" class="ship-cancel">주문취소</span>
 
                     <!-- 결제대기 등 기타 상태 -->
-                    <span th:if="${#strings.trim(row.state)} == '결제대기'" class="ship-wait">-</span>
+                    <span th:if="${#strings.trim(row.state) == '결제대기'}" class="ship-wait">-</span>
                 </td>
             </tr>
 
@@ -181,7 +181,7 @@
                                 <option value="롯데택배">롯데택배</option>
                                 <option value="우체국택배">우체국택배</option>
                                 <option value="로젠택배">로젠택배</option>
-                                <option value="쿠팡로지스틱스">쿠팡로지스틱스</option>
+                                <option value="쿠팡">쿠팡로지스틱스</option>
                             </select>
                         </div>
 

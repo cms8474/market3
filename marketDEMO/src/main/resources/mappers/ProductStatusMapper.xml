@@ -1,9 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="kr.co.team3.admin_mapper.ProductStatusMapper">
 
-    <!-- 결과 매핑 -->
+    <!-- ===============================
+          결과 매핑
+    =============================== -->
     <resultMap id="ProductStatusMap" type="kr.co.team3.admin_dto.ProductStatusDTO">
         <result column="P_PID"             property="pid"/>
         <result column="P_NAME"            property="name"/>
@@ -16,84 +20,107 @@
         <result column="IMAGE_URL"         property="imageUrl"/>
     </resultMap>
 
-    <!-- 공통 WHERE (검색) -->
-    <sql id="whereSearch">
+
+    <!-- ===============================
+          목록 조회 (페이지네이션)
+    =============================== -->
+    <select id="selectProductStatusPage" resultType="kr.co.team3.admin_dto.ProductStatusDTO">
+        SELECT
+        pi.P_PID              AS pid,
+        pi.P_NAME             AS name,
+        pi.P_PRICE            AS salePrice,
+        pi.P_DISCOUNT         AS discount,
+        pi.P_STOCK_QUANTITY   AS stockQty,
+        pi.P_VIEW_COUNT       AS viewCount,
+        si.S_COMPANY_NAME     AS sellerName,
+        pi.P_IMAGE_MAIN       AS imageUrl
+        FROM PRODUCT_ITEM pi
+        LEFT JOIN SELLER_INFO si ON si.S_U_ID = pi.P_SELLER_ID
+
         <where>
-            <if test="req.keyword != null and req.keyword.trim() != ''">
+            <!--  검색 -->
+            <if test="req.searchType != null and req.searchType != '' and req.keyword != null and req.keyword != ''">
                 <choose>
-                    <!-- 상품명 -->
                     <when test="req.searchType == 'name'">
-                        LOWER(pi.P_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        AND LOWER(pi.P_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
                     </when>
-
-                    <!-- 상품번호 -->
                     <when test="req.searchType == 'pid'">
-                        LOWER(pi.P_PID) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        AND LOWER(pi.P_PID) LIKE '%' || LOWER(#{req.keyword}) || '%'
                     </when>
-
-                    <!-- 판매자: 회사명 또는 사용자ID/이름 -->
                     <when test="req.searchType == 'seller'">
-                        (
-                        LOWER(NVL(si.S_COMPANY_NAME, '')) LIKE '%' || LOWER(#{req.keyword}) || '%'
-                        OR LOWER(NVL(uu.U_ID, ''))       LIKE '%' || LOWER(#{req.keyword}) || '%'
-                        OR LOWER(NVL(uu.U_NAME, ''))     LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        AND (
+                        LOWER(pi.P_SELLER_ID) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(si.S_COMPANY_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
                         )
                     </when>
-
-                    <!-- 기본: 모두 검색 -->
                     <otherwise>
-                        (
+                        AND (
                         LOWER(pi.P_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
                         OR LOWER(pi.P_PID) LIKE '%' || LOWER(#{req.keyword}) || '%'
-                        OR LOWER(NVL(si.S_COMPANY_NAME, '')) LIKE '%' || LOWER(#{req.keyword}) || '%'
-                        OR LOWER(NVL(uu.U_ID, ''))           LIKE '%' || LOWER(#{req.keyword}) || '%'
-                        OR LOWER(NVL(uu.U_NAME, ''))         LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(si.S_COMPANY_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(pi.P_SELLER_ID) LIKE '%' || LOWER(#{req.keyword}) || '%'
                         )
                     </otherwise>
                 </choose>
             </if>
+
+            <!-- 👤 권한 필터: 관리자 외엔 본인 것만 -->
+            <if test="req.userType != null and req.userType != '관리자'">
+                AND pi.P_SELLER_ID = #{req.sellerId}
+            </if>
         </where>
-    </sql>
 
-    <!-- 과거 include 호환용 별칭 -->
-    <sql id="whereKeyword">
-        <include refid="whereSearch"/>
-    </sql>
-
-    <!-- 목록 페이지 -->
-    <select id="selectProductStatusPage" resultMap="ProductStatusMap">
-        SELECT
-        pi.P_PID,
-        pi.P_NAME,
-        /* 판매가격: 할인율 적용가 (할인율 null -> 0) */
-        ROUND(pi.P_PRICE * (1 - NVL(pi.P_DISCOUNT, 0) / 100)) AS SALE_PRICE,
-        pi.P_DISCOUNT,
-        NVL(pi.P_POINT, 0)            AS P_POINT,
-        NVL(pi.P_STOCK_QUANTITY, 0)   AS P_STOCK_QUANTITY,
-        /* 판매자명: SELLER_INFO.S_COMPANY_NAME 우선, 없으면 U_USER.U_ID */
-        COALESCE(si.S_COMPANY_NAME, uu.U_ID) AS SELLER_NAME,
-        NVL(pi.P_VIEW_COUNT, 0)       AS P_VIEW_COUNT,
-        pi.P_IAMGE_LIST AS IMAGE_URL
-        FROM PRODUCT_ITEM pi
-        LEFT JOIN SELLER_INFO si ON si.S_U_ID = pi.P_SELLER_ID
-        LEFT JOIN U_USER      uu ON uu.U_ID   = pi.P_SELLER_ID
-        <include refid="whereSearch"/>
         ORDER BY pi.P_REGDATE DESC
         OFFSET #{req.offset} ROWS FETCH NEXT #{req.size} ROWS ONLY
     </select>
 
-    <!-- 카운트 -->
+
+    <!-- ===============================
+          전체 행 수 (count)
+    =============================== -->
     <select id="countProductStatus" resultType="int">
         SELECT COUNT(1)
         FROM PRODUCT_ITEM pi
         LEFT JOIN SELLER_INFO si ON si.S_U_ID = pi.P_SELLER_ID
-        LEFT JOIN U_USER      uu ON uu.U_ID   = pi.P_SELLER_ID
-        <include refid="whereSearch"/>
+
+        <where>
+            <if test="req.searchType != null and req.searchType != '' and req.keyword != null and req.keyword != ''">
+                <choose>
+                    <when test="req.searchType == 'name'">
+                        AND LOWER(pi.P_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                    </when>
+                    <when test="req.searchType == 'pid'">
+                        AND LOWER(pi.P_PID) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                    </when>
+                    <when test="req.searchType == 'seller'">
+                        AND (
+                        LOWER(pi.P_SELLER_ID) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(si.S_COMPANY_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        )
+                    </when>
+                    <otherwise>
+                        AND (
+                        LOWER(pi.P_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(pi.P_PID) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(si.S_COMPANY_NAME) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        OR LOWER(pi.P_SELLER_ID) LIKE '%' || LOWER(#{req.keyword}) || '%'
+                        )
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="req.userType != null and req.userType != '관리자'">
+                AND pi.P_SELLER_ID = #{req.sellerId}
+            </if>
+        </where>
+
     </select>
 
 
-
-    <!-- 자식들(단건) -->
+    <!-- ===============================
+          단건 및 다건 삭제
+    =============================== -->
+    <!-- 개별 삭제 (자식 → 부모 순서) -->
     <delete id="deleteCartItems">      DELETE FROM CART_ITEMS      WHERE CI_P_PID = #{pid} </delete>
     <delete id="deleteCategoryLinks">  DELETE FROM CATEGORY_LINKS  WHERE CL_P_PID = #{pid} </delete>
     <delete id="deleteOrderItems">     DELETE FROM ORDER_ITEMS     WHERE OI_P_PID = #{pid} </delete>
@@ -101,11 +128,9 @@
     <delete id="deleteProductOptions"> DELETE FROM PRODUCT_OPTION  WHERE POP_P_PID = #{pid} </delete>
     <delete id="deleteProductReview">  DELETE FROM PRODUCT_REVIEW  WHERE PR_P_PID = #{pid} </delete>
     <delete id="deleteTagsLinks">      DELETE FROM TAGS_LINKS      WHERE TL_P_PID = #{pid} </delete>
-
-    <!-- 부모(단건) -->
     <delete id="deleteProduct">        DELETE FROM PRODUCT_ITEM    WHERE P_PID    = #{pid} </delete>
 
-    <!-- 자식들(다건) -->
+    <!-- 선택삭제 (다건) -->
     <delete id="deleteCartItemsBulk" parameterType="list">
         DELETE FROM CART_ITEMS WHERE CI_P_PID IN
         <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>
@@ -134,8 +159,6 @@
         DELETE FROM TAGS_LINKS WHERE TL_P_PID IN
         <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>
     </delete>
-
-    <!-- 부모(다건) -->
     <delete id="deleteProducts" parameterType="list">
         DELETE FROM PRODUCT_ITEM WHERE P_PID IN
         <foreach collection="pids" item="pid" open="(" separator="," close=")">#{pid}</foreach>

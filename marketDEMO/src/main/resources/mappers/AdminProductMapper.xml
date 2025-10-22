@@ -105,4 +105,111 @@
         SELECT * FROM PRODUCT_OPTION WHERE POP_P_PID = #{pid}
     </select>
 
+
+    <!-- DETAIL 단건 조회 (modify 폼 바인딩용) -->
+    <select id="selectDetailByPid" resultType="kr.co.team3.admin_dto.ProductDetailDTO">
+        SELECT
+            PD_P_PID        AS pPid,
+            PD_STATE        AS state,
+            PD_TAX          AS tax,
+            PD_RECEIPT      AS receipt,
+            PD_S_SELLER_TYPE AS sellerType,
+            PD_BRAND        AS brand,
+            PD_ORIGIN       AS origin,
+            PD_MAKER        AS maker,
+            PD_MANUF_COUNTRY AS country,
+            PD_CARE         AS care,
+            PD_MANUF_DATE   AS manufDate,
+            PD_WARRANTY_INFO AS warranty,
+            PD_AS           AS asManager,
+            PD_PHONE        AS phone
+        FROM PRODUCT_DETAIL
+        WHERE PD_P_PID = #{pid}
+    </select>
+
+    <!-- ⬇ITEM 업데이트 -->
+    <update id="updateProductItem" parameterType="kr.co.team3.admin_dto.ProductItemDTO">
+        UPDATE PRODUCT_ITEM
+        SET
+            P_NAME = #{name},
+            P_DESC = #{desc},
+            P_PRICE = #{price},
+            P_DISCOUNT = #{discount},
+            P_POINT = #{point},
+            P_STOCK_QUANTITY = #{stockQuantity},
+            P_DELIVERY_PRICE = #{deliveryPrice},
+            P_PC_ID = #{pcId},
+            P_IAMGE_LIST = #{imageList},
+            P_IMAGE_MAIN = #{imageMain},
+            P_IMAGE_DETAIL = #{imageDetail},
+            P_DETAIL_INFO = #{detailInfo}
+        WHERE P_PID = #{pPid}
+    </update>
+
+    <!-- DETAIL UPSERT (Oracle MERGE) -->
+    <update id="upsertProductDetail" parameterType="kr.co.team3.admin_dto.ProductDetailDTO">
+        MERGE INTO PRODUCT_DETAIL d
+            USING (
+                SELECT
+                    #{pPid,       jdbcType=VARCHAR} AS pid,
+                    #{state,      jdbcType=VARCHAR} AS st,
+                    #{tax,        jdbcType=VARCHAR} AS tx,
+                    #{receipt,    jdbcType=VARCHAR} AS rcpt,
+                    #{sellerType, jdbcType=VARCHAR} AS sType,
+                    #{brand,      jdbcType=VARCHAR} AS br,
+                    #{origin,     jdbcType=VARCHAR} AS orgn,
+                    #{maker,      jdbcType=VARCHAR} AS mkr,
+                    #{country,    jdbcType=VARCHAR} AS ctry,
+                    #{care,       jdbcType=VARCHAR} AS care,
+                    #{manufDate,  jdbcType=VARCHAR} AS mdate,
+                    #{warranty,   jdbcType=VARCHAR} AS warr,
+                    #{asManager,  jdbcType=VARCHAR} AS asMgr,
+                    #{phone,      jdbcType=VARCHAR} AS ph
+                FROM dual
+            ) s
+            ON (d.PD_P_PID = s.pid)
+            WHEN MATCHED THEN
+                UPDATE SET
+                    PD_STATE         = NVL(s.st,    d.PD_STATE),
+                    PD_TAX           = NVL(s.tx,    d.PD_TAX),
+                    PD_RECEIPT       = NVL(s.rcpt,  d.PD_RECEIPT),
+                    PD_S_SELLER_TYPE = NVL(s.sType, d.PD_S_SELLER_TYPE),
+                    PD_BRAND         = NVL(s.br,    d.PD_BRAND),
+                    PD_ORIGIN        = NVL(s.orgn,  d.PD_ORIGIN),
+                    PD_MAKER         = NVL(s.mkr,   d.PD_MAKER),
+                    PD_MANUF_COUNTRY = NVL(s.ctry,  d.PD_MANUF_COUNTRY),
+                    PD_CARE          = NVL(s.care,  d.PD_CARE),
+                    PD_MANUF_DATE    = NVL(s.mdate, d.PD_MANUF_DATE),
+                    PD_WARRANTY_INFO = NVL(s.warr,  d.PD_WARRANTY_INFO),
+                    PD_AS            = NVL(s.asMgr, d.PD_AS),
+                    PD_PHONE         = NVL(s.ph,    d.PD_PHONE)
+            WHEN NOT MATCHED THEN
+                INSERT (
+                        PD_P_PID, PD_STATE, PD_TAX, PD_RECEIPT, PD_S_SELLER_TYPE,
+                        PD_BRAND, PD_ORIGIN, PD_MAKER, PD_MANUF_COUNTRY, PD_CARE,
+                        PD_MANUF_DATE, PD_WARRANTY_INFO, PD_AS, PD_PHONE
+                    )
+                    VALUES (
+                               s.pid,
+                               NVL(s.st,    '새상품'),
+                               NVL(s.tx,    '과세상품'),
+                               NVL(s.rcpt,  '발행가능신용카드전표, 온라인현금영수증'),
+                               s.sType,
+                               NVL(s.br,    '미입력'),
+                               NVL(s.orgn,  '미입력'),
+                               NVL(s.mkr,   '상세정보 직접입력'),
+                               NVL(s.ctry,  '상세정보 직접입력'),
+                               NVL(s.care,  '상세정보 직접입력'),
+                               NVL(s.mdate, '상세정보 직접입력'),
+                               NVL(s.warr,  '상세정보 직접입력'),
+                               NVL(s.asMgr, '상세정보 직접입력'),
+                               NVL(s.ph,    '상세정보 직접입력')
+                           )
+    </update>
+
+    <!-- ⬇️ 옵션 전체 삭제 -->
+    <delete id="deleteOptionsByPid">
+        DELETE FROM PRODUCT_OPTION WHERE POP_P_PID = #{pid}
+    </delete>
+
 </mapper>
