@@ -97,9 +97,6 @@
             <!-- 2. 추천상품 -->
             <h2 class="page-title">
                 <a href="/product/list?type=recommend">추천상품</a>
-            <!--  최신상품 -->
-            <h2 class="page-title">
-                <a href="/product/list?type=latest">최신상품</a>
             </h2>
             <ul class="grid-products">
                 <li class="product" th:each="product : ${recommendProducts}" th:if="${product != null}">
@@ -108,7 +105,7 @@
                              th:src="${product.imageBase64}"
                              th:alt="${product.pName}">
                         <img th:unless="${product.imageBase64 != null}"
-                             src="/images/test3.png"
+                             src="/images/logo.png"
                              th:alt="${product.pName}">
                         <div class="name" th:text="${product.pName}">상품명</div>
                         <div>
@@ -122,7 +119,7 @@
                 </li>
             </ul>
 
-            <!--  최신상품 -->
+            <!-- 3. 최신상품 -->
             <h2 class="page-title">
                 <a href="/product/list?type=latest">최신상품</a>
             </h2>

@@ -21,16 +21,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            // 인가 설정
+            // 인가 설정 - 모든 경로 허용
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/member/join", "/member/joinSeller", "/member/sendEmailCode", "/member/verifyEmailCode", "/member/checkId/**", "/member/checkEmail/**", "/member/getTerms/**", "/css/**", "/js/**", "/images/**").permitAll()
-                .requestMatchers("/member/login").anonymous() // 로그인하지 않은 사용자만 접근 가능
-                .requestMatchers("/my/**").authenticated() // 로그인한 사용자만 접근 가능
-                .requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")
-                .requestMatchers("/admin/**").permitAll()
-                .requestMatchers("/article/**").hasAnyRole("ADMIN", "MANAGER", "MEMBER")
-                .requestMatchers("/images/**", "/css/**", "/js/**", "/webjars/**").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().permitAll() // 모든 요청 허용
             )
             
             // 로그인 설정
@@ -63,9 +56,18 @@ public class SecurityConfig {
                 .alwaysRemember(false) // 명시적으로 false 설정
             )
             
-            // CSRF 설정
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**", "/member/sendEmailCode", "/member/verifyEmailCode", "/member/checkId/**", "/member/checkEmail/**", "/member/getTerms/**","/admin/product/register",
-                    "/admin/product/categories/**"));
+            // CSRF 설정 - 결제 관련 경로만 제외
+            .csrf(csrf -> csrf.ignoringRequestMatchers(
+                "/api/**", 
+                "/member/sendEmailCode", 
+                "/member/verifyEmailCode", 
+                "/member/checkId/**", 
+                "/member/checkEmail/**", 
+                "/member/getTerms/**",
+                "/admin/product/register",
+                "/admin/product/categories/**",
+                "/product/complete" // 결제 완료 페이지 CSRF 제외
+            ));
 
         return http.build();
     }
